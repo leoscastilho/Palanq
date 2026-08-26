@@ -1,8 +1,8 @@
 {
-  "name": "match-presidenciaveis",
+  "name": "palanq",
   "version": "0.2.0",
   "private": true,
-  "description": "Compara posições declaradas pelo usuário com posições declaradas em planos de governo. Não recomenda voto.",
+  "description": "Palanq — motor de comparação entre posições declaradas pelo usuário e posições declaradas em planos de governo registrados. Não recomenda voto.",
   "type": "module",
   "engines": {
     "node": ">=18"

@@ -453,7 +453,7 @@ t("eliminado sai do relatório com a citação que o derrubou", () => {
   assert(txt.includes("RANKING CONTRAFACTUAL"), "eliminação exige o contrafactual");
   assert(txt.includes("Privatizar todas as empresas estatais"),
          "o trecho literal do plano que causou a eliminação precisa estar no relatório");
-  assert(/p\. \d+ de \d+/.test(txt), "toda citação precisa carregar a página do plano");
+  assert(/página \d+ de \d+/.test(txt), "toda citação precisa carregar a página do plano");
 });
 t("interpretação do curador é exibida junto da citação", () => {
   const a = analisar(CORPUS, { e_tributar_altas_rendas: "concordo" });

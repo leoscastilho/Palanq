@@ -6,7 +6,9 @@ const raiz = fileURLToPath(new URL("../", import.meta.url));
 const TIPOS = { ".html": "text/html; charset=utf-8", ".json": "application/json", ".css": "text/css", ".js": "text/javascript" };
 createServer((req, res) => {
   let p = decodeURIComponent(req.url.split("?")[0]);
-  if (p === "/" ) p = "/index.html";
+  // A raiz está reservada para o app simplificado, ainda não desenvolvido.
+  if (p === "/") { res.writeHead(302, { location: "/motor/" }).end(); return; }
+  if (p.endsWith("/")) p += "index.html";
   if (p.includes("..")) { res.writeHead(400).end(); return; }
   try {
     const buf = readFileSync(raiz + p.slice(1));

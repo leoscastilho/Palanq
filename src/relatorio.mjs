@@ -5,7 +5,7 @@
  * cabeçalho. Todo o resto vem da análise, que é pura. Passe `meta.geradoEm` para
  * tornar a saída determinística (é o que o executor de perfis faz).
  */
-import { explicarMotivo } from "./motor.mjs";
+import { explicarMotivo, rotularResposta as rotulo } from "./motor.mjs";
 
 const pct = (x) => (x === null || x === undefined ? "—" : x.toFixed(3));
 const cob = (x) => (x === null || x === undefined ? "—" : x.toFixed(2));
@@ -22,7 +22,7 @@ export function montarRelatorio(corpus, analise, rastro = [], meta = {}) {
   const { estados, ranking: rk, classes, campo, contrastes: ctr, diagnostico } = analise;
 
   const e = corpus.escopo || {};
-  L.push(`COMPARAÇÃO DE PROPOSTAS — ${e.eleicao ?? "?"}, ${e.cargo ?? "?"}, ${e.ambito ?? "?"}`);
+  L.push(`PALANQ · COMPARAÇÃO DE PROPOSTAS — ${e.eleicao ?? "?"}, ${e.cargo ?? "?"}, ${e.ambito ?? "?"}`);
   L.push(linha());
   L.push(`Gerado em: ${geradoEm}`);
   L.push(`Corpus: versão ${corpus.corpusVersion} · schema ${corpus.schemaVersion} · status ${corpus.status}`);
@@ -50,7 +50,7 @@ export function montarRelatorio(corpus, analise, rastro = [], meta = {}) {
     L.push("  Nenhum candidato com afinidade calculável.");
     if (diagnostico?.semEixosDiscriminantes)
       L.push("  Motivo: não há eixo em que os candidatos ainda vivos divirjam entre si.");
-    if (analise.todosEliminados) L.push("  Motivo: todos foram eliminados. Ver ELIMINADOS e RANKING CONTRAFACTUAL.");
+    if (analise.todosEliminados) L.push("  Motivo: todas as candidaturas foram eliminadas. Ver ELIMINADOS e RANKING CONTRAFACTUAL.");
   }
   for (const [i, id] of rk.ordem.entries()) {
     const s = estados[id];
@@ -149,7 +149,7 @@ export function montarRelatorio(corpus, analise, rastro = [], meta = {}) {
     const m = estados[c.id].motivo;
     L.push(`  ${nome(c.id)} — ${explicarMotivo(corpus, m)}`);
     if (m.tipo === "linha-vermelha") {
-      L.push(`    eixo: ${eixoLabel(m.eixo)} [marcado por você como inegociável]`);
+      L.push(`    ponto: ${eixoLabel(m.eixo)} [marcado por você como inegociável]`);
       L.push(`    "${m.citacao.texto}"`);
       L.push(`    ${m.citacao.fonte} · ${m.citacao.local}`);
       if (m.interpretacao) L.push(`    [INTERPRETAÇÃO DO CURADOR] ${m.interpretacao}`);
@@ -157,7 +157,7 @@ export function montarRelatorio(corpus, analise, rastro = [], meta = {}) {
   }
   if (analise.contrafactual) {
     L.push("");
-    L.push("  RANKING CONTRAFACTUAL — a ordem que existiria sem nenhuma linha vermelha:");
+    L.push("  RANKING CONTRAFACTUAL — a ordem que existiria sem nenhum ponto inegociável:");
     const cf = analise.contrafactual;
     if (!cf.ranking.ordem.length) L.push("    (nenhuma afinidade calculável)");
     for (const [i, id] of cf.ranking.ordem.entries())
@@ -221,7 +221,7 @@ export function montarRelatorio(corpus, analise, rastro = [], meta = {}) {
     L.push("");
     L.push("  Investigados:");
     for (const t of ctr.investigados)
-      L.push(`    ${t.entre.map(nome).join(" vs ")} · ${eixoLabel(t.discriminador)} = "${t.resposta}" → inclina para ${t.inclina ? nome(t.inclina) : "nenhum lado"}`);
+      L.push(`    ${t.entre.map(nome).join(" vs ")} · ${eixoLabel(t.discriminador)} = "${rotulo(t.resposta)}" → inclina para ${t.inclina ? nome(t.inclina) : "nenhum lado"}`);
   }
   if (ctr.inativos.length) {
     L.push("");
@@ -235,7 +235,7 @@ export function montarRelatorio(corpus, analise, rastro = [], meta = {}) {
   for (const [id, g] of Object.entries(corpus.portoes || {})) {
     const r = analise.portoes[id];
     L.push(`  ${g.pergunta}`);
-    L.push(`    resposta: ${r ?? "[PENDENTE]"}   efeito: ${g.efeito}${g.efeito === "registro" ? " (apenas registro — não altera nenhum estado)" : ""}`);
+    L.push(`    resposta: ${r ? rotulo(r) : "[PENDENTE]"}   efeito: ${g.efeito}${g.efeito === "registro" ? " (apenas registro — não altera nenhum estado)" : ""}`);
   }
   L.push("");
 
@@ -246,7 +246,7 @@ export function montarRelatorio(corpus, analise, rastro = [], meta = {}) {
   for (const [id, def] of Object.entries(corpus.eixos)) {
     const r = analise.respostas[id];
     if (r === undefined) continue;
-    L.push(`  ${eixoLabel(id)} [peso ${def.peso}]${lv.has(id) ? " [LINHA VERMELHA]" : ""}: ${r}`);
+    L.push(`  ${eixoLabel(id)} [peso ${def.peso}]${lv.has(id) ? " [INEGOCIÁVEL]" : ""}: ${rotulo(r)}`);
     if (def.formulacaoNeutra === false)
       L.push(`    [REDAÇÃO NÃO NEUTRA] ${def.notaRedacao}`);
   }
@@ -254,7 +254,7 @@ export function montarRelatorio(corpus, analise, rastro = [], meta = {}) {
   if (naoResp.length) {
     L.push("");
     L.push(`  Não perguntados (${naoResp.length}): ${naoResp.map(eixoLabel).join(" · ")}`);
-    L.push("  Não perguntado é diferente de \"não sei\" e de \"indiferente\". Nenhum deles pesou.");
+    L.push("  Não perguntado é diferente de ter escolhido não opinar. Nenhum dos dois pesou.");
   }
   L.push("");
 
@@ -267,7 +267,7 @@ export function montarRelatorio(corpus, analise, rastro = [], meta = {}) {
   for (const [i, passo] of rastro.entries()) {
     const q = passo.pergunta;
     L.push(`  ${String(i + 1).padStart(2)}. [${q.tipo}${q.fase ? ` · fase ${q.fase}` : ""}] ${q.pergunta ?? eixoLabel(q.id)}`);
-    L.push(`      resposta: ${passo.resposta}`);
+    L.push(`      resposta: ${rotulo(passo.resposta)}${passo.linhaVermelha ? " · marcado como inegociável" : ""}`);
     const tr = passo.transicoes;
     if (tr?.estados?.length)
       for (const e2 of tr.estados) L.push(`      ${nome(e2.id)}: ${e2.de} → ${e2.para}${e2.motivo ? ` (${explicarMotivo(corpus, e2.motivo)})` : ""}`);

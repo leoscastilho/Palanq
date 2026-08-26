@@ -8,7 +8,7 @@
  * `analisar()`, que é pura. Nada é acumulado — é o que torna trivial voltar e
  * alterar uma resposta (B11).
  */
-const CHAVE = "match-presidenciaveis/v1";
+const CHAVE = "palanq/v1";
 const app = document.getElementById("app");
 
 const S = {
@@ -19,6 +19,10 @@ const S = {
   complementar: false,
   margem: 0.05,
   editando: null,
+  // "Inegociável" é modificador, não resposta: precisa de uma direção para
+  // eliminar alguém. Ao ser escolhido, arma este estado e a pergunta passa a
+  // pedir de que lado a inegociabilidade está.
+  armandoInegociavel: false,
 };
 
 // ── util ────────────────────────────────────────────────────────────────────
@@ -30,6 +34,8 @@ const cand = (id) => CORPUS.candidatos.find((c) => c.id === id);
 const nomeDe = (id) => { const c = cand(id); return c ? c.nome + (c.partido ? ` (${c.partido})` : "") : id; };
 const eixoDe = (id) => CORPUS.eixos[id]?.label ?? id;
 const posturaDe = (id, eixo) => cand(id)?.posicoes.find((p) => p.eixo === eixo) || null;
+
+const rotulo = rotularResposta;
 
 function salvar() {
   try { localStorage.setItem(CHAVE, JSON.stringify({ v: 1, corpusVersion: CORPUS.corpusVersion, ...S })); }
@@ -51,7 +57,7 @@ const pergunta = (a) => proximaPergunta(CORPUS, S.respostas, a.estados,
   { complementar: S.complementar, linhasVermelhas: new Set(S.linhasVermelhas), margem: S.margem });
 
 // ── ações ───────────────────────────────────────────────────────────────────
-function responder(q, valor, linhaVermelha) {
+function responder(q, valor, linhaVermelha = false) {
   const antes = analise();
   const anterior = S.respostas[q.id];
   S.respostas = { ...S.respostas, [q.id]: valor };
@@ -67,12 +73,13 @@ function responder(q, valor, linhaVermelha) {
     transicoes: transicoes(antes, depois),
   });
   S.editando = null;
+  S.armandoInegociavel = false;
   if (!pergunta(depois)) S.tela = "resultado";
   salvar(); render();
 }
 function editar(eixoId) { S.editando = eixoId; S.tela = "entrevista"; render(); }
 function reiniciar() {
-  if (!confirm("Isto apaga todas as suas respostas e o rastro. Continuar?")) return;
+  if (!confirm("Isto apaga todas as suas respostas e o histórico. Continuar?")) return;
   Object.assign(S, { tela: "abertura", respostas: {}, linhasVermelhas: [], rastro: [], complementar: false, editando: null });
   try { localStorage.removeItem(CHAVE); } catch {}
   render();
@@ -84,7 +91,7 @@ function baixar(nome, texto, tipo = "text/plain") {
   a.remove(); URL.revokeObjectURL(url);
 }
 function exportarSessao() {
-  baixar("sessao-match-presidenciaveis.json",
+  baixar("palanq-sessao.json",
     JSON.stringify({ v: 1, corpusVersion: CORPUS.corpusVersion, respostas: S.respostas,
                      linhasVermelhas: S.linhasVermelhas, rastro: S.rastro, margem: S.margem }, null, 2),
     "application/json");
@@ -95,7 +102,7 @@ function importarSessao(arquivo) {
     try {
       const d = JSON.parse(fr.result);
       if (d.corpusVersion !== CORPUS.corpusVersion &&
-          !confirm(`Esta sessão foi gravada com o corpus ${d.corpusVersion}; o atual é ${CORPUS.corpusVersion}. Importar mesmo assim?`)) return;
+          !confirm(`Esta sessão foi gravada com a versão ${d.corpusVersion} dos dados; a atual é ${CORPUS.corpusVersion}. Importar mesmo assim?`)) return;
       Object.assign(S, { respostas: d.respostas || {}, linhasVermelhas: d.linhasVermelhas || [],
                          rastro: d.rastro || [], margem: d.margem ?? 0.05, editando: null });
       S.tela = pergunta(analise()) ? "entrevista" : "resultado";
@@ -105,7 +112,7 @@ function importarSessao(arquivo) {
   fr.readAsText(arquivo);
 }
 function exportarRelatorio() {
-  baixar("comparacao-de-propostas.txt", montarRelatorio(CORPUS, analise(), S.rastro, {}));
+  baixar("palanq-comparacao.txt", montarRelatorio(CORPUS, analise(), S.rastro, {}));
 }
 
 // ── componentes ─────────────────────────────────────────────────────────────
@@ -172,39 +179,39 @@ function telaAbertura() {
   const temSessao = Object.keys(S.respostas).length > 0;
   return `
   <h1>Onde as candidaturas realmente divergem</h1>
-  <p>Este instrumento percorre as posições declaradas nos planos de governo de
-     ${CORPUS.candidatos.length} candidaturas e pergunta a <b>sua</b> posição sobre os
-     ${cls.divisivos.length} pontos em que elas divergem entre si. No fim, mostra quem está mais
-     alinhado a você — <b>e o que ficou sem resposta</b>, que costuma importar mais.</p>
+  <p>O Palanq lê os planos de governo registrados das ${CORPUS.candidatos.length} candidaturas à
+     Presidência e pergunta a <b>sua</b> posição sobre os ${cls.divisivos.length} pontos em que elas
+     divergem entre si. No fim, mostra quem está mais alinhado a você — <b>e o que ficou sem
+     resposta</b>, que costuma importar mais.</p>
 
   <div class="aviso perigo">
     <h3>O que este instrumento não é</h3>
     <p>Ele <b>não recomenda voto</b>. Compara posições declaradas em documentos e ignora, por
        construção: histórico de mandato, capacidade de execução, coalizão, quem financia a campanha
        e a distância conhecida entre plano de governo e governo.</p>
-    <p>A escolha de quais eixos existem e de qual trecho representa cada candidatura é o maior viés
-       deste sistema, e ele é invisível no resultado. Cada citação aparece na tela com a fonte, para
-       que você possa discordar da curadoria enquanto usa o instrumento.</p>
+    <p>A escolha de quais temas entram e de qual trecho representa cada candidatura é o maior viés
+       desta comparação, e ele é invisível no resultado. Toda frase citada aparece na tela com a página
+       do plano e um link para o documento, para que você possa discordar dessas escolhas enquanto usa.</p>
   </div>
 
-  <div class="aviso"><h3>Estado do corpus</h3>
+  <div class="aviso"><h3>O que você precisa saber antes de usar</h3>
     <p class="mini">${h(CORPUS.aviso)}</p>
     <ul class="mini">${(CORPUS.curadoria.limitacoesConhecidas || []).map((x) => `<li>${h(x)}</li>`).join("")}</ul>
   </div>
 
   <div class="cartao">
     <h2>Como funciona</h2>
-    <div class="eixo-linha"><b>Perguntas em ordem de poder de separação.</b> O motor pergunta primeiro
-      o eixo que divide o campo ao meio e tem mais peso, não o mais importante em abstrato. Um ponto em que
-      todos concordam não separa ninguém e por isso não é perguntado.</div>
+    <div class="eixo-linha"><b>As perguntas vêm na ordem em que mais separam.</b> Primeiro vem o tema que
+      divide as candidaturas mais ao meio, não o mais importante em abstrato. Um tema em que todas concordam
+      não separa ninguém, e por isso não é perguntado.</div>
     <div class="eixo-linha"><b>Discordar junto conta como concordar.</b> Se você é contra algo e o plano
       também é, isso é alinhamento.</div>
-    <div class="eixo-linha"><b>Não sei ≠ indiferente ≠ não perguntado.</b> Os três são registrados
-      separadamente e nenhum deles pesa no resultado.</div>
+    <div class="eixo-linha"><b>Não opinar é uma resposta de verdade.</b> O ponto sai da conta em vez
+      de virar meio-ponto para alguém, e fica registrado como não respondido.</div>
     <div class="eixo-linha"><b>Silêncio não conta a favor.</b> Se o plano não fala de um assunto, isso não
       vira concordância — vira <i>cobertura</i> menor, exibida sempre ao lado da afinidade.</div>
-    <div class="eixo-linha"><b>Linha vermelha elimina.</b> Você pode marcar um ponto como inegociável;
-      quem divergir dele sai da comparação, com a citação que causou a eliminação.</div>
+    <div class="eixo-linha"><b>Inegociável elimina.</b> Se um ponto for inegociável para você, quem
+      pensar diferente sai da comparação — e sai mostrando a frase do plano que causou a eliminação.</div>
     <div class="eixo-linha"><b>Nada sai do seu navegador.</b> Não há servidor, não há telemetria, não há
       requisição externa. A sessão fica salva só neste aparelho.</div>
   </div>
@@ -215,9 +222,9 @@ function telaAbertura() {
     <button data-acao="importar">Importar sessão</button>
     <input type="file" id="arq" accept="application/json" class="oculto">
   </div>
-  <p class="mini">Corpus ${h(CORPUS.corpusVersion)} · ${CORPUS.candidatos.length} candidaturas ·
-     ${Object.keys(CORPUS.eixos).length} eixos (${cls.divisivos.length} divisivos, ${cls.unanimes.length} unânimes,
-     ${cls.unilaterais.length} unilaterais) · margem de empate ${S.margem.toFixed(2)}</p>`;
+  <p class="mini">${CORPUS.candidatos.length} candidaturas · ${Object.keys(CORPUS.eixos).length} temas extraídos
+     dos planos, dos quais ${cls.divisivos.length} separam candidaturas entre si · versão dos dados
+     ${h(CORPUS.corpusVersion)}</p>`;
 }
 
 function telaEntrevista() {
@@ -236,9 +243,9 @@ function telaEntrevista() {
     const favor = CORPUS.candidatos.filter((c) => a.estados[c.id].estado === "vivo" && posturaDe(c.id, q.id)?.postura === "favor");
     const contra = CORPUS.candidatos.filter((c) => a.estados[c.id].estado === "vivo" && posturaDe(c.id, q.id)?.postura === "contra");
     porque = `<div class="porque">
-      Perguntado agora porque separa <b>${q.separa.favor} × ${q.separa.contra}</b> candidaturas
-      (${q.separa.separacoes} pares) com peso ${q.peso} — ganho ${q.separa.ganho}, o maior ainda em aberto.
-      ${q.separa.mudos ? `${q.separa.mudos} candidatura(s) não dizem nada sobre isto.` : ""}
+      Perguntado agora porque este é o tema que mais separa quem ainda está na disputa:
+      <b>${q.separa.favor}</b> candidatura(s) a favor contra <b>${q.separa.contra}</b> contra.
+      ${q.separa.mudos ? `Outras ${q.separa.mudos} não dizem nada sobre isto no plano.` : ""}
       <br><b class="ok-cor">A favor:</b> ${favor.map((c) => h(c.nome)).join(", ") || "—"}
       <br><b class="perigo-cor">Contra:</b> ${contra.map((c) => h(c.nome)).join(", ") || "—"}
       ${q.entreLideres ? `<br><span class="selo destaque">desempata a liderança</span> É a única coisa que separa
@@ -247,54 +254,62 @@ function telaEntrevista() {
   } else if (q.tipo === "eixo" && q.fase === 4) {
     porque = `<div class="porque"><span class="selo comp">não separa ninguém</span>
       ${q.categoria === "unanime"
-        ? `Todas as candidaturas vivas declaram a mesma posição aqui.`
-        : `${q.campo.nFalam} candidatura(s) se pronunciam, ${q.campo.mudos} não dizem nada — e nenhuma se opõe.`}
-      Responder <b>não altera o ranking</b> (incluir isto inverteria a ordem em favor de quem falou pouco).
-      Vai para uma métrica separada: o quanto este campo eleitoral inteiro representa você.
-      Faltam ${q.restantes} perguntas desta fase; você pode parar quando quiser.</div>`;
+        ? `Todas as candidaturas que ainda estão na disputa declaram a mesma posição aqui.`
+        : `${q.campo.nFalam} candidatura(s) defendem isto, ${q.campo.mudos} não dizem nada — e nenhuma se opõe.`}
+      Responder <b>não altera o ranking</b> — se alterasse, favoreceria quem escreveu menos.
+      Entra num número à parte: o quanto o conjunto das candidaturas representa você.
+      Faltam ${q.restantes} perguntas destas; você pode parar quando quiser.</div>`;
   } else if (q.tipo === "portao") {
-    porque = `<div class="porque"><span class="selo">portão</span> ${h(q.nota || "")}</div>`;
+    porque = `<div class="porque"><span class="selo">contexto</span> ${h(q.nota || "")}</div>`;
   } else if (q.revisao) {
     porque = `<div class="porque">Você está <b>revisando</b> uma resposta já dada
-      (${h(S.respostas[q.id])}). O registro original fica no rastro; a alteração é anexada, não sobrescrita.</div>`;
+      (${h(rotulo(S.respostas[q.id]))}). O registro original fica no histórico; a alteração é anexada, não sobrescrita.</div>`;
   }
 
-  const podeLV = q.tipo === "eixo";
   return `
   <div class="painel">
     <div>
       <div class="cartao">
-        <span class="selo">${q.tipo === "portao" ? "Portão" : `Eixo · ${h(q.dominio || "")}`}</span>
-        ${q.fase === 4 ? '<span class="selo comp">fase complementar</span>' : ""}
+        <span class="selo">${q.tipo === "portao" ? "Pergunta de contexto" : `Tema · ${h(q.dominio || "")}`}</span>
+        ${q.fase === 4 ? '<span class="selo comp">não muda o ranking</span>' : ""}
         <div class="pergunta">${h(q.pergunta)}</div>
         ${q.formulacaoNeutra === false ? `<div class="aviso"><h3>Redação não neutra</h3><p class="mini">${h(q.notaRedacao)}</p></div>` : ""}
         ${porque}
         <div class="respostas" data-q="${h(q.id)}">
           ${q.tipo === "portao"
             ? `<button data-v="sim"><b>Sim</b></button><button data-v="nao"><b>Não</b></button>`
-            : `<button data-v="concordo"><b>Concordo</b><i>Sou a favor desta política</i></button>
-               <button data-v="discordo"><b>Discordo</b><i>Sou contra esta política</i></button>
-               <button data-v="indiferente"><b>Indiferente</b><i>Não quero que este ponto pese</i></button>
-               <button data-v="ns"><b>Não sei</b><i>Não tenho posição formada; fica registrado como pendência</i></button>`}
+            : S.armandoInegociavel
+            ? `<button class="perigo" data-v="concordo" data-lv="1"><b>Concordo — e é inegociável</b>
+                 <i>Elimina quem for contra</i></button>
+               <button class="perigo" data-v="discordo" data-lv="1"><b>Discordo — e é inegociável</b>
+                 <i>Elimina quem for a favor</i></button>`
+            : `<button data-v="concordo"><b>Concordo</b><i>Sou a favor disto</i></button>
+               <button data-v="discordo"><b>Discordo</b><i>Sou contra isto</i></button>
+               <button data-acao="armar-inegociavel"><b>Inegociável</b>
+                 <i>Elimina quem pensar diferente${jaLV ? " — já marcado" : ""}</i></button>
+               <button data-v="indiferente"><b>Não opinar</b><i>Não quero que isto pese no resultado</i></button>`}
         </div>
-        ${podeLV ? `<div class="lv ${jaLV ? "ativa" : ""}">
-          <label><input type="checkbox" id="lv" ${jaLV ? "checked" : ""}>
-            <span><b>Isto é inegociável para mim.</b> Não é "peso alto": qualquer candidatura que
-            divirja aqui é <b>eliminada</b> da comparação, por mais que concorde com você no resto.
-            Reversível a qualquer momento.</span></label>
+        ${S.armandoInegociavel ? `<div class="lv ativa">
+          <p class="mini" style="margin:0"><b>De que lado está o inegociável?</b> Marcar um ponto como
+          inegociável não é dar peso alto a ele: qualquer candidatura que pense diferente é
+          <b>eliminada</b> da comparação, por mais que concorde com você em todo o resto.
+          Reversível a qualquer momento.</p>
+          <div class="acoes" style="margin:.6rem 0 0">
+            <button data-acao="cancelar-inegociavel">Voltar</button>
+          </div>
         </div>` : ""}
         ${S.editando ? '<div class="acoes"><button data-acao="cancelar-edicao">Cancelar revisão</button></div>' : ""}
       </div>
 
       ${a.diagnostico.rankingVazioComRespostas ? `<div class="aviso"><h3>O ranking está vazio — e isso tem explicação</h3>
         <p class="mini">${a.diagnostico.semEixosDiscriminantes
-          ? "Não sobrou nenhum eixo em que as candidaturas ainda vivas divirjam entre si."
+          ? "Não sobrou nenhum tema em que as candidaturas restantes divirjam entre si."
           : "Nenhuma candidatura viva declarou posição sobre o que você respondeu."}
         ${a.diagnostico.reclassificados.length ? `Depois das eliminações, ${a.diagnostico.reclassificados.map((e) => h(eixoDe(e))).join(", ")}
           passaram a ter um lado só e saíram da conta.` : ""}</p></div>` : ""}
 
       <div class="cartao">
-        <h2>Rastro</h2>
+        <h2>Suas respostas</h2>
         <p class="mini">${respondidas} resposta(s). Clique para revisar — o registro original é preservado.</p>
         <ul class="rastro">${S.rastro.map((p, i) => `<li>
           <b class="mini">${i + 1}</b>
@@ -302,7 +317,7 @@ function telaEntrevista() {
             ${p.transicoes.ranking.mudou ? `<div class="mini">liderança: ${(p.transicoes.lideres.para.map(nomeDe).join(", ")) || "—"}</div>` : ""}
             ${p.transicoes.estados.length ? `<div class="mini perigo-cor">${p.transicoes.estados.map((e) => `${h(nomeDe(e.id))}: ${e.de}→${e.para}`).join(" · ")}</div>` : ""}
           </span>
-          <span class="r">${h(p.resposta)}</span>
+          <span class="r">${h(rotulo(p.resposta))}${p.linhaVermelha ? " · inegociável" : ""}</span>
           ${p.pergunta.tipo === "eixo" ? `<button class="fantasma" data-editar="${h(p.pergunta.id)}">revisar</button>` : ""}
         </li>`).join("") || '<li class="mini">Nada respondido ainda.</li>'}</ul>
       </div>
@@ -313,11 +328,11 @@ function telaEntrevista() {
         <h2>Estado das candidaturas</h2>
         <p class="mini">Afinidade e cobertura andam sempre juntas. Afinidade sem cobertura mente.</p>
         ${tabelaRanking(a, true)}
-        <p class="mini" style="margin-top:.6rem">${divisivosAbertos} eixo(s) divisivo(s) ainda em aberto.
-        Margem de empate ${S.margem.toFixed(2)}.</p>
+        <p class="mini" style="margin-top:.6rem">Faltam ${divisivosAbertos} tema(s) em que as candidaturas
+        divergem entre si. Diferenças menores que ${S.margem.toFixed(2)} contam como empate.</p>
       </div>
       ${S.linhasVermelhas.length ? `<div class="cartao">
-        <h2 class="perigo-cor">Linhas vermelhas</h2>
+        <h2 class="perigo-cor">Seus pontos inegociáveis</h2>
         ${S.linhasVermelhas.map((e) => `<div class="eixo-linha"><b>${h(eixoDe(e))}</b>
           <button class="fantasma" data-remover-lv="${h(e)}">remover</button></div>`).join("")}
       </div>` : ""}
@@ -328,7 +343,7 @@ function telaEntrevista() {
           <button data-acao="exportar-sessao">Exportar</button>
           <button data-acao="reiniciar">Recomeçar</button>
         </div>
-        <p class="mini">Salvo neste aparelho, em <code>localStorage</code>. Nada é enviado a lugar nenhum.</p>
+        <p class="mini">Guardado só neste aparelho, no seu navegador. Nada é enviado a lugar nenhum.</p>
       </div>
     </div>
   </div>`;
@@ -341,7 +356,7 @@ function blocoEixos(a, id, chave, titulo) {
     ${s[chave].map((e) => {
       const p = posturaDe(id, e);
       return `<div class="eixo-linha"><b>${h(eixoDe(e))}</b>
-        <span class="tag">peso ${CORPUS.eixos[e].peso} · o plano é ${p.postura === "favor" ? "favorável" : "contrário"} · você respondeu "${h(a.respostas[e])}"</span>
+        <span class="tag">peso ${CORPUS.eixos[e].peso} · o plano é ${p.postura === "favor" ? "favorável" : "contrário"} · você respondeu "${h(rotulo(a.respostas[e]))}"</span>
         ${citacaoHTML(p)}</div>`;
     }).join("")}</div></details>`;
 }
@@ -359,15 +374,14 @@ function telaResultado() {
        planos completos — os links estão no fim desta página.</p></div>
 
   ${a.todosEliminados ? `<div class="aviso perigo"><h3>Todas as candidaturas foram eliminadas</h3>
-    <p>Suas linhas vermelhas eliminaram o campo inteiro. Isso é um resultado, não um erro — e abaixo
-       está a ordem que existiria sem elas, para que você possa decidir se a linha vermelha
-       continua valendo a pena.</p></div>` : ""}
+    <p>Seus pontos inegociáveis eliminaram todas as candidaturas. Isso é um resultado, não um erro — e abaixo
+       está a ordem que existiria sem eles, para que você possa decidir se continuam valendo a pena.</p></div>` : ""}
 
   ${a.ranking.lideres.length ? `
     <h2>${a.ranking.empate ? `Empate declarado entre ${a.ranking.lideres.length} candidaturas` : "Mais alinhado a você"}</h2>
-    ${a.ranking.empate ? `<p class="mini">Não há ordem entre elas: a diferença está dentro da margem de
-      ${S.margem.toFixed(2)}. A margem existe porque os pesos dos eixos foram escolhidos à mão e não têm
-      precisão para separar 0,84 de 0,81.</p>` : ""}
+    ${a.ranking.empate ? `<p class="mini">Não há ordem entre elas: a diferença é menor que
+      ${S.margem.toFixed(2)}. Essa folga existe porque a importância de cada tema foi decidida à mão e não
+      tem precisão para separar 0,84 de 0,81.</p>` : ""}
     <div class="lideres">${a.ranking.lideres.map((id) => `<div class="lider-cartao">
       <h3>${h(nomeDe(id))}</h3>
       <div class="metrica">
@@ -382,23 +396,23 @@ function telaResultado() {
   ${alertasSilencio(a)}
 
   ${a.diagnostico.reclassificados.length || a.diagnostico.rankingVazioComRespostas ? `<div class="aviso">
-    <h3>O que as eliminações fizeram com a conta</h3>
+    <h3>O que as eliminações fizeram com a comparação</h3>
     ${a.diagnostico.reclassificados.length ? `<p class="mini">Depois de eliminar candidaturas,
-      ${a.diagnostico.reclassificados.length} eixo(s) ficaram com um lado só e deixaram de separar quem
-      sobrou — saíram do ranking e foram para o consenso do campo:
+      ${a.diagnostico.reclassificados.length} tema(s) ficaram com um lado só e deixaram de separar quem
+      sobrou — saíram do ranking e foram para o retrato do conjunto:
       <b>${a.diagnostico.reclassificados.map((e) => h(eixoDe(e))).join(", ")}</b>.
-      É por isso que as afinidades mudaram de escala: o ranking passou a se apoiar em menos eixos.</p>` : ""}
-    ${a.diagnostico.rankingVazioComRespostas ? `<p class="mini">Não sobrou nenhum eixo em que as candidaturas
-      vivas divirjam entre si, então não há afinidade a calcular. Remova uma linha vermelha para ver a
-      comparação completa.</p>` : ""}
+      É por isso que as afinidades mudaram de escala: o ranking passou a se apoiar em menos temas.</p>` : ""}
+    ${a.diagnostico.rankingVazioComRespostas ? `<p class="mini">Não sobrou nenhum tema em que as candidaturas
+      restantes divirjam entre si, então não há afinidade a calcular. Remova um ponto inegociável para
+      ver a comparação completa.</p>` : ""}
   </div>` : ""}
 
   <div class="cartao">
     <h2>Ranking completo</h2>
-    <p class="mini"><b>Afinidade</b> mede alinhamento <b>nos pontos em que as candidaturas divergem entre si</b> —
-      não é percentual de concordância com o plano. Um eleitor que concorda com 90% de um plano pode ver
-      afinidade 0,55, porque tudo em que o campo pensa igual fica fora da conta.
-      <b>Cobertura</b> é a fração do que você respondeu sobre a qual aquela candidatura se pronunciou.</p>
+    <p class="mini"><b>Afinidade</b> mede o alinhamento <b>só nos pontos em que as candidaturas divergem entre
+      si</b> — não é o percentual de quanto você concorda com o plano. Quem concorda com 90% de um plano
+      pode ver afinidade 0,55, porque tudo em que todas pensam igual fica fora da conta.
+      <b>Cobertura</b> é a fatia do que você respondeu sobre a qual aquela candidatura se pronunciou.</p>
     ${tabelaRanking(a, false)}
     ${a.ranking.semSinal.length ? `<p class="mini">Sem afinidade calculável (não declararam nada sobre o que você
       respondeu): ${a.ranking.semSinal.map((x) => h(nomeDe(x))).join(", ")}. Ausência de posição não é zero
@@ -406,23 +420,23 @@ function telaResultado() {
   </div>
 
   <h2>Por candidatura</h2>
-  <p class="mini">Cada alinhamento e cada divergência vem com a citação que o sustenta. Discorde da curadoria
-     se ela estiver errada — é para isso que a fonte está aqui.</p>
+  <p class="mini">Cada alinhamento e cada divergência vem com a citação que o sustenta. Discorde da escolha
+     se ela lhe parecer errada — é para isso que a fonte está aqui.</p>
   ${[...a.ranking.ordem, ...a.ranking.semSinal].map((id) => `<details><summary>${h(nomeDe(id))} —
      afinidade ${f3(a.estados[id].afinidade)} · cobertura ${f2(a.estados[id].cobertura)}</summary>
      <div class="corpo">
        ${blocoEixos(a, id, "alinhados", "Por que se alinha")}
        ${blocoEixos(a, id, "divergentes", "Divergências")}
        ${a.estados[id].silencios.length ? `<details><summary>Silêncios (${a.estados[id].silencios.length})</summary>
-         <div class="corpo"><p class="mini">Eixos que você respondeu e sobre os quais este plano não diz nada.
+         <div class="corpo"><p class="mini">Temas que você respondeu e sobre os quais este plano não diz nada.
          Não somam nem subtraem — e é por isso que reduzem a cobertura.</p>
          ${a.estados[id].silencios.map((e) => `<div class="eixo-linha"><b>${h(eixoDe(e))}</b>
            <span class="tag">peso ${CORPUS.eixos[e].peso}</span></div>`).join("")}</div></details>` : ""}
        ${a.estados[id].inconclusivos.length ? `<p class="mini">Você respondeu "não sei" em
          ${a.estados[id].inconclusivos.length} eixo(s) em que este plano declara posição:
          ${a.estados[id].inconclusivos.map((e) => h(eixoDe(e))).join(", ")}.</p>` : ""}
-       ${a.estados[id].indiferentes.length ? `<p class="mini">Você marcou como indiferente
-         ${a.estados[id].indiferentes.length} eixo(s) em que este plano declara posição:
+       ${a.estados[id].indiferentes.length ? `<p class="mini">Você preferiu não opinar em
+         ${a.estados[id].indiferentes.length} ponto(s) em que este plano declara posição:
          ${a.estados[id].indiferentes.map((e) => h(eixoDe(e))).join(", ")}.</p>` : ""}
      </div></details>`).join("")}
 
@@ -433,10 +447,10 @@ function telaResultado() {
       const m = a.estados[c.id].motivo;
       return `<div class="cartao"><h3>${h(nomeDe(c.id))}</h3>
         <p class="mini">${h(explicarMotivo(CORPUS, m))}</p>
-        ${m.tipo === "linha-vermelha" ? `<p class="mini">Eixo marcado por você como inegociável:
+        ${m.tipo === "linha-vermelha" ? `<p class="mini">Ponto marcado por você como inegociável:
           <b>${h(eixoDe(m.eixo))}</b></p>${citacaoHTML({ citacao: m.citacao, interpretacao: m.interpretacao })}` : ""}</div>`;
     }).join("")}
-    ${a.contrafactual ? `<details><summary>Ranking contrafactual — a ordem que existiria sem nenhuma linha vermelha</summary>
+    ${a.contrafactual ? `<details><summary>A ordem que existiria sem nenhum ponto inegociável</summary>
       <div class="corpo"><table class="rank"><tbody>${a.contrafactual.ranking.ordem.map((id, i) =>
         `<tr><td class="n">${i + 1}</td><td>${h(nomeDe(id))}</td>
          <td class="n">${f3(a.contrafactual.estados[id].afinidade)}</td>
@@ -444,34 +458,34 @@ function telaResultado() {
         '<tr><td class="mini">nenhuma afinidade calculável</td></tr>'}</tbody></table></div></details>` : ""}` : ""}
 
   <h2>Consenso do campo</h2>
-  <p class="mini">Eixos que <b>não separam ninguém</b> e por isso não entram no ranking. Ficam de fora porque
-     incluí-los inverteria a ordem em favor de quem falou pouco — mas são, muitas vezes, as afirmações mais
-     úteis que este instrumento consegue fazer.</p>
+  <p class="mini">Temas que <b>não separam ninguém</b> e por isso não entram no ranking: incluí-los
+     favoreceria quem escreveu menos. Ainda assim, costumam ser as afirmações mais úteis que esta
+     comparação consegue fazer sobre a eleição.</p>
   ${a.campo.respondidos ? `<div class="cartao">
     <div class="metrica">
-      <div><b>${f3(a.campo.afinidade)}</b><small>afinidade com o campo</small></div>
+      <div><b>${f3(a.campo.afinidade)}</b><small>quanto o conjunto te representa</small></div>
       <div><b>${f2(a.campo.cobertura)}</b><small>cobertura</small></div>
     </div>
     <p class="mini">Outra pergunta, outro número: não "quem é mais parecido comigo", mas "o quanto este campo
-       eleitoral inteiro me representa". ${a.campo.respondidos} de ${a.campo.total} eixos respondidos.
-       Afinidade com o campo baixa significa que nenhum ranking entre estas candidaturas conserta o problema.</p>
+       eleitoral inteiro me representa". ${a.campo.respondidos} de ${a.campo.total} temas respondidos.
+       Um número baixo aqui significa que nenhuma ordem entre estas candidaturas conserta o problema.</p>
     ${[...a.ranking.ordem].filter((id) => a.estados[id].complementar.afinidade !== null).length ? `
-      <p class="mini"><b>Por candidatura, fora do ranking</b> — é aqui que candidaturas empatadas nos eixos
-      divisivos se separam:</p>
+      <p class="mini"><b>Por candidatura, fora do ranking</b> — é aqui que candidaturas empatadas nos temas
+      em disputa se separam:</p>
       <table class="rank"><tbody>${a.ranking.ordem.filter((id) => a.estados[id].complementar.afinidade !== null)
         .map((id) => `<tr><td>${h(nomeDe(id))}</td>
           <td class="n">${f3(a.estados[id].complementar.afinidade)}</td>
           <td class="n">${f2(a.estados[id].complementar.cobertura)}</td></tr>`).join("")}</tbody></table>` : ""}
   </div>` : `<div class="aviso"><h3>Fase complementar não respondida</h3>
-    <p class="mini">Há ${compPend} eixo(s) em que o campo fala com uma voz só ou em que ninguém se opõe.
-    Eles não afetam o ranking, mas respondem uma pergunta diferente — e são o que separa candidaturas
-    que hoje estão empatadas.</p>
-    <button class="primario" data-acao="complementar">Responder a fase complementar (${compPend} perguntas)</button></div>`}
+    <p class="mini">Há ${compPend} tema(s) em que as candidaturas falam com uma voz só, ou em que ninguém
+    se opõe. Não afetam o ranking, mas respondem outra pergunta — e são o que separa candidaturas que hoje
+    estão empatadas.</p>
+    <button class="primario" data-acao="complementar">Responder esses ${compPend} temas</button></div>`}
 
-  <details><summary>Unânimes (${a.classes.unanimes.length}) e unilaterais (${a.classes.unilaterais.length})</summary>
+  <details><summary>Temas de consenso (${a.classes.unanimes.length}) e temas em que ninguém se opõe (${a.classes.unilaterais.length})</summary>
     <div class="corpo">
       ${a.classes.unanimes.map((u) => `<div class="eixo-linha"><b>${h(eixoDe(u.eixo))}</b>
-        <span class="tag">todas as ${u.nFalam} candidaturas vivas são ${u.postura === "favor" ? "a favor" : "contrárias"}</span></div>`).join("")}
+        <span class="tag">as ${u.nFalam} candidaturas na disputa são ${u.postura === "favor" ? "todas a favor" : "todas contrárias"}</span></div>`).join("")}
       ${a.classes.unilaterais.map((u) => `<div class="eixo-linha"><b>${h(eixoDe(u.eixo))}</b>
         <span class="tag">${u.nFalam} ${u.postura === "favor" ? "a favor" : "contrárias"}, ${u.mudos} não dizem nada — e ninguém se opõe</span></div>`).join("")}
     </div></details>
@@ -486,12 +500,12 @@ function telaResultado() {
       ${desempata ? '<span class="selo destaque">desempataria a liderança</span>' : ""}</h3>
       <p class="mini"><b>${h(eixoDe(t.discriminador))}</b> — ${h(t.motivo)}</p>
       ${t.nota ? `<p class="mini">${h(t.nota)}</p>` : ""}
-      <button data-editar="${h(t.discriminador)}">Responder este eixo</button></div>`;
+      <button data-editar="${h(t.discriminador)}">Responder este tema</button></div>`;
   }).join("") : '<p class="mini">Nenhum. Todos os contrastes ativos foram investigados.</p>'}
   ${a.contrastes.investigados.length ? `<details><summary>Investigados (${a.contrastes.investigados.length})</summary>
     <div class="corpo">${a.contrastes.investigados.map((t) => `<div class="eixo-linha">
       ${t.entre.map((x) => h(nomeDe(x))).join(" vs ")} — <b>${h(eixoDe(t.discriminador))}</b> =
-      "${h(t.resposta)}" → inclina para <b>${t.inclina ? h(nomeDe(t.inclina)) : "nenhum lado"}</b></div>`).join("")}</div></details>` : ""}
+      "${h(rotulo(t.resposta))}" → inclina para <b>${t.inclina ? h(nomeDe(t.inclina)) : "nenhum lado"}</b></div>`).join("")}</div></details>` : ""}
 
   <h2>Planos de governo integrais</h2>
   <p class="mini">As citações deste instrumento são resumos. Os documentos abaixo prevalecem sobre qualquer
@@ -503,18 +517,18 @@ function telaResultado() {
 
   <div class="acoes">
     ${q ? '<button class="primario" data-acao="continuar">Continuar respondendo</button>' : ""}
-    <button data-acao="relatorio">Baixar relatório completo (.txt)</button>
+    <button data-acao="relatorio">Baixar a comparação completa (.txt)</button>
     <button data-acao="exportar-sessao">Exportar sessão (.json)</button>
-    <button data-acao="ver-relatorio">Ver relatório na tela</button>
+    <button data-acao="ver-relatorio">Ver o texto completo na tela</button>
     <button data-acao="reiniciar">Recomeçar</button>
   </div>
   <pre class="relatorio oculto" id="rel"></pre>
 
-  <div class="aviso"><h3>Curadoria</h3>
-    <p class="mini"><b>Método:</b> ${h(CORPUS.curadoria.metodo)}</p>
-    <p class="mini"><b>Critério de inclusão:</b> ${h(CORPUS.curadoria.criterioDeInclusao)}</p>
+  <div class="aviso"><h3>Quem montou esta comparação, e como</h3>
+    <p class="mini"><b>Como foi montada:</b> ${h(CORPUS.curadoria.metodo)}</p>
+    <p class="mini"><b>O que entrou e o que ficou de fora:</b> ${h(CORPUS.curadoria.criterioDeInclusao)}</p>
     <p class="mini"><b>Responsável:</b> ${h(CORPUS.curadoria.responsavel || "não identificado")} ·
-       <b>Revisão independente:</b> ${h(CORPUS.curadoria.revisadoPor || "nenhuma")}</p>
+       <b>Revisão de terceiros:</b> ${h(CORPUS.curadoria.revisadoPor || "nenhuma até agora")}</p>
     <ul class="mini">${(CORPUS.curadoria.limitacoesConhecidas || []).map((x) => `<li>${h(x)}</li>`).join("")}</ul>
   </div>`;
 }
@@ -524,7 +538,7 @@ function render() {
   document.getElementById("topo-escopo").textContent =
     `${CORPUS.escopo.eleicao} · ${CORPUS.escopo.cargo}`;
   document.getElementById("topo-versao").textContent =
-    `corpus ${CORPUS.corpusVersion} · ${CORPUS.status}`;
+    `dados ${CORPUS.corpusVersion}${CORPUS.status === "verified" ? "" : " · sem revisão externa"}`;
   app.innerHTML = S.tela === "abertura" ? telaAbertura()
                 : S.tela === "resultado" ? telaResultado()
                 : telaEntrevista();
@@ -538,7 +552,7 @@ app.addEventListener("click", (ev) => {
     const q = S.editando
       ? { tipo: "eixo", id: S.editando, ...CORPUS.eixos[S.editando] }
       : pergunta(analise());
-    if (q) responder(q, alvo.dataset.v, document.getElementById("lv")?.checked);
+    if (q) responder(q, alvo.dataset.v, alvo.dataset.lv === "1");
     return;
   }
   if (alvo.dataset.editar) return editar(alvo.dataset.editar);
@@ -549,7 +563,9 @@ app.addEventListener("click", (ev) => {
   switch (alvo.dataset.acao) {
     case "comecar": case "continuar": S.tela = "entrevista"; salvar(); render(); break;
     case "resultado": S.tela = "resultado"; salvar(); render(); break;
-    case "cancelar-edicao": S.editando = null; render(); break;
+    case "cancelar-edicao": S.editando = null; S.armandoInegociavel = false; render(); break;
+    case "armar-inegociavel": S.armandoInegociavel = true; render(); break;
+    case "cancelar-inegociavel": S.armandoInegociavel = false; render(); break;
     case "complementar": S.complementar = true; S.tela = "entrevista"; salvar(); render(); break;
     case "reiniciar": reiniciar(); break;
     case "exportar-sessao": exportarSessao(); break;

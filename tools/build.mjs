@@ -1,5 +1,5 @@
 /**
- * Build. Gera `index.html` — arquivo único, autocontido, sem nenhuma requisição
+ * Build. Gera `motor/index.html` — arquivo único, autocontido, sem nenhuma requisição
  * externa. É o argumento de privacidade inteiro (§26): sem servidor, sem
  * telemetria, sem CDN; as respostas do usuário são as posições políticas dele e
  * a única defesa que não depende de confiança é não ter para onde mandá-las.
@@ -30,9 +30,30 @@ const achatar = (src) => src
   .map((l) => l.replace(/^export\s+(?=(const|function|let|class)\b)/, ""))
   .join("\n");
 
-const modulos = [achatar(ler("src/motor.mjs")), achatar(ler("src/relatorio.mjs"))].join("\n\n");
+const partes = { "motor.mjs": achatar(ler("src/motor.mjs")), "relatorio.mjs": achatar(ler("src/relatorio.mjs")) };
+
+// O mini-bundler junta tudo num escopo só. Duas declarações com o mesmo nome
+// produzem uma página em branco em runtime, e nenhum teste em Node pegaria isso:
+// lá cada arquivo tem escopo próprio. Então o build recusa.
+const topo = (src) => [...src.matchAll(/^(?:const|let|function|class)\s+([A-Za-z_$][\w$]*)/gm)].map((m) => m[1]);
+const vistos = new Map();
+for (const [arq, src] of Object.entries(partes))
+  for (const nome of topo(src)) {
+    if (vistos.has(nome)) {
+      console.error(`build abortado — "${nome}" é declarado em ${vistos.get(nome)} e em ${arq}.`);
+      console.error("  Os módulos são concatenados num único escopo; nomes precisam ser únicos.");
+      process.exit(1);
+    }
+    vistos.set(nome, arq);
+  }
+const modulos = Object.values(partes).join("\n\n");
 const dados = `const CORPUS = Object.freeze(${JSON.stringify(corpus)});`;
 const ui = ler("src/ui.js");
+for (const nome of topo(ui))
+  if (vistos.has(nome)) {
+    console.error(`build abortado — "${nome}" é declarado em ${vistos.get(nome)} e em ui.js.`);
+    process.exit(1);
+  }
 const css = ler("src/estilo.css");
 const html = ler("src/app.html");
 
@@ -44,9 +65,9 @@ const saida = `<!doctype html>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="light dark">
 <meta name="referrer" content="no-referrer">
-<meta name="description" content="Compara suas posições com as posições declaradas nos planos de governo. Não recomenda voto.">
+<meta name="description" content="Palanq compara suas posições com as posições declaradas nos planos de governo registrados. Não recomenda voto.">
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data:; connect-src 'none'; form-action 'none'; base-uri 'none'">
-<title>Match Presidenciáveis — ${corpus.escopo.eleicao}</title>
+<title>Palanq — ${corpus.escopo.eleicao}</title>
 <style>
 ${css}
 </style>
@@ -64,9 +85,9 @@ ${escapar(ui)}
 </html>
 `;
 
-writeFileSync(new URL("index.html", raiz), saida);
+writeFileSync(new URL("motor/index.html", raiz), saida);
 const kb = (Buffer.byteLength(saida, "utf8") / 1024).toFixed(1);
-console.log(`index.html escrito · ${kb} KB · corpus ${corpus.corpusVersion} (${corpus.status})`);
+console.log(`motor/index.html escrito · ${kb} KB · corpus ${corpus.corpusVersion} (${corpus.status})`);
 console.log(`${metricas.candidatos} candidatos · ${metricas.eixos} eixos · ${metricas.posturas} posturas · ${metricas.interpretacoes} com interpretação declarada`);
 if (/https?:\/\//.test(saida.replace(/https:\/\/static\.poder360\.com\.br[^"'\s]*/g, ""))) {
   console.error("ERRO: o build contém URL externa fora dos links de plano de governo");

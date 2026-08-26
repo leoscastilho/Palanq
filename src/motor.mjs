@@ -21,6 +21,17 @@
  */
 
 export const RESPOSTAS_VALIDAS = ["concordo", "discordo", "indiferente", "ns"];
+
+/**
+ * Como cada valor é escrito para o usuário. O motor guarda "indiferente" e "ns"
+ * separados porque a distinção é do contrato (invariante 4); a tela mostra os dois
+ * como escolhas de não opinar, e o relatório preserva a diferença.
+ */
+export const ROTULO_RESPOSTA = {
+  concordo: "concordo", discordo: "discordo",
+  indiferente: "não opinou", ns: "não soube", sim: "sim", nao: "não",
+};
+export const rotularResposta = (v) => ROTULO_RESPOSTA[v] ?? v;
 export const MARGEM_PADRAO = 0.05;
 
 const asSet = (x) => (x instanceof Set ? x : new Set(x || []));
@@ -455,7 +466,7 @@ export function explicarMotivo(corpus, motivo) {
   if (motivo.tipo === "linha-vermelha") {
     const e = corpus.eixos[motivo.eixo];
     const dir = motivo.postura === "favor" ? "é favorável" : "é contrário";
-    return `linha vermelha · ${e?.label ?? motivo.eixo} — o plano ${dir} a essa posição`;
+    return `ponto inegociável · ${e?.label ?? motivo.eixo} — o plano ${dir} a essa posição`;
   }
   if (motivo.tipo === "portao") {
     // B8 corrigido: o texto vem do portão que disparou, não de uma string fixa.

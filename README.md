@@ -1,9 +1,13 @@
-# Match Presidenciáveis
+# Palanq — motor de comparação
 
 Instrumento que percorre os **12 planos de governo registrados** da eleição
 presidencial de 2026 — 788 páginas — e indica quais candidaturas mais se alinham às
-posições que **você** declara — sempre mostrando o que
-ficou sem investigar e sempre citando a fonte.
+posições que **você** declara, sempre mostrando o que ficou sem investigar e sempre
+citando a fonte.
+
+Esta é a versão **motor**, servida em `/motor`: o instrumento completo, usado para
+validar as fórmulas e a curadoria. A raiz `/` está reservada para a versão
+simplificada do Palanq, ainda a desenvolver.
 
 **Não recomenda voto.** Compara posições declaradas em documentos e ignora, por
 construção: histórico de mandato, capacidade de execução, coalizão, financiamento de
@@ -16,10 +20,10 @@ para o resto.
 ## Rodar
 
 ```bash
-node tools/servir.mjs      # http://localhost:8731
+node tools/servir.mjs      # http://localhost:8731 → /motor/
 ```
 
-Ou abra `index.html` com duplo clique — ele é autocontido e funciona offline.
+Ou abra `motor/index.html` com duplo clique — ele é autocontido e funciona offline.
 
 Sem `npm install`: **zero dependências**, Node 18+ apenas para os scripts.
 
@@ -29,11 +33,11 @@ npm run validate           # 16 travas + travas de processo — bloqueia o build
 npm test                   # 59 testes do motor + 7 perfis de referência
 npm run perfis:cobertura   # o que nenhum perfil exercita
 npm run perfis:mutacao     # o que pode ser apagado do corpus sem ninguém acusar
-npm run build              # valida e escreve index.html (arquivo único)
+npm run build              # valida e escreve motor/index.html (arquivo único)
 ```
 
-`index.html` é versionado e é o que o GitHub Pages serve. A CI recusa o deploy se ele
-estiver desatualizado em relação às fontes.
+`motor/index.html` é versionado e é o que o GitHub Pages serve em `/motor`. A CI
+recusa o deploy se ele estiver desatualizado em relação às fontes.
 
 ## Estrutura
 
@@ -48,7 +52,7 @@ src/validar.mjs    validarCorpus() — as 16 travas do §24
 src/relatorio.mjs  montarRelatorio() — única função com efeito de ambiente
 src/perfis.mjs     executor de perfis: verificação, cobertura, mutação
 src/ui.js          interface, sem framework
-tools/build.mjs    empacota tudo em index.html
+tools/build.mjs    empacota tudo em motor/index.html
 docs/CURADORIA.md  as decisões de curadoria e o viés que elas embutem
 ```
 
@@ -65,8 +69,9 @@ Só contar concordâncias positivas subestima quem se opõe às mesmas coisas qu
 concordância — vira **cobertura** menor. Afinidade e cobertura nunca aparecem
 separadas, porque afinidade sem cobertura mente: quem fala pouco erra pouco.
 
-**Ignorância, indiferença e ausência são três coisas.** `não sei`, `indiferente` e
-`não perguntado` são registrados separadamente e nenhum deles pesa.
+**Não opinar é resposta.** O ponto sai da conta em vez de virar meio-ponto para
+alguém. O motor distingue internamente "não opinou" de "não foi perguntado", e as
+duas coisas aparecem separadas no relatório.
 
 **Eixo que não separa fica fora da conta.** Incluir um consenso do campo no ranking
 inverte a ordem em favor de quem falou menos — é demonstrável e está no §20 da
@@ -74,9 +79,10 @@ especificação, com o contraexemplo virando teste literal. Esses eixos viram um
 métrica própria, `afinidade com o campo`, que responde outra pergunta: *o quanto este
 campo eleitoral inteiro me representa*.
 
-**Linha vermelha elimina, e nunca em silêncio.** Cada eliminação sai com a citação que
-a causou. Se todas caírem, o instrumento mostra o ranking que existiria sem as linhas
-vermelhas em vez de devolver conjunto vazio.
+**Inegociável elimina, e nunca em silêncio.** Marcar um ponto como inegociável não é
+dar peso alto a ele: quem pensa diferente sai da comparação, e sai com a frase do
+plano que causou a eliminação. Se todas caírem, o instrumento mostra a ordem que
+existiria sem os inegociáveis em vez de devolver conjunto vazio.
 
 **Empate é resultado válido.** Candidaturas dentro da margem (padrão 0,05) aparecem
 lado a lado, sem ordem entre elas. Os pesos foram escolhidos à mão e não têm precisão
