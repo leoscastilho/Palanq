@@ -164,6 +164,35 @@ pre.relatorio { white-space: pre-wrap; font-family: var(--mono); font-size: .76r
 .rodape-sep { opacity: .5; }
 .rodape-lema { font-weight: 600; color: #4a4741; }
 .rodape-ano { display: inline-flex; align-items: center; gap: 5px; }
+
+/* ── recolher no celular ────────────────────────────────────────────────────
+   Sem JS: o checkbox fica fora de vista e o rótulo é o botão. `display: contents`
+   faz os itens de .rodape-extra participarem do flex do rodapé como se o span
+   não existisse — só assim os separadores continuam alinhados na mesma linha. */
+.rodape-check { position: absolute; width: 1px; height: 1px; opacity: 0;
+                pointer-events: none; margin: 0; }
+.rodape-extra { display: contents; }
+.rodape-abrir { display: none; }
+
+@media (max-width: 640px) {
+  .rodape-in { flex-wrap: nowrap; }
+  .rodape-extra { display: none; }
+  .rodape-check:checked ~ .rodape-in .rodape-extra { display: contents; }
+  .rodape-check:checked ~ .rodape-in { flex-wrap: wrap; }
+  .rodape-abrir {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 22px; height: 22px; border-radius: 999px; cursor: pointer;
+    border: 1px solid rgba(0, 0, 0, .12); color: inherit;
+    transition: transform .2s ease;
+  }
+  .rodape-abrir svg { width: 12px; height: 12px; }
+  .rodape-check:checked ~ .rodape-in .rodape-abrir { transform: rotate(180deg); }
+  .rodape-check:focus-visible ~ .rodape-in .rodape-abrir { outline: 2px solid currentColor;
+                                                           outline-offset: 2px; }
+}
+@media (prefers-color-scheme: dark) {
+  .rodape-abrir { border-color: rgba(255, 255, 255, .18); }
+}
 .rodape-ano-sel { position: relative; display: inline-flex; align-items: center; }
 .rodape-ano-sel select {
   appearance: none; -webkit-appearance: none;
@@ -196,30 +225,40 @@ pre.relatorio { white-space: pre-wrap; font-family: var(--mono); font-size: .76r
 <main class="wrap" id="app"></main>
 
 <footer class="rodape">
+  <input type="checkbox" id="rodape-mais" class="rodape-check">
   <div class="rodape-in">
-    <span class="rodape-ano">
-      <span class="rodape-ano-sel">
-        <select aria-label="Ano da eleição">
-          <option value="2026" selected>2026</option>
-        </select>
-        <svg class="rodape-ano-seta" viewBox="0 0 12 12" aria-hidden="true">
-          <path d="M3 4.5 6 7.5 9 4.5" fill="none" stroke="currentColor" stroke-width="1.5"
-                stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </span>
-      Palanq
-    </span>
+    <span>Palanq</span>
     <span class="rodape-sep">•</span>
     <span>© 2026 <a href="https://www.linkedin.com/in/lscastilho/"
        target="_blank" rel="noopener noreferrer">Leo Castilho</a></span>
-    <span class="rodape-sep">•</span>
-    <a href="https://github.com/leoscastilho/Palanq/blob/main/LICENSE"
-       target="_blank" rel="noopener noreferrer">Licença MIT</a>
-    <span class="rodape-sep">•</span>
-    <a href="https://github.com/leoscastilho/Palanq/blob/main/docs/CURADORIA.md"
-       target="_blank" rel="noopener noreferrer">Entenda mais sobre as decisões</a>
-    <span class="rodape-sep">•</span>
-    <span class="rodape-lema">Vote consciente.</span>
+    <label for="rodape-mais" class="rodape-abrir" aria-label="Mostrar o resto do rodapé">
+      <svg viewBox="0 0 12 12" aria-hidden="true">
+        <path d="M3 7.5 6 4.5 9 7.5" fill="none" stroke="currentColor" stroke-width="1.6"
+              stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </label>
+    <span class="rodape-extra">
+      <span class="rodape-sep">•</span>
+      <a href="https://github.com/leoscastilho/Palanq/blob/main/LICENSE"
+         target="_blank" rel="noopener noreferrer">Licença MIT</a>
+      <span class="rodape-sep">•</span>
+      <a href="https://github.com/leoscastilho/Palanq/blob/main/docs/CURADORIA.md"
+         target="_blank" rel="noopener noreferrer">Entenda mais sobre as decisões</a>
+      <span class="rodape-sep">•</span>
+      <span class="rodape-lema">Vote consciente.</span>
+      <span class="rodape-sep">•</span>
+      <span class="rodape-ano">
+        <span class="rodape-ano-sel">
+          <select aria-label="Ano da eleição">
+            <option value="2026" selected>2026</option>
+          </select>
+          <svg class="rodape-ano-seta" viewBox="0 0 12 12" aria-hidden="true">
+            <path d="M3 4.5 6 7.5 9 4.5" fill="none" stroke="currentColor" stroke-width="1.5"
+                  stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+      </span>
+    </span>
   </div>
 </footer>
 

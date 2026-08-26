@@ -18,6 +18,9 @@ const Z = {
   linhasVermelhas: [],
   pedindoLado: false,
   virado: false,
+  // O usuário pediu para ir além da parada antecipada: daí em diante só encerra
+  // quando as perguntas acabarem de verdade.
+  continuar: false,
   margem: 0.05,
 };
 
@@ -77,6 +80,7 @@ const MINIMO = 10;
 const MINIMO_TEMAS = 8;
 function acabou(a) {
   if (!pergunta(a)) return true;                 // acabaram as perguntas
+  if (Z.continuar) return false;                 // o usuário pediu para responder o resto
   if (!a.decisao.estavel) return false;          // ainda dá para mudar quem lidera
   const div = a.classes.divisivos;
   const feitas = div.filter((d) => Z.respostas[d.eixo] !== undefined);
@@ -94,13 +98,15 @@ function recuperar() {
   try {
     const d = JSON.parse(localStorage.getItem(CHAVE_S) || "null");
     if (!d || d.cv !== CORPUS.corpusVersion) return false;
-    Object.assign(Z, { tela: d.tela, respostas: d.respostas || {}, linhasVermelhas: d.linhasVermelhas || [] });
+    Object.assign(Z, { tela: d.tela, respostas: d.respostas || {},
+                       linhasVermelhas: d.linhasVermelhas || [], continuar: !!d.continuar });
     Z.pedindoLado = false;
     return Object.keys(Z.respostas).length > 0;
   } catch { return false; }
 }
 function recomecar() {
-  Object.assign(Z, { tela: "abertura", respostas: {}, linhasVermelhas: [], pedindoLado: false });
+  Object.assign(Z, { tela: "abertura", respostas: {}, linhasVermelhas: [],
+                     pedindoLado: false, virado: false, continuar: false });
   try { localStorage.removeItem(CHAVE_S); } catch {}
   desenhar();
 }
@@ -291,7 +297,7 @@ function telaResultado() {
   const titulo = !lideres.length
     ? "Nenhuma candidatura sobrou"
     : caladosNoTopo.length === lideres.length
-    ? "Nenhum candidatoestá alinhado com suas opiniões"
+    ? "Nenhum candidato está alinhado com suas opiniões"
     : lideres.length === 1
     ? `${nomeC(lideres[0])} está mais alinhado com suas opiniões`
     : `Empate entre ${lideres.length}`;
@@ -335,7 +341,7 @@ function telaResultado() {
     <p class="mini" style="margin:0 0 .7rem">Paramos porque quem está no topo já não muda. Mas
     ${faltam === 1 ? "um tema continua" : `${faltam} temas continuam`} sem resposta, e a ordem de quem vem
     depois ainda vai mudar${caladosNoTopo.length ? " — inclusive o tanto de hachurado no topo" : ""}.</p>
-    <button data-ir="cartoes" style="border:1px solid var(--acento);border-radius:999px;padding:.5rem 1.1rem;background:var(--caixa)">${
+    <button data-ir="continuar" style="border:1px solid var(--acento);border-radius:999px;padding:.5rem 1.1rem;background:var(--caixa)">${
       faltam === 1 ? "Responder o último" : `Responder os ${faltam} restantes`}</button>
   </div>` : ""}
 
@@ -446,6 +452,7 @@ appEl.addEventListener("click", (ev) => {
   if (b.dataset.resp) return responderCartao(b.dataset.resp, b.dataset.ine === "1");
   switch (b.dataset.ir) {
     case "cartoes": Z.tela = "cartoes"; gravar(); desenhar(); break;
+    case "continuar": Z.continuar = true; Z.tela = "cartoes"; gravar(); desenhar(); break;
     case "recomecar": recomecar(); break;
     case "pedir-lado": Z.pedindoLado = true; desenhar(); break;
     case "cancelar-lado": Z.pedindoLado = false; desenhar(); break;
