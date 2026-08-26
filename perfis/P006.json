@@ -1,0 +1,45 @@
+{
+  "id": "P006",
+  "titulo": "Eleitor cujo líder quase não falou",
+  "autoria": {
+    "redigidoPor": null,
+    "independenteDoCorpus": false,
+    "data": null,
+    "nota": "ATENÇÃO — CIRCULARIDADE (§9.4/§25.2). Este perfil foi redigido por quem montou o corpus, olhando os eixos que o corpus tem. Ele mede se a curadoria é internamente consistente; NÃO mede se ela é justa. Um perfil escrito por um eleitor real, sem ver o corpus, vale mais do que os sete daqui somados."
+  },
+  "descricao": "É contra gestão privada no SUS e contra privatização, mas quer escola com disciplina e aceita endurecimento prisional de exceção. É contra flexibilizar o trabalho, contra auxílio sem contrapartida e a favor de estabilidade no emprego. Uma combinação que nenhum bloco cobre inteira.",
+  "respostas": {
+    "e_gestao_privada_saude": "discordo",
+    "e_privatizacoes": "discordo",
+    "e_ensino_civico_militar": "concordo",
+    "e_flexibilizacao_trabalhista": "discordo",
+    "e_encarceramento_excecao": "concordo",
+    "e_renda_sem_contrapartida": "discordo",
+    "e_estabilidade_emprego": "concordo"
+  },
+  "linhasVermelhas": [],
+  "esperado": {
+    "deveLiderar": [
+      "C05"
+    ],
+    "naoPodeLiderar": [
+      "C06",
+      "C07",
+      "C08",
+      "C02",
+      "C03"
+    ],
+    "deveEliminar": [],
+    "deveEmpatar": [],
+    "deveSinalizar": [],
+    "semAssercao": [
+      "C01",
+      "C04",
+      "C09",
+      "C10",
+      "C11",
+      "C12"
+    ]
+  },
+  "justificativa": "Lula lidera SOZINHO com afinidade 1,000 e cobertura 0,15: acertou o único eixo divisivo em que declarou posição. Logo atrás, Edmilson Costa tem 0,786 com cobertura 0,70. Este é o caso que o §18 existe para tornar impossível de ler errado — se o relatório mostrar 1,000 sem a cobertura ao lado, o instrumento mentiu sem dizer nenhuma inverdade."
+}

@@ -1,0 +1,50 @@
+{
+  "id": "P002",
+  "titulo": "Eleitor liberal-conservador",
+  "autoria": {
+    "redigidoPor": null,
+    "independenteDoCorpus": false,
+    "data": null,
+    "nota": "ATENÇÃO — CIRCULARIDADE (§9.4/§25.2). Este perfil foi redigido por quem montou o corpus, olhando os eixos que o corpus tem. Ele mede se a curadoria é internamente consistente; NÃO mede se ela é justa. Um perfil escrito por um eleitor real, sem ver o corpus, vale mais do que os sete daqui somados."
+  },
+  "descricao": "Empresário de cidade média. Acha o Estado grande e lento, quer o serviço público entregue a quem executa melhor, aceita gestão privada no SUS se a fila anda. Na escola quer ordem e hierarquia. Na segurança, acha que o país precisa endurecer de verdade, inclusive no que outros chamam de exceção. Rejeita auxílio sem contrapartida e acha a estabilidade no emprego um privilégio.",
+  "respostas": {
+    "e_gestao_privada_saude": "concordo",
+    "e_privatizacoes": "concordo",
+    "e_ensino_civico_militar": "concordo",
+    "e_flexibilizacao_trabalhista": "concordo",
+    "e_encarceramento_excecao": "concordo",
+    "e_renda_sem_contrapartida": "discordo",
+    "e_estabilidade_emprego": "discordo"
+  },
+  "linhasVermelhas": [],
+  "esperado": {
+    "deveLiderar": [
+      "C01",
+      "C02",
+      "C03",
+      "C04"
+    ],
+    "naoPodeLiderar": [
+      "C05",
+      "C09",
+      "C10",
+      "C11",
+      "C12"
+    ],
+    "deveEliminar": [],
+    "deveEmpatar": [
+      "C01",
+      "C02",
+      "C03",
+      "C04",
+      "C06",
+      "C08"
+    ],
+    "deveSinalizar": [],
+    "semAssercao": [
+      "C07"
+    ]
+  },
+  "justificativa": "Espelho de P001. Que P001 e P002 elejam blocos opostos é a checagem mínima de que o corpus não está degenerado. C06 e C08 entram no empate por silêncio (cobertura 0,15 e 0,30) e é por isso que aparecem em deveEmpatar mas não em deveLiderar como afirmação forte: o instrumento deve dizer que eles empatam por não terem falado."
+}

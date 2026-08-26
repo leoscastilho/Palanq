@@ -1,0 +1,59 @@
+name: build e deploy
+
+on:
+  push: { branches: [main] }
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: "20" }
+
+      # Corpus inconsistente não é publicável. Esta etapa bloqueia o deploy.
+      - name: validar corpus
+        run: npm run validate
+
+      - name: testes do motor e perfis de referência
+        run: npm test
+
+      # Relatórios: rodam e são impressos, mas NÃO falham o build.
+      # Cobertura e mutação medem o conjunto de perfis, não a corretude do motor.
+      - name: cobertura dos perfis
+        run: npm run perfis:cobertura
+        continue-on-error: true
+      - name: mutação
+        run: npm run perfis:mutacao
+        continue-on-error: true
+
+      - name: build do arquivo único
+        run: node tools/build.mjs
+
+      - name: conferir que o index.html versionado está atualizado
+        run: git diff --exit-code -- index.html
+          || (echo "::error::index.html está desatualizado — rode 'npm run build' e faça commit" && exit 1)
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with: { path: "." }
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - id: deploy
+        uses: actions/deploy-pages@v4

@@ -1,0 +1,2667 @@
+{
+  "schemaVersion": "1.0.0",
+  "corpusVersion": "0.1.0",
+  "escopo": {
+    "eleicao": "Eleição Geral de 2026",
+    "cargo": "Presidente da República",
+    "ambito": "Brasil",
+    "turno": 1
+  },
+  "status": "draft",
+  "aviso": "CORPUS EM RASCUNHO. As citações deste corpus são RESUMOS CURATORIAIS extraídos de source/propostas.md e source/auxiliar.md — não são transcrições literais dos planos de governo registrados. Os planos completos estão linkados em cada candidatura e prevalecem sobre qualquer resumo aqui. Este instrumento compara posições declaradas em documentos e NÃO recomenda voto.",
+  "curadoria": {
+    "responsavel": null,
+    "data": null,
+    "metodo": "Os eixos foram derivados por agrupamento das propostas e das oposições declaradas em source/propostas.md (o que cada candidatura defende) e source/auxiliar.md (o que cada candidatura declara combater). Uma postura 'contra' só foi registrada quando o texto declara rejeição àquela política; quando a postura foi inferida e não é literal, a inferência está no campo 'interpretacao' e é exibida ao usuário junto da citação.",
+    "criterioDeInclusao": "Foram incluídos todos os eixos com ao menos uma postura declarada nas fontes. Eixos em que nenhuma candidatura se opõe permanecem no corpus como não discriminantes: não entram no ranking e são reportados como consenso ou posição unilateral do campo.",
+    "revisadoPor": null,
+    "limitacoesConhecidas": [
+      "As citações são resumos curatoriais, não trechos literais dos planos registrados. Nenhuma postura tem, hoje, citação verbatim auditável.",
+      "Os códigos entre colchetes em source/auxiliar.md são internamente inconsistentes (C03 designa tanto Romeu Zema quanto Augusto Cury; Lula aparece como C12). Foram descartados; os IDs deste corpus seguem a ordem de source/propostas.md.",
+      "As candidaturas C09, C10, C11 e C12 têm plataformas idênticas em source/propostas.md; separam-se apenas pelas propostas exclusivas de source/auxiliar.md, que são majoritariamente não discriminantes. O empate entre elas no ranking é um fato do corpus, não um defeito do motor.",
+      "Os pesos dos eixos são escolha do curador e não vêm das fontes. Rode `node src/perfis.mjs mutacao` para ver de quais deles o resultado depende: hoje, dobrar o peso muda algum desfecho em 7 dos 55 eixos."
+    ]
+  },
+  "eixos": {
+    "e_privatizacoes": {
+      "label": "Privatizações, concessões e PPPs",
+      "pergunta": "Você concorda que ativos e serviços de infraestrutura pública sejam transferidos à iniciativa privada por meio de privatizações, concessões e parcerias público-privadas?",
+      "dominio": "economia",
+      "peso": 3,
+      "formulacaoNeutra": true,
+      "notaRedacao": null
+    },
+    "e_gestao_privada_saude": {
+      "label": "Gestão privada e OSs na saúde pública",
+      "pergunta": "Você concorda que o poder público amplie a oferta de saúde por convênios com organizações sociais, concessões à iniciativa privada e compra de serviços em estabelecimentos particulares?",
+      "dominio": "saude",
+      "peso": 3,
+      "formulacaoNeutra": true,
+      "notaRedacao": null
+    },
+    "e_ensino_civico_militar": {
+      "label": "Modelo escolar disciplinar / cívico-militar",
+      "pergunta": "Você concorda que a educação básica adote modelos de governança escolar centrados em disciplina, hierarquia e valores familiares?",
+      "dominio": "educacao",
+      "peso": 3,
+      "formulacaoNeutra": true,
+      "notaRedacao": null
+    },
+    "e_flexibilizacao_trabalhista": {
+      "label": "Flexibilização dos vínculos de trabalho",
+      "pergunta": "Você concorda com a flexibilização dos vínculos de trabalho — contratação por plataformas sem vínculo empregatício, terceirização ampla e prestação de serviço como pessoa jurídica?",
+      "dominio": "trabalho",
+      "peso": 3,
+      "formulacaoNeutra": true,
+      "notaRedacao": null
+    },
+    "e_encarceramento_excecao": {
+      "label": "Encarceramento de exceção",
+      "pergunta": "Você concorda com a adoção de regimes prisionais de exceção — encarceramento em larga escala e suspensão de garantias individuais — como política de segurança pública?",
+      "dominio": "seguranca",
+      "peso": 3,
+      "formulacaoNeutra": false,
+      "notaRedacao": "Não foi possível formular este eixo sem carga avaliativa: qualquer redação que descreva o mecanismo já o qualifica. Marcado para revisão."
+    },
+    "e_estabilidade_emprego": {
+      "label": "Estabilidade no emprego",
+      "pergunta": "Você concorda com a garantia legal de estabilidade no emprego após um período de vínculo, no serviço público e no setor privado?",
+      "dominio": "trabalho",
+      "peso": 2,
+      "formulacaoNeutra": true,
+      "notaRedacao": null
+    },
+    "e_renda_sem_contrapartida": {
+      "label": "Transferência de renda sem contrapartida",
+      "pergunta": "Você concorda com programas de transferência de renda pagos sem exigência de contrapartida em trabalho ou serviço comunitário?",
+      "dominio": "social",
+      "peso": 3,
+      "formulacaoNeutra": true,
+      "notaRedacao": null
+    },
+    "e_simplificacao_fiscal": {
+      "label": "Simplificação e automação fiscal",
+      "pergunta": "Você concorda com a simplificação de obrigações tributárias e a automação eletrônica de procedimentos fiscais para reduzir custos de conformidade?",
+      "dominio": "tributacao",
+      "peso": 2,
+      "formulacaoNeutra": true,
+      "notaRedacao": null
+    },
+    "e_justica_fiscal_progressiva": {
+      "label": "Tributação progressiva sobre renda, lucro e herança",
+      "pergunta": "Você concorda em deslocar a carga tributária para rendimentos elevados, lucros e heranças, desonerando o consumo básico?",
+      "dominio": "tributacao",
+      "peso": 3,
+      "formulacaoNeutra": true,
+      "notaRedacao": null
+    },
+    "e_reducao_jornada": {
+      "label": "Redução da jornada de trabalho",
+      "pergunta": "Você concorda com a redução da jornada semanal de trabalho acompanhada do reforço de garantias legais?",
+      "dominio": "trabalho",
+      "peso": 2,
+      "formulacaoNeutra": true,
+      "notaRedacao": null
+    },
+    "e_reestatizacao": {
+      "label": "Reestatização de empresas estratégicas",
+      "pergunta": "Você concorda com a retomada pelo Estado de empresas estratégicas que foram privatizadas?",
+      "dominio": "economia",
+      "peso": 3,
+      "formulacaoNeutra": true,
+      "notaRedacao": null
+    },
+    "e_teto_fiscal": {
+      "label": "Regras de teto e responsabilidade fiscal",
+      "pergunta": "Você concorda com a manutenção de regras que limitam o crescimento do gasto público, como o arcabouço fiscal e a Lei de Responsabilidade Fiscal?",
+      "dominio": "fiscal",
+      "peso": 3,
+      "formulacaoNeutra": true,
+      "notaRedacao": null
+    },
+    "e_servico_divida": {
+      "label": "Pagamento do serviço da dívida pública",
+      "pergunta": "Você concorda que o orçamento federal continue destinando recursos ao pagamento e à amortização dos títulos da dívida pública?",
+      "dominio": "fiscal",
+      "peso": 3,
+      "formulacaoNeutra": true,
+      "notaRedacao": null
+    },
+    "e_representacao_sindical": {
+      "label": "Financiamento compulsório e peso institucional dos sindicatos",
+      "pergunta": "Você concorda com a participação central de entidades sindicais na formulação de políticas públicas e com encargos compulsórios que as financiem?",
+      "dominio": "trabalho",
+      "peso": 1,
+      "formulacaoNeutra": true,
+      "notaRedacao": null
+    },
+    "e_conselhos_profissionais": {
+      "label": "Restrições de conselhos ao exercício profissional",
+      "pergunta": "Você concorda com a manutenção de exigências legais e de conselhos profissionais para o exercício de ocupações que não envolvem risco à integridade física?",
+      "dominio": "trabalho",
+      "peso": 2,
+      "formulacaoNeutra": true,
+      "notaRedacao": null
+    },
+    "e_escala_movel": {
+      "label": "Escala móvel de horas e pleno emprego",
+      "pergunta": "Você concorda com a redução da jornada para 36 horas sem redução salarial, com escala móvel que distribua as horas para garantir emprego a todos?",
+      "dominio": "trabalho",
+      "peso": 2,
+      "formulacaoNeutra": true,
+      "notaRedacao": null
+    },
+    "e_expropriacao_ouro": {
+      "label": "Estatização da cadeia do ouro",
+      "pergunta": "Você concorda com a estatização da produção nacional de ouro e metais preciosos para compor reservas cambiais públicas?",
+      "dominio": "economia",
+      "peso": 2,
+      "formulacaoNeutra": true,
+      "notaRedacao": null
+    },
+    "e_plataformas_estatais": {
+      "label": "Plataformas digitais estatais",
+      "pergunta": "Você concorda com a criação de aplicativos estatais de entrega e comércio eletrônico para concorrer com plataformas privadas?",
+      "dominio": "economia",
+      "peso": 2,
+      "formulacaoNeutra": true,
+      "notaRedacao": null
+    },
+    "e_proibicao_bets": {
+      "label": "Proibição de apostas eletrônicas",
+      "pergunta": "Você concorda com a proibição total das plataformas de apostas esportivas eletrônicas e a expropriação de seus ativos?",
+      "dominio": "economia",
+      "peso": 2,
+      "formulacaoNeutra": true,
+      "notaRedacao": null
+    },
+    "e_restricao_exportacao_alimentos": {
+      "label": "Restrição à exportação de alimentos essenciais",
+      "pergunta": "Você concorda com a proibição de exportar gêneros alimentícios essenciais antes de assegurado o abastecimento interno a preços populares?",
+      "dominio": "economia",
+      "peso": 2,
+      "formulacaoNeutra": true,
+      "notaRedacao": null
+    },
+    "e_aposentadoria_tempo_servico": {
+      "label": "Aposentadoria por tempo de serviço reduzido",
+      "pergunta": "Você concorda com aposentadoria garantida aos 25 anos de serviço para mulheres e 30 para homens?",
+      "dominio": "previdencia",
+      "peso": 2,
+      "formulacaoNeutra": true,
+      "notaRedacao": null
+    },
+    "e_vigilancia_massa": {
+      "label": "Vigilância eletrônica e reconhecimento facial",
+      "pergunta": "Você concorda com o monitoramento territorial por inteligência artificial, sensores e reconhecimento facial em larga escala?",
+      "dominio": "seguranca",
+      "peso": 3,
+      "formulacaoNeutra": true,
+      "notaRedacao": null
+    },
+    "e_isolamento_liderancas": {
+      "label": "Isolamento de lideranças de facções",
+      "pergunta": "Você concorda com presídios de segurança máxima e restrição rígida de comunicação para isolar lideranças de facções criminosas?",
+      "dominio": "seguranca",
+      "peso": 2,
+      "formulacaoNeutra": true,
+      "notaRedacao": null
+    },
+    "e_ministerio_seguranca": {
+      "label": "Pasta federal dedicada à segurança",
+      "pergunta": "Você concorda com a criação de um ministério federal específico para coordenar as ações de segurança e defesa social?",
+      "dominio": "seguranca",
+      "peso": 1,
+      "formulacaoNeutra": true,
+      "notaRedacao": null
+    },
+    "e_desmilitarizacao": {
+      "label": "Desmilitarização das polícias",
+      "pergunta": "Você concorda com a transição das forças de segurança para estruturas civis de policiamento preventivo de proximidade?",
+      "dominio": "seguranca",
+      "peso": 3,
+      "formulacaoNeutra": true,
+      "notaRedacao": null
+    },
+    "e_maioridade_penal": {
+      "label": "Redução da maioridade penal",
+      "pergunta": "Você concorda com a redução da maioridade penal para 16 anos e com punição penal severa a adolescentes a partir dos 14 por crimes dolosos graves?",
+      "dominio": "seguranca",
+      "peso": 3,
+      "formulacaoNeutra": true,
+      "notaRedacao": null
+    },
+    "e_fundo_vitimas": {
+      "label": "Redirecionamento do auxílio-reclusão",
+      "pergunta": "Você concorda em redirecionar as dotações do auxílio-reclusão para um fundo de indenização às famílias das vítimas de crimes graves?",
+      "dominio": "seguranca",
+      "peso": 1,
+      "formulacaoNeutra": true,
+      "notaRedacao": null
+    },
+    "e_seguranca_baseada_evidencias": {
+      "label": "Exigência de evidência empírica em segurança",
+      "pergunta": "Você concorda que práticas de policiamento só sejam adotadas mediante dados empíricos de eficácia e monitoramento de resultados?",
+      "dominio": "seguranca",
+      "peso": 2,
+      "formulacaoNeutra": true,
+      "notaRedacao": null
+    },
+    "e_ensino_superior_mcti": {
+      "label": "Ensino superior sob a pasta de Ciência e Tecnologia",
+      "pergunta": "Você concorda em deslocar o ensino superior e o fomento científico do MEC para o Ministério de Ciência, Tecnologia e Inovações?",
+      "dominio": "educacao",
+      "peso": 2,
+      "formulacaoNeutra": true,
+      "notaRedacao": null
+    },
+    "e_ensino_integral_civil": {
+      "label": "Escola em tempo integral e incentivo à permanência",
+      "pergunta": "Você concorda com a ampliação de escolas em tempo integral de natureza civil e com incentivos pecuniários contra o abandono escolar?",
+      "dominio": "educacao",
+      "peso": 2,
+      "formulacaoNeutra": true,
+      "notaRedacao": null
+    },
+    "e_estatizacao_ensino": {
+      "label": "Estatização integral do ensino",
+      "pergunta": "Você concorda com a estatização integral das estruturas educacionais do país?",
+      "dominio": "educacao",
+      "peso": 3,
+      "formulacaoNeutra": true,
+      "notaRedacao": null
+    },
+    "e_fim_vestibular": {
+      "label": "Fim dos exames de seleção para o ensino superior",
+      "pergunta": "Você concorda com o fim do vestibular e de outros exames de seleção como forma de ingresso no ensino superior público?",
+      "dominio": "educacao",
+      "peso": 2,
+      "formulacaoNeutra": true,
+      "notaRedacao": null
+    },
+    "e_pedagogia_socioemocional": {
+      "label": "Pedagogia socioemocional",
+      "pergunta": "Você concorda que o ensino básico substitua a transmissão expositiva de conteúdo por métodos que incluam desenvolvimento socioemocional?",
+      "dominio": "educacao",
+      "peso": 2,
+      "formulacaoNeutra": true,
+      "notaRedacao": null
+    },
+    "e_orcamento_educacao_pib": {
+      "label": "Piso de 10% do PIB para a educação",
+      "pergunta": "Você concorda com a vinculação de no mínimo 10% do PIB ao financiamento da educação pública?",
+      "dominio": "educacao",
+      "peso": 2,
+      "formulacaoNeutra": true,
+      "notaRedacao": null
+    },
+    "e_celular_em_sala": {
+      "label": "Uso de celular em sala de aula",
+      "pergunta": "Você concorda com a permissão do uso de aparelhos celulares em sala de aula?",
+      "dominio": "educacao",
+      "peso": 1,
+      "formulacaoNeutra": true,
+      "notaRedacao": null
+    },
+    "e_interoperabilidade_saude": {
+      "label": "Prontuário eletrônico integrado",
+      "pergunta": "Você concorda com a centralização de prontuários e exames em uma infraestrutura tecnológica que integre todos os estabelecimentos de saúde?",
+      "dominio": "saude",
+      "peso": 2,
+      "formulacaoNeutra": true,
+      "notaRedacao": null
+    },
+    "e_triagem_ia": {
+      "label": "Triagem de atendimento por inteligência artificial",
+      "pergunta": "Você concorda que encaminhamentos e consultas sejam regulados por sistemas de inteligência artificial que priorizem por risco clínico?",
+      "dominio": "saude",
+      "peso": 2,
+      "formulacaoNeutra": true,
+      "notaRedacao": null
+    },
+    "e_comunidades_terapeuticas": {
+      "label": "Repasse público a comunidades terapêuticas",
+      "pergunta": "Você concorda com a destinação de recursos públicos a comunidades terapêuticas de base privada ou religiosa para dependentes químicos?",
+      "dominio": "saude",
+      "peso": 2,
+      "formulacaoNeutra": true,
+      "notaRedacao": null
+    },
+    "e_foro_e_monocraticas": {
+      "label": "Foro penal em cortes superiores e decisões monocráticas",
+      "pergunta": "Você concorda com a competência de cortes constitucionais para julgar penalmente parlamentares e com decisões individuais de ministros que suspendam atos do Legislativo?",
+      "dominio": "justica",
+      "peso": 2,
+      "formulacaoNeutra": true,
+      "notaRedacao": null
+    },
+    "e_controle_externo_stf": {
+      "label": "Controle externo do Supremo Tribunal Federal",
+      "pergunta": "Você concorda com a criação de corregedoria externa ao STF e com a votação obrigatória, pelo Senado, de pedidos de destituição de ministros?",
+      "dominio": "justica",
+      "peso": 2,
+      "formulacaoNeutra": true,
+      "notaRedacao": null
+    },
+    "e_mandato_magistratura": {
+      "label": "Fim da vitaliciedade da magistratura",
+      "pergunta": "Você concorda com mandatos temporários e revogáveis por voto popular para juízes de tribunais regionais e superiores?",
+      "dominio": "justica",
+      "peso": 3,
+      "formulacaoNeutra": true,
+      "notaRedacao": null
+    },
+    "e_reeleicao_executivo": {
+      "label": "Reeleição consecutiva no Executivo",
+      "pergunta": "Você concorda com a manutenção da reeleição consecutiva para presidente, governadores e prefeitos?",
+      "dominio": "politica",
+      "peso": 2,
+      "formulacaoNeutra": true,
+      "notaRedacao": null
+    },
+    "e_emendas_impositivas": {
+      "label": "Emendas parlamentares impositivas",
+      "pergunta": "Você concorda com a manutenção de emendas parlamentares impositivas e de mecanismos de transferência orçamentária sem rastreabilidade?",
+      "dominio": "orcamento",
+      "peso": 2,
+      "formulacaoNeutra": true,
+      "notaRedacao": null
+    },
+    "e_sigilo_gastos": {
+      "label": "Sigilo sobre gastos da administração federal",
+      "pergunta": "Você concorda com a imposição de sigilos de longo prazo sobre gastos, notas fiscais e relatórios da administração federal?",
+      "dominio": "transparencia",
+      "peso": 1,
+      "formulacaoNeutra": true,
+      "notaRedacao": null
+    },
+    "e_financiamento_publico_campanhas": {
+      "label": "Fundo partidário e fundo eleitoral",
+      "pergunta": "Você concorda com a manutenção de recursos públicos (Fundo Partidário e Fundo Eleitoral) para custear partidos e campanhas?",
+      "dominio": "politica",
+      "peso": 2,
+      "formulacaoNeutra": true,
+      "notaRedacao": null
+    },
+    "e_unicameralismo": {
+      "label": "Parlamento unicameral e conselhos populares",
+      "pergunta": "Você concorda com a substituição do Congresso por um parlamento unicameral e com conselhos populares deliberativos como base da democracia direta?",
+      "dominio": "politica",
+      "peso": 3,
+      "formulacaoNeutra": true,
+      "notaRedacao": null
+    },
+    "e_fusao_municipios": {
+      "label": "Fusão compulsória de municípios",
+      "pergunta": "Você concorda com a fusão compulsória de pequenos municípios economicamente dependentes em distritos de maior escala?",
+      "dominio": "federativo",
+      "peso": 2,
+      "formulacaoNeutra": true,
+      "notaRedacao": null
+    },
+    "e_responsabilidade_gerencial": {
+      "label": "Sanção a governos locais por indicadores",
+      "pergunta": "Você concorda com a extinção de repasses e a penalização de partidos quando governos locais apresentam indicadores de saúde e emprego em declínio?",
+      "dominio": "federativo",
+      "peso": 1,
+      "formulacaoNeutra": true,
+      "notaRedacao": null
+    },
+    "e_centro_governo": {
+      "label": "Permanência ministerial vinculada a metas",
+      "pergunta": "Você concorda em vincular a permanência de ministros no cargo ao cumprimento de cartas de missão com indicadores rígidos?",
+      "dominio": "estado",
+      "peso": 1,
+      "formulacaoNeutra": true,
+      "notaRedacao": null
+    },
+    "e_despolarizacao": {
+      "label": "Governança pela despolarização",
+      "pergunta": "Você concorda que o governo deva ser conduzido pela busca ativa de acordo entre blocos ideológicos, em vez do confronto?",
+      "dominio": "politica",
+      "peso": 1,
+      "formulacaoNeutra": true,
+      "notaRedacao": null
+    },
+    "e_fixacao_pesquisadores": {
+      "label": "Contrapartida de fixação para pós-graduandos",
+      "pergunta": "Você concorda que o fomento à pós-graduação seja condicionado à fixação de carreiras e ao retorno tecnológico no país?",
+      "dominio": "ciencia",
+      "peso": 2,
+      "formulacaoNeutra": true,
+      "notaRedacao": null
+    },
+    "e_estatizacao_midia": {
+      "label": "Estatização de grupos de comunicação",
+      "pergunta": "Você concorda com o cancelamento das concessões de radiodifusão de grandes grupos de mídia e a transferência de seus ativos ao controle de trabalhadores?",
+      "dominio": "comunicacao",
+      "peso": 3,
+      "formulacaoNeutra": true,
+      "notaRedacao": null
+    },
+    "e_uso_obrigatorio_servicos_publicos": {
+      "label": "Uso obrigatório de SUS e escola pública por autoridades",
+      "pergunta": "Você concorda com a obrigação legal de que autoridades dos três poderes usem exclusivamente o SUS e as escolas públicas?",
+      "dominio": "estado",
+      "peso": 2,
+      "formulacaoNeutra": true,
+      "notaRedacao": null
+    },
+    "e_estatizacao_ferroviaria": {
+      "label": "Estatização do transporte ferroviário",
+      "pergunta": "Você concorda com a estatização da malha ferroviária e metroviária, retirando-a de concessões privadas?",
+      "dominio": "transporte",
+      "peso": 2,
+      "formulacaoNeutra": true,
+      "notaRedacao": null
+    },
+    "e_controle_torcedores": {
+      "label": "Controle de clubes por torcedores e trabalhadores",
+      "pergunta": "Você concorda com a transferência do controle dos clubes desportivos a torcedores e trabalhadores do setor?",
+      "dominio": "cultura",
+      "peso": 1,
+      "formulacaoNeutra": true,
+      "notaRedacao": null
+    }
+  },
+  "portoes": {
+    "p_apto": {
+      "pergunta": "Você está apto a votar nesta eleição (título eleitoral em situação regular)?",
+      "nota": "Sem aptidão eleitoral a comparação não tem consequência prática. Nenhuma candidatura se sustenta como resultado.",
+      "efeito": "invalida-todos-se-nao"
+    },
+    "p_ciente_limites": {
+      "pergunta": "Você entende que este instrumento compara apenas posições declaradas em documentos — ignorando histórico de mandato, capacidade de execução, coalizão e financiamento — e que ele não recomenda voto?",
+      "nota": "Portão de registro. Não altera nenhum estado; a resposta é gravada no relatório.",
+      "efeito": "registro"
+    }
+  },
+  "candidatos": [
+    {
+      "id": "C01",
+      "nome": "Flávio Bolsonaro",
+      "partido": null,
+      "planoUrl": "https://static.poder360.com.br/uploads/2026/08/FLAVIO-BOLSONARO-PARA-O-BRASIL-VENCER-O-ATRASO-1-1.pdf",
+      "planoNota": "Plano de governo integral, conforme publicado pelo Poder360. Prevalece sobre os resumos citados neste corpus.",
+      "posicoes": [
+        {
+          "eixo": "e_privatizacoes",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Parcerias e Privatizações: Transferência de ativos e serviços de infraestrutura pública à livre iniciativa por meio de privatizações, concessões e parcerias público-privadas, focando o Estado em atribuições primárias.",
+            "fonte": "source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/propostas.md › Flávio Bolsonaro › Eixo: Economia e Tributação",
+            "url": null,
+            "contexto": "item do eixo Economia e Tributação, ao lado da simplificação fiscal",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_gestao_privada_saude",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Gestão Assistencial Privada/OSs: Otimização da oferta assistencial por meio de convênios, concessões à iniciativa privada e contratação de horários e exames ociosos em estabelecimentos particulares.",
+            "fonte": "source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/propostas.md › Flávio Bolsonaro › Eixo: Saúde",
+            "url": null,
+            "contexto": "item do eixo Saúde",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_ensino_civico_militar",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Modelo de Ensino Disciplinar: Fortalecimento da disciplina comportamental nas instituições de ensino básico através de modelos de governança estruturada que enfatizem a ordem, hierarquia e valores familiares.",
+            "fonte": "source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/propostas.md › Flávio Bolsonaro › Eixo: Educação",
+            "url": null,
+            "contexto": "item do eixo Educação",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_flexibilizacao_trabalhista",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Oposição a Marcos Regulatórios Restritivos no Trabalho Digital: Contrariedade ativa à imposição de vínculos empregatícios rígidos que limitem a flexibilidade operacional dos serviços prestados por plataformas eletrônicas.",
+            "fonte": "source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/auxiliar.md › Parte 1 — Mapeamento de Oposições Explícitas › Flávio Bolsonaro",
+            "url": null,
+            "contexto": "eixo Governança do Trabalho e Organização Social",
+            "recuperadoEm": null
+          },
+          "interpretacao": "O plano não declara apoio explícito à flexibilização; declara contrariedade ativa à imposição de vínculos empregatícios rígidos no trabalho por plataformas. A postura \"favor\" é inferida dessa rejeição e é contestável."
+        },
+        {
+          "eixo": "e_encarceramento_excecao",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Complexo Federal “TREVA”: Instalação de 5 novos presídios de segurança máxima voltados ao isolamento absoluto de chefes de facções criminosas.",
+            "fonte": "source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/auxiliar.md › Parte 2 — Especificação e Diferenciação Programática › Flávio Bolsonaro",
+            "url": null,
+            "contexto": "subitem do bloco intitulado \"Infraestrutura Prisional de Padrão Salvadorenho\"",
+            "recuperadoEm": null
+          },
+          "interpretacao": "A postura \"favor\" apoia-se no enunciado curatorial que enquadra a proposta como padrão salvadorenho. O texto descreve presídios federais de segurança máxima para lideranças de facções — não encarceramento em massa nem suspensão de garantias. A inferência é do curador e é a mais frágil deste corpus."
+        },
+        {
+          "eixo": "e_simplificacao_fiscal",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Simplificação e Automação Fiscal: Reestruturação do sistema arrecadatório mediante a simplificação de obrigações e a automação de procedimentos fiscais por meios eletrônicos para reduzir custos de conformidade.",
+            "fonte": "source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/propostas.md › Flávio Bolsonaro › Eixo: Economia e Tributação",
+            "url": null,
+            "contexto": "primeiro item do eixo Economia e Tributação",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_representacao_sindical",
+          "postura": "contra",
+          "citacao": {
+            "texto": "Oposição à Monopolização e Ativismo Sindical: Rejeição explícita à centralidade de representações corporativistas na formulação de políticas públicas e à restauração de encargos compulsórios sobre trabalhadores.",
+            "fonte": "source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/auxiliar.md › Parte 1 — Mapeamento de Oposições Explícitas › Flávio Bolsonaro",
+            "url": null,
+            "contexto": "eixo Governança do Trabalho e Organização Social",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_vigilancia_massa",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Muralha Brasileira: Criação de uma malha nacional integrada de reconhecimento facial por inteligência artificial dotada de mais de 1 milhão de pontos de captura.",
+            "fonte": "source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/auxiliar.md › Parte 2 — Especificação e Diferenciação Programática › Flávio Bolsonaro",
+            "url": null,
+            "contexto": "bloco Vigilância Eletrônica de Massa",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_isolamento_liderancas",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Isolamento de Lideranças Prisionais: Adoção de padrões prisionais de segurança máxima e aplicação de restrições rígidas de comunicação e trânsito para neutralizar a influência de lideranças prisionais sobre o ambiente urbano.",
+            "fonte": "source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/propostas.md › Flávio Bolsonaro › Eixo: Segurança Pública",
+            "url": null,
+            "contexto": "item do eixo Segurança Pública",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_ministerio_seguranca",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Coordenação Federal Dedicada: Centralização da governança e coordenação de ações de defesa social por meio do estabelecimento de uma pasta ministerial específica de nível federal.",
+            "fonte": "source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/propostas.md › Flávio Bolsonaro › Eixo: Segurança Pública",
+            "url": null,
+            "contexto": "item do eixo Segurança Pública",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_maioridade_penal",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Punição a Maiores de 14 Anos: Defesa da redução da maioridade penal para 16 anos e punição penal severa a jovens a partir dos 14 anos por crimes dolosos graves.",
+            "fonte": "source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/auxiliar.md › Parte 2 — Especificação e Diferenciação Programática › Flávio Bolsonaro",
+            "url": null,
+            "contexto": "bloco Reformulação Penal e Assistencial de Custódia",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_fundo_vitimas",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Fundo de Indenização às Famílias das Vítimas: Redirecionamento integral de dotações destinadas ao auxílio-reclusão das famílias de detentos diretamente para as famílias das vítimas de crimes graves.",
+            "fonte": "source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/auxiliar.md › Parte 2 — Especificação e Diferenciação Programática › Flávio Bolsonaro",
+            "url": null,
+            "contexto": "bloco Reformulação Penal e Assistencial de Custódia",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_ensino_superior_mcti",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Integração de Ensino Superior e Ciência: Unificação institucional do ensino superior de tecnologia e das entidades de fomento científico sob a égide da pasta de Ciência, Tecnologia e Inovações, visando à sinergia com o setor produtivo.",
+            "fonte": "source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/propostas.md › Flávio Bolsonaro › Eixo: Educação",
+            "url": null,
+            "contexto": "item do eixo Educação",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_interoperabilidade_saude",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Interoperabilidade Tecnológica de Saúde: Implementação de infraestrutura tecnológica integrada para centralização de prontuários médicos e exames, permitindo a comunicação contínua entre diferentes estabelecimentos de atendimento sanitário.",
+            "fonte": "source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/propostas.md › Flávio Bolsonaro › Eixo: Saúde",
+            "url": null,
+            "contexto": "primeiro item do eixo Saúde",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_triagem_ia",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Triagem de Risco Clínico: Regulação de encaminhamentos e consultas por meio de sistemas eletrônicos que utilizam inteligência artificial para priorizar o atendimento com base no risco clínico dinâmico do cidadão.",
+            "fonte": "source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/propostas.md › Flávio Bolsonaro › Eixo: Saúde",
+            "url": null,
+            "contexto": "item do eixo Saúde",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_foro_e_monocraticas",
+          "postura": "contra",
+          "citacao": {
+            "texto": "Oposição à Jurisdição Penal Originária e Monocrática de Tribunais Superiores: Rejeição à competência de julgamento penal de parlamentares por cortes constitucionais e à validade de decisões individuais que suspendam atos do Legislativo.",
+            "fonte": "source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/auxiliar.md › Parte 1 — Mapeamento de Oposições Explícitas › Flávio Bolsonaro",
+            "url": null,
+            "contexto": "eixo Justiça e Equilíbrio de Poderes",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        }
+      ]
+    },
+    {
+      "id": "C02",
+      "nome": "Ronaldo Caiado",
+      "partido": null,
+      "planoUrl": "https://static.poder360.com.br/uploads/2026/08/Plano-de-Governo-Ronaldo-Caiado-Presidente.pdf",
+      "planoNota": "Plano de governo integral, conforme publicado pelo Poder360. Prevalece sobre os resumos citados neste corpus.",
+      "posicoes": [
+        {
+          "eixo": "e_privatizacoes",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Parcerias e Privatizações: Transferência de ativos e serviços de infraestrutura pública à livre iniciativa por meio de privatizações, concessões e parcerias público-privadas, focando o Estado em atribuições primárias.",
+            "fonte": "source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/propostas.md › Ronaldo Caiado › Eixo: Economia e Tributação",
+            "url": null,
+            "contexto": "item do eixo Economia e Tributação, ao lado da simplificação fiscal",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_gestao_privada_saude",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Gestão Assistencial Privada/OSs: Otimização da oferta assistencial por meio de convênios, concessões à iniciativa privada e contratação de horários e exames ociosos em estabelecimentos particulares.",
+            "fonte": "source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/propostas.md › Ronaldo Caiado › Eixo: Saúde",
+            "url": null,
+            "contexto": "item do eixo Saúde",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_ensino_civico_militar",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Modelo de Ensino Disciplinar: Fortalecimento da disciplina comportamental nas instituições de ensino básico através de modelos de governança estruturada que enfatizem a ordem, hierarquia e valores familiares.",
+            "fonte": "source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/propostas.md › Ronaldo Caiado › Eixo: Educação",
+            "url": null,
+            "contexto": "item do eixo Educação",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_simplificacao_fiscal",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Simplificação e Automação Fiscal: Reestruturação do sistema arrecadatório mediante a simplificação de obrigações e a automação de procedimentos fiscais por meios eletrônicos para reduzir custos de conformidade.",
+            "fonte": "source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/propostas.md › Ronaldo Caiado › Eixo: Economia e Tributação",
+            "url": null,
+            "contexto": "primeiro item do eixo Economia e Tributação",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_vigilancia_massa",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Vigilância Tecnológica Integrada: Fortalecimento do monitoramento territorial e da identificação de padrões por meio do uso integrado de inteligência artificial, sensores e monitoramento ótico digital.",
+            "fonte": "source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/propostas.md › Ronaldo Caiado › Eixo: Segurança Pública",
+            "url": null,
+            "contexto": "primeiro item do eixo Segurança Pública",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_isolamento_liderancas",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Isolamento de Lideranças Prisionais: Adoção de padrões prisionais de segurança máxima e aplicação de restrições rígidas de comunicação e trânsito para neutralizar a influência de lideranças prisionais sobre o ambiente urbano.",
+            "fonte": "source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/propostas.md › Ronaldo Caiado › Eixo: Segurança Pública",
+            "url": null,
+            "contexto": "item do eixo Segurança Pública",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_ministerio_seguranca",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Coordenação Federal Dedicada: Centralização da governança e coordenação de ações de defesa social por meio do estabelecimento de uma pasta ministerial específica de nível federal.",
+            "fonte": "source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/propostas.md › Ronaldo Caiado › Eixo: Segurança Pública",
+            "url": null,
+            "contexto": "item do eixo Segurança Pública",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_ensino_integral_civil",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Incentivos de Permanência e Ensino Integral: Ampliação das escolas em tempo integral de natureza civil e o fortalecimento de programas de incentivo pecuniário para mitigação do abandono escolar.",
+            "fonte": "source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/propostas.md › Ronaldo Caiado › Eixo: Educação",
+            "url": null,
+            "contexto": "item do eixo Educação",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_interoperabilidade_saude",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Interoperabilidade Tecnológica de Saúde: Implementação de infraestrutura tecnológica integrada para centralização de prontuários médicos e exames, permitindo a comunicação contínua entre diferentes estabelecimentos de atendimento sanitário.",
+            "fonte": "source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/propostas.md › Ronaldo Caiado › Eixo: Saúde",
+            "url": null,
+            "contexto": "primeiro item do eixo Saúde",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_triagem_ia",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Triagem de Risco Clínico: Regulação de encaminhamentos e consultas por meio de sistemas eletrônicos que utilizam inteligência artificial para priorizar o atendimento com base no risco clínico dinâmico do cidadão.",
+            "fonte": "source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/propostas.md › Ronaldo Caiado › Eixo: Saúde",
+            "url": null,
+            "contexto": "item do eixo Saúde",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_reeleicao_executivo",
+          "postura": "contra",
+          "citacao": {
+            "texto": "Oposição à Perpetuidade de Mandatos Executivos: Rejeição categórica à renovação consecutiva de mandatos presidenciais, estaduais e municipais como garantia de isonomia eleitoral e desvinculação da máquina pública.",
+            "fonte": "source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/auxiliar.md › Parte 1 — Mapeamento de Oposições Explícitas › Ronaldo Caiado",
+            "url": null,
+            "contexto": "eixo Reforma Política e Gestão de Campanha",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_emendas_impositivas",
+          "postura": "contra",
+          "citacao": {
+            "texto": "Oposição ao Alocamento de Recursos sem Rastreabilidade: Rejeição ao direcionamento de emendas impositivas e mecanismos de transferência orçamentária que fragmentem o orçamento ou careçam de acompanhamento transparente.",
+            "fonte": "source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/auxiliar.md › Parte 1 — Mapeamento de Oposições Explícitas › Ronaldo Caiado",
+            "url": null,
+            "contexto": "eixo Finanças Públicas e Orçamento",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_centro_governo",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Centro de Governo Integrado: Criação de um núcleo executivo com a atribuição de vincular a permanência ministerial ao atingimento de cartas de missão com indicadores sociais rígidos.",
+            "fonte": "source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/auxiliar.md › Parte 2 — Especificação e Diferenciação Programática › Ronaldo Caiado",
+            "url": null,
+            "contexto": "bloco Coordenação Rígida de Governo",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        }
+      ]
+    },
+    {
+      "id": "C03",
+      "nome": "Romeu Zema",
+      "partido": null,
+      "planoUrl": "https://static.poder360.com.br/uploads/2026/08/Plano_gov_Zema_2026.pdf",
+      "planoNota": "Plano de governo integral, conforme publicado pelo Poder360. Prevalece sobre os resumos citados neste corpus.",
+      "posicoes": [
+        {
+          "eixo": "e_privatizacoes",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Parcerias e Privatizações: Transferência de ativos e serviços de infraestrutura pública à livre iniciativa por meio de privatizações, concessões e parcerias público-privadas, focando o Estado em atribuições primárias.",
+            "fonte": "source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/propostas.md › Romeu Zema › Eixo: Economia e Tributação",
+            "url": null,
+            "contexto": "item do eixo Economia e Tributação, ao lado da simplificação fiscal",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_gestao_privada_saude",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Gestão Assistencial Privada/OSs: Otimização da oferta assistencial por meio de convênios, concessões à iniciativa privada e contratação de horários e exames ociosos em estabelecimentos particulares.",
+            "fonte": "source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/propostas.md › Romeu Zema › Eixo: Saúde",
+            "url": null,
+            "contexto": "item do eixo Saúde",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_ensino_civico_militar",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Modelo de Ensino Disciplinar: Fortalecimento da disciplina comportamental nas instituições de ensino básico através de modelos de governança estruturada que enfatizem a ordem, hierarquia e valores familiares.",
+            "fonte": "source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/propostas.md › Romeu Zema › Eixo: Educação",
+            "url": null,
+            "contexto": "item do eixo Educação",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_estabilidade_emprego",
+          "postura": "contra",
+          "citacao": {
+            "texto": "Contratação de Servidores sem Estabilidade Ampla: Criação de novos vínculos na administração pública que prescindam de estabilidade de carreira para cargos de natureza não típica de Estado.",
+            "fonte": "source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/auxiliar.md › Parte 2 — Especificação e Diferenciação Programática › Romeu Zema",
+            "url": null,
+            "contexto": "bloco Modernização Administrativa e de Carreira",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_simplificacao_fiscal",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Simplificação e Automação Fiscal: Reestruturação do sistema arrecadatório mediante a simplificação de obrigações e a automação de procedimentos fiscais por meios eletrônicos para reduzir custos de conformidade.",
+            "fonte": "source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/propostas.md › Romeu Zema › Eixo: Economia e Tributação",
+            "url": null,
+            "contexto": "primeiro item do eixo Economia e Tributação",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_conselhos_profissionais",
+          "postura": "contra",
+          "citacao": {
+            "texto": "Oposição a Barreiras Corporativas de Trabalho: Rejeição a restrições legais e de conselhos que limitem o livre exercício de profissões sem riscos iminentes à integridade física do cidadão.",
+            "fonte": "source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/auxiliar.md › Parte 1 — Mapeamento de Oposições Explícitas › Romeu Zema",
+            "url": null,
+            "contexto": "eixo Finanças e Reforma do Estado",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_vigilancia_massa",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Vigilância Tecnológica Integrada: Fortalecimento do monitoramento territorial e da identificação de padrões por meio do uso integrado de inteligência artificial, sensores e monitoramento ótico digital.",
+            "fonte": "source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/propostas.md › Romeu Zema › Eixo: Segurança Pública",
+            "url": null,
+            "contexto": "primeiro item do eixo Segurança Pública",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_isolamento_liderancas",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Isolamento de Lideranças Prisionais: Adoção de padrões prisionais de segurança máxima e aplicação de restrições rígidas de comunicação e trânsito para neutralizar a influência de lideranças prisionais sobre o ambiente urbano.",
+            "fonte": "source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/propostas.md › Romeu Zema › Eixo: Segurança Pública",
+            "url": null,
+            "contexto": "item do eixo Segurança Pública",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_ensino_superior_mcti",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Divisão de Competências do MEC: Concentração das atribuições do MEC unicamente na educação básica e de primeira infância, deslocando o ensino superior de forma definitiva para o MCTI.",
+            "fonte": "source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/auxiliar.md › Parte 2 — Especificação e Diferenciação Programática › Romeu Zema",
+            "url": null,
+            "contexto": "bloco Modernização Administrativa e de Carreira",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_interoperabilidade_saude",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Interoperabilidade Tecnológica de Saúde: Implementação de infraestrutura tecnológica integrada para centralização de prontuários médicos e exames, permitindo a comunicação contínua entre diferentes estabelecimentos de atendimento sanitário.",
+            "fonte": "source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/propostas.md › Romeu Zema › Eixo: Saúde",
+            "url": null,
+            "contexto": "primeiro item do eixo Saúde",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_triagem_ia",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Triagem de Risco Clínico: Regulação de encaminhamentos e consultas por meio de sistemas eletrônicos que utilizam inteligência artificial para priorizar o atendimento com base no risco clínico dinâmico do cidadão.",
+            "fonte": "source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/propostas.md › Romeu Zema › Eixo: Saúde",
+            "url": null,
+            "contexto": "item do eixo Saúde",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_controle_externo_stf",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Corregedoria Externa do STF: Instituição de corregedoria independente para avaliar a conduta administrativa e as extrapolações normativas de ministros da Corte Suprema.",
+            "fonte": "source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/auxiliar.md › Parte 2 — Especificação e Diferenciação Programática › Romeu Zema",
+            "url": null,
+            "contexto": "bloco Reforma do Sistema de Justiça e do Controle",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_sigilo_gastos",
+          "postura": "contra",
+          "citacao": {
+            "texto": "Oposição a Mecanismos de Sigilo Governamental: Rejeição à imposição de sigilos temporais extensos sobre gastos, notas fiscais e relatórios da administração federal.",
+            "fonte": "source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/auxiliar.md › Parte 1 — Mapeamento de Oposições Explícitas › Romeu Zema",
+            "url": null,
+            "contexto": "eixo Finanças e Reforma do Estado",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_financiamento_publico_campanhas",
+          "postura": "contra",
+          "citacao": {
+            "texto": "Oposição ao Financiamento Público de Partidos e Campanhas: Rejeição explícita à manutenção de dotações orçamentárias públicas (Fundos Partidário e Eleitoral) para o custeio de atividades partidárias.",
+            "fonte": "source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/auxiliar.md › Parte 1 — Mapeamento de Oposições Explícitas › Romeu Zema",
+            "url": null,
+            "contexto": "eixo Finanças e Reforma do Estado",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        }
+      ]
+    },
+    {
+      "id": "C04",
+      "nome": "Renan Missão",
+      "partido": null,
+      "planoUrl": "https://static.poder360.com.br/uploads/2026/08/Plano_gov_Renan_Missao_2026.pdf",
+      "planoNota": "Plano de governo integral, conforme publicado pelo Poder360. Prevalece sobre os resumos citados neste corpus.",
+      "posicoes": [
+        {
+          "eixo": "e_privatizacoes",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Parcerias e Privatizações: Transferência de ativos e serviços de infraestrutura pública à livre iniciativa por meio de privatizações, concessões e parcerias público-privadas, focando o Estado em atribuições primárias.",
+            "fonte": "source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/propostas.md › Renan Missão › Eixo: Economia e Tributação",
+            "url": null,
+            "contexto": "item do eixo Economia e Tributação, ao lado da simplificação fiscal",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_gestao_privada_saude",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Gestão Assistencial Privada/OSs: Otimização da oferta assistencial por meio de convênios, concessões à iniciativa privada e contratação de horários e exames ociosos em estabelecimentos particulares.",
+            "fonte": "source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/propostas.md › Renan Missão › Eixo: Saúde",
+            "url": null,
+            "contexto": "item do eixo Saúde",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_ensino_civico_militar",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Modelo de Ensino Disciplinar: Fortalecimento da disciplina comportamental nas instituições de ensino básico através de modelos de governança estruturada que enfatizem a ordem, hierarquia e valores familiares.",
+            "fonte": "source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/propostas.md › Renan Missão › Eixo: Educação",
+            "url": null,
+            "contexto": "item do eixo Educação",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_renda_sem_contrapartida",
+          "postura": "contra",
+          "citacao": {
+            "texto": "Oposição à Transferência de Renda sem Contrapartida Cívica: Rejeição ao formato assistencial tradicional e incondicional, propondo a transição para modelos baseados em atividades comunitárias públicas.",
+            "fonte": "source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/auxiliar.md › Parte 1 — Mapeamento de Oposições Explícitas › Renan Missão",
+            "url": null,
+            "contexto": "eixo Assistencialismo e Fomento",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_simplificacao_fiscal",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Simplificação e Automação Fiscal: Reestruturação do sistema arrecadatório mediante a simplificação de obrigações e a automação de procedimentos fiscais por meios eletrônicos para reduzir custos de conformidade.",
+            "fonte": "source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/propostas.md › Renan Missão › Eixo: Economia e Tributação",
+            "url": null,
+            "contexto": "primeiro item do eixo Economia e Tributação",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_vigilancia_massa",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Vigilância Tecnológica Integrada: Fortalecimento do monitoramento territorial e da identificação de padrões por meio do uso integrado de inteligência artificial, sensores e monitoramento ótico digital.",
+            "fonte": "source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/propostas.md › Renan Missão › Eixo: Segurança Pública",
+            "url": null,
+            "contexto": "primeiro item do eixo Segurança Pública",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_isolamento_liderancas",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Isolamento de Lideranças Prisionais: Adoção de padrões prisionais de segurança máxima e aplicação de restrições rígidas de comunicação e trânsito para neutralizar a influência de lideranças prisionais sobre o ambiente urbano.",
+            "fonte": "source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/propostas.md › Renan Missão › Eixo: Segurança Pública",
+            "url": null,
+            "contexto": "item do eixo Segurança Pública",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_ensino_superior_mcti",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Integração de Ensino Superior e Ciência: Unificação institucional do ensino superior de tecnologia e das entidades de fomento científico sob a égide da pasta de Ciência, Tecnologia e Inovações, visando à sinergia com o setor produtivo.",
+            "fonte": "source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/propostas.md › Renan Missão › Eixo: Educação",
+            "url": null,
+            "contexto": "item do eixo Educação",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_interoperabilidade_saude",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Interoperabilidade Tecnológica de Saúde: Implementação de infraestrutura tecnológica integrada para centralização de prontuários médicos e exames, permitindo a comunicação contínua entre diferentes estabelecimentos de atendimento sanitário.",
+            "fonte": "source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/propostas.md › Renan Missão › Eixo: Saúde",
+            "url": null,
+            "contexto": "primeiro item do eixo Saúde",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_triagem_ia",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Triagem de Risco Clínico: Regulação de encaminhamentos e consultas por meio de sistemas eletrônicos que utilizam inteligência artificial para priorizar o atendimento com base no risco clínico dinâmico do cidadão.",
+            "fonte": "source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/propostas.md › Renan Missão › Eixo: Saúde",
+            "url": null,
+            "contexto": "item do eixo Saúde",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_fusao_municipios",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Grande Consolidação Municipal: Programa compulsório de fusão de pequenos municípios economicamente dependentes e inviáveis em distritos de maior escala.",
+            "fonte": "source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/auxiliar.md › Parte 2 — Especificação e Diferenciação Programática › Renan Missão",
+            "url": null,
+            "contexto": "bloco Reorganização Territorial e Gerencial",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_responsabilidade_gerencial",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Lei de Responsabilidade Gerencial: Regulamentação que penaliza partidos políticos e extingue repasses estatais a governos locais que apresentem indicadores de saúde e emprego em declínio permanente.",
+            "fonte": "source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/auxiliar.md › Parte 2 — Especificação e Diferenciação Programática › Renan Missão",
+            "url": null,
+            "contexto": "bloco Governança por Desempenho Local",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        }
+      ]
+    },
+    {
+      "id": "C05",
+      "nome": "Luiz Inácio Lula da Silva",
+      "partido": null,
+      "planoUrl": "https://static.poder360.com.br/uploads/2026/08/plano-governo-lula.pdf",
+      "planoNota": "Plano de governo integral, conforme publicado pelo Poder360. Prevalece sobre os resumos citados neste corpus.",
+      "posicoes": [
+        {
+          "eixo": "e_flexibilizacao_trabalhista",
+          "postura": "contra",
+          "citacao": {
+            "texto": "Oposição à Pejotização e Subcontratação Irrestrita: Rejeição ativa a práticas contratuais que dissimulem vínculos empregatícios mediante regimes de pessoa jurídica para desoneração de responsabilidades fiscais.",
+            "fonte": "source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/auxiliar.md › Parte 1 — Mapeamento de Oposições Explícitas › Luiz Inácio Lula da Silva",
+            "url": null,
+            "contexto": "eixo Relações de Trabalho e Estrutura Organizacional",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_justica_fiscal_progressiva",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Justiça Fiscal Progressiva: Alteração da matriz de arrecadação nacional para privilegiar a tributação sobre rendimentos elevados, lucros e heranças, com desoneração correspondente sobre o consumo básico.",
+            "fonte": "source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/propostas.md › Luiz Inácio Lula da Silva › Eixo: Economia e Tributação",
+            "url": null,
+            "contexto": "primeiro item do eixo Economia e Tributação",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_reducao_jornada",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Humanização das Relações Laborais: Modificação das relações de trabalho mediante a limitação da jornada semanal e fortalecimento de garantias legais, visando à sustentabilidade social do trabalhador.",
+            "fonte": "source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/propostas.md › Luiz Inácio Lula da Silva › Eixo: Economia e Tributação",
+            "url": null,
+            "contexto": "item do eixo Economia e Tributação",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_vigilancia_massa",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Vigilância Tecnológica Integrada: Fortalecimento do monitoramento territorial e da identificação de padrões por meio do uso integrado de inteligência artificial, sensores e monitoramento ótico digital.",
+            "fonte": "source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/propostas.md › Luiz Inácio Lula da Silva › Eixo: Segurança Pública",
+            "url": null,
+            "contexto": "primeiro item do eixo Segurança Pública",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_ministerio_seguranca",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Coordenação Federal Dedicada: Centralização da governança e coordenação de ações de defesa social por meio do estabelecimento de uma pasta ministerial específica de nível federal.",
+            "fonte": "source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/propostas.md › Luiz Inácio Lula da Silva › Eixo: Segurança Pública",
+            "url": null,
+            "contexto": "item do eixo Segurança Pública",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_ensino_integral_civil",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Incentivos de Permanência e Ensino Integral: Ampliação das escolas em tempo integral de natureza civil e o fortalecimento de programas de incentivo pecuniário para mitigação do abandono escolar.",
+            "fonte": "source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/propostas.md › Luiz Inácio Lula da Silva › Eixo: Educação",
+            "url": null,
+            "contexto": "item do eixo Educação",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_interoperabilidade_saude",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Interoperabilidade Tecnológica de Saúde: Implementação de infraestrutura tecnológica integrada para centralização de prontuários médicos e exames, permitindo a comunicação contínua entre diferentes estabelecimentos de atendimento sanitário.",
+            "fonte": "source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/propostas.md › Luiz Inácio Lula da Silva › Eixo: Saúde",
+            "url": null,
+            "contexto": "primeiro item do eixo Saúde",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_triagem_ia",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Triagem de Risco Clínico: Regulação de encaminhamentos e consultas por meio de sistemas eletrônicos que utilizam inteligência artificial para priorizar o atendimento com base no risco clínico dinâmico do cidadão.",
+            "fonte": "source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/propostas.md › Luiz Inácio Lula da Silva › Eixo: Saúde",
+            "url": null,
+            "contexto": "item do eixo Saúde",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_emendas_impositivas",
+          "postura": "contra",
+          "citacao": {
+            "texto": "Oposição ao Orçamento Secreto e Emendas sem Planejamento: Rejeição a dispositivos orçamentários de emendas parlamentares impositivas que dispersem recursos de forma desconectada das prioridades do Plano Plurianual.",
+            "fonte": "source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/auxiliar.md › Parte 1 — Mapeamento de Oposições Explícitas › Luiz Inácio Lula da Silva",
+            "url": null,
+            "contexto": "eixo Relações de Trabalho e Estrutura Organizacional",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        }
+      ]
+    },
+    {
+      "id": "C06",
+      "nome": "Augusto Cury",
+      "partido": "Avante",
+      "planoUrl": "https://static.poder360.com.br/uploads/2026/08/Plano_gov_Augusto_Cury_2026.pdf",
+      "planoNota": "Plano de governo integral, conforme publicado pelo Poder360. Prevalece sobre os resumos citados neste corpus.",
+      "posicoes": [
+        {
+          "eixo": "e_gestao_privada_saude",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Gestão Assistencial Privada/OSs: Otimização da oferta assistencial por meio de convênios, concessões à iniciativa privada e contratação de horários e exames ociosos em estabelecimentos particulares.",
+            "fonte": "source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/propostas.md › Augusto Cury › Eixo: Saúde",
+            "url": null,
+            "contexto": "item do eixo Saúde",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_simplificacao_fiscal",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Simplificação e Automação Fiscal: Reestruturação do sistema arrecadatório mediante a simplificação de obrigações e a automação de procedimentos fiscais por meios eletrônicos para reduzir custos de conformidade.",
+            "fonte": "source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/propostas.md › Augusto Cury › Eixo: Economia e Tributação",
+            "url": null,
+            "contexto": "primeiro item do eixo Economia e Tributação",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_vigilancia_massa",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Vigilância Tecnológica Integrada: Fortalecimento do monitoramento territorial e da identificação de padrões por meio do uso integrado de inteligência artificial, sensores e monitoramento ótico digital.",
+            "fonte": "source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/propostas.md › Augusto Cury › Eixo: Segurança Pública",
+            "url": null,
+            "contexto": "primeiro item do eixo Segurança Pública",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_ministerio_seguranca",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Coordenação Federal Dedicada: Centralização da governança e coordenação de ações de defesa social por meio do estabelecimento de uma pasta ministerial específica de nível federal.",
+            "fonte": "source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/propostas.md › Augusto Cury › Eixo: Segurança Pública",
+            "url": null,
+            "contexto": "item do eixo Segurança Pública",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_ensino_integral_civil",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Incentivos de Permanência e Ensino Integral: Ampliação das escolas em tempo integral de natureza civil e o fortalecimento de programas de incentivo pecuniário para mitigação do abandono escolar.",
+            "fonte": "source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/propostas.md › Augusto Cury › Eixo: Educação",
+            "url": null,
+            "contexto": "item do eixo Educação",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_pedagogia_socioemocional",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Oposição ao Modelo Pedagógico Cartesiano Expositivo: Rejeição aos métodos de ensino baseados unicamente na absorção passiva de conteúdos, sem desenvolvimento socioemocional.",
+            "fonte": "source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/auxiliar.md › Parte 1 — Mapeamento de Oposições Explícitas › Augusto Cury",
+            "url": null,
+            "contexto": "eixo Cultura Política e Modelos Educacionais",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_interoperabilidade_saude",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Interoperabilidade Tecnológica de Saúde: Implementação de infraestrutura tecnológica integrada para centralização de prontuários médicos e exames, permitindo a comunicação contínua entre diferentes estabelecimentos de atendimento sanitário.",
+            "fonte": "source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/propostas.md › Augusto Cury › Eixo: Saúde",
+            "url": null,
+            "contexto": "primeiro item do eixo Saúde",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_triagem_ia",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Triagem de Risco Clínico: Regulação de encaminhamentos e consultas por meio de sistemas eletrônicos que utilizam inteligência artificial para priorizar o atendimento com base no risco clínico dinâmico do cidadão.",
+            "fonte": "source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/propostas.md › Augusto Cury › Eixo: Saúde",
+            "url": null,
+            "contexto": "item do eixo Saúde",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_despolarizacao",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Oposição à Polarização Ideológica e ao Confronto Retórico: Rejeição à governança baseada no antagonismo estéril de blocos ideológicos e à cultura do conflito nos Três Poderes.",
+            "fonte": "source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/auxiliar.md › Parte 1 — Mapeamento de Oposições Explícitas › Augusto Cury",
+            "url": null,
+            "contexto": "eixo Cultura Política e Modelos Educacionais",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        }
+      ]
+    },
+    {
+      "id": "C07",
+      "nome": "Wilson Grassi",
+      "partido": null,
+      "planoUrl": "https://static.poder360.com.br/uploads/2026/08/Plano_gov_Wilson_Grassi_2026.pdf",
+      "planoNota": "Plano de governo integral, conforme publicado pelo Poder360. Prevalece sobre os resumos citados neste corpus.",
+      "posicoes": [
+        {
+          "eixo": "e_gestao_privada_saude",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Gestão Assistencial Privada/OSs: Otimização da oferta assistencial por meio de convênios, concessões à iniciativa privada e contratação de horários e exames ociosos em estabelecimentos particulares.",
+            "fonte": "source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/propostas.md › Wilson Grassi › Eixo: Saúde",
+            "url": null,
+            "contexto": "item do eixo Saúde",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_encarceramento_excecao",
+          "postura": "contra",
+          "citacao": {
+            "texto": "Oposição a Regimes Extrajudiciais Prisionais: Rejeição à importação de suspensões de direitos individuais ou prisões em massa sem o devido processo legal.",
+            "fonte": "source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/auxiliar.md › Parte 1 — Mapeamento de Oposições Explícitas › Wilson Grassi",
+            "url": null,
+            "contexto": "eixo Ciência e Relações Comerciais",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_simplificacao_fiscal",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Simplificação e Automação Fiscal: Reestruturação do sistema arrecadatório mediante a simplificação de obrigações e a automação de procedimentos fiscais por meios eletrônicos para reduzir custos de conformidade.",
+            "fonte": "source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/propostas.md › Wilson Grassi › Eixo: Economia e Tributação",
+            "url": null,
+            "contexto": "primeiro item do eixo Economia e Tributação",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_vigilancia_massa",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Vigilância Tecnológica Integrada: Fortalecimento do monitoramento territorial e da identificação de padrões por meio do uso integrado de inteligência artificial, sensores e monitoramento ótico digital.",
+            "fonte": "source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/propostas.md › Wilson Grassi › Eixo: Segurança Pública",
+            "url": null,
+            "contexto": "primeiro item do eixo Segurança Pública",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_isolamento_liderancas",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Isolamento de Lideranças Prisionais: Adoção de padrões prisionais de segurança máxima e aplicação de restrições rígidas de comunicação e trânsito para neutralizar a influência de lideranças prisionais sobre o ambiente urbano.",
+            "fonte": "source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/propostas.md › Wilson Grassi › Eixo: Segurança Pública",
+            "url": null,
+            "contexto": "item do eixo Segurança Pública",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_ensino_integral_civil",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Incentivos de Permanência e Ensino Integral: Ampliação das escolas em tempo integral de natureza civil e o fortalecimento de programas de incentivo pecuniário para mitigação do abandono escolar.",
+            "fonte": "source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/propostas.md › Wilson Grassi › Eixo: Educação",
+            "url": null,
+            "contexto": "item do eixo Educação",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_interoperabilidade_saude",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Interoperabilidade Tecnológica de Saúde: Implementação de infraestrutura tecnológica integrada para centralização de prontuários médicos e exames, permitindo a comunicação contínua entre diferentes estabelecimentos de atendimento sanitário.",
+            "fonte": "source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/propostas.md › Wilson Grassi › Eixo: Saúde",
+            "url": null,
+            "contexto": "primeiro item do eixo Saúde",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_triagem_ia",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Triagem de Risco Clínico: Regulação de encaminhamentos e consultas por meio de sistemas eletrônicos que utilizam inteligência artificial para priorizar o atendimento com base no risco clínico dinâmico do cidadão.",
+            "fonte": "source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/propostas.md › Wilson Grassi › Eixo: Saúde",
+            "url": null,
+            "contexto": "item do eixo Saúde",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_fixacao_pesquisadores",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Oposição à Perda Passiva de Capital Intelectual: Rejeição à concessão de fomento à formação de pós-graduandos sem a devida fixação de carreiras e retorno tecnológico ao território nacional.",
+            "fonte": "source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/auxiliar.md › Parte 1 — Mapeamento de Oposições Explícitas › Wilson Grassi",
+            "url": null,
+            "contexto": "eixo Ciência e Relações Comerciais",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        }
+      ]
+    },
+    {
+      "id": "C08",
+      "nome": "Clariana Barão",
+      "partido": "DC",
+      "planoUrl": "https://static.poder360.com.br/uploads/2026/08/Plano_gov_DC_Clariana_Barao.pdf",
+      "planoNota": "Plano de governo integral, conforme publicado pelo Poder360. Prevalece sobre os resumos citados neste corpus.",
+      "posicoes": [
+        {
+          "eixo": "e_privatizacoes",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Parcerias e Privatizações: Transferência de ativos e serviços de infraestrutura pública à livre iniciativa por meio de privatizações, concessões e parcerias público-privadas, focando o Estado em atribuições primárias.",
+            "fonte": "source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/propostas.md › Clariana Barão › Eixo: Economia e Tributação",
+            "url": null,
+            "contexto": "item do eixo Economia e Tributação, ao lado da simplificação fiscal",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_gestao_privada_saude",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Gestão Assistencial Privada/OSs: Otimização da oferta assistencial por meio de convênios, concessões à iniciativa privada e contratação de horários e exames ociosos em estabelecimentos particulares.",
+            "fonte": "source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/propostas.md › Clariana Barão › Eixo: Saúde",
+            "url": null,
+            "contexto": "item do eixo Saúde",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_simplificacao_fiscal",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Simplificação e Automação Fiscal: Reestruturação do sistema arrecadatório mediante a simplificação de obrigações e a automação de procedimentos fiscais por meios eletrônicos para reduzir custos de conformidade.",
+            "fonte": "source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/propostas.md › Clariana Barão › Eixo: Economia e Tributação",
+            "url": null,
+            "contexto": "primeiro item do eixo Economia e Tributação",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_vigilancia_massa",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Vigilância Tecnológica Integrada: Fortalecimento do monitoramento territorial e da identificação de padrões por meio do uso integrado de inteligência artificial, sensores e monitoramento ótico digital.",
+            "fonte": "source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/propostas.md › Clariana Barão › Eixo: Segurança Pública",
+            "url": null,
+            "contexto": "primeiro item do eixo Segurança Pública",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_seguranca_baseada_evidencias",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Oposição a Políticas de Segurança sem Evidências: Rejeição a práticas de policiamento e contenção urbana que careçam de dados empíricos de eficácia e monitoramento de resultados.",
+            "fonte": "source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/auxiliar.md › Parte 1 — Mapeamento de Oposições Explícitas › Clariana Barão",
+            "url": null,
+            "contexto": "eixo Políticas de Defesa Social e Gênero",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_interoperabilidade_saude",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Interoperabilidade Tecnológica de Saúde: Implementação de infraestrutura tecnológica integrada para centralização de prontuários médicos e exames, permitindo a comunicação contínua entre diferentes estabelecimentos de atendimento sanitário.",
+            "fonte": "source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/propostas.md › Clariana Barão › Eixo: Saúde",
+            "url": null,
+            "contexto": "primeiro item do eixo Saúde",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        }
+      ]
+    },
+    {
+      "id": "C09",
+      "nome": "Samara Martins",
+      "partido": "UP",
+      "planoUrl": "https://static.poder360.com.br/uploads/2026/08/Plano_gov_Samara_UP_2026.pdf.pdf",
+      "planoNota": "Plano de governo integral, conforme publicado pelo Poder360. Prevalece sobre os resumos citados neste corpus.",
+      "posicoes": [
+        {
+          "eixo": "e_privatizacoes",
+          "postura": "contra",
+          "citacao": {
+            "texto": "Oposição à Gestão Privada de Serviços Públicos: Rejeição irrestrita a convênios com Organizações Sociais (OSs), fundações de direito privado e privatização de hospitais, escolas, transportes e saneamento.",
+            "fonte": "source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/auxiliar.md › Parte 1 — Mapeamento de Oposições Explícitas › Samara Martins",
+            "url": null,
+            "contexto": "eixo Gestão de Serviços Sociais, no bloco compartilhado por UP, PCB, PSTU e PCO",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_gestao_privada_saude",
+          "postura": "contra",
+          "citacao": {
+            "texto": "Abolição Sanitária Privada e Estatização SUS: Nacionalização integral das entidades médico-hospitalares, descredenciamento definitivo de operadoras de planos de saúde e gestão sanitária realizada por representações de trabalhadores.",
+            "fonte": "source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/propostas.md › Samara Martins › Eixo: Saúde",
+            "url": null,
+            "contexto": "único item do eixo Saúde nas quatro candidaturas",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_ensino_civico_militar",
+          "postura": "contra",
+          "citacao": {
+            "texto": "Oposição ao Ensino Militarizado e Projetos de Controle Ideológico: Rejeição a modelos escolares cívico-militarizados e a restrições de debate docente nas salas de aula.",
+            "fonte": "source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/auxiliar.md › Parte 1 — Mapeamento de Oposições Explícitas › Samara Martins",
+            "url": null,
+            "contexto": "eixo Gestão de Serviços Sociais, no bloco compartilhado",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_flexibilizacao_trabalhista",
+          "postura": "contra",
+          "citacao": {
+            "texto": "Oposição a Reformas Neoliberais e Terceirização: Rejeição integral às reformas trabalhista e previdenciária promovidas desde 2016 e à flexibilização de contratações indiretas.",
+            "fonte": "source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/auxiliar.md › Parte 1 — Mapeamento de Oposições Explícitas › Samara Martins",
+            "url": null,
+            "contexto": "eixo Relações Trabalhistas e Previdenciárias, no bloco compartilhado",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_justica_fiscal_progressiva",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Justiça Fiscal Progressiva: Alteração da matriz de arrecadação nacional para privilegiar a tributação sobre rendimentos elevados, lucros e heranças, com desoneração correspondente sobre o consumo básico.",
+            "fonte": "source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/propostas.md › Samara Martins › Eixo: Economia e Tributação",
+            "url": null,
+            "contexto": "primeiro item do eixo Economia e Tributação",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_reducao_jornada",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Humanização das Relações Laborais: Modificação das relações de trabalho mediante a limitação da jornada semanal e fortalecimento de garantias legais, visando à sustentabilidade social do trabalhador.",
+            "fonte": "source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/propostas.md › Samara Martins › Eixo: Economia e Tributação",
+            "url": null,
+            "contexto": "item do eixo Economia e Tributação",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_reestatizacao",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Reestatização e Gestão da Dívida: Retomada de empresas estratégicas privatizadas e revisão soberana do endividamento público, direcionando os recursos correspondentes diretamente para finalidades sociais estruturantes.",
+            "fonte": "source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/propostas.md › Samara Martins › Eixo: Economia e Tributação",
+            "url": null,
+            "contexto": "item do eixo Economia e Tributação",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_teto_fiscal",
+          "postura": "contra",
+          "citacao": {
+            "texto": "Oposição às Regras de Responsabilidade e Teto Fiscal: Rejeição absoluta ao Arcabouço Fiscal, à Lei de Responsabilidade Fiscal e a limites fiscais de gastos correntes e sociais.",
+            "fonte": "source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/auxiliar.md › Parte 1 — Mapeamento de Oposições Explícitas › Samara Martins",
+            "url": null,
+            "contexto": "eixo Matriz Macroeconômica e Finanças Públicas, no bloco compartilhado",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_servico_divida",
+          "postura": "contra",
+          "citacao": {
+            "texto": "Oposição ao Serviço da Dívida e Agiotagem Financeira: Rejeição ao direcionamento de recursos federais para o pagamento e amortização de títulos da dívida pública, exigindo auditoria imediata.",
+            "fonte": "source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/auxiliar.md › Parte 1 — Mapeamento de Oposições Explícitas › Samara Martins",
+            "url": null,
+            "contexto": "eixo Matriz Macroeconômica e Finanças Públicas, no bloco compartilhado",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_restricao_exportacao_alimentos",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Restrição à Exportação Agrícola: Proibição da exportação de gêneros alimentícios essenciais sem o prévio abastecimento seguro do mercado interno a preços populares.",
+            "fonte": "source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/auxiliar.md › Parte 2 — Especificação e Diferenciação Programática › Samara Martins",
+            "url": null,
+            "contexto": "bloco Abastecimento e Soberania Alimentar",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_desmilitarizacao",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Desmilitarização e Policiamento de Direitos: Transição organizacional das forças de segurança interna para estruturas essencialmente civis de policiamento preventivo de proximidade, pautadas estritamente na proteção de garantias fundamentais.",
+            "fonte": "source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/propostas.md › Samara Martins › Eixo: Segurança Pública",
+            "url": null,
+            "contexto": "único item do eixo Segurança Pública nas quatro candidaturas",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_estatizacao_ensino",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Estatização e Acesso Irrestrito: Estatização integral das estruturas educacionais e desregulamentação dos mecanismos de seleção para o acesso universal e irrestrito ao ensino superior público.",
+            "fonte": "source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/propostas.md › Samara Martins › Eixo: Educação",
+            "url": null,
+            "contexto": "único item do eixo Educação nas quatro candidaturas",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_fim_vestibular",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Oposição a Exames de Seleção Universitária: Rejeição ao sistema de vestibulares ou quaisquer métodos de seleção excludente para o ingresso no ensino superior.",
+            "fonte": "source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/auxiliar.md › Parte 1 — Mapeamento de Oposições Explícitas › Samara Martins",
+            "url": null,
+            "contexto": "eixo Gestão de Serviços Sociais, no bloco compartilhado",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_orcamento_educacao_pib",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Orçamento Mínimo Vinculado: Defesa de teto de dotação orçamentária fixa de, no mínimo, 10% do PIB diretamente para o fomento da educação pública básica e superior.",
+            "fonte": "source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/auxiliar.md › Parte 2 — Especificação e Diferenciação Programática › Samara Martins",
+            "url": null,
+            "contexto": "bloco Políticas Educacionais e de Infraestrutura",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_comunidades_terapeuticas",
+          "postura": "contra",
+          "citacao": {
+            "texto": "Oposição a Comunidades Terapêuticas de Base Privada: Rejeição à destinação de recursos públicos para entidades de acolhimento asilares ou de base religiosa para dependentes químicos.",
+            "fonte": "source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/auxiliar.md › Parte 1 — Mapeamento de Oposições Explícitas › Samara Martins",
+            "url": null,
+            "contexto": "eixo Gestão de Serviços Sociais, no bloco compartilhado",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_uso_obrigatorio_servicos_publicos",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Uso Obrigatório de Serviços Públicos: Determinação legal para que o Presidente, prefeitos, juízes e parlamentares utilizem exclusivamente o SUS e as escolas públicas para si e seus dependentes, alinhando a vivência decisória à realidade popular.",
+            "fonte": "source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/auxiliar.md › Parte 2 — Especificação e Diferenciação Programática › Samara Martins",
+            "url": null,
+            "contexto": "bloco Atuação de Agentes Públicos e Responsabilidade Direta",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_estatizacao_ferroviaria",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Soberania em Transportes: Estatização imediata da CBTU e foco no Plano Nacional de Malha Ferroviária e Metroviária para reduzir a poluição e retirar frotas de concessões privadas.",
+            "fonte": "source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/auxiliar.md › Parte 2 — Especificação e Diferenciação Programática › Samara Martins",
+            "url": null,
+            "contexto": "bloco Políticas Educacionais e de Infraestrutura",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        }
+      ]
+    },
+    {
+      "id": "C10",
+      "nome": "Edmilson Costa",
+      "partido": "PCB",
+      "planoUrl": "https://static.poder360.com.br/uploads/2026/08/Plano_gov_Edmilson_Costa_PCB_2026.pdf",
+      "planoNota": "Plano de governo integral, conforme publicado pelo Poder360. Prevalece sobre os resumos citados neste corpus.",
+      "posicoes": [
+        {
+          "eixo": "e_privatizacoes",
+          "postura": "contra",
+          "citacao": {
+            "texto": "Oposição à Gestão Privada de Serviços Públicos: Rejeição irrestrita a convênios com Organizações Sociais (OSs), fundações de direito privado e privatização de hospitais, escolas, transportes e saneamento.",
+            "fonte": "source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/auxiliar.md › Parte 1 — Mapeamento de Oposições Explícitas › Edmilson Costa",
+            "url": null,
+            "contexto": "eixo Gestão de Serviços Sociais, no bloco compartilhado por UP, PCB, PSTU e PCO",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_gestao_privada_saude",
+          "postura": "contra",
+          "citacao": {
+            "texto": "Abolição Sanitária Privada e Estatização SUS: Nacionalização integral das entidades médico-hospitalares, descredenciamento definitivo de operadoras de planos de saúde e gestão sanitária realizada por representações de trabalhadores.",
+            "fonte": "source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/propostas.md › Edmilson Costa › Eixo: Saúde",
+            "url": null,
+            "contexto": "único item do eixo Saúde nas quatro candidaturas",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_ensino_civico_militar",
+          "postura": "contra",
+          "citacao": {
+            "texto": "Oposição ao Ensino Militarizado e Projetos de Controle Ideológico: Rejeição a modelos escolares cívico-militarizados e a restrições de debate docente nas salas de aula.",
+            "fonte": "source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/auxiliar.md › Parte 1 — Mapeamento de Oposições Explícitas › Edmilson Costa",
+            "url": null,
+            "contexto": "eixo Gestão de Serviços Sociais, no bloco compartilhado",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_flexibilizacao_trabalhista",
+          "postura": "contra",
+          "citacao": {
+            "texto": "Oposição a Reformas Neoliberais e Terceirização: Rejeição integral às reformas trabalhista e previdenciária promovidas desde 2016 e à flexibilização de contratações indiretas.",
+            "fonte": "source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/auxiliar.md › Parte 1 — Mapeamento de Oposições Explícitas › Edmilson Costa",
+            "url": null,
+            "contexto": "eixo Relações Trabalhistas e Previdenciárias, no bloco compartilhado",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_estabilidade_emprego",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Estabilidade Geral no Emprego: Restabelecimento da estabilidade no emprego para todos os trabalhadores (públicos e privados) após 5 anos de vínculo (OIT 158).",
+            "fonte": "source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/auxiliar.md › Parte 2 — Especificação e Diferenciação Programática › Edmilson Costa",
+            "url": null,
+            "contexto": "bloco Regulação e Controle Financeiro",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_justica_fiscal_progressiva",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Justiça Fiscal Progressiva: Alteração da matriz de arrecadação nacional para privilegiar a tributação sobre rendimentos elevados, lucros e heranças, com desoneração correspondente sobre o consumo básico.",
+            "fonte": "source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/propostas.md › Edmilson Costa › Eixo: Economia e Tributação",
+            "url": null,
+            "contexto": "primeiro item do eixo Economia e Tributação",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_reducao_jornada",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Humanização das Relações Laborais: Modificação das relações de trabalho mediante a limitação da jornada semanal e fortalecimento de garantias legais, visando à sustentabilidade social do trabalhador.",
+            "fonte": "source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/propostas.md › Edmilson Costa › Eixo: Economia e Tributação",
+            "url": null,
+            "contexto": "item do eixo Economia e Tributação",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_reestatizacao",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Reestatização e Gestão da Dívida: Retomada de empresas estratégicas privatizadas e revisão soberana do endividamento público, direcionando os recursos correspondentes diretamente para finalidades sociais estruturantes.",
+            "fonte": "source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/propostas.md › Edmilson Costa › Eixo: Economia e Tributação",
+            "url": null,
+            "contexto": "item do eixo Economia e Tributação",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_teto_fiscal",
+          "postura": "contra",
+          "citacao": {
+            "texto": "Oposição às Regras de Responsabilidade e Teto Fiscal: Rejeição absoluta ao Arcabouço Fiscal, à Lei de Responsabilidade Fiscal e a limites fiscais de gastos correntes e sociais.",
+            "fonte": "source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/auxiliar.md › Parte 1 — Mapeamento de Oposições Explícitas › Edmilson Costa",
+            "url": null,
+            "contexto": "eixo Matriz Macroeconômica e Finanças Públicas, no bloco compartilhado",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_servico_divida",
+          "postura": "contra",
+          "citacao": {
+            "texto": "Oposição ao Serviço da Dívida e Agiotagem Financeira: Rejeição ao direcionamento de recursos federais para o pagamento e amortização de títulos da dívida pública, exigindo auditoria imediata.",
+            "fonte": "source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/auxiliar.md › Parte 1 — Mapeamento de Oposições Explícitas › Edmilson Costa",
+            "url": null,
+            "contexto": "eixo Matriz Macroeconômica e Finanças Públicas, no bloco compartilhado",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_proibicao_bets",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Proibição de Apostas Virtuais (BETs): Interdição total de plataformas de apostas eletrônicas esportivas e expropriação imediata de seus ativos financeiros.",
+            "fonte": "source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/auxiliar.md › Parte 2 — Especificação e Diferenciação Programática › Edmilson Costa",
+            "url": null,
+            "contexto": "bloco Regulação e Controle Financeiro",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_desmilitarizacao",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Desmilitarização e Policiamento de Direitos: Transição organizacional das forças de segurança interna para estruturas essencialmente civis de policiamento preventivo de proximidade, pautadas estritamente na proteção de garantias fundamentais.",
+            "fonte": "source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/propostas.md › Edmilson Costa › Eixo: Segurança Pública",
+            "url": null,
+            "contexto": "único item do eixo Segurança Pública nas quatro candidaturas",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_estatizacao_ensino",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Estatização e Acesso Irrestrito: Estatização integral das estruturas educacionais e desregulamentação dos mecanismos de seleção para o acesso universal e irrestrito ao ensino superior público.",
+            "fonte": "source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/propostas.md › Edmilson Costa › Eixo: Educação",
+            "url": null,
+            "contexto": "único item do eixo Educação nas quatro candidaturas",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_fim_vestibular",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Oposição a Exames de Seleção Universitária: Rejeição ao sistema de vestibulares ou quaisquer métodos de seleção excludente para o ingresso no ensino superior.",
+            "fonte": "source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/auxiliar.md › Parte 1 — Mapeamento de Oposições Explícitas › Edmilson Costa",
+            "url": null,
+            "contexto": "eixo Gestão de Serviços Sociais, no bloco compartilhado",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_comunidades_terapeuticas",
+          "postura": "contra",
+          "citacao": {
+            "texto": "Oposição a Comunidades Terapêuticas de Base Privada: Rejeição à destinação de recursos públicos para entidades de acolhimento asilares ou de base religiosa para dependentes químicos.",
+            "fonte": "source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/auxiliar.md › Parte 1 — Mapeamento de Oposições Explícitas › Edmilson Costa",
+            "url": null,
+            "contexto": "eixo Gestão de Serviços Sociais, no bloco compartilhado",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_mandato_magistratura",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Mandatos Temporários para a Magistratura: Instituição de mandatos de 10 anos, elegíveis e revogáveis pelo voto popular, para juízes de Tribunais Regionais e Superiores, pondo fim à vitaliciedade.",
+            "fonte": "source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/auxiliar.md › Parte 2 — Especificação e Diferenciação Programática › Edmilson Costa",
+            "url": null,
+            "contexto": "bloco Democratização e Controle do Judiciário",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_unicameralismo",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Unicameralismo e Extinção do Senado: Substituição do Congresso Nacional por um Parlamento Unicameral e instauração dos Conselhos Populares deliberativos (trabalho, moradia e estudo) como base da democracia direta.",
+            "fonte": "source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/auxiliar.md › Parte 2 — Especificação e Diferenciação Programática › Edmilson Costa",
+            "url": null,
+            "contexto": "bloco Reforma do Estado e Poder Popular",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        }
+      ]
+    },
+    {
+      "id": "C11",
+      "nome": "Hertz Dias",
+      "partido": "PSTU",
+      "planoUrl": "https://static.poder360.com.br/uploads/2026/08/Plano_gov_Hertz_Dias_PSTU_2026.pdf",
+      "planoNota": "Plano de governo integral, conforme publicado pelo Poder360. Prevalece sobre os resumos citados neste corpus.",
+      "posicoes": [
+        {
+          "eixo": "e_privatizacoes",
+          "postura": "contra",
+          "citacao": {
+            "texto": "Oposição à Gestão Privada de Serviços Públicos: Rejeição irrestrita a convênios com Organizações Sociais (OSs), fundações de direito privado e privatização de hospitais, escolas, transportes e saneamento.",
+            "fonte": "source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/auxiliar.md › Parte 1 — Mapeamento de Oposições Explícitas › Hertz Dias",
+            "url": null,
+            "contexto": "eixo Gestão de Serviços Sociais, no bloco compartilhado por UP, PCB, PSTU e PCO",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_gestao_privada_saude",
+          "postura": "contra",
+          "citacao": {
+            "texto": "Abolição Sanitária Privada e Estatização SUS: Nacionalização integral das entidades médico-hospitalares, descredenciamento definitivo de operadoras de planos de saúde e gestão sanitária realizada por representações de trabalhadores.",
+            "fonte": "source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/propostas.md › Hertz Dias › Eixo: Saúde",
+            "url": null,
+            "contexto": "único item do eixo Saúde nas quatro candidaturas",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_ensino_civico_militar",
+          "postura": "contra",
+          "citacao": {
+            "texto": "Oposição ao Ensino Militarizado e Projetos de Controle Ideológico: Rejeição a modelos escolares cívico-militarizados e a restrições de debate docente nas salas de aula.",
+            "fonte": "source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/auxiliar.md › Parte 1 — Mapeamento de Oposições Explícitas › Hertz Dias",
+            "url": null,
+            "contexto": "eixo Gestão de Serviços Sociais, no bloco compartilhado",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_flexibilizacao_trabalhista",
+          "postura": "contra",
+          "citacao": {
+            "texto": "Oposição a Reformas Neoliberais e Terceirização: Rejeição integral às reformas trabalhista e previdenciária promovidas desde 2016 e à flexibilização de contratações indiretas.",
+            "fonte": "source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/auxiliar.md › Parte 1 — Mapeamento de Oposições Explícitas › Hertz Dias",
+            "url": null,
+            "contexto": "eixo Relações Trabalhistas e Previdenciárias, no bloco compartilhado",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_renda_sem_contrapartida",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Bolsa de Amparo ao Desempregado: Criação de benefício de um salário mínimo para cidadãos sem colocação profissional enquanto o pleno emprego não for estruturalmente atingido.",
+            "fonte": "source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/auxiliar.md › Parte 2 — Especificação e Diferenciação Programática › Hertz Dias",
+            "url": null,
+            "contexto": "bloco Organização Econômica e Distribuição de Riqueza",
+            "recuperadoEm": null
+          },
+          "interpretacao": "O plano não discute contrapartidas; propõe um benefício de um salário mínimo a desempregados sem condicionalidade declarada. A postura \"favor\" é inferida da ausência de contrapartida no desenho do benefício."
+        },
+        {
+          "eixo": "e_justica_fiscal_progressiva",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Justiça Fiscal Progressiva: Alteração da matriz de arrecadação nacional para privilegiar a tributação sobre rendimentos elevados, lucros e heranças, com desoneração correspondente sobre o consumo básico.",
+            "fonte": "source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/propostas.md › Hertz Dias › Eixo: Economia e Tributação",
+            "url": null,
+            "contexto": "primeiro item do eixo Economia e Tributação",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_reducao_jornada",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Humanização das Relações Laborais: Modificação das relações de trabalho mediante a limitação da jornada semanal e fortalecimento de garantias legais, visando à sustentabilidade social do trabalhador.",
+            "fonte": "source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/propostas.md › Hertz Dias › Eixo: Economia e Tributação",
+            "url": null,
+            "contexto": "item do eixo Economia e Tributação",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_reestatizacao",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Reestatização e Gestão da Dívida: Retomada de empresas estratégicas privatizadas e revisão soberana do endividamento público, direcionando os recursos correspondentes diretamente para finalidades sociais estruturantes.",
+            "fonte": "source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/propostas.md › Hertz Dias › Eixo: Economia e Tributação",
+            "url": null,
+            "contexto": "item do eixo Economia e Tributação",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_teto_fiscal",
+          "postura": "contra",
+          "citacao": {
+            "texto": "Oposição às Regras de Responsabilidade e Teto Fiscal: Rejeição absoluta ao Arcabouço Fiscal, à Lei de Responsabilidade Fiscal e a limites fiscais de gastos correntes e sociais.",
+            "fonte": "source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/auxiliar.md › Parte 1 — Mapeamento de Oposições Explícitas › Hertz Dias",
+            "url": null,
+            "contexto": "eixo Matriz Macroeconômica e Finanças Públicas, no bloco compartilhado",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_servico_divida",
+          "postura": "contra",
+          "citacao": {
+            "texto": "Oposição ao Serviço da Dívida e Agiotagem Financeira: Rejeição ao direcionamento de recursos federais para o pagamento e amortização de títulos da dívida pública, exigindo auditoria imediata.",
+            "fonte": "source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/auxiliar.md › Parte 1 — Mapeamento de Oposições Explícitas › Hertz Dias",
+            "url": null,
+            "contexto": "eixo Matriz Macroeconômica e Finanças Públicas, no bloco compartilhado",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_escala_movel",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Escala Móvel de Horas e Pleno Emprego: Redução da jornada para 36 horas sem perdas de salários, associada a uma escala móvel que ajuste as horas conforme a demanda para garantir o emprego a todos.",
+            "fonte": "source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/auxiliar.md › Parte 2 — Especificação e Diferenciação Programática › Hertz Dias",
+            "url": null,
+            "contexto": "bloco Organização Econômica e Distribuição de Riqueza",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_expropriacao_ouro",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Expropriação da Cadeia do Ouro: Estatização e expropriação total da produção nacional de ouro e metais preciosos para sua incorporação às reservas cambiais públicas, visando ao descolamento do padrão-dólar.",
+            "fonte": "source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/auxiliar.md › Parte 2 — Especificação e Diferenciação Programática › Hertz Dias",
+            "url": null,
+            "contexto": "bloco Soberania Mineral e Financeira Rígida",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_plataformas_estatais",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Plataformas Tecnológicas Públicas: Criação de aplicativos nacionais estatais de entrega e e-commerce para concorrer com monopólios estrangeiros, subsidiados por empresas expropriadas.",
+            "fonte": "source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/auxiliar.md › Parte 2 — Especificação e Diferenciação Programática › Hertz Dias",
+            "url": null,
+            "contexto": "bloco Soberania Mineral e Financeira Rígida",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_desmilitarizacao",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Desmilitarização e Policiamento de Direitos: Transição organizacional das forças de segurança interna para estruturas essencialmente civis de policiamento preventivo de proximidade, pautadas estritamente na proteção de garantias fundamentais.",
+            "fonte": "source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/propostas.md › Hertz Dias › Eixo: Segurança Pública",
+            "url": null,
+            "contexto": "único item do eixo Segurança Pública nas quatro candidaturas",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_estatizacao_ensino",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Estatização e Acesso Irrestrito: Estatização integral das estruturas educacionais e desregulamentação dos mecanismos de seleção para o acesso universal e irrestrito ao ensino superior público.",
+            "fonte": "source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/propostas.md › Hertz Dias › Eixo: Educação",
+            "url": null,
+            "contexto": "único item do eixo Educação nas quatro candidaturas",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_fim_vestibular",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Oposição a Exames de Seleção Universitária: Rejeição ao sistema de vestibulares ou quaisquer métodos de seleção excludente para o ingresso no ensino superior.",
+            "fonte": "source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/auxiliar.md › Parte 1 — Mapeamento de Oposições Explícitas › Hertz Dias",
+            "url": null,
+            "contexto": "eixo Gestão de Serviços Sociais, no bloco compartilhado",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_comunidades_terapeuticas",
+          "postura": "contra",
+          "citacao": {
+            "texto": "Oposição a Comunidades Terapêuticas de Base Privada: Rejeição à destinação de recursos públicos para entidades de acolhimento asilares ou de base religiosa para dependentes químicos.",
+            "fonte": "source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/auxiliar.md › Parte 1 — Mapeamento de Oposições Explícitas › Hertz Dias",
+            "url": null,
+            "contexto": "eixo Gestão de Serviços Sociais, no bloco compartilhado",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        }
+      ]
+    },
+    {
+      "id": "C12",
+      "nome": "Rui Costa Pimenta",
+      "partido": "PCO",
+      "planoUrl": "https://static.poder360.com.br/uploads/2026/08/Plano_gov_PCO_Rui_Costa_Pimenta2026.pdf",
+      "planoNota": "Plano de governo integral, conforme publicado pelo Poder360. Prevalece sobre os resumos citados neste corpus.",
+      "posicoes": [
+        {
+          "eixo": "e_privatizacoes",
+          "postura": "contra",
+          "citacao": {
+            "texto": "Oposição à Gestão Privada de Serviços Públicos: Rejeição irrestrita a convênios com Organizações Sociais (OSs), fundações de direito privado e privatização de hospitais, escolas, transportes e saneamento.",
+            "fonte": "source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/auxiliar.md › Parte 1 — Mapeamento de Oposições Explícitas › Rui Costa Pimenta",
+            "url": null,
+            "contexto": "eixo Gestão de Serviços Sociais, no bloco compartilhado por UP, PCB, PSTU e PCO",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_gestao_privada_saude",
+          "postura": "contra",
+          "citacao": {
+            "texto": "Abolição Sanitária Privada e Estatização SUS: Nacionalização integral das entidades médico-hospitalares, descredenciamento definitivo de operadoras de planos de saúde e gestão sanitária realizada por representações de trabalhadores.",
+            "fonte": "source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/propostas.md › Rui Costa Pimenta › Eixo: Saúde",
+            "url": null,
+            "contexto": "único item do eixo Saúde nas quatro candidaturas",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_ensino_civico_militar",
+          "postura": "contra",
+          "citacao": {
+            "texto": "Oposição ao Ensino Militarizado e Projetos de Controle Ideológico: Rejeição a modelos escolares cívico-militarizados e a restrições de debate docente nas salas de aula.",
+            "fonte": "source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/auxiliar.md › Parte 1 — Mapeamento de Oposições Explícitas › Rui Costa Pimenta",
+            "url": null,
+            "contexto": "eixo Gestão de Serviços Sociais, no bloco compartilhado",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_flexibilizacao_trabalhista",
+          "postura": "contra",
+          "citacao": {
+            "texto": "Oposição a Reformas Neoliberais e Terceirização: Rejeição integral às reformas trabalhista e previdenciária promovidas desde 2016 e à flexibilização de contratações indiretas.",
+            "fonte": "source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/auxiliar.md › Parte 1 — Mapeamento de Oposições Explícitas › Rui Costa Pimenta",
+            "url": null,
+            "contexto": "eixo Relações Trabalhistas e Previdenciárias, no bloco compartilhado",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_justica_fiscal_progressiva",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Justiça Fiscal Progressiva: Alteração da matriz de arrecadação nacional para privilegiar a tributação sobre rendimentos elevados, lucros e heranças, com desoneração correspondente sobre o consumo básico.",
+            "fonte": "source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/propostas.md › Rui Costa Pimenta › Eixo: Economia e Tributação",
+            "url": null,
+            "contexto": "primeiro item do eixo Economia e Tributação",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_reducao_jornada",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Humanização das Relações Laborais: Modificação das relações de trabalho mediante a limitação da jornada semanal e fortalecimento de garantias legais, visando à sustentabilidade social do trabalhador.",
+            "fonte": "source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/propostas.md › Rui Costa Pimenta › Eixo: Economia e Tributação",
+            "url": null,
+            "contexto": "item do eixo Economia e Tributação",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_reestatizacao",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Reestatização e Gestão da Dívida: Retomada de empresas estratégicas privatizadas e revisão soberana do endividamento público, direcionando os recursos correspondentes diretamente para finalidades sociais estruturantes.",
+            "fonte": "source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/propostas.md › Rui Costa Pimenta › Eixo: Economia e Tributação",
+            "url": null,
+            "contexto": "item do eixo Economia e Tributação",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_teto_fiscal",
+          "postura": "contra",
+          "citacao": {
+            "texto": "Oposição às Regras de Responsabilidade e Teto Fiscal: Rejeição absoluta ao Arcabouço Fiscal, à Lei de Responsabilidade Fiscal e a limites fiscais de gastos correntes e sociais.",
+            "fonte": "source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/auxiliar.md › Parte 1 — Mapeamento de Oposições Explícitas › Rui Costa Pimenta",
+            "url": null,
+            "contexto": "eixo Matriz Macroeconômica e Finanças Públicas, no bloco compartilhado",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_servico_divida",
+          "postura": "contra",
+          "citacao": {
+            "texto": "Oposição ao Serviço da Dívida e Agiotagem Financeira: Rejeição ao direcionamento de recursos federais para o pagamento e amortização de títulos da dívida pública, exigindo auditoria imediata.",
+            "fonte": "source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/auxiliar.md › Parte 1 — Mapeamento de Oposições Explícitas › Rui Costa Pimenta",
+            "url": null,
+            "contexto": "eixo Matriz Macroeconômica e Finanças Públicas, no bloco compartilhado",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_aposentadoria_tempo_servico",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Aposentadoria Precoce: Garantia de aposentadoria aos 25 anos de serviço para mulheres e 30 anos para homens.",
+            "fonte": "source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/auxiliar.md › Parte 2 — Especificação e Diferenciação Programática › Rui Costa Pimenta",
+            "url": null,
+            "contexto": "bloco Políticas Educacionais e Previdenciárias Singulares",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_desmilitarizacao",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Desmilitarização e Policiamento de Direitos: Transição organizacional das forças de segurança interna para estruturas essencialmente civis de policiamento preventivo de proximidade, pautadas estritamente na proteção de garantias fundamentais.",
+            "fonte": "source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/propostas.md › Rui Costa Pimenta › Eixo: Segurança Pública",
+            "url": null,
+            "contexto": "único item do eixo Segurança Pública nas quatro candidaturas",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_estatizacao_ensino",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Estatização e Acesso Irrestrito: Estatização integral das estruturas educacionais e desregulamentação dos mecanismos de seleção para o acesso universal e irrestrito ao ensino superior público.",
+            "fonte": "source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/propostas.md › Rui Costa Pimenta › Eixo: Educação",
+            "url": null,
+            "contexto": "único item do eixo Educação nas quatro candidaturas",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_fim_vestibular",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Oposição a Exames de Seleção Universitária: Rejeição ao sistema de vestibulares ou quaisquer métodos de seleção excludente para o ingresso no ensino superior.",
+            "fonte": "source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/auxiliar.md › Parte 1 — Mapeamento de Oposições Explícitas › Rui Costa Pimenta",
+            "url": null,
+            "contexto": "eixo Gestão de Serviços Sociais, no bloco compartilhado",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_celular_em_sala",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Fim das Restrições Tecnológicas Escolares: Oposição explícita à proibição de aparelhos celulares nas salas de aula e à censura disciplinar.",
+            "fonte": "source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/auxiliar.md › Parte 2 — Especificação e Diferenciação Programática › Rui Costa Pimenta",
+            "url": null,
+            "contexto": "bloco Políticas Educacionais e Previdenciárias Singulares",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_comunidades_terapeuticas",
+          "postura": "contra",
+          "citacao": {
+            "texto": "Oposição a Comunidades Terapêuticas de Base Privada: Rejeição à destinação de recursos públicos para entidades de acolhimento asilares ou de base religiosa para dependentes químicos.",
+            "fonte": "source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/auxiliar.md › Parte 1 — Mapeamento de Oposições Explícitas › Rui Costa Pimenta",
+            "url": null,
+            "contexto": "eixo Gestão de Serviços Sociais, no bloco compartilhado",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_estatizacao_midia",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Estatização dos Monopólios de Imprensa: Cancelamento imediato de concessões públicas de radiodifusão e grandes corporações de mídia (ex: Rede Globo) por atos lesa-pátria, transferindo os ativos ao controle operário.",
+            "fonte": "source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/auxiliar.md › Parte 2 — Especificação e Diferenciação Programática › Rui Costa Pimenta",
+            "url": null,
+            "contexto": "bloco Meios de Comunicação e Cultura Popular",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        },
+        {
+          "eixo": "e_controle_torcedores",
+          "postura": "favor",
+          "citacao": {
+            "texto": "Defesa da Cultura de Massa Periférica: Proteção contra perseguições institucionais a manifestações do samba, carnaval e futebol, outorgando o controle dos clubes desportivos diretamente a torcedores e trabalhadores do setor.",
+            "fonte": "source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)",
+            "local": "source/auxiliar.md › Parte 2 — Especificação e Diferenciação Programática › Rui Costa Pimenta",
+            "url": null,
+            "contexto": "bloco Meios de Comunicação e Cultura Popular",
+            "recuperadoEm": null
+          },
+          "interpretacao": null
+        }
+      ]
+    }
+  ],
+  "contrastes": [
+    {
+      "entre": [
+        "C01",
+        "C07"
+      ],
+      "discriminador": "e_encarceramento_excecao",
+      "inclina": {
+        "concordo": "C01",
+        "discordo": "C07"
+      },
+      "nota": "Ambos endurecem a política prisional e defendem o isolamento de lideranças de facções. Separam-se no encarceramento de exceção sem devido processo individualizado."
+    },
+    {
+      "entre": [
+        "C01",
+        "C05"
+      ],
+      "discriminador": "e_flexibilizacao_trabalhista",
+      "inclina": {
+        "concordo": "C01",
+        "discordo": "C05"
+      },
+      "nota": "Ambos apostam em vigilância tecnológica e em pasta federal de segurança. Separam-se na regulação do trabalho por plataformas."
+    },
+    {
+      "entre": [
+        "C03",
+        "C10"
+      ],
+      "discriminador": "e_estabilidade_emprego",
+      "inclina": {
+        "discordo": "C03",
+        "concordo": "C10"
+      },
+      "nota": "Únicas duas candidaturas que tratam explicitamente da estabilidade no emprego, e em direções opostas."
+    },
+    {
+      "entre": [
+        "C04",
+        "C11"
+      ],
+      "discriminador": "e_renda_sem_contrapartida",
+      "inclina": {
+        "discordo": "C04",
+        "concordo": "C11"
+      },
+      "nota": "Únicas duas candidaturas que desenham um benefício de renda; divergem sobre exigir contrapartida."
+    }
+  ]
+}

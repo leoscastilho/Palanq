@@ -1,0 +1,1479 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="referrer" content="no-referrer">
+<meta name="description" content="Compara suas posições com as posições declaradas nos planos de governo. Não recomenda voto.">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data:; connect-src 'none'; form-action 'none'; base-uri 'none'">
+<title>Match Presidenciáveis — Eleição Geral de 2026</title>
+<style>
+/* Sem fontes externas, sem requisição de rede: o argumento de privacidade é a
+   ausência de servidor, e uma fonte remota o quebraria (§26). */
+:root {
+  --bg: #fbfaf8; --fg: #1a1a19; --fg2: #55534e; --fg3: #86837c;
+  --linha: #ded9d0; --caixa: #ffffff; --realce: #f3efe7;
+  --acento: #1f4f7a; --acento-fg: #ffffff;
+  --ok: #1c6b45; --alerta: #8a4b12; --perigo: #9b2226; --perigo-bg: #fdf2f2;
+  --serif: Georgia, "Iowan Old Style", "Times New Roman", serif;
+  --sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #16171a; --fg: #e8e6e1; --fg2: #a8a49c; --fg3: #7b776f;
+    --linha: #33343a; --caixa: #1e1f24; --realce: #24262c;
+    --acento: #6aa6dc; --acento-fg: #10131a;
+    --ok: #6ec69a; --alerta: #d99a4e; --perigo: #e88; --perigo-bg: #2a1c1d;
+  }
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--bg); color: var(--fg); font-family: var(--sans);
+       font-size: 16px; line-height: 1.55; }
+h1, h2, h3 { line-height: 1.25; font-weight: 650; margin: 0 0 .5rem; }
+h1 { font-size: 1.6rem; letter-spacing: -.01em; }
+h2 { font-size: 1.15rem; }
+h3 { font-size: .95rem; }
+p { margin: 0 0 .8rem; }
+a { color: var(--acento); }
+small, .mini { font-size: .82rem; color: var(--fg2); }
+.num { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+
+.topo { border-bottom: 1px solid var(--linha); background: var(--caixa); position: sticky; top: 0; z-index: 5; }
+.topo .in { max-width: 1180px; margin: 0 auto; padding: .6rem 1rem; display: flex; gap: 1rem;
+            align-items: baseline; flex-wrap: wrap; }
+.topo b { font-size: .95rem; }
+.topo .mini { margin-left: auto; }
+.wrap { max-width: 1180px; margin: 0 auto; padding: 1.25rem 1rem 4rem; }
+
+.aviso { border: 1px solid var(--linha); border-left: 4px solid var(--alerta);
+         background: var(--realce); padding: .75rem .9rem; margin: 0 0 1rem; border-radius: 3px; }
+.aviso.perigo { border-left-color: var(--perigo); background: var(--perigo-bg); }
+.aviso h3 { color: var(--alerta); }
+.aviso.perigo h3 { color: var(--perigo); }
+
+button { font: inherit; cursor: pointer; border: 1px solid var(--linha); background: var(--caixa);
+         color: var(--fg); padding: .45rem .8rem; border-radius: 4px; }
+button:hover { border-color: var(--acento); }
+button:focus-visible { outline: 2px solid var(--acento); outline-offset: 2px; }
+button.primario { background: var(--acento); color: var(--acento-fg); border-color: var(--acento); font-weight: 600; }
+button.fantasma { border-color: transparent; color: var(--fg2); padding: .2rem .4rem; }
+button.fantasma:hover { color: var(--acento); }
+
+/* ── entrevista ─────────────────────────────────────────────────────────── */
+.painel { display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr); gap: 1.25rem; align-items: start; }
+@media (max-width: 900px) { .painel { grid-template-columns: 1fr; } }
+
+.cartao { background: var(--caixa); border: 1px solid var(--linha); border-radius: 5px; padding: 1.1rem; }
+.cartao + .cartao { margin-top: 1rem; }
+.selo { display: inline-block; font-size: .7rem; text-transform: uppercase; letter-spacing: .07em;
+        color: var(--fg2); border: 1px solid var(--linha); border-radius: 999px; padding: .1rem .55rem; }
+.selo.comp { color: var(--alerta); border-color: var(--alerta); }
+.selo.destaque { color: var(--acento); border-color: var(--acento); }
+
+.pergunta { font-size: 1.3rem; font-weight: 600; margin: .6rem 0 .3rem; line-height: 1.35; }
+.porque { font-size: .85rem; color: var(--fg2); border-left: 2px solid var(--linha); padding-left: .7rem; margin: .8rem 0; }
+.respostas { display: grid; grid-template-columns: 1fr 1fr; gap: .5rem; margin-top: 1rem; }
+.respostas button { padding: .7rem .6rem; text-align: left; }
+.respostas button b { display: block; }
+.respostas button i { font-style: normal; font-size: .78rem; color: var(--fg2); }
+@media (max-width: 560px) { .respostas { grid-template-columns: 1fr; } }
+
+.lv { margin-top: 1rem; border: 1px dashed var(--linha); border-radius: 4px; padding: .6rem .75rem; }
+.lv.ativa { border-style: solid; border-color: var(--perigo); background: var(--perigo-bg); }
+.lv label { display: flex; gap: .55rem; align-items: flex-start; cursor: pointer; font-size: .88rem; }
+.lv input { margin-top: .25rem; }
+
+/* ── ranking ao vivo ────────────────────────────────────────────────────── */
+table.rank { width: 100%; border-collapse: collapse; font-size: .87rem; }
+table.rank td, table.rank th { padding: .3rem .35rem; border-bottom: 1px solid var(--linha); text-align: left; vertical-align: baseline; }
+table.rank th { font-size: .72rem; text-transform: uppercase; letter-spacing: .05em; color: var(--fg3); font-weight: 600; }
+table.rank td.n { text-align: right; font-family: var(--mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
+tr.lider td { background: var(--realce); font-weight: 600; }
+tr.morto td { color: var(--fg3); text-decoration: line-through; }
+.barra { height: 4px; background: var(--linha); border-radius: 2px; overflow: hidden; margin-top: .2rem; }
+.barra i { display: block; height: 100%; background: var(--acento); }
+.cob-baixa { color: var(--alerta); font-weight: 600; }
+
+.rastro { list-style: none; margin: 0; padding: 0; font-size: .84rem; }
+.rastro li { display: flex; gap: .5rem; padding: .3rem 0; border-bottom: 1px solid var(--linha); align-items: baseline; }
+.rastro li span { flex: 1; min-width: 0; }
+.rastro li .r { color: var(--fg2); white-space: nowrap; font-family: var(--mono); font-size: .78rem; }
+
+/* ── resultado ──────────────────────────────────────────────────────────── */
+.lideres { display: grid; gap: .8rem; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); }
+.lider-cartao { border: 2px solid var(--acento); border-radius: 5px; padding: .9rem; background: var(--caixa); }
+.lider-cartao h3 { font-size: 1.05rem; }
+.metrica { display: flex; gap: 1.2rem; margin: .5rem 0; }
+.metrica div b { display: block; font-family: var(--mono); font-size: 1.25rem; font-variant-numeric: tabular-nums; }
+.metrica div small { display: block; font-size: .7rem; text-transform: uppercase; letter-spacing: .05em; color: var(--fg3); }
+
+.cit { font-family: var(--serif); font-size: .92rem; background: var(--realce); border-left: 3px solid var(--linha);
+       padding: .55rem .75rem; margin: .4rem 0; border-radius: 0 3px 3px 0; }
+.cit .fonte { display: block; font-family: var(--sans); font-size: .74rem; color: var(--fg3); margin-top: .4rem; }
+.cit.inferida { border-left-color: var(--alerta); }
+.interp { font-family: var(--sans); font-size: .8rem; color: var(--alerta); margin-top: .45rem;
+          border-top: 1px dotted var(--linha); padding-top: .4rem; }
+
+details { border: 1px solid var(--linha); border-radius: 4px; margin: .5rem 0; background: var(--caixa); }
+details > summary { cursor: pointer; padding: .55rem .8rem; font-weight: 600; font-size: .92rem; list-style-position: inside; }
+details[open] > summary { border-bottom: 1px solid var(--linha); }
+details .corpo { padding: .7rem .8rem; }
+.eixo-linha { padding: .45rem 0; border-bottom: 1px solid var(--linha); }
+.eixo-linha:last-child { border-bottom: 0; }
+.eixo-linha b { font-weight: 600; }
+.tag { font-size: .72rem; color: var(--fg3); }
+.ok-cor { color: var(--ok); } .alerta-cor { color: var(--alerta); } .perigo-cor { color: var(--perigo); }
+.acoes { display: flex; gap: .5rem; flex-wrap: wrap; margin: 1.2rem 0; }
+pre.relatorio { white-space: pre-wrap; font-family: var(--mono); font-size: .76rem; line-height: 1.5;
+                background: var(--caixa); border: 1px solid var(--linha); padding: .9rem; border-radius: 4px;
+                max-height: 60vh; overflow: auto; }
+.planos { width: 100%; border-collapse: collapse; font-size: .88rem; }
+.planos td { padding: .35rem .4rem; border-bottom: 1px solid var(--linha); }
+.oculto { display: none !important; }
+
+</style>
+</head>
+<body>
+<header class="topo">
+  <div class="in">
+    <b>Match Presidenciáveis</b>
+    <span class="mini" id="topo-escopo"></span>
+    <span class="mini" id="topo-versao"></span>
+  </div>
+</header>
+<main class="wrap" id="app"></main>
+
+<script type="module">
+/**
+ * Motor de alinhamento entre posições do usuário e posições declaradas em planos
+ * de governo. Híbrido: ELIMINAÇÃO para o inegociável, ACUMULAÇÃO para o resto.
+ *
+ * Porte de `engine.js` do classificador clínico. Ver MOTOR-E-PORT-POLITICO.md.
+ *
+ * CONTRATO — nenhuma função deste arquivo pode quebrar isto:
+ *   1. Pureza. Sem Date, sem Math.random, sem I/O, sem dependências. Todo estado
+ *      é derivado de (corpus, respostas, linhasVermelhas) e recalculado do zero.
+ *   2. Sem vencedor único imposto. `lideres` pode ter mais de um elemento.
+ *   3. Ignorância ≠ negação. "ns" mantém a pendência e não move o score.
+ *   4. Não perguntado ≠ inconclusivo ≠ indiferente. Três ausências distintas,
+ *      preservadas até o relatório.
+ *   5. Toda eliminação tem motivo estruturado, com a citação que a causou.
+ *   6. Contraste nunca elimina. É sinal.
+ *   7. Silêncio nunca soma nem subtrai; reduz `cobertura`.
+ *   8. Eixo não discriminante (unânime ou unilateral) fica FORA de afinidade e
+ *      cobertura, mesmo que respondido — ver §20 da especificação.
+ *   9. Determinismo. Empates resolvidos lexicograficamente.
+ *  10. Terminação. Toda pergunta devolvida consome uma variável não respondida.
+ */
+
+const RESPOSTAS_VALIDAS = ["concordo", "discordo", "indiferente", "ns"];
+const MARGEM_PADRAO = 0.05;
+
+const asSet = (x) => (x instanceof Set ? x : new Set(x || []));
+const pesoDe = (corpus, eixo) => corpus.eixos[eixo]?.peso ?? 1;
+
+/** Postura declarada por `cand` no `eixo`, ou null. */
+function postura(cand, eixo) {
+  return cand.posicoes.find((p) => p.eixo === eixo) || null;
+}
+
+/**
+ * Lógica de quatro valores, análoga a `testar()` do motor clínico.
+ * Devolve: true alinhado · false divergente · null neutralizado (indiferente)
+ *          · undefined sem sinal (não perguntado, "ns", ou candidato mudo).
+ */
+function confrontar(resposta, postura) {
+  if (resposta === undefined || resposta === "ns") return undefined;
+  if (resposta === "indiferente") return null;
+  if (!postura) return undefined;
+  return (
+    (resposta === "concordo" && postura.postura === "favor") ||
+    (resposta === "discordo" && postura.postura === "contra")
+  );
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Eliminações — passada independente da classificação dos eixos
+// ─────────────────────────────────────────────────────────────────────────────
+
+/**
+ * Linhas vermelhas e portões. Roda ANTES de qualquer cálculo de score, porque
+ * a eliminação não depende de quais eixos são discriminantes: se o usuário
+ * declarou um eixo inegociável, divergir nele elimina — inclusive num eixo
+ * unânime, caso em que o campo inteiro cai e §21 manda mostrar o contrafactual.
+ *
+ * "ns" e "indiferente" NUNCA eliminam: ignorância e indiferença não são divergência.
+ */
+function eliminacoes(corpus, respostas, linhasVermelhas = new Set()) {
+  const lv = asSet(linhasVermelhas);
+  const out = {};
+  for (const cand of corpus.candidatos) {
+    let motivo = null;
+    for (const eixo of Object.keys(corpus.eixos)) {
+      if (!lv.has(eixo)) continue;
+      const p = postura(cand, eixo);
+      if (confrontar(respostas[eixo], p) !== false) continue;
+      motivo = { tipo: "linha-vermelha", eixo, postura: p.postura, citacao: p.citacao, interpretacao: p.interpretacao };
+      break; // só a PRIMEIRA linha violada vira motivo — o relatório diz por que caiu
+    }
+    out[cand.id] = motivo;
+  }
+  for (const [id, portao] of Object.entries(corpus.portoes || {})) {
+    if (portao.efeito !== "invalida-todos-se-nao") continue;
+    if (respostas[id] !== "nao") continue;
+    for (const cand of corpus.candidatos) {
+      out[cand.id] = out[cand.id] || { tipo: "portao", portao: id, pergunta: portao.pergunta };
+    }
+  }
+  return out;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Classificação dos eixos — §20
+// ─────────────────────────────────────────────────────────────────────────────
+
+/**
+ * Reparte os eixos em quatro categorias, sobre o conjunto de candidatos `vivos`:
+ *   divisivo    — há favor E contra. É o único que entra no ranking.
+ *   unanime     — todos os vivos falaram, todos na mesma direção.
+ *   unilateral  — só parte falou, sem oposição declarada.
+ *   mudo        — nenhum vivo falou.
+ * Incluir unânime ou unilateral no ranking INVERTE a ordem (§20). Fora.
+ */
+function classificarEixos(corpus, vivos) {
+  const divisivos = [], unanimes = [], unilaterais = [], mudos = [];
+  for (const eixo of Object.keys(corpus.eixos)) {
+    const falam = vivos.map((c) => postura(c, eixo)).filter(Boolean);
+    const nFavor = falam.filter((p) => p.postura === "favor").length;
+    const nContra = falam.filter((p) => p.postura === "contra").length;
+    const info = { eixo, nFavor, nContra, nFalam: falam.length, mudos: vivos.length - falam.length,
+                   peso: pesoDe(corpus, eixo), separacoes: nFavor * nContra };
+    if (nFavor > 0 && nContra > 0) divisivos.push({ ...info, categoria: "divisivo" });
+    else if (falam.length === 0) mudos.push({ ...info, categoria: "mudo", postura: null });
+    else if (falam.length === vivos.length) unanimes.push({ ...info, categoria: "unanime", postura: falam[0].postura });
+    else unilaterais.push({ ...info, categoria: "unilateral", postura: falam[0].postura });
+  }
+  return { divisivos, unanimes, unilaterais, mudos };
+}
+
+const setDe = (lista) => new Set(lista.map((x) => x.eixo));
+
+// ─────────────────────────────────────────────────────────────────────────────
+// avaliar() — score, afinidade, cobertura
+// ─────────────────────────────────────────────────────────────────────────────
+
+/**
+ * avaliar(corpus, respostas, linhasVermelhas) → { [id]: estado do candidato }
+ *
+ * `opts.discriminantes` permite injetar o conjunto de eixos que entra no ranking
+ * (usado pelo motor para congelá-lo a partir dos vivos). Sem ele, é derivado
+ * dos candidatos não eliminados.
+ */
+function avaliar(corpus, respostas, linhasVermelhas = new Set(), opts = {}) {
+  const mortos = eliminacoes(corpus, respostas, linhasVermelhas);
+  const vivos = corpus.candidatos.filter((c) => !mortos[c.id]);
+  const classes = opts.classes || classificarEixos(corpus, vivos.length ? vivos : corpus.candidatos);
+  const discriminantes = opts.discriminantes || setDe(classes.divisivos);
+
+  const out = {};
+  for (const cand of corpus.candidatos) {
+    const acc = {
+      rank: { score: 0, pesoDeclarado: 0, pesoRespondido: 0, pesoSilencioso: 0,
+              alinhados: [], divergentes: [], silencios: [] },
+      comp: { score: 0, pesoDeclarado: 0, pesoRespondido: 0, pesoSilencioso: 0,
+              alinhados: [], divergentes: [], silencios: [] },
+    };
+    const inconclusivos = [], indiferentes = [];
+
+    for (const eixo of Object.keys(corpus.eixos)) {
+      const r = respostas[eixo];
+      if (r === undefined) continue;
+      const p = postura(cand, eixo);
+      if (r === "ns") { if (p) inconclusivos.push(eixo); continue; }
+      if (r === "indiferente") { if (p) indiferentes.push(eixo); continue; }
+      const bucket = discriminantes.has(eixo) ? acc.rank : acc.comp;
+      const peso = pesoDe(corpus, eixo);
+      bucket.pesoRespondido += peso;
+      if (!p) { bucket.silencios.push(eixo); bucket.pesoSilencioso += peso; continue; }
+      bucket.pesoDeclarado += peso;
+      if (confrontar(r, p)) { bucket.score += peso; bucket.alinhados.push(eixo); }
+      else { bucket.score -= peso; bucket.divergentes.push(eixo); }
+    }
+
+    const norm = (b) => (b.pesoDeclarado ? (b.score + b.pesoDeclarado) / (2 * b.pesoDeclarado) : null);
+    const cob = (b) => (b.pesoRespondido ? b.pesoDeclarado / b.pesoRespondido : null);
+
+    out[cand.id] = {
+      id: cand.id,
+      estado: mortos[cand.id] ? "eliminado" : "vivo",
+      motivo: mortos[cand.id] || null,
+      score: acc.rank.score,
+      afinidade: norm(acc.rank),
+      cobertura: cob(acc.rank),
+      pesoDeclarado: acc.rank.pesoDeclarado,
+      pesoRespondido: acc.rank.pesoRespondido,
+      pesoSilencioso: acc.rank.pesoSilencioso,
+      alinhados: acc.rank.alinhados,
+      divergentes: acc.rank.divergentes,
+      silencios: acc.rank.silencios,
+      inconclusivos,
+      indiferentes,
+      // Métricas dos eixos NÃO discriminantes. Nunca entram no ranking (§20);
+      // existem para separar candidaturas que empatam nos eixos divisivos.
+      complementar: {
+        score: acc.comp.score,
+        afinidade: norm(acc.comp),
+        cobertura: cob(acc.comp),
+        pesoDeclarado: acc.comp.pesoDeclarado,
+        pesoRespondido: acc.comp.pesoRespondido,
+        alinhados: acc.comp.alinhados,
+        divergentes: acc.comp.divergentes,
+        silencios: acc.comp.silencios,
+      },
+    };
+  }
+  return out;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Ranking
+// ─────────────────────────────────────────────────────────────────────────────
+
+/**
+ * Afinidade `null` (o candidato não declarou nada sobre nada que foi respondido)
+ * NÃO vira 0 — fica fora da ordem, listado à parte em `semSinal`.
+ */
+function ranking(corpus, estados, margem = MARGEM_PADRAO) {
+  const vivos = corpus.candidatos.filter((c) => estados[c.id]?.estado === "vivo");
+  const comSinal = vivos.filter((c) => estados[c.id].afinidade !== null);
+  const semSinal = vivos.filter((c) => estados[c.id].afinidade === null).map((c) => c.id);
+  const ord = [...comSinal].sort(
+    (a, b) => estados[b.id].afinidade - estados[a.id].afinidade || a.id.localeCompare(b.id)
+  );
+  if (!ord.length) return { ordem: [], lideres: [], empate: false, semSinal, margem };
+  const topo = estados[ord[0].id].afinidade;
+  const lideres = ord.filter((c) => topo - estados[c.id].afinidade <= margem).map((c) => c.id);
+  return { ordem: ord.map((c) => c.id), lideres, empate: lideres.length > 1, semSinal, margem };
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Consenso do campo — §20
+// ─────────────────────────────────────────────────────────────────────────────
+
+/**
+ * afinidadeComOCampo: o quanto o campo eleitoral INTEIRO representa o usuário,
+ * medido nos eixos NÃO discriminantes — unânimes e unilaterais (§20). São eixos
+ * em que o campo fala com uma voz só, então a resposta do usuário não favorece
+ * ninguém: é informação sobre o campo, não sobre a disputa. Nunca entra no ranking.
+ *
+ * `cobertura` aqui é o peso ponderado pela fração de candidatos vivos que de fato
+ * declararam a posição: 1,00 num eixo unânime, menor num unilateral. Sem ela, um
+ * campo em que uma única candidatura fala pareceria um campo comprometido.
+ */
+function afinidadeComOCampo(corpus, respostas, classes) {
+  let score = 0, peso = 0, pesoPonderado = 0, pesoTotal = 0;
+  const eixos = [];
+  for (const u of [...classes.unanimes, ...classes.unilaterais]) {
+    const r = respostas[u.eixo];
+    if (r === undefined || r === "ns" || r === "indiferente") continue;
+    const alinha = (r === "concordo" && u.postura === "favor") || (r === "discordo" && u.postura === "contra");
+    const w = u.peso;
+    const fracao = u.nFalam / (u.nFalam + u.mudos);
+    peso += w;
+    pesoPonderado += w * fracao;
+    pesoTotal += w;
+    score += alinha ? w : -w;
+    eixos.push({ eixo: u.eixo, categoria: u.categoria, postura: u.postura, resposta: r,
+                 alinha, peso: w, nFalam: u.nFalam, mudos: u.mudos });
+  }
+  return {
+    afinidade: peso ? (score + peso) / (2 * peso) : null,
+    cobertura: pesoTotal ? pesoPonderado / pesoTotal : null,
+    score, pesoDeclarado: peso, eixos,
+    respondidos: eixos.length,
+    total: classes.unanimes.length + classes.unilaterais.length,
+  };
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Contrastes — porte direto de diferenciais(). NUNCA elimina.
+// ─────────────────────────────────────────────────────────────────────────────
+
+function contrastes(corpus, respostas, estados) {
+  const vivo = (id) => estados[id]?.estado === "vivo";
+  const naoInvestigados = [], investigados = [], inativos = [];
+  for (const t of corpus.contrastes || []) {
+    const [a, z] = t.entre;
+    if (!vivo(a) || !vivo(z)) { inativos.push({ ...t, motivo: "um dos lados foi eliminado" }); continue; }
+    const v = respostas[t.discriminador];
+    if (v === undefined) naoInvestigados.push({ ...t, motivo: "não perguntado" });
+    else if (v === "ns") naoInvestigados.push({ ...t, motivo: "resposta inconclusiva" });
+    else if (v === "indiferente") naoInvestigados.push({ ...t, motivo: "declarado indiferente" });
+    else investigados.push({ ...t, resposta: v, inclina: t.inclina?.[v] || null });
+  }
+  return { naoInvestigados, investigados, inativos };
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// proximaPergunta() — quatro fases, estritamente ordenadas
+// ─────────────────────────────────────────────────────────────────────────────
+
+/**
+ * Fase 1 — eixos divisivos, por ganho = nFavor × nContra × peso (§19).
+ *          Alcance máximo é inútil aqui: um eixo unânime não separa ninguém.
+ * Fase 2 — discriminadores de contraste entre dois lados vivos. Prioriza pares
+ *          em que AMBOS estão na liderança: é a pergunta mais valiosa que o
+ *          instrumento pode fazer (§22, regra 2).
+ * Fase 3 — portões. Só entram quando já existe ranking — mas o ranking usado é
+ *          o CONTRAFACTUAL SEM PORTÕES (correção do B1): um portão que elimina
+ *          todos não pode impedir que os portões seguintes sejam perguntados.
+ * Fase 4 — opcional (opts.complementar). Eixos não discriminantes, marcados
+ *          como tal. Alimentam `afinidadeComOCampo` e a afinidade complementar;
+ *          nunca o ranking.
+ */
+function proximaPergunta(corpus, respostas, estados, opts = {}) {
+  const margem = opts.margem ?? MARGEM_PADRAO;
+  const vivos = corpus.candidatos.filter((c) => estados[c.id]?.estado === "vivo");
+  const base = vivos.length ? vivos : corpus.candidatos;
+  const classes = opts.classes || classificarEixos(corpus, base);
+
+  // Fase 1 — eixos divisivos
+  const cands = classes.divisivos
+    .filter((d) => respostas[d.eixo] === undefined && d.separacoes > 0)
+    .map((d) => ({ ...d, ganho: d.separacoes * d.peso }))
+    .sort((a, b) => b.ganho - a.ganho || b.peso - a.peso || a.eixo.localeCompare(b.eixo));
+  if (cands.length) {
+    const m = cands[0];
+    // §22, regra 2: se este eixo é o discriminador de um contraste entre dois
+    // líderes empatados, é a pergunta mais valiosa do instrumento. A ORDEM segue
+    // o ganho (§19); o que muda é o destaque.
+    const lideres = new Set(ranking(corpus, estados, margem).lideres);
+    const par = (corpus.contrastes || []).find(
+      (t) => t.discriminador === m.eixo && t.entre.every((id) => lideres.has(id))
+    );
+    return {
+      tipo: "eixo", fase: 1, id: m.eixo, ...corpus.eixos[m.eixo],
+      naoDiscriminante: false,
+      separa: { favor: m.nFavor, contra: m.nContra, mudos: m.mudos, separacoes: m.separacoes, ganho: m.ganho },
+      entreLideres: Boolean(par), desempata: par ? par.entre : null,
+    };
+  }
+
+  // Fase 2 — contrastes.
+  // NOTA MEDIDA: com as travas 15 e 16 do §24 em vigor, todo discriminador de
+  // contraste tem posturas opostas declaradas pelos dois lados do par; se ambos
+  // estão vivos, o eixo é divisivo por construção e a fase 1 já o consumiu. Esta
+  // fase portanto NÃO dispara neste corpus — o valor dos contrastes está no
+  // relatório ("não investigado" quando a resposta foi "ns" ou "indiferente") e no
+  // destaque de desempate da fase 1. O código fica porque a arquitetura de fases
+  // é do contrato do motor e um corpus com contraste em eixo não divisivo
+  // (por exemplo, com as travas relaxadas) voltaria a alcançá-la.
+  const { naoInvestigados } = contrastes(corpus, respostas, estados);
+  const abertos = naoInvestigados.filter((t) => respostas[t.discriminador] === undefined);
+  if (abertos.length) {
+    const lideres = new Set(ranking(corpus, estados, margem).lideres);
+    const entreLideres = abertos.find((t) => t.entre.every((id) => lideres.has(id)));
+    const t = entreLideres || abertos[0];
+    return {
+      tipo: "contraste", fase: 2, id: t.discriminador, ...corpus.eixos[t.discriminador],
+      naoDiscriminante: !setDe(classes.divisivos).has(t.discriminador),
+      entre: t.entre, nota: t.nota || null, inclina: t.inclina || null,
+      entreLideres: Boolean(entreLideres),
+    };
+  }
+
+  // Fase 3 — portões. Gatilho lido do estado SEM portões (correção do B1).
+  const semPortoes = { ...respostas };
+  for (const g of Object.keys(corpus.portoes || {})) delete semPortoes[g];
+  const estadosSemPortoes = avaliar(corpus, semPortoes, opts.linhasVermelhas || new Set(), { classes });
+  if (ranking(corpus, estadosSemPortoes, margem).ordem.length > 0) {
+    const g = Object.keys(corpus.portoes || {}).find((k) => respostas[k] === undefined);
+    if (g) return { tipo: "portao", fase: 3, id: g, ...corpus.portoes[g], naoDiscriminante: false };
+  }
+
+  // Fase 4 — encerramento complementar, opcional
+  if (opts.complementar) {
+    const comp = [...classes.unanimes, ...classes.unilaterais]
+      .filter((c) => respostas[c.eixo] === undefined)
+      .sort((a, b) => b.peso - a.peso || a.eixo.localeCompare(b.eixo));
+    if (comp.length) {
+      const m = comp[0];
+      return {
+        tipo: "eixo", fase: 4, id: m.eixo, ...corpus.eixos[m.eixo],
+        naoDiscriminante: true, categoria: m.categoria,
+        campo: { postura: m.postura, nFalam: m.nFalam, mudos: m.mudos },
+        restantes: comp.length,
+      };
+    }
+  }
+  return null;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// analisar() — o orquestrador que a UI e o relatório consomem
+// ─────────────────────────────────────────────────────────────────────────────
+
+function analisar(corpus, respostas, linhasVermelhas = new Set(), opts = {}) {
+  const margem = opts.margem ?? MARGEM_PADRAO;
+  const mortos = eliminacoes(corpus, respostas, linhasVermelhas);
+  const vivos = corpus.candidatos.filter((c) => !mortos[c.id]);
+  const classes = classificarEixos(corpus, vivos.length ? vivos : corpus.candidatos);
+  const estados = avaliar(corpus, respostas, linhasVermelhas, { classes });
+  const rk = ranking(corpus, estados, margem);
+
+  // §21, regra 3: se TODOS caíram, mostrar o ranking que existiria sem as linhas
+  // vermelhas. Devolver conjunto vazio sem explicação é o pior resultado possível.
+  const houveEliminacao = Object.values(estados).some((e) => e.estado === "eliminado");
+  let contrafactual = null;
+  if (houveEliminacao) {
+    // Sem linhas vermelhas o conjunto de vivos é outro, e com ele muda a
+    // classificação dos eixos: reclassificar é parte do "ranking que existiria".
+    const estadosCf = avaliar(corpus, respostas, new Set());
+    contrafactual = {
+      estados: estadosCf,
+      ranking: ranking(corpus, estadosCf, margem),
+      classes: classificarEixos(corpus, corpus.candidatos),
+    };
+  }
+
+  // Efeito colateral do §20 que precisa ser dito em voz alta: eliminar candidatos
+  // pode deixar um eixo antes divisivo com um lado só, tirando-o do ranking. Se
+  // isso zerar o conjunto discriminante, a afinidade some — e sem explicação isso
+  // parece defeito.
+  const respondeuAlgo = Object.keys(corpus.eixos).some((e) => {
+    const r = respostas[e];
+    return r !== undefined && r !== "ns" && r !== "indiferente";
+  });
+  const diagnostico = {
+    semEixosDiscriminantes: classes.divisivos.length === 0,
+    rankingVazioComRespostas: respondeuAlgo && rk.ordem.length === 0 && vivos.length > 0,
+    reclassificados: houveEliminacao
+      ? classificarEixos(corpus, corpus.candidatos).divisivos
+          .filter((d) => !classes.divisivos.some((x) => x.eixo === d.eixo))
+          .map((d) => d.eixo)
+      : [],
+  };
+
+  // §22, regra 2: contrastes ainda abertos entre dois líderes empatados.
+  const lideres = new Set(rk.lideres);
+  const ctr = contrastes(corpus, respostas, estados);
+  const desempates = ctr.naoInvestigados.filter((t) => t.entre.every((id) => lideres.has(id)));
+
+  return {
+    respostas, linhasVermelhas: [...asSet(linhasVermelhas)], margem,
+    estados, ranking: rk, classes, diagnostico,
+    contrastes: { ...ctr, desempates },
+    campo: afinidadeComOCampo(corpus, respostas, classes),
+    portoes: Object.fromEntries(
+      Object.keys(corpus.portoes || {}).map((k) => [k, respostas[k] ?? null])
+    ),
+    contrafactual,
+    todosEliminados: vivos.length === 0,
+  };
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Rastro
+// ─────────────────────────────────────────────────────────────────────────────
+
+/** Diff entre duas análises: o que a última resposta mudou. */
+function transicoes(anterior, atual) {
+  const estados = [];
+  for (const id of Object.keys(atual.estados)) {
+    const de = anterior?.estados?.[id]?.estado ?? null;
+    const para = atual.estados[id].estado;
+    if (de !== para) estados.push({ id, de, para, motivo: atual.estados[id].motivo });
+  }
+  const ordemDe = anterior?.ranking?.ordem ?? [];
+  const ordemPara = atual.ranking.ordem;
+  const lideresDe = anterior?.ranking?.lideres ?? [];
+  const lideresPara = atual.ranking.lideres;
+  const igual = (a, b) => a.length === b.length && a.every((x, i) => x === b[i]);
+  return {
+    estados,
+    ranking: { de: ordemDe, para: ordemPara, mudou: !igual(ordemDe, ordemPara) },
+    lideres: { de: lideresDe, para: lideresPara, mudou: !igual(lideresDe, lideresPara) },
+  };
+}
+
+function explicarMotivo(corpus, motivo) {
+  if (!motivo) return null;
+  if (motivo.tipo === "linha-vermelha") {
+    const e = corpus.eixos[motivo.eixo];
+    const dir = motivo.postura === "favor" ? "é favorável" : "é contrário";
+    return `linha vermelha · ${e?.label ?? motivo.eixo} — o plano ${dir} a essa posição`;
+  }
+  if (motivo.tipo === "portao") {
+    // B8 corrigido: o texto vem do portão que disparou, não de uma string fixa.
+    const g = corpus.portoes?.[motivo.portao];
+    return `portão não atendido · ${g?.nota ?? g?.pergunta ?? motivo.portao}`;
+  }
+  return `eliminado · ${motivo.tipo}`;
+}
+
+
+/**
+ * montarRelatorio() — texto puro, seções fixas, espelhando §27 etapa 7.
+ *
+ * Esta é a ÚNICA função do projeto com efeito de ambiente: o carimbo de tempo do
+ * cabeçalho. Todo o resto vem da análise, que é pura. Passe `meta.geradoEm` para
+ * tornar a saída determinística (é o que o executor de perfis faz).
+ */
+
+const pct = (x) => (x === null || x === undefined ? "—" : x.toFixed(3));
+const cob = (x) => (x === null || x === undefined ? "—" : x.toFixed(2));
+const linha = (n = 78) => "─".repeat(n);
+
+function montarRelatorio(corpus, analise, rastro = [], meta = {}) {
+  const L = [];
+  const nome = (id) => {
+    const c = corpus.candidatos.find((x) => x.id === id);
+    return c ? `${c.nome}${c.partido ? ` (${c.partido})` : ""}` : id;
+  };
+  const eixoLabel = (id) => corpus.eixos[id]?.label ?? id;
+  const geradoEm = meta.geradoEm ?? new Date().toLocaleString("pt-BR");
+  const { estados, ranking: rk, classes, campo, contrastes: ctr, diagnostico } = analise;
+
+  const e = corpus.escopo || {};
+  L.push(`COMPARAÇÃO DE PROPOSTAS — ${e.eleicao ?? "?"}, ${e.cargo ?? "?"}, ${e.ambito ?? "?"}`);
+  L.push(linha());
+  L.push(`Gerado em: ${geradoEm}`);
+  L.push(`Corpus: versão ${corpus.corpusVersion} · schema ${corpus.schemaVersion} · status ${corpus.status}`);
+  L.push(`Curadoria: ${corpus.curadoria?.responsavel ?? "NÃO IDENTIFICADA"}` +
+         (corpus.curadoria?.data ? ` · ${corpus.curadoria.data}` : "") +
+         (corpus.curadoria?.revisadoPor ? ` · revisado por ${corpus.curadoria.revisadoPor}` : " · SEM REVISÃO INDEPENDENTE"));
+  L.push(`Método de curadoria: ${corpus.curadoria?.metodo ?? "—"}`);
+  L.push(`Critério de inclusão: ${corpus.curadoria?.criterioDeInclusao ?? "—"}`);
+  if (meta.identificador) L.push(`Identificador da sessão: ${meta.identificador}`);
+  L.push("");
+  if (corpus.status !== "verified") { L.push(`[ATENÇÃO] ${corpus.aviso}`); L.push(""); }
+  for (const lim of corpus.curadoria?.limitacoesConhecidas || []) L.push(`[LIMITAÇÃO] ${lim}`);
+  if (corpus.curadoria?.limitacoesConhecidas?.length) L.push("");
+
+  // ── RANKING ───────────────────────────────────────────────────────────────
+  L.push("RANKING");
+  L.push(linha());
+  L.push("Afinidade mede alinhamento NOS PONTOS EM QUE OS CANDIDATOS DIVERGEM entre si —");
+  L.push("não é percentual de concordância com o plano. Eixos em que o campo inteiro pensa");
+  L.push("igual ficam fora da conta e aparecem em CONSENSO DO CAMPO.");
+  L.push("Cobertura é a fração do que você respondeu sobre a qual o candidato se pronunciou.");
+  L.push(`Margem de empate: ${rk.margem.toFixed(2)} (parâmetro; candidatos dentro dela são declarados empatados)`);
+  L.push("");
+  if (!rk.ordem.length) {
+    L.push("  Nenhum candidato com afinidade calculável.");
+    if (diagnostico?.semEixosDiscriminantes)
+      L.push("  Motivo: não há eixo em que os candidatos ainda vivos divirjam entre si.");
+    if (analise.todosEliminados) L.push("  Motivo: todos foram eliminados. Ver ELIMINADOS e RANKING CONTRAFACTUAL.");
+  }
+  for (const [i, id] of rk.ordem.entries()) {
+    const s = estados[id];
+    const lider = rk.lideres.includes(id);
+    const marca = lider ? (rk.empate ? " ⟨líder — empatado⟩" : " ⟨líder⟩") : "";
+    L.push(`  ${String(i + 1).padStart(2)}. ${nome(id).padEnd(34)} afinidade ${pct(s.afinidade)}   cobertura ${cob(s.cobertura)}${marca}`);
+  }
+  if (rk.empate) {
+    L.push("");
+    L.push(`  EMPATE declarado entre: ${rk.lideres.map(nome).join(" · ")}`);
+    L.push("  Não há ordem entre eles. A diferença está dentro da margem, e a margem existe");
+    L.push("  porque os pesos dos eixos foram escolhidos à mão e não têm essa precisão.");
+  }
+  // §18, regra 3 — o líder com cobertura baixa precisa ser denunciado na mesma tela.
+  const alertas = [];
+  const PROXIMIDADE = 0.25;   // "logo atrás": 5× a margem padrão de empate
+  for (const id of rk.lideres) {
+    const s = estados[id];
+    if (s.cobertura !== null && s.cobertura < 0.7)
+      alertas.push(`${nome(id)} lidera com cobertura ${cob(s.cobertura)}: pronunciou-se sobre menos de 70% do peso que você respondeu.`);
+    // "quem vem atrás" (§18, regra 3) é quem está logo atrás — não o campo inteiro.
+    // Citar alguém com afinidade 0,21 como referência de cobertura é ruído.
+    const atras = rk.ordem.filter((x) => !rk.lideres.includes(x))
+      .filter((x) => estados[x].afinidade >= s.afinidade - PROXIMIDADE)
+      .filter((x) => estados[x].cobertura !== null && s.cobertura !== null && estados[x].cobertura > s.cobertura);
+    if (atras.length)
+      alertas.push(`${nome(id)} lidera com cobertura menor que ${atras.map(nome).join(", ")}, logo atrás — falou menos e por isso errou menos.`);
+  }
+  if (alertas.length) {
+    L.push("");
+    L.push("  [SILÊNCIO — leia antes do ranking]");
+    for (const a of alertas) L.push(`  · ${a}`);
+  }
+  if (rk.semSinal.length) {
+    L.push("");
+    L.push(`  Sem afinidade calculável (não declararam nada sobre o que você respondeu): ${rk.semSinal.map(nome).join(", ")}`);
+    L.push("  Ausência de posição não é zero e não é concordância. Ficam fora da ordem.");
+  }
+  L.push("");
+
+  // ── POR QUE / DIVERGÊNCIAS / SILÊNCIOS ────────────────────────────────────
+  const comCitacao = (id, eixos) => eixos.map((ex) => {
+    const c = corpus.candidatos.find((x) => x.id === id);
+    const p = c.posicoes.find((q) => q.eixo === ex);
+    const out = [`    · ${eixoLabel(ex)} [peso ${corpus.eixos[ex].peso}] — plano ${p.postura === "favor" ? "é favorável" : "é contrário"}`,
+                 `      "${p.citacao.texto}"`,
+                 `      ${p.citacao.fonte} · ${p.citacao.local}`];
+    if (p.citacao.contexto) out.push(`      contexto: ${p.citacao.contexto}`);
+    if (p.interpretacao) out.push(`      [INTERPRETAÇÃO DO CURADOR — a postura não é literal na citação] ${p.interpretacao}`);
+    return out.join("\n");
+  });
+
+  for (const [titulo, chave, nota] of [
+    ["POR QUE", "alinhados", "Eixos em que sua posição coincide com a posição declarada no plano."],
+    ["DIVERGÊNCIAS", "divergentes", "Eixos em que sua posição contraria a posição declarada no plano."],
+  ]) {
+    L.push(titulo); L.push(linha()); L.push(nota); L.push("");
+    for (const id of [...rk.ordem, ...rk.semSinal]) {
+      const s = estados[id];
+      if (!s[chave].length) continue;
+      L.push(`  ${nome(id)}`);
+      L.push(comCitacao(id, s[chave]).join("\n"));
+      L.push("");
+    }
+  }
+
+  L.push("SILÊNCIOS");
+  L.push(linha());
+  L.push("Eixos que você respondeu e sobre os quais o plano não diz nada. Não somam nem");
+  L.push("subtraem — e é exatamente por isso que reduzem a cobertura. Listados nominalmente.");
+  L.push("");
+  for (const id of [...rk.ordem, ...rk.semSinal]) {
+    const s = estados[id];
+    if (!s.silencios.length) continue;
+    const peso = s.silencios.reduce((n, ex) => n + corpus.eixos[ex].peso, 0);
+    L.push(`  ${nome(id)} — ${s.silencios.length} eixo(s), peso ${peso}`);
+    for (const ex of s.silencios) L.push(`    · ${eixoLabel(ex)} [peso ${corpus.eixos[ex].peso}]`);
+  }
+  L.push("");
+
+  // ── ELIMINADOS ────────────────────────────────────────────────────────────
+  const eliminados = corpus.candidatos.filter((c) => estados[c.id].estado === "eliminado");
+  L.push("ELIMINADOS");
+  L.push(linha());
+  if (!eliminados.length) L.push("  Nenhum.");
+  for (const c of eliminados) {
+    const m = estados[c.id].motivo;
+    L.push(`  ${nome(c.id)} — ${explicarMotivo(corpus, m)}`);
+    if (m.tipo === "linha-vermelha") {
+      L.push(`    eixo: ${eixoLabel(m.eixo)} [marcado por você como inegociável]`);
+      L.push(`    "${m.citacao.texto}"`);
+      L.push(`    ${m.citacao.fonte} · ${m.citacao.local}`);
+      if (m.interpretacao) L.push(`    [INTERPRETAÇÃO DO CURADOR] ${m.interpretacao}`);
+    }
+  }
+  if (analise.contrafactual) {
+    L.push("");
+    L.push("  RANKING CONTRAFACTUAL — a ordem que existiria sem nenhuma linha vermelha:");
+    const cf = analise.contrafactual;
+    if (!cf.ranking.ordem.length) L.push("    (nenhuma afinidade calculável)");
+    for (const [i, id] of cf.ranking.ordem.entries())
+      L.push(`    ${String(i + 1).padStart(2)}. ${nome(id).padEnd(34)} afinidade ${pct(cf.estados[id].afinidade)}   cobertura ${cob(cf.estados[id].cobertura)}`);
+  }
+  L.push("");
+
+  // ── CONSENSO DO CAMPO ─────────────────────────────────────────────────────
+  L.push("CONSENSO DO CAMPO");
+  L.push(linha());
+  L.push("Eixos que NÃO separam ninguém e por isso não entram no ranking — incluí-los");
+  L.push("inverteria a ordem em favor de quem falou pouco (§20 da especificação).");
+  L.push("");
+  L.push(`  Unânimes (todos os vivos declaram a mesma coisa): ${classes.unanimes.length}`);
+  for (const u of classes.unanimes)
+    L.push(`    · ${eixoLabel(u.eixo)} — ${u.nFalam} candidatos, todos ${u.postura === "favor" ? "a favor" : "contrários"}`);
+  L.push(`  Unilaterais (parte declara, ninguém se opõe): ${classes.unilaterais.length}`);
+  for (const u of classes.unilaterais)
+    L.push(`    · ${eixoLabel(u.eixo)} — ${u.nFalam} ${u.postura === "favor" ? "a favor" : "contrários"}, ${u.mudos} sem dizer nada`);
+  if (classes.mudos.length) {
+    L.push(`  Sem nenhuma menção: ${classes.mudos.length}`);
+    for (const u of classes.mudos) L.push(`    · ${eixoLabel(u.eixo)}`);
+  }
+  L.push("");
+  if (campo.respondidos) {
+    L.push(`  AFINIDADE COM O CAMPO: ${pct(campo.afinidade)}   cobertura ${cob(campo.cobertura)}   (${campo.respondidos} de ${campo.total} eixos respondidos)`);
+    L.push("  Métrica separada, que NÃO influencia o ranking. Responde outra pergunta:");
+    L.push("  não \"quem é mais parecido comigo\", mas \"o quanto este campo eleitoral inteiro");
+    L.push("  me representa\". Afinidade com o campo baixa significa que nenhum ranking entre");
+    L.push("  estes candidatos conserta o problema.");
+    const compTem = [...rk.ordem, ...rk.semSinal].filter((id) => estados[id].complementar.afinidade !== null);
+    if (compTem.length) {
+      L.push("");
+      L.push("  Por candidato, nos eixos não discriminantes (também fora do ranking):");
+      for (const id of compTem) {
+        const cp = estados[id].complementar;
+        L.push(`    ${nome(id).padEnd(34)} afinidade ${pct(cp.afinidade)}   cobertura ${cob(cp.cobertura)}`);
+      }
+      L.push("  É aqui que candidaturas empatadas nos eixos divisivos se separam.");
+    }
+  } else {
+    L.push("  Nenhum eixo não discriminante foi respondido. A fase complementar é opcional.");
+  }
+  L.push("");
+
+  // ── NÃO INVESTIGADO ───────────────────────────────────────────────────────
+  L.push("NÃO INVESTIGADO");
+  L.push(linha());
+  L.push("Pares de candidatos vivos e próximos, e a única coisa que os separa — ainda sem");
+  L.push("resposta sua. Esta seção é a defesa contra o fechamento prematuro: o instrumento");
+  L.push("existe para dizer o que ficou de fora, não só o que fechou.");
+  L.push("");
+  if (!ctr.naoInvestigados.length) L.push("  Nenhum. Todos os contrastes ativos foram investigados.");
+  for (const t of ctr.naoInvestigados) {
+    const destaque = ctr.desempates?.some((d) => d.discriminador === t.discriminador && d.entre.join() === t.entre.join());
+    L.push(`  ${t.entre.map(nome).join("  vs  ")}${destaque ? "   ⟨DESEMPATARIA A LIDERANÇA⟩" : ""}`);
+    L.push(`    discriminador: ${eixoLabel(t.discriminador)} — ${t.motivo}`);
+    if (t.nota) L.push(`    ${t.nota}`);
+  }
+  if (ctr.investigados.length) {
+    L.push("");
+    L.push("  Investigados:");
+    for (const t of ctr.investigados)
+      L.push(`    ${t.entre.map(nome).join(" vs ")} · ${eixoLabel(t.discriminador)} = "${t.resposta}" → inclina para ${t.inclina ? nome(t.inclina) : "nenhum lado"}`);
+  }
+  if (ctr.inativos.length) {
+    L.push("");
+    L.push(`  Inativos (um dos lados eliminado): ${ctr.inativos.map((t) => t.entre.map(nome).join(" vs ")).join(" · ")}`);
+  }
+  L.push("");
+
+  // ── PORTÕES ───────────────────────────────────────────────────────────────
+  L.push("PORTÕES");
+  L.push(linha());
+  for (const [id, g] of Object.entries(corpus.portoes || {})) {
+    const r = analise.portoes[id];
+    L.push(`  ${g.pergunta}`);
+    L.push(`    resposta: ${r ?? "[PENDENTE]"}   efeito: ${g.efeito}${g.efeito === "registro" ? " (apenas registro — não altera nenhum estado)" : ""}`);
+  }
+  L.push("");
+
+  // ── SUAS RESPOSTAS ────────────────────────────────────────────────────────
+  L.push("SUAS RESPOSTAS");
+  L.push(linha());
+  const lv = new Set(analise.linhasVermelhas);
+  for (const [id, def] of Object.entries(corpus.eixos)) {
+    const r = analise.respostas[id];
+    if (r === undefined) continue;
+    L.push(`  ${eixoLabel(id)} [peso ${def.peso}]${lv.has(id) ? " [LINHA VERMELHA]" : ""}: ${r}`);
+    if (def.formulacaoNeutra === false)
+      L.push(`    [REDAÇÃO NÃO NEUTRA] ${def.notaRedacao}`);
+  }
+  const naoResp = Object.keys(corpus.eixos).filter((id) => analise.respostas[id] === undefined);
+  if (naoResp.length) {
+    L.push("");
+    L.push(`  Não perguntados (${naoResp.length}): ${naoResp.map(eixoLabel).join(" · ")}`);
+    L.push("  Não perguntado é diferente de \"não sei\" e de \"indiferente\". Nenhum deles pesou.");
+  }
+  L.push("");
+
+  // ── RASTRO ────────────────────────────────────────────────────────────────
+  L.push("RASTRO DA AVALIAÇÃO");
+  L.push(linha());
+  L.push("Cada resposta e o que ela mudou. É isto que permite auditar a conclusão depois.");
+  L.push("");
+  if (!rastro.length) L.push("  (vazio)");
+  for (const [i, passo] of rastro.entries()) {
+    const q = passo.pergunta;
+    L.push(`  ${String(i + 1).padStart(2)}. [${q.tipo}${q.fase ? ` · fase ${q.fase}` : ""}] ${q.pergunta ?? eixoLabel(q.id)}`);
+    L.push(`      resposta: ${passo.resposta}`);
+    const tr = passo.transicoes;
+    if (tr?.estados?.length)
+      for (const e2 of tr.estados) L.push(`      ${nome(e2.id)}: ${e2.de} → ${e2.para}${e2.motivo ? ` (${explicarMotivo(corpus, e2.motivo)})` : ""}`);
+    if (tr?.ranking?.mudou) L.push(`      ranking: ${tr.ranking.de.join(" > ") || "—"}  →  ${tr.ranking.para.join(" > ") || "—"}`);
+    if (tr?.lideres?.mudou) L.push(`      líderes: ${tr.lideres.de.join(", ") || "—"}  →  ${tr.lideres.para.join(", ") || "—"}`);
+    if (!tr?.estados?.length && !tr?.ranking?.mudou && !tr?.lideres?.mudou) L.push("      (nada mudou no ranking)");
+  }
+  L.push("");
+
+  // ── PLANOS ────────────────────────────────────────────────────────────────
+  L.push("PLANOS DE GOVERNO INTEGRAIS");
+  L.push(linha());
+  L.push("As citações deste relatório são resumos. Os documentos abaixo prevalecem sobre");
+  L.push("qualquer coisa dita aqui. Leia o plano de quem você está considerando.");
+  L.push("");
+  for (const c of corpus.candidatos) L.push(`  ${nome(c.id).padEnd(34)} ${c.planoUrl ?? "—"}`);
+  L.push("");
+
+  L.push(linha());
+  L.push("Este documento compara POSIÇÕES DECLARADAS EM DOCUMENTOS. NÃO RECOMENDA VOTO.");
+  L.push("Ignora, por construção: histórico de mandato, capacidade de execução, coalizão,");
+  L.push("financiamento de campanha e a distância conhecida entre plano de governo e governo.");
+  L.push("A escolha dos eixos e das citações é o maior viés deste sistema, e ele é invisível");
+  L.push("no resultado: quem decidiu quais eixos existem determinou o resultado antes da sua");
+  L.push("primeira resposta.");
+  return L.join("\n");
+}
+
+
+const CORPUS = Object.freeze({"schemaVersion":"1.0.0","corpusVersion":"0.1.0","escopo":{"eleicao":"Eleição Geral de 2026","cargo":"Presidente da República","ambito":"Brasil","turno":1},"status":"draft","aviso":"CORPUS EM RASCUNHO. As citações deste corpus são RESUMOS CURATORIAIS extraídos de source/propostas.md e source/auxiliar.md — não são transcrições literais dos planos de governo registrados. Os planos completos estão linkados em cada candidatura e prevalecem sobre qualquer resumo aqui. Este instrumento compara posições declaradas em documentos e NÃO recomenda voto.","curadoria":{"responsavel":null,"data":null,"metodo":"Os eixos foram derivados por agrupamento das propostas e das oposições declaradas em source/propostas.md (o que cada candidatura defende) e source/auxiliar.md (o que cada candidatura declara combater). Uma postura 'contra' só foi registrada quando o texto declara rejeição àquela política; quando a postura foi inferida e não é literal, a inferência está no campo 'interpretacao' e é exibida ao usuário junto da citação.","criterioDeInclusao":"Foram incluídos todos os eixos com ao menos uma postura declarada nas fontes. Eixos em que nenhuma candidatura se opõe permanecem no corpus como não discriminantes: não entram no ranking e são reportados como consenso ou posição unilateral do campo.","revisadoPor":null,"limitacoesConhecidas":["As citações são resumos curatoriais, não trechos literais dos planos registrados. Nenhuma postura tem, hoje, citação verbatim auditável.","Os códigos entre colchetes em source/auxiliar.md são internamente inconsistentes (C03 designa tanto Romeu Zema quanto Augusto Cury; Lula aparece como C12). Foram descartados; os IDs deste corpus seguem a ordem de source/propostas.md.","As candidaturas C09, C10, C11 e C12 têm plataformas idênticas em source/propostas.md; separam-se apenas pelas propostas exclusivas de source/auxiliar.md, que são majoritariamente não discriminantes. O empate entre elas no ranking é um fato do corpus, não um defeito do motor.","Os pesos dos eixos são escolha do curador e não vêm das fontes. Rode `node src/perfis.mjs mutacao` para ver de quais deles o resultado depende: hoje, dobrar o peso muda algum desfecho em 7 dos 55 eixos."]},"eixos":{"e_privatizacoes":{"label":"Privatizações, concessões e PPPs","pergunta":"Você concorda que ativos e serviços de infraestrutura pública sejam transferidos à iniciativa privada por meio de privatizações, concessões e parcerias público-privadas?","dominio":"economia","peso":3,"formulacaoNeutra":true,"notaRedacao":null},"e_gestao_privada_saude":{"label":"Gestão privada e OSs na saúde pública","pergunta":"Você concorda que o poder público amplie a oferta de saúde por convênios com organizações sociais, concessões à iniciativa privada e compra de serviços em estabelecimentos particulares?","dominio":"saude","peso":3,"formulacaoNeutra":true,"notaRedacao":null},"e_ensino_civico_militar":{"label":"Modelo escolar disciplinar / cívico-militar","pergunta":"Você concorda que a educação básica adote modelos de governança escolar centrados em disciplina, hierarquia e valores familiares?","dominio":"educacao","peso":3,"formulacaoNeutra":true,"notaRedacao":null},"e_flexibilizacao_trabalhista":{"label":"Flexibilização dos vínculos de trabalho","pergunta":"Você concorda com a flexibilização dos vínculos de trabalho — contratação por plataformas sem vínculo empregatício, terceirização ampla e prestação de serviço como pessoa jurídica?","dominio":"trabalho","peso":3,"formulacaoNeutra":true,"notaRedacao":null},"e_encarceramento_excecao":{"label":"Encarceramento de exceção","pergunta":"Você concorda com a adoção de regimes prisionais de exceção — encarceramento em larga escala e suspensão de garantias individuais — como política de segurança pública?","dominio":"seguranca","peso":3,"formulacaoNeutra":false,"notaRedacao":"Não foi possível formular este eixo sem carga avaliativa: qualquer redação que descreva o mecanismo já o qualifica. Marcado para revisão."},"e_estabilidade_emprego":{"label":"Estabilidade no emprego","pergunta":"Você concorda com a garantia legal de estabilidade no emprego após um período de vínculo, no serviço público e no setor privado?","dominio":"trabalho","peso":2,"formulacaoNeutra":true,"notaRedacao":null},"e_renda_sem_contrapartida":{"label":"Transferência de renda sem contrapartida","pergunta":"Você concorda com programas de transferência de renda pagos sem exigência de contrapartida em trabalho ou serviço comunitário?","dominio":"social","peso":3,"formulacaoNeutra":true,"notaRedacao":null},"e_simplificacao_fiscal":{"label":"Simplificação e automação fiscal","pergunta":"Você concorda com a simplificação de obrigações tributárias e a automação eletrônica de procedimentos fiscais para reduzir custos de conformidade?","dominio":"tributacao","peso":2,"formulacaoNeutra":true,"notaRedacao":null},"e_justica_fiscal_progressiva":{"label":"Tributação progressiva sobre renda, lucro e herança","pergunta":"Você concorda em deslocar a carga tributária para rendimentos elevados, lucros e heranças, desonerando o consumo básico?","dominio":"tributacao","peso":3,"formulacaoNeutra":true,"notaRedacao":null},"e_reducao_jornada":{"label":"Redução da jornada de trabalho","pergunta":"Você concorda com a redução da jornada semanal de trabalho acompanhada do reforço de garantias legais?","dominio":"trabalho","peso":2,"formulacaoNeutra":true,"notaRedacao":null},"e_reestatizacao":{"label":"Reestatização de empresas estratégicas","pergunta":"Você concorda com a retomada pelo Estado de empresas estratégicas que foram privatizadas?","dominio":"economia","peso":3,"formulacaoNeutra":true,"notaRedacao":null},"e_teto_fiscal":{"label":"Regras de teto e responsabilidade fiscal","pergunta":"Você concorda com a manutenção de regras que limitam o crescimento do gasto público, como o arcabouço fiscal e a Lei de Responsabilidade Fiscal?","dominio":"fiscal","peso":3,"formulacaoNeutra":true,"notaRedacao":null},"e_servico_divida":{"label":"Pagamento do serviço da dívida pública","pergunta":"Você concorda que o orçamento federal continue destinando recursos ao pagamento e à amortização dos títulos da dívida pública?","dominio":"fiscal","peso":3,"formulacaoNeutra":true,"notaRedacao":null},"e_representacao_sindical":{"label":"Financiamento compulsório e peso institucional dos sindicatos","pergunta":"Você concorda com a participação central de entidades sindicais na formulação de políticas públicas e com encargos compulsórios que as financiem?","dominio":"trabalho","peso":1,"formulacaoNeutra":true,"notaRedacao":null},"e_conselhos_profissionais":{"label":"Restrições de conselhos ao exercício profissional","pergunta":"Você concorda com a manutenção de exigências legais e de conselhos profissionais para o exercício de ocupações que não envolvem risco à integridade física?","dominio":"trabalho","peso":2,"formulacaoNeutra":true,"notaRedacao":null},"e_escala_movel":{"label":"Escala móvel de horas e pleno emprego","pergunta":"Você concorda com a redução da jornada para 36 horas sem redução salarial, com escala móvel que distribua as horas para garantir emprego a todos?","dominio":"trabalho","peso":2,"formulacaoNeutra":true,"notaRedacao":null},"e_expropriacao_ouro":{"label":"Estatização da cadeia do ouro","pergunta":"Você concorda com a estatização da produção nacional de ouro e metais preciosos para compor reservas cambiais públicas?","dominio":"economia","peso":2,"formulacaoNeutra":true,"notaRedacao":null},"e_plataformas_estatais":{"label":"Plataformas digitais estatais","pergunta":"Você concorda com a criação de aplicativos estatais de entrega e comércio eletrônico para concorrer com plataformas privadas?","dominio":"economia","peso":2,"formulacaoNeutra":true,"notaRedacao":null},"e_proibicao_bets":{"label":"Proibição de apostas eletrônicas","pergunta":"Você concorda com a proibição total das plataformas de apostas esportivas eletrônicas e a expropriação de seus ativos?","dominio":"economia","peso":2,"formulacaoNeutra":true,"notaRedacao":null},"e_restricao_exportacao_alimentos":{"label":"Restrição à exportação de alimentos essenciais","pergunta":"Você concorda com a proibição de exportar gêneros alimentícios essenciais antes de assegurado o abastecimento interno a preços populares?","dominio":"economia","peso":2,"formulacaoNeutra":true,"notaRedacao":null},"e_aposentadoria_tempo_servico":{"label":"Aposentadoria por tempo de serviço reduzido","pergunta":"Você concorda com aposentadoria garantida aos 25 anos de serviço para mulheres e 30 para homens?","dominio":"previdencia","peso":2,"formulacaoNeutra":true,"notaRedacao":null},"e_vigilancia_massa":{"label":"Vigilância eletrônica e reconhecimento facial","pergunta":"Você concorda com o monitoramento territorial por inteligência artificial, sensores e reconhecimento facial em larga escala?","dominio":"seguranca","peso":3,"formulacaoNeutra":true,"notaRedacao":null},"e_isolamento_liderancas":{"label":"Isolamento de lideranças de facções","pergunta":"Você concorda com presídios de segurança máxima e restrição rígida de comunicação para isolar lideranças de facções criminosas?","dominio":"seguranca","peso":2,"formulacaoNeutra":true,"notaRedacao":null},"e_ministerio_seguranca":{"label":"Pasta federal dedicada à segurança","pergunta":"Você concorda com a criação de um ministério federal específico para coordenar as ações de segurança e defesa social?","dominio":"seguranca","peso":1,"formulacaoNeutra":true,"notaRedacao":null},"e_desmilitarizacao":{"label":"Desmilitarização das polícias","pergunta":"Você concorda com a transição das forças de segurança para estruturas civis de policiamento preventivo de proximidade?","dominio":"seguranca","peso":3,"formulacaoNeutra":true,"notaRedacao":null},"e_maioridade_penal":{"label":"Redução da maioridade penal","pergunta":"Você concorda com a redução da maioridade penal para 16 anos e com punição penal severa a adolescentes a partir dos 14 por crimes dolosos graves?","dominio":"seguranca","peso":3,"formulacaoNeutra":true,"notaRedacao":null},"e_fundo_vitimas":{"label":"Redirecionamento do auxílio-reclusão","pergunta":"Você concorda em redirecionar as dotações do auxílio-reclusão para um fundo de indenização às famílias das vítimas de crimes graves?","dominio":"seguranca","peso":1,"formulacaoNeutra":true,"notaRedacao":null},"e_seguranca_baseada_evidencias":{"label":"Exigência de evidência empírica em segurança","pergunta":"Você concorda que práticas de policiamento só sejam adotadas mediante dados empíricos de eficácia e monitoramento de resultados?","dominio":"seguranca","peso":2,"formulacaoNeutra":true,"notaRedacao":null},"e_ensino_superior_mcti":{"label":"Ensino superior sob a pasta de Ciência e Tecnologia","pergunta":"Você concorda em deslocar o ensino superior e o fomento científico do MEC para o Ministério de Ciência, Tecnologia e Inovações?","dominio":"educacao","peso":2,"formulacaoNeutra":true,"notaRedacao":null},"e_ensino_integral_civil":{"label":"Escola em tempo integral e incentivo à permanência","pergunta":"Você concorda com a ampliação de escolas em tempo integral de natureza civil e com incentivos pecuniários contra o abandono escolar?","dominio":"educacao","peso":2,"formulacaoNeutra":true,"notaRedacao":null},"e_estatizacao_ensino":{"label":"Estatização integral do ensino","pergunta":"Você concorda com a estatização integral das estruturas educacionais do país?","dominio":"educacao","peso":3,"formulacaoNeutra":true,"notaRedacao":null},"e_fim_vestibular":{"label":"Fim dos exames de seleção para o ensino superior","pergunta":"Você concorda com o fim do vestibular e de outros exames de seleção como forma de ingresso no ensino superior público?","dominio":"educacao","peso":2,"formulacaoNeutra":true,"notaRedacao":null},"e_pedagogia_socioemocional":{"label":"Pedagogia socioemocional","pergunta":"Você concorda que o ensino básico substitua a transmissão expositiva de conteúdo por métodos que incluam desenvolvimento socioemocional?","dominio":"educacao","peso":2,"formulacaoNeutra":true,"notaRedacao":null},"e_orcamento_educacao_pib":{"label":"Piso de 10% do PIB para a educação","pergunta":"Você concorda com a vinculação de no mínimo 10% do PIB ao financiamento da educação pública?","dominio":"educacao","peso":2,"formulacaoNeutra":true,"notaRedacao":null},"e_celular_em_sala":{"label":"Uso de celular em sala de aula","pergunta":"Você concorda com a permissão do uso de aparelhos celulares em sala de aula?","dominio":"educacao","peso":1,"formulacaoNeutra":true,"notaRedacao":null},"e_interoperabilidade_saude":{"label":"Prontuário eletrônico integrado","pergunta":"Você concorda com a centralização de prontuários e exames em uma infraestrutura tecnológica que integre todos os estabelecimentos de saúde?","dominio":"saude","peso":2,"formulacaoNeutra":true,"notaRedacao":null},"e_triagem_ia":{"label":"Triagem de atendimento por inteligência artificial","pergunta":"Você concorda que encaminhamentos e consultas sejam regulados por sistemas de inteligência artificial que priorizem por risco clínico?","dominio":"saude","peso":2,"formulacaoNeutra":true,"notaRedacao":null},"e_comunidades_terapeuticas":{"label":"Repasse público a comunidades terapêuticas","pergunta":"Você concorda com a destinação de recursos públicos a comunidades terapêuticas de base privada ou religiosa para dependentes químicos?","dominio":"saude","peso":2,"formulacaoNeutra":true,"notaRedacao":null},"e_foro_e_monocraticas":{"label":"Foro penal em cortes superiores e decisões monocráticas","pergunta":"Você concorda com a competência de cortes constitucionais para julgar penalmente parlamentares e com decisões individuais de ministros que suspendam atos do Legislativo?","dominio":"justica","peso":2,"formulacaoNeutra":true,"notaRedacao":null},"e_controle_externo_stf":{"label":"Controle externo do Supremo Tribunal Federal","pergunta":"Você concorda com a criação de corregedoria externa ao STF e com a votação obrigatória, pelo Senado, de pedidos de destituição de ministros?","dominio":"justica","peso":2,"formulacaoNeutra":true,"notaRedacao":null},"e_mandato_magistratura":{"label":"Fim da vitaliciedade da magistratura","pergunta":"Você concorda com mandatos temporários e revogáveis por voto popular para juízes de tribunais regionais e superiores?","dominio":"justica","peso":3,"formulacaoNeutra":true,"notaRedacao":null},"e_reeleicao_executivo":{"label":"Reeleição consecutiva no Executivo","pergunta":"Você concorda com a manutenção da reeleição consecutiva para presidente, governadores e prefeitos?","dominio":"politica","peso":2,"formulacaoNeutra":true,"notaRedacao":null},"e_emendas_impositivas":{"label":"Emendas parlamentares impositivas","pergunta":"Você concorda com a manutenção de emendas parlamentares impositivas e de mecanismos de transferência orçamentária sem rastreabilidade?","dominio":"orcamento","peso":2,"formulacaoNeutra":true,"notaRedacao":null},"e_sigilo_gastos":{"label":"Sigilo sobre gastos da administração federal","pergunta":"Você concorda com a imposição de sigilos de longo prazo sobre gastos, notas fiscais e relatórios da administração federal?","dominio":"transparencia","peso":1,"formulacaoNeutra":true,"notaRedacao":null},"e_financiamento_publico_campanhas":{"label":"Fundo partidário e fundo eleitoral","pergunta":"Você concorda com a manutenção de recursos públicos (Fundo Partidário e Fundo Eleitoral) para custear partidos e campanhas?","dominio":"politica","peso":2,"formulacaoNeutra":true,"notaRedacao":null},"e_unicameralismo":{"label":"Parlamento unicameral e conselhos populares","pergunta":"Você concorda com a substituição do Congresso por um parlamento unicameral e com conselhos populares deliberativos como base da democracia direta?","dominio":"politica","peso":3,"formulacaoNeutra":true,"notaRedacao":null},"e_fusao_municipios":{"label":"Fusão compulsória de municípios","pergunta":"Você concorda com a fusão compulsória de pequenos municípios economicamente dependentes em distritos de maior escala?","dominio":"federativo","peso":2,"formulacaoNeutra":true,"notaRedacao":null},"e_responsabilidade_gerencial":{"label":"Sanção a governos locais por indicadores","pergunta":"Você concorda com a extinção de repasses e a penalização de partidos quando governos locais apresentam indicadores de saúde e emprego em declínio?","dominio":"federativo","peso":1,"formulacaoNeutra":true,"notaRedacao":null},"e_centro_governo":{"label":"Permanência ministerial vinculada a metas","pergunta":"Você concorda em vincular a permanência de ministros no cargo ao cumprimento de cartas de missão com indicadores rígidos?","dominio":"estado","peso":1,"formulacaoNeutra":true,"notaRedacao":null},"e_despolarizacao":{"label":"Governança pela despolarização","pergunta":"Você concorda que o governo deva ser conduzido pela busca ativa de acordo entre blocos ideológicos, em vez do confronto?","dominio":"politica","peso":1,"formulacaoNeutra":true,"notaRedacao":null},"e_fixacao_pesquisadores":{"label":"Contrapartida de fixação para pós-graduandos","pergunta":"Você concorda que o fomento à pós-graduação seja condicionado à fixação de carreiras e ao retorno tecnológico no país?","dominio":"ciencia","peso":2,"formulacaoNeutra":true,"notaRedacao":null},"e_estatizacao_midia":{"label":"Estatização de grupos de comunicação","pergunta":"Você concorda com o cancelamento das concessões de radiodifusão de grandes grupos de mídia e a transferência de seus ativos ao controle de trabalhadores?","dominio":"comunicacao","peso":3,"formulacaoNeutra":true,"notaRedacao":null},"e_uso_obrigatorio_servicos_publicos":{"label":"Uso obrigatório de SUS e escola pública por autoridades","pergunta":"Você concorda com a obrigação legal de que autoridades dos três poderes usem exclusivamente o SUS e as escolas públicas?","dominio":"estado","peso":2,"formulacaoNeutra":true,"notaRedacao":null},"e_estatizacao_ferroviaria":{"label":"Estatização do transporte ferroviário","pergunta":"Você concorda com a estatização da malha ferroviária e metroviária, retirando-a de concessões privadas?","dominio":"transporte","peso":2,"formulacaoNeutra":true,"notaRedacao":null},"e_controle_torcedores":{"label":"Controle de clubes por torcedores e trabalhadores","pergunta":"Você concorda com a transferência do controle dos clubes desportivos a torcedores e trabalhadores do setor?","dominio":"cultura","peso":1,"formulacaoNeutra":true,"notaRedacao":null}},"portoes":{"p_apto":{"pergunta":"Você está apto a votar nesta eleição (título eleitoral em situação regular)?","nota":"Sem aptidão eleitoral a comparação não tem consequência prática. Nenhuma candidatura se sustenta como resultado.","efeito":"invalida-todos-se-nao"},"p_ciente_limites":{"pergunta":"Você entende que este instrumento compara apenas posições declaradas em documentos — ignorando histórico de mandato, capacidade de execução, coalizão e financiamento — e que ele não recomenda voto?","nota":"Portão de registro. Não altera nenhum estado; a resposta é gravada no relatório.","efeito":"registro"}},"candidatos":[{"id":"C01","nome":"Flávio Bolsonaro","partido":null,"planoUrl":"https://static.poder360.com.br/uploads/2026/08/FLAVIO-BOLSONARO-PARA-O-BRASIL-VENCER-O-ATRASO-1-1.pdf","planoNota":"Plano de governo integral, conforme publicado pelo Poder360. Prevalece sobre os resumos citados neste corpus.","posicoes":[{"eixo":"e_privatizacoes","postura":"favor","citacao":{"texto":"Parcerias e Privatizações: Transferência de ativos e serviços de infraestrutura pública à livre iniciativa por meio de privatizações, concessões e parcerias público-privadas, focando o Estado em atribuições primárias.","fonte":"source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/propostas.md › Flávio Bolsonaro › Eixo: Economia e Tributação","url":null,"contexto":"item do eixo Economia e Tributação, ao lado da simplificação fiscal","recuperadoEm":null},"interpretacao":null},{"eixo":"e_gestao_privada_saude","postura":"favor","citacao":{"texto":"Gestão Assistencial Privada/OSs: Otimização da oferta assistencial por meio de convênios, concessões à iniciativa privada e contratação de horários e exames ociosos em estabelecimentos particulares.","fonte":"source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/propostas.md › Flávio Bolsonaro › Eixo: Saúde","url":null,"contexto":"item do eixo Saúde","recuperadoEm":null},"interpretacao":null},{"eixo":"e_ensino_civico_militar","postura":"favor","citacao":{"texto":"Modelo de Ensino Disciplinar: Fortalecimento da disciplina comportamental nas instituições de ensino básico através de modelos de governança estruturada que enfatizem a ordem, hierarquia e valores familiares.","fonte":"source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/propostas.md › Flávio Bolsonaro › Eixo: Educação","url":null,"contexto":"item do eixo Educação","recuperadoEm":null},"interpretacao":null},{"eixo":"e_flexibilizacao_trabalhista","postura":"favor","citacao":{"texto":"Oposição a Marcos Regulatórios Restritivos no Trabalho Digital: Contrariedade ativa à imposição de vínculos empregatícios rígidos que limitem a flexibilidade operacional dos serviços prestados por plataformas eletrônicas.","fonte":"source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/auxiliar.md › Parte 1 — Mapeamento de Oposições Explícitas › Flávio Bolsonaro","url":null,"contexto":"eixo Governança do Trabalho e Organização Social","recuperadoEm":null},"interpretacao":"O plano não declara apoio explícito à flexibilização; declara contrariedade ativa à imposição de vínculos empregatícios rígidos no trabalho por plataformas. A postura \"favor\" é inferida dessa rejeição e é contestável."},{"eixo":"e_encarceramento_excecao","postura":"favor","citacao":{"texto":"Complexo Federal “TREVA”: Instalação de 5 novos presídios de segurança máxima voltados ao isolamento absoluto de chefes de facções criminosas.","fonte":"source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/auxiliar.md › Parte 2 — Especificação e Diferenciação Programática › Flávio Bolsonaro","url":null,"contexto":"subitem do bloco intitulado \"Infraestrutura Prisional de Padrão Salvadorenho\"","recuperadoEm":null},"interpretacao":"A postura \"favor\" apoia-se no enunciado curatorial que enquadra a proposta como padrão salvadorenho. O texto descreve presídios federais de segurança máxima para lideranças de facções — não encarceramento em massa nem suspensão de garantias. A inferência é do curador e é a mais frágil deste corpus."},{"eixo":"e_simplificacao_fiscal","postura":"favor","citacao":{"texto":"Simplificação e Automação Fiscal: Reestruturação do sistema arrecadatório mediante a simplificação de obrigações e a automação de procedimentos fiscais por meios eletrônicos para reduzir custos de conformidade.","fonte":"source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/propostas.md › Flávio Bolsonaro › Eixo: Economia e Tributação","url":null,"contexto":"primeiro item do eixo Economia e Tributação","recuperadoEm":null},"interpretacao":null},{"eixo":"e_representacao_sindical","postura":"contra","citacao":{"texto":"Oposição à Monopolização e Ativismo Sindical: Rejeição explícita à centralidade de representações corporativistas na formulação de políticas públicas e à restauração de encargos compulsórios sobre trabalhadores.","fonte":"source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/auxiliar.md › Parte 1 — Mapeamento de Oposições Explícitas › Flávio Bolsonaro","url":null,"contexto":"eixo Governança do Trabalho e Organização Social","recuperadoEm":null},"interpretacao":null},{"eixo":"e_vigilancia_massa","postura":"favor","citacao":{"texto":"Muralha Brasileira: Criação de uma malha nacional integrada de reconhecimento facial por inteligência artificial dotada de mais de 1 milhão de pontos de captura.","fonte":"source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/auxiliar.md › Parte 2 — Especificação e Diferenciação Programática › Flávio Bolsonaro","url":null,"contexto":"bloco Vigilância Eletrônica de Massa","recuperadoEm":null},"interpretacao":null},{"eixo":"e_isolamento_liderancas","postura":"favor","citacao":{"texto":"Isolamento de Lideranças Prisionais: Adoção de padrões prisionais de segurança máxima e aplicação de restrições rígidas de comunicação e trânsito para neutralizar a influência de lideranças prisionais sobre o ambiente urbano.","fonte":"source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/propostas.md › Flávio Bolsonaro › Eixo: Segurança Pública","url":null,"contexto":"item do eixo Segurança Pública","recuperadoEm":null},"interpretacao":null},{"eixo":"e_ministerio_seguranca","postura":"favor","citacao":{"texto":"Coordenação Federal Dedicada: Centralização da governança e coordenação de ações de defesa social por meio do estabelecimento de uma pasta ministerial específica de nível federal.","fonte":"source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/propostas.md › Flávio Bolsonaro › Eixo: Segurança Pública","url":null,"contexto":"item do eixo Segurança Pública","recuperadoEm":null},"interpretacao":null},{"eixo":"e_maioridade_penal","postura":"favor","citacao":{"texto":"Punição a Maiores de 14 Anos: Defesa da redução da maioridade penal para 16 anos e punição penal severa a jovens a partir dos 14 anos por crimes dolosos graves.","fonte":"source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/auxiliar.md › Parte 2 — Especificação e Diferenciação Programática › Flávio Bolsonaro","url":null,"contexto":"bloco Reformulação Penal e Assistencial de Custódia","recuperadoEm":null},"interpretacao":null},{"eixo":"e_fundo_vitimas","postura":"favor","citacao":{"texto":"Fundo de Indenização às Famílias das Vítimas: Redirecionamento integral de dotações destinadas ao auxílio-reclusão das famílias de detentos diretamente para as famílias das vítimas de crimes graves.","fonte":"source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/auxiliar.md › Parte 2 — Especificação e Diferenciação Programática › Flávio Bolsonaro","url":null,"contexto":"bloco Reformulação Penal e Assistencial de Custódia","recuperadoEm":null},"interpretacao":null},{"eixo":"e_ensino_superior_mcti","postura":"favor","citacao":{"texto":"Integração de Ensino Superior e Ciência: Unificação institucional do ensino superior de tecnologia e das entidades de fomento científico sob a égide da pasta de Ciência, Tecnologia e Inovações, visando à sinergia com o setor produtivo.","fonte":"source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/propostas.md › Flávio Bolsonaro › Eixo: Educação","url":null,"contexto":"item do eixo Educação","recuperadoEm":null},"interpretacao":null},{"eixo":"e_interoperabilidade_saude","postura":"favor","citacao":{"texto":"Interoperabilidade Tecnológica de Saúde: Implementação de infraestrutura tecnológica integrada para centralização de prontuários médicos e exames, permitindo a comunicação contínua entre diferentes estabelecimentos de atendimento sanitário.","fonte":"source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/propostas.md › Flávio Bolsonaro › Eixo: Saúde","url":null,"contexto":"primeiro item do eixo Saúde","recuperadoEm":null},"interpretacao":null},{"eixo":"e_triagem_ia","postura":"favor","citacao":{"texto":"Triagem de Risco Clínico: Regulação de encaminhamentos e consultas por meio de sistemas eletrônicos que utilizam inteligência artificial para priorizar o atendimento com base no risco clínico dinâmico do cidadão.","fonte":"source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/propostas.md › Flávio Bolsonaro › Eixo: Saúde","url":null,"contexto":"item do eixo Saúde","recuperadoEm":null},"interpretacao":null},{"eixo":"e_foro_e_monocraticas","postura":"contra","citacao":{"texto":"Oposição à Jurisdição Penal Originária e Monocrática de Tribunais Superiores: Rejeição à competência de julgamento penal de parlamentares por cortes constitucionais e à validade de decisões individuais que suspendam atos do Legislativo.","fonte":"source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/auxiliar.md › Parte 1 — Mapeamento de Oposições Explícitas › Flávio Bolsonaro","url":null,"contexto":"eixo Justiça e Equilíbrio de Poderes","recuperadoEm":null},"interpretacao":null}]},{"id":"C02","nome":"Ronaldo Caiado","partido":null,"planoUrl":"https://static.poder360.com.br/uploads/2026/08/Plano-de-Governo-Ronaldo-Caiado-Presidente.pdf","planoNota":"Plano de governo integral, conforme publicado pelo Poder360. Prevalece sobre os resumos citados neste corpus.","posicoes":[{"eixo":"e_privatizacoes","postura":"favor","citacao":{"texto":"Parcerias e Privatizações: Transferência de ativos e serviços de infraestrutura pública à livre iniciativa por meio de privatizações, concessões e parcerias público-privadas, focando o Estado em atribuições primárias.","fonte":"source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/propostas.md › Ronaldo Caiado › Eixo: Economia e Tributação","url":null,"contexto":"item do eixo Economia e Tributação, ao lado da simplificação fiscal","recuperadoEm":null},"interpretacao":null},{"eixo":"e_gestao_privada_saude","postura":"favor","citacao":{"texto":"Gestão Assistencial Privada/OSs: Otimização da oferta assistencial por meio de convênios, concessões à iniciativa privada e contratação de horários e exames ociosos em estabelecimentos particulares.","fonte":"source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/propostas.md › Ronaldo Caiado › Eixo: Saúde","url":null,"contexto":"item do eixo Saúde","recuperadoEm":null},"interpretacao":null},{"eixo":"e_ensino_civico_militar","postura":"favor","citacao":{"texto":"Modelo de Ensino Disciplinar: Fortalecimento da disciplina comportamental nas instituições de ensino básico através de modelos de governança estruturada que enfatizem a ordem, hierarquia e valores familiares.","fonte":"source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/propostas.md › Ronaldo Caiado › Eixo: Educação","url":null,"contexto":"item do eixo Educação","recuperadoEm":null},"interpretacao":null},{"eixo":"e_simplificacao_fiscal","postura":"favor","citacao":{"texto":"Simplificação e Automação Fiscal: Reestruturação do sistema arrecadatório mediante a simplificação de obrigações e a automação de procedimentos fiscais por meios eletrônicos para reduzir custos de conformidade.","fonte":"source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/propostas.md › Ronaldo Caiado › Eixo: Economia e Tributação","url":null,"contexto":"primeiro item do eixo Economia e Tributação","recuperadoEm":null},"interpretacao":null},{"eixo":"e_vigilancia_massa","postura":"favor","citacao":{"texto":"Vigilância Tecnológica Integrada: Fortalecimento do monitoramento territorial e da identificação de padrões por meio do uso integrado de inteligência artificial, sensores e monitoramento ótico digital.","fonte":"source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/propostas.md › Ronaldo Caiado › Eixo: Segurança Pública","url":null,"contexto":"primeiro item do eixo Segurança Pública","recuperadoEm":null},"interpretacao":null},{"eixo":"e_isolamento_liderancas","postura":"favor","citacao":{"texto":"Isolamento de Lideranças Prisionais: Adoção de padrões prisionais de segurança máxima e aplicação de restrições rígidas de comunicação e trânsito para neutralizar a influência de lideranças prisionais sobre o ambiente urbano.","fonte":"source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/propostas.md › Ronaldo Caiado › Eixo: Segurança Pública","url":null,"contexto":"item do eixo Segurança Pública","recuperadoEm":null},"interpretacao":null},{"eixo":"e_ministerio_seguranca","postura":"favor","citacao":{"texto":"Coordenação Federal Dedicada: Centralização da governança e coordenação de ações de defesa social por meio do estabelecimento de uma pasta ministerial específica de nível federal.","fonte":"source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/propostas.md › Ronaldo Caiado › Eixo: Segurança Pública","url":null,"contexto":"item do eixo Segurança Pública","recuperadoEm":null},"interpretacao":null},{"eixo":"e_ensino_integral_civil","postura":"favor","citacao":{"texto":"Incentivos de Permanência e Ensino Integral: Ampliação das escolas em tempo integral de natureza civil e o fortalecimento de programas de incentivo pecuniário para mitigação do abandono escolar.","fonte":"source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/propostas.md › Ronaldo Caiado › Eixo: Educação","url":null,"contexto":"item do eixo Educação","recuperadoEm":null},"interpretacao":null},{"eixo":"e_interoperabilidade_saude","postura":"favor","citacao":{"texto":"Interoperabilidade Tecnológica de Saúde: Implementação de infraestrutura tecnológica integrada para centralização de prontuários médicos e exames, permitindo a comunicação contínua entre diferentes estabelecimentos de atendimento sanitário.","fonte":"source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/propostas.md › Ronaldo Caiado › Eixo: Saúde","url":null,"contexto":"primeiro item do eixo Saúde","recuperadoEm":null},"interpretacao":null},{"eixo":"e_triagem_ia","postura":"favor","citacao":{"texto":"Triagem de Risco Clínico: Regulação de encaminhamentos e consultas por meio de sistemas eletrônicos que utilizam inteligência artificial para priorizar o atendimento com base no risco clínico dinâmico do cidadão.","fonte":"source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/propostas.md › Ronaldo Caiado › Eixo: Saúde","url":null,"contexto":"item do eixo Saúde","recuperadoEm":null},"interpretacao":null},{"eixo":"e_reeleicao_executivo","postura":"contra","citacao":{"texto":"Oposição à Perpetuidade de Mandatos Executivos: Rejeição categórica à renovação consecutiva de mandatos presidenciais, estaduais e municipais como garantia de isonomia eleitoral e desvinculação da máquina pública.","fonte":"source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/auxiliar.md › Parte 1 — Mapeamento de Oposições Explícitas › Ronaldo Caiado","url":null,"contexto":"eixo Reforma Política e Gestão de Campanha","recuperadoEm":null},"interpretacao":null},{"eixo":"e_emendas_impositivas","postura":"contra","citacao":{"texto":"Oposição ao Alocamento de Recursos sem Rastreabilidade: Rejeição ao direcionamento de emendas impositivas e mecanismos de transferência orçamentária que fragmentem o orçamento ou careçam de acompanhamento transparente.","fonte":"source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/auxiliar.md › Parte 1 — Mapeamento de Oposições Explícitas › Ronaldo Caiado","url":null,"contexto":"eixo Finanças Públicas e Orçamento","recuperadoEm":null},"interpretacao":null},{"eixo":"e_centro_governo","postura":"favor","citacao":{"texto":"Centro de Governo Integrado: Criação de um núcleo executivo com a atribuição de vincular a permanência ministerial ao atingimento de cartas de missão com indicadores sociais rígidos.","fonte":"source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/auxiliar.md › Parte 2 — Especificação e Diferenciação Programática › Ronaldo Caiado","url":null,"contexto":"bloco Coordenação Rígida de Governo","recuperadoEm":null},"interpretacao":null}]},{"id":"C03","nome":"Romeu Zema","partido":null,"planoUrl":"https://static.poder360.com.br/uploads/2026/08/Plano_gov_Zema_2026.pdf","planoNota":"Plano de governo integral, conforme publicado pelo Poder360. Prevalece sobre os resumos citados neste corpus.","posicoes":[{"eixo":"e_privatizacoes","postura":"favor","citacao":{"texto":"Parcerias e Privatizações: Transferência de ativos e serviços de infraestrutura pública à livre iniciativa por meio de privatizações, concessões e parcerias público-privadas, focando o Estado em atribuições primárias.","fonte":"source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/propostas.md › Romeu Zema › Eixo: Economia e Tributação","url":null,"contexto":"item do eixo Economia e Tributação, ao lado da simplificação fiscal","recuperadoEm":null},"interpretacao":null},{"eixo":"e_gestao_privada_saude","postura":"favor","citacao":{"texto":"Gestão Assistencial Privada/OSs: Otimização da oferta assistencial por meio de convênios, concessões à iniciativa privada e contratação de horários e exames ociosos em estabelecimentos particulares.","fonte":"source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/propostas.md › Romeu Zema › Eixo: Saúde","url":null,"contexto":"item do eixo Saúde","recuperadoEm":null},"interpretacao":null},{"eixo":"e_ensino_civico_militar","postura":"favor","citacao":{"texto":"Modelo de Ensino Disciplinar: Fortalecimento da disciplina comportamental nas instituições de ensino básico através de modelos de governança estruturada que enfatizem a ordem, hierarquia e valores familiares.","fonte":"source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/propostas.md › Romeu Zema › Eixo: Educação","url":null,"contexto":"item do eixo Educação","recuperadoEm":null},"interpretacao":null},{"eixo":"e_estabilidade_emprego","postura":"contra","citacao":{"texto":"Contratação de Servidores sem Estabilidade Ampla: Criação de novos vínculos na administração pública que prescindam de estabilidade de carreira para cargos de natureza não típica de Estado.","fonte":"source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/auxiliar.md › Parte 2 — Especificação e Diferenciação Programática › Romeu Zema","url":null,"contexto":"bloco Modernização Administrativa e de Carreira","recuperadoEm":null},"interpretacao":null},{"eixo":"e_simplificacao_fiscal","postura":"favor","citacao":{"texto":"Simplificação e Automação Fiscal: Reestruturação do sistema arrecadatório mediante a simplificação de obrigações e a automação de procedimentos fiscais por meios eletrônicos para reduzir custos de conformidade.","fonte":"source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/propostas.md › Romeu Zema › Eixo: Economia e Tributação","url":null,"contexto":"primeiro item do eixo Economia e Tributação","recuperadoEm":null},"interpretacao":null},{"eixo":"e_conselhos_profissionais","postura":"contra","citacao":{"texto":"Oposição a Barreiras Corporativas de Trabalho: Rejeição a restrições legais e de conselhos que limitem o livre exercício de profissões sem riscos iminentes à integridade física do cidadão.","fonte":"source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/auxiliar.md › Parte 1 — Mapeamento de Oposições Explícitas › Romeu Zema","url":null,"contexto":"eixo Finanças e Reforma do Estado","recuperadoEm":null},"interpretacao":null},{"eixo":"e_vigilancia_massa","postura":"favor","citacao":{"texto":"Vigilância Tecnológica Integrada: Fortalecimento do monitoramento territorial e da identificação de padrões por meio do uso integrado de inteligência artificial, sensores e monitoramento ótico digital.","fonte":"source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/propostas.md › Romeu Zema › Eixo: Segurança Pública","url":null,"contexto":"primeiro item do eixo Segurança Pública","recuperadoEm":null},"interpretacao":null},{"eixo":"e_isolamento_liderancas","postura":"favor","citacao":{"texto":"Isolamento de Lideranças Prisionais: Adoção de padrões prisionais de segurança máxima e aplicação de restrições rígidas de comunicação e trânsito para neutralizar a influência de lideranças prisionais sobre o ambiente urbano.","fonte":"source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/propostas.md › Romeu Zema › Eixo: Segurança Pública","url":null,"contexto":"item do eixo Segurança Pública","recuperadoEm":null},"interpretacao":null},{"eixo":"e_ensino_superior_mcti","postura":"favor","citacao":{"texto":"Divisão de Competências do MEC: Concentração das atribuições do MEC unicamente na educação básica e de primeira infância, deslocando o ensino superior de forma definitiva para o MCTI.","fonte":"source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/auxiliar.md › Parte 2 — Especificação e Diferenciação Programática › Romeu Zema","url":null,"contexto":"bloco Modernização Administrativa e de Carreira","recuperadoEm":null},"interpretacao":null},{"eixo":"e_interoperabilidade_saude","postura":"favor","citacao":{"texto":"Interoperabilidade Tecnológica de Saúde: Implementação de infraestrutura tecnológica integrada para centralização de prontuários médicos e exames, permitindo a comunicação contínua entre diferentes estabelecimentos de atendimento sanitário.","fonte":"source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/propostas.md › Romeu Zema › Eixo: Saúde","url":null,"contexto":"primeiro item do eixo Saúde","recuperadoEm":null},"interpretacao":null},{"eixo":"e_triagem_ia","postura":"favor","citacao":{"texto":"Triagem de Risco Clínico: Regulação de encaminhamentos e consultas por meio de sistemas eletrônicos que utilizam inteligência artificial para priorizar o atendimento com base no risco clínico dinâmico do cidadão.","fonte":"source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/propostas.md › Romeu Zema › Eixo: Saúde","url":null,"contexto":"item do eixo Saúde","recuperadoEm":null},"interpretacao":null},{"eixo":"e_controle_externo_stf","postura":"favor","citacao":{"texto":"Corregedoria Externa do STF: Instituição de corregedoria independente para avaliar a conduta administrativa e as extrapolações normativas de ministros da Corte Suprema.","fonte":"source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/auxiliar.md › Parte 2 — Especificação e Diferenciação Programática › Romeu Zema","url":null,"contexto":"bloco Reforma do Sistema de Justiça e do Controle","recuperadoEm":null},"interpretacao":null},{"eixo":"e_sigilo_gastos","postura":"contra","citacao":{"texto":"Oposição a Mecanismos de Sigilo Governamental: Rejeição à imposição de sigilos temporais extensos sobre gastos, notas fiscais e relatórios da administração federal.","fonte":"source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/auxiliar.md › Parte 1 — Mapeamento de Oposições Explícitas › Romeu Zema","url":null,"contexto":"eixo Finanças e Reforma do Estado","recuperadoEm":null},"interpretacao":null},{"eixo":"e_financiamento_publico_campanhas","postura":"contra","citacao":{"texto":"Oposição ao Financiamento Público de Partidos e Campanhas: Rejeição explícita à manutenção de dotações orçamentárias públicas (Fundos Partidário e Eleitoral) para o custeio de atividades partidárias.","fonte":"source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/auxiliar.md › Parte 1 — Mapeamento de Oposições Explícitas › Romeu Zema","url":null,"contexto":"eixo Finanças e Reforma do Estado","recuperadoEm":null},"interpretacao":null}]},{"id":"C04","nome":"Renan Missão","partido":null,"planoUrl":"https://static.poder360.com.br/uploads/2026/08/Plano_gov_Renan_Missao_2026.pdf","planoNota":"Plano de governo integral, conforme publicado pelo Poder360. Prevalece sobre os resumos citados neste corpus.","posicoes":[{"eixo":"e_privatizacoes","postura":"favor","citacao":{"texto":"Parcerias e Privatizações: Transferência de ativos e serviços de infraestrutura pública à livre iniciativa por meio de privatizações, concessões e parcerias público-privadas, focando o Estado em atribuições primárias.","fonte":"source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/propostas.md › Renan Missão › Eixo: Economia e Tributação","url":null,"contexto":"item do eixo Economia e Tributação, ao lado da simplificação fiscal","recuperadoEm":null},"interpretacao":null},{"eixo":"e_gestao_privada_saude","postura":"favor","citacao":{"texto":"Gestão Assistencial Privada/OSs: Otimização da oferta assistencial por meio de convênios, concessões à iniciativa privada e contratação de horários e exames ociosos em estabelecimentos particulares.","fonte":"source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/propostas.md › Renan Missão › Eixo: Saúde","url":null,"contexto":"item do eixo Saúde","recuperadoEm":null},"interpretacao":null},{"eixo":"e_ensino_civico_militar","postura":"favor","citacao":{"texto":"Modelo de Ensino Disciplinar: Fortalecimento da disciplina comportamental nas instituições de ensino básico através de modelos de governança estruturada que enfatizem a ordem, hierarquia e valores familiares.","fonte":"source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/propostas.md › Renan Missão › Eixo: Educação","url":null,"contexto":"item do eixo Educação","recuperadoEm":null},"interpretacao":null},{"eixo":"e_renda_sem_contrapartida","postura":"contra","citacao":{"texto":"Oposição à Transferência de Renda sem Contrapartida Cívica: Rejeição ao formato assistencial tradicional e incondicional, propondo a transição para modelos baseados em atividades comunitárias públicas.","fonte":"source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/auxiliar.md › Parte 1 — Mapeamento de Oposições Explícitas › Renan Missão","url":null,"contexto":"eixo Assistencialismo e Fomento","recuperadoEm":null},"interpretacao":null},{"eixo":"e_simplificacao_fiscal","postura":"favor","citacao":{"texto":"Simplificação e Automação Fiscal: Reestruturação do sistema arrecadatório mediante a simplificação de obrigações e a automação de procedimentos fiscais por meios eletrônicos para reduzir custos de conformidade.","fonte":"source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/propostas.md › Renan Missão › Eixo: Economia e Tributação","url":null,"contexto":"primeiro item do eixo Economia e Tributação","recuperadoEm":null},"interpretacao":null},{"eixo":"e_vigilancia_massa","postura":"favor","citacao":{"texto":"Vigilância Tecnológica Integrada: Fortalecimento do monitoramento territorial e da identificação de padrões por meio do uso integrado de inteligência artificial, sensores e monitoramento ótico digital.","fonte":"source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/propostas.md › Renan Missão › Eixo: Segurança Pública","url":null,"contexto":"primeiro item do eixo Segurança Pública","recuperadoEm":null},"interpretacao":null},{"eixo":"e_isolamento_liderancas","postura":"favor","citacao":{"texto":"Isolamento de Lideranças Prisionais: Adoção de padrões prisionais de segurança máxima e aplicação de restrições rígidas de comunicação e trânsito para neutralizar a influência de lideranças prisionais sobre o ambiente urbano.","fonte":"source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/propostas.md › Renan Missão › Eixo: Segurança Pública","url":null,"contexto":"item do eixo Segurança Pública","recuperadoEm":null},"interpretacao":null},{"eixo":"e_ensino_superior_mcti","postura":"favor","citacao":{"texto":"Integração de Ensino Superior e Ciência: Unificação institucional do ensino superior de tecnologia e das entidades de fomento científico sob a égide da pasta de Ciência, Tecnologia e Inovações, visando à sinergia com o setor produtivo.","fonte":"source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/propostas.md › Renan Missão › Eixo: Educação","url":null,"contexto":"item do eixo Educação","recuperadoEm":null},"interpretacao":null},{"eixo":"e_interoperabilidade_saude","postura":"favor","citacao":{"texto":"Interoperabilidade Tecnológica de Saúde: Implementação de infraestrutura tecnológica integrada para centralização de prontuários médicos e exames, permitindo a comunicação contínua entre diferentes estabelecimentos de atendimento sanitário.","fonte":"source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/propostas.md › Renan Missão › Eixo: Saúde","url":null,"contexto":"primeiro item do eixo Saúde","recuperadoEm":null},"interpretacao":null},{"eixo":"e_triagem_ia","postura":"favor","citacao":{"texto":"Triagem de Risco Clínico: Regulação de encaminhamentos e consultas por meio de sistemas eletrônicos que utilizam inteligência artificial para priorizar o atendimento com base no risco clínico dinâmico do cidadão.","fonte":"source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/propostas.md › Renan Missão › Eixo: Saúde","url":null,"contexto":"item do eixo Saúde","recuperadoEm":null},"interpretacao":null},{"eixo":"e_fusao_municipios","postura":"favor","citacao":{"texto":"Grande Consolidação Municipal: Programa compulsório de fusão de pequenos municípios economicamente dependentes e inviáveis em distritos de maior escala.","fonte":"source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/auxiliar.md › Parte 2 — Especificação e Diferenciação Programática › Renan Missão","url":null,"contexto":"bloco Reorganização Territorial e Gerencial","recuperadoEm":null},"interpretacao":null},{"eixo":"e_responsabilidade_gerencial","postura":"favor","citacao":{"texto":"Lei de Responsabilidade Gerencial: Regulamentação que penaliza partidos políticos e extingue repasses estatais a governos locais que apresentem indicadores de saúde e emprego em declínio permanente.","fonte":"source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/auxiliar.md › Parte 2 — Especificação e Diferenciação Programática › Renan Missão","url":null,"contexto":"bloco Governança por Desempenho Local","recuperadoEm":null},"interpretacao":null}]},{"id":"C05","nome":"Luiz Inácio Lula da Silva","partido":null,"planoUrl":"https://static.poder360.com.br/uploads/2026/08/plano-governo-lula.pdf","planoNota":"Plano de governo integral, conforme publicado pelo Poder360. Prevalece sobre os resumos citados neste corpus.","posicoes":[{"eixo":"e_flexibilizacao_trabalhista","postura":"contra","citacao":{"texto":"Oposição à Pejotização e Subcontratação Irrestrita: Rejeição ativa a práticas contratuais que dissimulem vínculos empregatícios mediante regimes de pessoa jurídica para desoneração de responsabilidades fiscais.","fonte":"source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/auxiliar.md › Parte 1 — Mapeamento de Oposições Explícitas › Luiz Inácio Lula da Silva","url":null,"contexto":"eixo Relações de Trabalho e Estrutura Organizacional","recuperadoEm":null},"interpretacao":null},{"eixo":"e_justica_fiscal_progressiva","postura":"favor","citacao":{"texto":"Justiça Fiscal Progressiva: Alteração da matriz de arrecadação nacional para privilegiar a tributação sobre rendimentos elevados, lucros e heranças, com desoneração correspondente sobre o consumo básico.","fonte":"source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/propostas.md › Luiz Inácio Lula da Silva › Eixo: Economia e Tributação","url":null,"contexto":"primeiro item do eixo Economia e Tributação","recuperadoEm":null},"interpretacao":null},{"eixo":"e_reducao_jornada","postura":"favor","citacao":{"texto":"Humanização das Relações Laborais: Modificação das relações de trabalho mediante a limitação da jornada semanal e fortalecimento de garantias legais, visando à sustentabilidade social do trabalhador.","fonte":"source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/propostas.md › Luiz Inácio Lula da Silva › Eixo: Economia e Tributação","url":null,"contexto":"item do eixo Economia e Tributação","recuperadoEm":null},"interpretacao":null},{"eixo":"e_vigilancia_massa","postura":"favor","citacao":{"texto":"Vigilância Tecnológica Integrada: Fortalecimento do monitoramento territorial e da identificação de padrões por meio do uso integrado de inteligência artificial, sensores e monitoramento ótico digital.","fonte":"source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/propostas.md › Luiz Inácio Lula da Silva › Eixo: Segurança Pública","url":null,"contexto":"primeiro item do eixo Segurança Pública","recuperadoEm":null},"interpretacao":null},{"eixo":"e_ministerio_seguranca","postura":"favor","citacao":{"texto":"Coordenação Federal Dedicada: Centralização da governança e coordenação de ações de defesa social por meio do estabelecimento de uma pasta ministerial específica de nível federal.","fonte":"source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/propostas.md › Luiz Inácio Lula da Silva › Eixo: Segurança Pública","url":null,"contexto":"item do eixo Segurança Pública","recuperadoEm":null},"interpretacao":null},{"eixo":"e_ensino_integral_civil","postura":"favor","citacao":{"texto":"Incentivos de Permanência e Ensino Integral: Ampliação das escolas em tempo integral de natureza civil e o fortalecimento de programas de incentivo pecuniário para mitigação do abandono escolar.","fonte":"source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/propostas.md › Luiz Inácio Lula da Silva › Eixo: Educação","url":null,"contexto":"item do eixo Educação","recuperadoEm":null},"interpretacao":null},{"eixo":"e_interoperabilidade_saude","postura":"favor","citacao":{"texto":"Interoperabilidade Tecnológica de Saúde: Implementação de infraestrutura tecnológica integrada para centralização de prontuários médicos e exames, permitindo a comunicação contínua entre diferentes estabelecimentos de atendimento sanitário.","fonte":"source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/propostas.md › Luiz Inácio Lula da Silva › Eixo: Saúde","url":null,"contexto":"primeiro item do eixo Saúde","recuperadoEm":null},"interpretacao":null},{"eixo":"e_triagem_ia","postura":"favor","citacao":{"texto":"Triagem de Risco Clínico: Regulação de encaminhamentos e consultas por meio de sistemas eletrônicos que utilizam inteligência artificial para priorizar o atendimento com base no risco clínico dinâmico do cidadão.","fonte":"source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/propostas.md › Luiz Inácio Lula da Silva › Eixo: Saúde","url":null,"contexto":"item do eixo Saúde","recuperadoEm":null},"interpretacao":null},{"eixo":"e_emendas_impositivas","postura":"contra","citacao":{"texto":"Oposição ao Orçamento Secreto e Emendas sem Planejamento: Rejeição a dispositivos orçamentários de emendas parlamentares impositivas que dispersem recursos de forma desconectada das prioridades do Plano Plurianual.","fonte":"source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/auxiliar.md › Parte 1 — Mapeamento de Oposições Explícitas › Luiz Inácio Lula da Silva","url":null,"contexto":"eixo Relações de Trabalho e Estrutura Organizacional","recuperadoEm":null},"interpretacao":null}]},{"id":"C06","nome":"Augusto Cury","partido":"Avante","planoUrl":"https://static.poder360.com.br/uploads/2026/08/Plano_gov_Augusto_Cury_2026.pdf","planoNota":"Plano de governo integral, conforme publicado pelo Poder360. Prevalece sobre os resumos citados neste corpus.","posicoes":[{"eixo":"e_gestao_privada_saude","postura":"favor","citacao":{"texto":"Gestão Assistencial Privada/OSs: Otimização da oferta assistencial por meio de convênios, concessões à iniciativa privada e contratação de horários e exames ociosos em estabelecimentos particulares.","fonte":"source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/propostas.md › Augusto Cury › Eixo: Saúde","url":null,"contexto":"item do eixo Saúde","recuperadoEm":null},"interpretacao":null},{"eixo":"e_simplificacao_fiscal","postura":"favor","citacao":{"texto":"Simplificação e Automação Fiscal: Reestruturação do sistema arrecadatório mediante a simplificação de obrigações e a automação de procedimentos fiscais por meios eletrônicos para reduzir custos de conformidade.","fonte":"source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/propostas.md › Augusto Cury › Eixo: Economia e Tributação","url":null,"contexto":"primeiro item do eixo Economia e Tributação","recuperadoEm":null},"interpretacao":null},{"eixo":"e_vigilancia_massa","postura":"favor","citacao":{"texto":"Vigilância Tecnológica Integrada: Fortalecimento do monitoramento territorial e da identificação de padrões por meio do uso integrado de inteligência artificial, sensores e monitoramento ótico digital.","fonte":"source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/propostas.md › Augusto Cury › Eixo: Segurança Pública","url":null,"contexto":"primeiro item do eixo Segurança Pública","recuperadoEm":null},"interpretacao":null},{"eixo":"e_ministerio_seguranca","postura":"favor","citacao":{"texto":"Coordenação Federal Dedicada: Centralização da governança e coordenação de ações de defesa social por meio do estabelecimento de uma pasta ministerial específica de nível federal.","fonte":"source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/propostas.md › Augusto Cury › Eixo: Segurança Pública","url":null,"contexto":"item do eixo Segurança Pública","recuperadoEm":null},"interpretacao":null},{"eixo":"e_ensino_integral_civil","postura":"favor","citacao":{"texto":"Incentivos de Permanência e Ensino Integral: Ampliação das escolas em tempo integral de natureza civil e o fortalecimento de programas de incentivo pecuniário para mitigação do abandono escolar.","fonte":"source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/propostas.md › Augusto Cury › Eixo: Educação","url":null,"contexto":"item do eixo Educação","recuperadoEm":null},"interpretacao":null},{"eixo":"e_pedagogia_socioemocional","postura":"favor","citacao":{"texto":"Oposição ao Modelo Pedagógico Cartesiano Expositivo: Rejeição aos métodos de ensino baseados unicamente na absorção passiva de conteúdos, sem desenvolvimento socioemocional.","fonte":"source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/auxiliar.md › Parte 1 — Mapeamento de Oposições Explícitas › Augusto Cury","url":null,"contexto":"eixo Cultura Política e Modelos Educacionais","recuperadoEm":null},"interpretacao":null},{"eixo":"e_interoperabilidade_saude","postura":"favor","citacao":{"texto":"Interoperabilidade Tecnológica de Saúde: Implementação de infraestrutura tecnológica integrada para centralização de prontuários médicos e exames, permitindo a comunicação contínua entre diferentes estabelecimentos de atendimento sanitário.","fonte":"source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/propostas.md › Augusto Cury › Eixo: Saúde","url":null,"contexto":"primeiro item do eixo Saúde","recuperadoEm":null},"interpretacao":null},{"eixo":"e_triagem_ia","postura":"favor","citacao":{"texto":"Triagem de Risco Clínico: Regulação de encaminhamentos e consultas por meio de sistemas eletrônicos que utilizam inteligência artificial para priorizar o atendimento com base no risco clínico dinâmico do cidadão.","fonte":"source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/propostas.md › Augusto Cury › Eixo: Saúde","url":null,"contexto":"item do eixo Saúde","recuperadoEm":null},"interpretacao":null},{"eixo":"e_despolarizacao","postura":"favor","citacao":{"texto":"Oposição à Polarização Ideológica e ao Confronto Retórico: Rejeição à governança baseada no antagonismo estéril de blocos ideológicos e à cultura do conflito nos Três Poderes.","fonte":"source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/auxiliar.md › Parte 1 — Mapeamento de Oposições Explícitas › Augusto Cury","url":null,"contexto":"eixo Cultura Política e Modelos Educacionais","recuperadoEm":null},"interpretacao":null}]},{"id":"C07","nome":"Wilson Grassi","partido":null,"planoUrl":"https://static.poder360.com.br/uploads/2026/08/Plano_gov_Wilson_Grassi_2026.pdf","planoNota":"Plano de governo integral, conforme publicado pelo Poder360. Prevalece sobre os resumos citados neste corpus.","posicoes":[{"eixo":"e_gestao_privada_saude","postura":"favor","citacao":{"texto":"Gestão Assistencial Privada/OSs: Otimização da oferta assistencial por meio de convênios, concessões à iniciativa privada e contratação de horários e exames ociosos em estabelecimentos particulares.","fonte":"source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/propostas.md › Wilson Grassi › Eixo: Saúde","url":null,"contexto":"item do eixo Saúde","recuperadoEm":null},"interpretacao":null},{"eixo":"e_encarceramento_excecao","postura":"contra","citacao":{"texto":"Oposição a Regimes Extrajudiciais Prisionais: Rejeição à importação de suspensões de direitos individuais ou prisões em massa sem o devido processo legal.","fonte":"source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/auxiliar.md › Parte 1 — Mapeamento de Oposições Explícitas › Wilson Grassi","url":null,"contexto":"eixo Ciência e Relações Comerciais","recuperadoEm":null},"interpretacao":null},{"eixo":"e_simplificacao_fiscal","postura":"favor","citacao":{"texto":"Simplificação e Automação Fiscal: Reestruturação do sistema arrecadatório mediante a simplificação de obrigações e a automação de procedimentos fiscais por meios eletrônicos para reduzir custos de conformidade.","fonte":"source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/propostas.md › Wilson Grassi › Eixo: Economia e Tributação","url":null,"contexto":"primeiro item do eixo Economia e Tributação","recuperadoEm":null},"interpretacao":null},{"eixo":"e_vigilancia_massa","postura":"favor","citacao":{"texto":"Vigilância Tecnológica Integrada: Fortalecimento do monitoramento territorial e da identificação de padrões por meio do uso integrado de inteligência artificial, sensores e monitoramento ótico digital.","fonte":"source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/propostas.md › Wilson Grassi › Eixo: Segurança Pública","url":null,"contexto":"primeiro item do eixo Segurança Pública","recuperadoEm":null},"interpretacao":null},{"eixo":"e_isolamento_liderancas","postura":"favor","citacao":{"texto":"Isolamento de Lideranças Prisionais: Adoção de padrões prisionais de segurança máxima e aplicação de restrições rígidas de comunicação e trânsito para neutralizar a influência de lideranças prisionais sobre o ambiente urbano.","fonte":"source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/propostas.md › Wilson Grassi › Eixo: Segurança Pública","url":null,"contexto":"item do eixo Segurança Pública","recuperadoEm":null},"interpretacao":null},{"eixo":"e_ensino_integral_civil","postura":"favor","citacao":{"texto":"Incentivos de Permanência e Ensino Integral: Ampliação das escolas em tempo integral de natureza civil e o fortalecimento de programas de incentivo pecuniário para mitigação do abandono escolar.","fonte":"source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/propostas.md › Wilson Grassi › Eixo: Educação","url":null,"contexto":"item do eixo Educação","recuperadoEm":null},"interpretacao":null},{"eixo":"e_interoperabilidade_saude","postura":"favor","citacao":{"texto":"Interoperabilidade Tecnológica de Saúde: Implementação de infraestrutura tecnológica integrada para centralização de prontuários médicos e exames, permitindo a comunicação contínua entre diferentes estabelecimentos de atendimento sanitário.","fonte":"source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/propostas.md › Wilson Grassi › Eixo: Saúde","url":null,"contexto":"primeiro item do eixo Saúde","recuperadoEm":null},"interpretacao":null},{"eixo":"e_triagem_ia","postura":"favor","citacao":{"texto":"Triagem de Risco Clínico: Regulação de encaminhamentos e consultas por meio de sistemas eletrônicos que utilizam inteligência artificial para priorizar o atendimento com base no risco clínico dinâmico do cidadão.","fonte":"source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/propostas.md › Wilson Grassi › Eixo: Saúde","url":null,"contexto":"item do eixo Saúde","recuperadoEm":null},"interpretacao":null},{"eixo":"e_fixacao_pesquisadores","postura":"favor","citacao":{"texto":"Oposição à Perda Passiva de Capital Intelectual: Rejeição à concessão de fomento à formação de pós-graduandos sem a devida fixação de carreiras e retorno tecnológico ao território nacional.","fonte":"source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/auxiliar.md › Parte 1 — Mapeamento de Oposições Explícitas › Wilson Grassi","url":null,"contexto":"eixo Ciência e Relações Comerciais","recuperadoEm":null},"interpretacao":null}]},{"id":"C08","nome":"Clariana Barão","partido":"DC","planoUrl":"https://static.poder360.com.br/uploads/2026/08/Plano_gov_DC_Clariana_Barao.pdf","planoNota":"Plano de governo integral, conforme publicado pelo Poder360. Prevalece sobre os resumos citados neste corpus.","posicoes":[{"eixo":"e_privatizacoes","postura":"favor","citacao":{"texto":"Parcerias e Privatizações: Transferência de ativos e serviços de infraestrutura pública à livre iniciativa por meio de privatizações, concessões e parcerias público-privadas, focando o Estado em atribuições primárias.","fonte":"source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/propostas.md › Clariana Barão › Eixo: Economia e Tributação","url":null,"contexto":"item do eixo Economia e Tributação, ao lado da simplificação fiscal","recuperadoEm":null},"interpretacao":null},{"eixo":"e_gestao_privada_saude","postura":"favor","citacao":{"texto":"Gestão Assistencial Privada/OSs: Otimização da oferta assistencial por meio de convênios, concessões à iniciativa privada e contratação de horários e exames ociosos em estabelecimentos particulares.","fonte":"source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/propostas.md › Clariana Barão › Eixo: Saúde","url":null,"contexto":"item do eixo Saúde","recuperadoEm":null},"interpretacao":null},{"eixo":"e_simplificacao_fiscal","postura":"favor","citacao":{"texto":"Simplificação e Automação Fiscal: Reestruturação do sistema arrecadatório mediante a simplificação de obrigações e a automação de procedimentos fiscais por meios eletrônicos para reduzir custos de conformidade.","fonte":"source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/propostas.md › Clariana Barão › Eixo: Economia e Tributação","url":null,"contexto":"primeiro item do eixo Economia e Tributação","recuperadoEm":null},"interpretacao":null},{"eixo":"e_vigilancia_massa","postura":"favor","citacao":{"texto":"Vigilância Tecnológica Integrada: Fortalecimento do monitoramento territorial e da identificação de padrões por meio do uso integrado de inteligência artificial, sensores e monitoramento ótico digital.","fonte":"source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/propostas.md › Clariana Barão › Eixo: Segurança Pública","url":null,"contexto":"primeiro item do eixo Segurança Pública","recuperadoEm":null},"interpretacao":null},{"eixo":"e_seguranca_baseada_evidencias","postura":"favor","citacao":{"texto":"Oposição a Políticas de Segurança sem Evidências: Rejeição a práticas de policiamento e contenção urbana que careçam de dados empíricos de eficácia e monitoramento de resultados.","fonte":"source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/auxiliar.md › Parte 1 — Mapeamento de Oposições Explícitas › Clariana Barão","url":null,"contexto":"eixo Políticas de Defesa Social e Gênero","recuperadoEm":null},"interpretacao":null},{"eixo":"e_interoperabilidade_saude","postura":"favor","citacao":{"texto":"Interoperabilidade Tecnológica de Saúde: Implementação de infraestrutura tecnológica integrada para centralização de prontuários médicos e exames, permitindo a comunicação contínua entre diferentes estabelecimentos de atendimento sanitário.","fonte":"source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/propostas.md › Clariana Barão › Eixo: Saúde","url":null,"contexto":"primeiro item do eixo Saúde","recuperadoEm":null},"interpretacao":null}]},{"id":"C09","nome":"Samara Martins","partido":"UP","planoUrl":"https://static.poder360.com.br/uploads/2026/08/Plano_gov_Samara_UP_2026.pdf.pdf","planoNota":"Plano de governo integral, conforme publicado pelo Poder360. Prevalece sobre os resumos citados neste corpus.","posicoes":[{"eixo":"e_privatizacoes","postura":"contra","citacao":{"texto":"Oposição à Gestão Privada de Serviços Públicos: Rejeição irrestrita a convênios com Organizações Sociais (OSs), fundações de direito privado e privatização de hospitais, escolas, transportes e saneamento.","fonte":"source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/auxiliar.md › Parte 1 — Mapeamento de Oposições Explícitas › Samara Martins","url":null,"contexto":"eixo Gestão de Serviços Sociais, no bloco compartilhado por UP, PCB, PSTU e PCO","recuperadoEm":null},"interpretacao":null},{"eixo":"e_gestao_privada_saude","postura":"contra","citacao":{"texto":"Abolição Sanitária Privada e Estatização SUS: Nacionalização integral das entidades médico-hospitalares, descredenciamento definitivo de operadoras de planos de saúde e gestão sanitária realizada por representações de trabalhadores.","fonte":"source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/propostas.md › Samara Martins › Eixo: Saúde","url":null,"contexto":"único item do eixo Saúde nas quatro candidaturas","recuperadoEm":null},"interpretacao":null},{"eixo":"e_ensino_civico_militar","postura":"contra","citacao":{"texto":"Oposição ao Ensino Militarizado e Projetos de Controle Ideológico: Rejeição a modelos escolares cívico-militarizados e a restrições de debate docente nas salas de aula.","fonte":"source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/auxiliar.md › Parte 1 — Mapeamento de Oposições Explícitas › Samara Martins","url":null,"contexto":"eixo Gestão de Serviços Sociais, no bloco compartilhado","recuperadoEm":null},"interpretacao":null},{"eixo":"e_flexibilizacao_trabalhista","postura":"contra","citacao":{"texto":"Oposição a Reformas Neoliberais e Terceirização: Rejeição integral às reformas trabalhista e previdenciária promovidas desde 2016 e à flexibilização de contratações indiretas.","fonte":"source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/auxiliar.md › Parte 1 — Mapeamento de Oposições Explícitas › Samara Martins","url":null,"contexto":"eixo Relações Trabalhistas e Previdenciárias, no bloco compartilhado","recuperadoEm":null},"interpretacao":null},{"eixo":"e_justica_fiscal_progressiva","postura":"favor","citacao":{"texto":"Justiça Fiscal Progressiva: Alteração da matriz de arrecadação nacional para privilegiar a tributação sobre rendimentos elevados, lucros e heranças, com desoneração correspondente sobre o consumo básico.","fonte":"source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/propostas.md › Samara Martins › Eixo: Economia e Tributação","url":null,"contexto":"primeiro item do eixo Economia e Tributação","recuperadoEm":null},"interpretacao":null},{"eixo":"e_reducao_jornada","postura":"favor","citacao":{"texto":"Humanização das Relações Laborais: Modificação das relações de trabalho mediante a limitação da jornada semanal e fortalecimento de garantias legais, visando à sustentabilidade social do trabalhador.","fonte":"source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/propostas.md › Samara Martins › Eixo: Economia e Tributação","url":null,"contexto":"item do eixo Economia e Tributação","recuperadoEm":null},"interpretacao":null},{"eixo":"e_reestatizacao","postura":"favor","citacao":{"texto":"Reestatização e Gestão da Dívida: Retomada de empresas estratégicas privatizadas e revisão soberana do endividamento público, direcionando os recursos correspondentes diretamente para finalidades sociais estruturantes.","fonte":"source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/propostas.md › Samara Martins › Eixo: Economia e Tributação","url":null,"contexto":"item do eixo Economia e Tributação","recuperadoEm":null},"interpretacao":null},{"eixo":"e_teto_fiscal","postura":"contra","citacao":{"texto":"Oposição às Regras de Responsabilidade e Teto Fiscal: Rejeição absoluta ao Arcabouço Fiscal, à Lei de Responsabilidade Fiscal e a limites fiscais de gastos correntes e sociais.","fonte":"source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/auxiliar.md › Parte 1 — Mapeamento de Oposições Explícitas › Samara Martins","url":null,"contexto":"eixo Matriz Macroeconômica e Finanças Públicas, no bloco compartilhado","recuperadoEm":null},"interpretacao":null},{"eixo":"e_servico_divida","postura":"contra","citacao":{"texto":"Oposição ao Serviço da Dívida e Agiotagem Financeira: Rejeição ao direcionamento de recursos federais para o pagamento e amortização de títulos da dívida pública, exigindo auditoria imediata.","fonte":"source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/auxiliar.md › Parte 1 — Mapeamento de Oposições Explícitas › Samara Martins","url":null,"contexto":"eixo Matriz Macroeconômica e Finanças Públicas, no bloco compartilhado","recuperadoEm":null},"interpretacao":null},{"eixo":"e_restricao_exportacao_alimentos","postura":"favor","citacao":{"texto":"Restrição à Exportação Agrícola: Proibição da exportação de gêneros alimentícios essenciais sem o prévio abastecimento seguro do mercado interno a preços populares.","fonte":"source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/auxiliar.md › Parte 2 — Especificação e Diferenciação Programática › Samara Martins","url":null,"contexto":"bloco Abastecimento e Soberania Alimentar","recuperadoEm":null},"interpretacao":null},{"eixo":"e_desmilitarizacao","postura":"favor","citacao":{"texto":"Desmilitarização e Policiamento de Direitos: Transição organizacional das forças de segurança interna para estruturas essencialmente civis de policiamento preventivo de proximidade, pautadas estritamente na proteção de garantias fundamentais.","fonte":"source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/propostas.md › Samara Martins › Eixo: Segurança Pública","url":null,"contexto":"único item do eixo Segurança Pública nas quatro candidaturas","recuperadoEm":null},"interpretacao":null},{"eixo":"e_estatizacao_ensino","postura":"favor","citacao":{"texto":"Estatização e Acesso Irrestrito: Estatização integral das estruturas educacionais e desregulamentação dos mecanismos de seleção para o acesso universal e irrestrito ao ensino superior público.","fonte":"source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/propostas.md › Samara Martins › Eixo: Educação","url":null,"contexto":"único item do eixo Educação nas quatro candidaturas","recuperadoEm":null},"interpretacao":null},{"eixo":"e_fim_vestibular","postura":"favor","citacao":{"texto":"Oposição a Exames de Seleção Universitária: Rejeição ao sistema de vestibulares ou quaisquer métodos de seleção excludente para o ingresso no ensino superior.","fonte":"source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/auxiliar.md › Parte 1 — Mapeamento de Oposições Explícitas › Samara Martins","url":null,"contexto":"eixo Gestão de Serviços Sociais, no bloco compartilhado","recuperadoEm":null},"interpretacao":null},{"eixo":"e_orcamento_educacao_pib","postura":"favor","citacao":{"texto":"Orçamento Mínimo Vinculado: Defesa de teto de dotação orçamentária fixa de, no mínimo, 10% do PIB diretamente para o fomento da educação pública básica e superior.","fonte":"source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/auxiliar.md › Parte 2 — Especificação e Diferenciação Programática › Samara Martins","url":null,"contexto":"bloco Políticas Educacionais e de Infraestrutura","recuperadoEm":null},"interpretacao":null},{"eixo":"e_comunidades_terapeuticas","postura":"contra","citacao":{"texto":"Oposição a Comunidades Terapêuticas de Base Privada: Rejeição à destinação de recursos públicos para entidades de acolhimento asilares ou de base religiosa para dependentes químicos.","fonte":"source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/auxiliar.md › Parte 1 — Mapeamento de Oposições Explícitas › Samara Martins","url":null,"contexto":"eixo Gestão de Serviços Sociais, no bloco compartilhado","recuperadoEm":null},"interpretacao":null},{"eixo":"e_uso_obrigatorio_servicos_publicos","postura":"favor","citacao":{"texto":"Uso Obrigatório de Serviços Públicos: Determinação legal para que o Presidente, prefeitos, juízes e parlamentares utilizem exclusivamente o SUS e as escolas públicas para si e seus dependentes, alinhando a vivência decisória à realidade popular.","fonte":"source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/auxiliar.md › Parte 2 — Especificação e Diferenciação Programática › Samara Martins","url":null,"contexto":"bloco Atuação de Agentes Públicos e Responsabilidade Direta","recuperadoEm":null},"interpretacao":null},{"eixo":"e_estatizacao_ferroviaria","postura":"favor","citacao":{"texto":"Soberania em Transportes: Estatização imediata da CBTU e foco no Plano Nacional de Malha Ferroviária e Metroviária para reduzir a poluição e retirar frotas de concessões privadas.","fonte":"source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/auxiliar.md › Parte 2 — Especificação e Diferenciação Programática › Samara Martins","url":null,"contexto":"bloco Políticas Educacionais e de Infraestrutura","recuperadoEm":null},"interpretacao":null}]},{"id":"C10","nome":"Edmilson Costa","partido":"PCB","planoUrl":"https://static.poder360.com.br/uploads/2026/08/Plano_gov_Edmilson_Costa_PCB_2026.pdf","planoNota":"Plano de governo integral, conforme publicado pelo Poder360. Prevalece sobre os resumos citados neste corpus.","posicoes":[{"eixo":"e_privatizacoes","postura":"contra","citacao":{"texto":"Oposição à Gestão Privada de Serviços Públicos: Rejeição irrestrita a convênios com Organizações Sociais (OSs), fundações de direito privado e privatização de hospitais, escolas, transportes e saneamento.","fonte":"source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/auxiliar.md › Parte 1 — Mapeamento de Oposições Explícitas › Edmilson Costa","url":null,"contexto":"eixo Gestão de Serviços Sociais, no bloco compartilhado por UP, PCB, PSTU e PCO","recuperadoEm":null},"interpretacao":null},{"eixo":"e_gestao_privada_saude","postura":"contra","citacao":{"texto":"Abolição Sanitária Privada e Estatização SUS: Nacionalização integral das entidades médico-hospitalares, descredenciamento definitivo de operadoras de planos de saúde e gestão sanitária realizada por representações de trabalhadores.","fonte":"source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/propostas.md › Edmilson Costa › Eixo: Saúde","url":null,"contexto":"único item do eixo Saúde nas quatro candidaturas","recuperadoEm":null},"interpretacao":null},{"eixo":"e_ensino_civico_militar","postura":"contra","citacao":{"texto":"Oposição ao Ensino Militarizado e Projetos de Controle Ideológico: Rejeição a modelos escolares cívico-militarizados e a restrições de debate docente nas salas de aula.","fonte":"source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/auxiliar.md › Parte 1 — Mapeamento de Oposições Explícitas › Edmilson Costa","url":null,"contexto":"eixo Gestão de Serviços Sociais, no bloco compartilhado","recuperadoEm":null},"interpretacao":null},{"eixo":"e_flexibilizacao_trabalhista","postura":"contra","citacao":{"texto":"Oposição a Reformas Neoliberais e Terceirização: Rejeição integral às reformas trabalhista e previdenciária promovidas desde 2016 e à flexibilização de contratações indiretas.","fonte":"source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/auxiliar.md › Parte 1 — Mapeamento de Oposições Explícitas › Edmilson Costa","url":null,"contexto":"eixo Relações Trabalhistas e Previdenciárias, no bloco compartilhado","recuperadoEm":null},"interpretacao":null},{"eixo":"e_estabilidade_emprego","postura":"favor","citacao":{"texto":"Estabilidade Geral no Emprego: Restabelecimento da estabilidade no emprego para todos os trabalhadores (públicos e privados) após 5 anos de vínculo (OIT 158).","fonte":"source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/auxiliar.md › Parte 2 — Especificação e Diferenciação Programática › Edmilson Costa","url":null,"contexto":"bloco Regulação e Controle Financeiro","recuperadoEm":null},"interpretacao":null},{"eixo":"e_justica_fiscal_progressiva","postura":"favor","citacao":{"texto":"Justiça Fiscal Progressiva: Alteração da matriz de arrecadação nacional para privilegiar a tributação sobre rendimentos elevados, lucros e heranças, com desoneração correspondente sobre o consumo básico.","fonte":"source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/propostas.md › Edmilson Costa › Eixo: Economia e Tributação","url":null,"contexto":"primeiro item do eixo Economia e Tributação","recuperadoEm":null},"interpretacao":null},{"eixo":"e_reducao_jornada","postura":"favor","citacao":{"texto":"Humanização das Relações Laborais: Modificação das relações de trabalho mediante a limitação da jornada semanal e fortalecimento de garantias legais, visando à sustentabilidade social do trabalhador.","fonte":"source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/propostas.md › Edmilson Costa › Eixo: Economia e Tributação","url":null,"contexto":"item do eixo Economia e Tributação","recuperadoEm":null},"interpretacao":null},{"eixo":"e_reestatizacao","postura":"favor","citacao":{"texto":"Reestatização e Gestão da Dívida: Retomada de empresas estratégicas privatizadas e revisão soberana do endividamento público, direcionando os recursos correspondentes diretamente para finalidades sociais estruturantes.","fonte":"source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/propostas.md › Edmilson Costa › Eixo: Economia e Tributação","url":null,"contexto":"item do eixo Economia e Tributação","recuperadoEm":null},"interpretacao":null},{"eixo":"e_teto_fiscal","postura":"contra","citacao":{"texto":"Oposição às Regras de Responsabilidade e Teto Fiscal: Rejeição absoluta ao Arcabouço Fiscal, à Lei de Responsabilidade Fiscal e a limites fiscais de gastos correntes e sociais.","fonte":"source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/auxiliar.md › Parte 1 — Mapeamento de Oposições Explícitas › Edmilson Costa","url":null,"contexto":"eixo Matriz Macroeconômica e Finanças Públicas, no bloco compartilhado","recuperadoEm":null},"interpretacao":null},{"eixo":"e_servico_divida","postura":"contra","citacao":{"texto":"Oposição ao Serviço da Dívida e Agiotagem Financeira: Rejeição ao direcionamento de recursos federais para o pagamento e amortização de títulos da dívida pública, exigindo auditoria imediata.","fonte":"source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/auxiliar.md › Parte 1 — Mapeamento de Oposições Explícitas › Edmilson Costa","url":null,"contexto":"eixo Matriz Macroeconômica e Finanças Públicas, no bloco compartilhado","recuperadoEm":null},"interpretacao":null},{"eixo":"e_proibicao_bets","postura":"favor","citacao":{"texto":"Proibição de Apostas Virtuais (BETs): Interdição total de plataformas de apostas eletrônicas esportivas e expropriação imediata de seus ativos financeiros.","fonte":"source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/auxiliar.md › Parte 2 — Especificação e Diferenciação Programática › Edmilson Costa","url":null,"contexto":"bloco Regulação e Controle Financeiro","recuperadoEm":null},"interpretacao":null},{"eixo":"e_desmilitarizacao","postura":"favor","citacao":{"texto":"Desmilitarização e Policiamento de Direitos: Transição organizacional das forças de segurança interna para estruturas essencialmente civis de policiamento preventivo de proximidade, pautadas estritamente na proteção de garantias fundamentais.","fonte":"source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/propostas.md › Edmilson Costa › Eixo: Segurança Pública","url":null,"contexto":"único item do eixo Segurança Pública nas quatro candidaturas","recuperadoEm":null},"interpretacao":null},{"eixo":"e_estatizacao_ensino","postura":"favor","citacao":{"texto":"Estatização e Acesso Irrestrito: Estatização integral das estruturas educacionais e desregulamentação dos mecanismos de seleção para o acesso universal e irrestrito ao ensino superior público.","fonte":"source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/propostas.md › Edmilson Costa › Eixo: Educação","url":null,"contexto":"único item do eixo Educação nas quatro candidaturas","recuperadoEm":null},"interpretacao":null},{"eixo":"e_fim_vestibular","postura":"favor","citacao":{"texto":"Oposição a Exames de Seleção Universitária: Rejeição ao sistema de vestibulares ou quaisquer métodos de seleção excludente para o ingresso no ensino superior.","fonte":"source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/auxiliar.md › Parte 1 — Mapeamento de Oposições Explícitas › Edmilson Costa","url":null,"contexto":"eixo Gestão de Serviços Sociais, no bloco compartilhado","recuperadoEm":null},"interpretacao":null},{"eixo":"e_comunidades_terapeuticas","postura":"contra","citacao":{"texto":"Oposição a Comunidades Terapêuticas de Base Privada: Rejeição à destinação de recursos públicos para entidades de acolhimento asilares ou de base religiosa para dependentes químicos.","fonte":"source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/auxiliar.md › Parte 1 — Mapeamento de Oposições Explícitas › Edmilson Costa","url":null,"contexto":"eixo Gestão de Serviços Sociais, no bloco compartilhado","recuperadoEm":null},"interpretacao":null},{"eixo":"e_mandato_magistratura","postura":"favor","citacao":{"texto":"Mandatos Temporários para a Magistratura: Instituição de mandatos de 10 anos, elegíveis e revogáveis pelo voto popular, para juízes de Tribunais Regionais e Superiores, pondo fim à vitaliciedade.","fonte":"source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/auxiliar.md › Parte 2 — Especificação e Diferenciação Programática › Edmilson Costa","url":null,"contexto":"bloco Democratização e Controle do Judiciário","recuperadoEm":null},"interpretacao":null},{"eixo":"e_unicameralismo","postura":"favor","citacao":{"texto":"Unicameralismo e Extinção do Senado: Substituição do Congresso Nacional por um Parlamento Unicameral e instauração dos Conselhos Populares deliberativos (trabalho, moradia e estudo) como base da democracia direta.","fonte":"source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/auxiliar.md › Parte 2 — Especificação e Diferenciação Programática › Edmilson Costa","url":null,"contexto":"bloco Reforma do Estado e Poder Popular","recuperadoEm":null},"interpretacao":null}]},{"id":"C11","nome":"Hertz Dias","partido":"PSTU","planoUrl":"https://static.poder360.com.br/uploads/2026/08/Plano_gov_Hertz_Dias_PSTU_2026.pdf","planoNota":"Plano de governo integral, conforme publicado pelo Poder360. Prevalece sobre os resumos citados neste corpus.","posicoes":[{"eixo":"e_privatizacoes","postura":"contra","citacao":{"texto":"Oposição à Gestão Privada de Serviços Públicos: Rejeição irrestrita a convênios com Organizações Sociais (OSs), fundações de direito privado e privatização de hospitais, escolas, transportes e saneamento.","fonte":"source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/auxiliar.md › Parte 1 — Mapeamento de Oposições Explícitas › Hertz Dias","url":null,"contexto":"eixo Gestão de Serviços Sociais, no bloco compartilhado por UP, PCB, PSTU e PCO","recuperadoEm":null},"interpretacao":null},{"eixo":"e_gestao_privada_saude","postura":"contra","citacao":{"texto":"Abolição Sanitária Privada e Estatização SUS: Nacionalização integral das entidades médico-hospitalares, descredenciamento definitivo de operadoras de planos de saúde e gestão sanitária realizada por representações de trabalhadores.","fonte":"source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/propostas.md › Hertz Dias › Eixo: Saúde","url":null,"contexto":"único item do eixo Saúde nas quatro candidaturas","recuperadoEm":null},"interpretacao":null},{"eixo":"e_ensino_civico_militar","postura":"contra","citacao":{"texto":"Oposição ao Ensino Militarizado e Projetos de Controle Ideológico: Rejeição a modelos escolares cívico-militarizados e a restrições de debate docente nas salas de aula.","fonte":"source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/auxiliar.md › Parte 1 — Mapeamento de Oposições Explícitas › Hertz Dias","url":null,"contexto":"eixo Gestão de Serviços Sociais, no bloco compartilhado","recuperadoEm":null},"interpretacao":null},{"eixo":"e_flexibilizacao_trabalhista","postura":"contra","citacao":{"texto":"Oposição a Reformas Neoliberais e Terceirização: Rejeição integral às reformas trabalhista e previdenciária promovidas desde 2016 e à flexibilização de contratações indiretas.","fonte":"source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/auxiliar.md › Parte 1 — Mapeamento de Oposições Explícitas › Hertz Dias","url":null,"contexto":"eixo Relações Trabalhistas e Previdenciárias, no bloco compartilhado","recuperadoEm":null},"interpretacao":null},{"eixo":"e_renda_sem_contrapartida","postura":"favor","citacao":{"texto":"Bolsa de Amparo ao Desempregado: Criação de benefício de um salário mínimo para cidadãos sem colocação profissional enquanto o pleno emprego não for estruturalmente atingido.","fonte":"source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/auxiliar.md › Parte 2 — Especificação e Diferenciação Programática › Hertz Dias","url":null,"contexto":"bloco Organização Econômica e Distribuição de Riqueza","recuperadoEm":null},"interpretacao":"O plano não discute contrapartidas; propõe um benefício de um salário mínimo a desempregados sem condicionalidade declarada. A postura \"favor\" é inferida da ausência de contrapartida no desenho do benefício."},{"eixo":"e_justica_fiscal_progressiva","postura":"favor","citacao":{"texto":"Justiça Fiscal Progressiva: Alteração da matriz de arrecadação nacional para privilegiar a tributação sobre rendimentos elevados, lucros e heranças, com desoneração correspondente sobre o consumo básico.","fonte":"source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/propostas.md › Hertz Dias › Eixo: Economia e Tributação","url":null,"contexto":"primeiro item do eixo Economia e Tributação","recuperadoEm":null},"interpretacao":null},{"eixo":"e_reducao_jornada","postura":"favor","citacao":{"texto":"Humanização das Relações Laborais: Modificação das relações de trabalho mediante a limitação da jornada semanal e fortalecimento de garantias legais, visando à sustentabilidade social do trabalhador.","fonte":"source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/propostas.md › Hertz Dias › Eixo: Economia e Tributação","url":null,"contexto":"item do eixo Economia e Tributação","recuperadoEm":null},"interpretacao":null},{"eixo":"e_reestatizacao","postura":"favor","citacao":{"texto":"Reestatização e Gestão da Dívida: Retomada de empresas estratégicas privatizadas e revisão soberana do endividamento público, direcionando os recursos correspondentes diretamente para finalidades sociais estruturantes.","fonte":"source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/propostas.md › Hertz Dias › Eixo: Economia e Tributação","url":null,"contexto":"item do eixo Economia e Tributação","recuperadoEm":null},"interpretacao":null},{"eixo":"e_teto_fiscal","postura":"contra","citacao":{"texto":"Oposição às Regras de Responsabilidade e Teto Fiscal: Rejeição absoluta ao Arcabouço Fiscal, à Lei de Responsabilidade Fiscal e a limites fiscais de gastos correntes e sociais.","fonte":"source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/auxiliar.md › Parte 1 — Mapeamento de Oposições Explícitas › Hertz Dias","url":null,"contexto":"eixo Matriz Macroeconômica e Finanças Públicas, no bloco compartilhado","recuperadoEm":null},"interpretacao":null},{"eixo":"e_servico_divida","postura":"contra","citacao":{"texto":"Oposição ao Serviço da Dívida e Agiotagem Financeira: Rejeição ao direcionamento de recursos federais para o pagamento e amortização de títulos da dívida pública, exigindo auditoria imediata.","fonte":"source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/auxiliar.md › Parte 1 — Mapeamento de Oposições Explícitas › Hertz Dias","url":null,"contexto":"eixo Matriz Macroeconômica e Finanças Públicas, no bloco compartilhado","recuperadoEm":null},"interpretacao":null},{"eixo":"e_escala_movel","postura":"favor","citacao":{"texto":"Escala Móvel de Horas e Pleno Emprego: Redução da jornada para 36 horas sem perdas de salários, associada a uma escala móvel que ajuste as horas conforme a demanda para garantir o emprego a todos.","fonte":"source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/auxiliar.md › Parte 2 — Especificação e Diferenciação Programática › Hertz Dias","url":null,"contexto":"bloco Organização Econômica e Distribuição de Riqueza","recuperadoEm":null},"interpretacao":null},{"eixo":"e_expropriacao_ouro","postura":"favor","citacao":{"texto":"Expropriação da Cadeia do Ouro: Estatização e expropriação total da produção nacional de ouro e metais preciosos para sua incorporação às reservas cambiais públicas, visando ao descolamento do padrão-dólar.","fonte":"source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/auxiliar.md › Parte 2 — Especificação e Diferenciação Programática › Hertz Dias","url":null,"contexto":"bloco Soberania Mineral e Financeira Rígida","recuperadoEm":null},"interpretacao":null},{"eixo":"e_plataformas_estatais","postura":"favor","citacao":{"texto":"Plataformas Tecnológicas Públicas: Criação de aplicativos nacionais estatais de entrega e e-commerce para concorrer com monopólios estrangeiros, subsidiados por empresas expropriadas.","fonte":"source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/auxiliar.md › Parte 2 — Especificação e Diferenciação Programática › Hertz Dias","url":null,"contexto":"bloco Soberania Mineral e Financeira Rígida","recuperadoEm":null},"interpretacao":null},{"eixo":"e_desmilitarizacao","postura":"favor","citacao":{"texto":"Desmilitarização e Policiamento de Direitos: Transição organizacional das forças de segurança interna para estruturas essencialmente civis de policiamento preventivo de proximidade, pautadas estritamente na proteção de garantias fundamentais.","fonte":"source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/propostas.md › Hertz Dias › Eixo: Segurança Pública","url":null,"contexto":"único item do eixo Segurança Pública nas quatro candidaturas","recuperadoEm":null},"interpretacao":null},{"eixo":"e_estatizacao_ensino","postura":"favor","citacao":{"texto":"Estatização e Acesso Irrestrito: Estatização integral das estruturas educacionais e desregulamentação dos mecanismos de seleção para o acesso universal e irrestrito ao ensino superior público.","fonte":"source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/propostas.md › Hertz Dias › Eixo: Educação","url":null,"contexto":"único item do eixo Educação nas quatro candidaturas","recuperadoEm":null},"interpretacao":null},{"eixo":"e_fim_vestibular","postura":"favor","citacao":{"texto":"Oposição a Exames de Seleção Universitária: Rejeição ao sistema de vestibulares ou quaisquer métodos de seleção excludente para o ingresso no ensino superior.","fonte":"source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/auxiliar.md › Parte 1 — Mapeamento de Oposições Explícitas › Hertz Dias","url":null,"contexto":"eixo Gestão de Serviços Sociais, no bloco compartilhado","recuperadoEm":null},"interpretacao":null},{"eixo":"e_comunidades_terapeuticas","postura":"contra","citacao":{"texto":"Oposição a Comunidades Terapêuticas de Base Privada: Rejeição à destinação de recursos públicos para entidades de acolhimento asilares ou de base religiosa para dependentes químicos.","fonte":"source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/auxiliar.md › Parte 1 — Mapeamento de Oposições Explícitas › Hertz Dias","url":null,"contexto":"eixo Gestão de Serviços Sociais, no bloco compartilhado","recuperadoEm":null},"interpretacao":null}]},{"id":"C12","nome":"Rui Costa Pimenta","partido":"PCO","planoUrl":"https://static.poder360.com.br/uploads/2026/08/Plano_gov_PCO_Rui_Costa_Pimenta2026.pdf","planoNota":"Plano de governo integral, conforme publicado pelo Poder360. Prevalece sobre os resumos citados neste corpus.","posicoes":[{"eixo":"e_privatizacoes","postura":"contra","citacao":{"texto":"Oposição à Gestão Privada de Serviços Públicos: Rejeição irrestrita a convênios com Organizações Sociais (OSs), fundações de direito privado e privatização de hospitais, escolas, transportes e saneamento.","fonte":"source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/auxiliar.md › Parte 1 — Mapeamento de Oposições Explícitas › Rui Costa Pimenta","url":null,"contexto":"eixo Gestão de Serviços Sociais, no bloco compartilhado por UP, PCB, PSTU e PCO","recuperadoEm":null},"interpretacao":null},{"eixo":"e_gestao_privada_saude","postura":"contra","citacao":{"texto":"Abolição Sanitária Privada e Estatização SUS: Nacionalização integral das entidades médico-hospitalares, descredenciamento definitivo de operadoras de planos de saúde e gestão sanitária realizada por representações de trabalhadores.","fonte":"source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/propostas.md › Rui Costa Pimenta › Eixo: Saúde","url":null,"contexto":"único item do eixo Saúde nas quatro candidaturas","recuperadoEm":null},"interpretacao":null},{"eixo":"e_ensino_civico_militar","postura":"contra","citacao":{"texto":"Oposição ao Ensino Militarizado e Projetos de Controle Ideológico: Rejeição a modelos escolares cívico-militarizados e a restrições de debate docente nas salas de aula.","fonte":"source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/auxiliar.md › Parte 1 — Mapeamento de Oposições Explícitas › Rui Costa Pimenta","url":null,"contexto":"eixo Gestão de Serviços Sociais, no bloco compartilhado","recuperadoEm":null},"interpretacao":null},{"eixo":"e_flexibilizacao_trabalhista","postura":"contra","citacao":{"texto":"Oposição a Reformas Neoliberais e Terceirização: Rejeição integral às reformas trabalhista e previdenciária promovidas desde 2016 e à flexibilização de contratações indiretas.","fonte":"source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/auxiliar.md › Parte 1 — Mapeamento de Oposições Explícitas › Rui Costa Pimenta","url":null,"contexto":"eixo Relações Trabalhistas e Previdenciárias, no bloco compartilhado","recuperadoEm":null},"interpretacao":null},{"eixo":"e_justica_fiscal_progressiva","postura":"favor","citacao":{"texto":"Justiça Fiscal Progressiva: Alteração da matriz de arrecadação nacional para privilegiar a tributação sobre rendimentos elevados, lucros e heranças, com desoneração correspondente sobre o consumo básico.","fonte":"source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/propostas.md › Rui Costa Pimenta › Eixo: Economia e Tributação","url":null,"contexto":"primeiro item do eixo Economia e Tributação","recuperadoEm":null},"interpretacao":null},{"eixo":"e_reducao_jornada","postura":"favor","citacao":{"texto":"Humanização das Relações Laborais: Modificação das relações de trabalho mediante a limitação da jornada semanal e fortalecimento de garantias legais, visando à sustentabilidade social do trabalhador.","fonte":"source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/propostas.md › Rui Costa Pimenta › Eixo: Economia e Tributação","url":null,"contexto":"item do eixo Economia e Tributação","recuperadoEm":null},"interpretacao":null},{"eixo":"e_reestatizacao","postura":"favor","citacao":{"texto":"Reestatização e Gestão da Dívida: Retomada de empresas estratégicas privatizadas e revisão soberana do endividamento público, direcionando os recursos correspondentes diretamente para finalidades sociais estruturantes.","fonte":"source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/propostas.md › Rui Costa Pimenta › Eixo: Economia e Tributação","url":null,"contexto":"item do eixo Economia e Tributação","recuperadoEm":null},"interpretacao":null},{"eixo":"e_teto_fiscal","postura":"contra","citacao":{"texto":"Oposição às Regras de Responsabilidade e Teto Fiscal: Rejeição absoluta ao Arcabouço Fiscal, à Lei de Responsabilidade Fiscal e a limites fiscais de gastos correntes e sociais.","fonte":"source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/auxiliar.md › Parte 1 — Mapeamento de Oposições Explícitas › Rui Costa Pimenta","url":null,"contexto":"eixo Matriz Macroeconômica e Finanças Públicas, no bloco compartilhado","recuperadoEm":null},"interpretacao":null},{"eixo":"e_servico_divida","postura":"contra","citacao":{"texto":"Oposição ao Serviço da Dívida e Agiotagem Financeira: Rejeição ao direcionamento de recursos federais para o pagamento e amortização de títulos da dívida pública, exigindo auditoria imediata.","fonte":"source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/auxiliar.md › Parte 1 — Mapeamento de Oposições Explícitas › Rui Costa Pimenta","url":null,"contexto":"eixo Matriz Macroeconômica e Finanças Públicas, no bloco compartilhado","recuperadoEm":null},"interpretacao":null},{"eixo":"e_aposentadoria_tempo_servico","postura":"favor","citacao":{"texto":"Aposentadoria Precoce: Garantia de aposentadoria aos 25 anos de serviço para mulheres e 30 anos para homens.","fonte":"source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/auxiliar.md › Parte 2 — Especificação e Diferenciação Programática › Rui Costa Pimenta","url":null,"contexto":"bloco Políticas Educacionais e Previdenciárias Singulares","recuperadoEm":null},"interpretacao":null},{"eixo":"e_desmilitarizacao","postura":"favor","citacao":{"texto":"Desmilitarização e Policiamento de Direitos: Transição organizacional das forças de segurança interna para estruturas essencialmente civis de policiamento preventivo de proximidade, pautadas estritamente na proteção de garantias fundamentais.","fonte":"source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/propostas.md › Rui Costa Pimenta › Eixo: Segurança Pública","url":null,"contexto":"único item do eixo Segurança Pública nas quatro candidaturas","recuperadoEm":null},"interpretacao":null},{"eixo":"e_estatizacao_ensino","postura":"favor","citacao":{"texto":"Estatização e Acesso Irrestrito: Estatização integral das estruturas educacionais e desregulamentação dos mecanismos de seleção para o acesso universal e irrestrito ao ensino superior público.","fonte":"source/propostas.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/propostas.md › Rui Costa Pimenta › Eixo: Educação","url":null,"contexto":"único item do eixo Educação nas quatro candidaturas","recuperadoEm":null},"interpretacao":null},{"eixo":"e_fim_vestibular","postura":"favor","citacao":{"texto":"Oposição a Exames de Seleção Universitária: Rejeição ao sistema de vestibulares ou quaisquer métodos de seleção excludente para o ingresso no ensino superior.","fonte":"source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/auxiliar.md › Parte 1 — Mapeamento de Oposições Explícitas › Rui Costa Pimenta","url":null,"contexto":"eixo Gestão de Serviços Sociais, no bloco compartilhado","recuperadoEm":null},"interpretacao":null},{"eixo":"e_celular_em_sala","postura":"favor","citacao":{"texto":"Fim das Restrições Tecnológicas Escolares: Oposição explícita à proibição de aparelhos celulares nas salas de aula e à censura disciplinar.","fonte":"source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/auxiliar.md › Parte 2 — Especificação e Diferenciação Programática › Rui Costa Pimenta","url":null,"contexto":"bloco Políticas Educacionais e Previdenciárias Singulares","recuperadoEm":null},"interpretacao":null},{"eixo":"e_comunidades_terapeuticas","postura":"contra","citacao":{"texto":"Oposição a Comunidades Terapêuticas de Base Privada: Rejeição à destinação de recursos públicos para entidades de acolhimento asilares ou de base religiosa para dependentes químicos.","fonte":"source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/auxiliar.md › Parte 1 — Mapeamento de Oposições Explícitas › Rui Costa Pimenta","url":null,"contexto":"eixo Gestão de Serviços Sociais, no bloco compartilhado","recuperadoEm":null},"interpretacao":null},{"eixo":"e_estatizacao_midia","postura":"favor","citacao":{"texto":"Estatização dos Monopólios de Imprensa: Cancelamento imediato de concessões públicas de radiodifusão e grandes corporações de mídia (ex: Rede Globo) por atos lesa-pátria, transferindo os ativos ao controle operário.","fonte":"source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/auxiliar.md › Parte 2 — Especificação e Diferenciação Programática › Rui Costa Pimenta","url":null,"contexto":"bloco Meios de Comunicação e Cultura Popular","recuperadoEm":null},"interpretacao":null},{"eixo":"e_controle_torcedores","postura":"favor","citacao":{"texto":"Defesa da Cultura de Massa Periférica: Proteção contra perseguições institucionais a manifestações do samba, carnaval e futebol, outorgando o controle dos clubes desportivos diretamente a torcedores e trabalhadores do setor.","fonte":"source/auxiliar.md — resumo curatorial (não é transcrição literal do plano registrado)","local":"source/auxiliar.md › Parte 2 — Especificação e Diferenciação Programática › Rui Costa Pimenta","url":null,"contexto":"bloco Meios de Comunicação e Cultura Popular","recuperadoEm":null},"interpretacao":null}]}],"contrastes":[{"entre":["C01","C07"],"discriminador":"e_encarceramento_excecao","inclina":{"concordo":"C01","discordo":"C07"},"nota":"Ambos endurecem a política prisional e defendem o isolamento de lideranças de facções. Separam-se no encarceramento de exceção sem devido processo individualizado."},{"entre":["C01","C05"],"discriminador":"e_flexibilizacao_trabalhista","inclina":{"concordo":"C01","discordo":"C05"},"nota":"Ambos apostam em vigilância tecnológica e em pasta federal de segurança. Separam-se na regulação do trabalho por plataformas."},{"entre":["C03","C10"],"discriminador":"e_estabilidade_emprego","inclina":{"discordo":"C03","concordo":"C10"},"nota":"Únicas duas candidaturas que tratam explicitamente da estabilidade no emprego, e em direções opostas."},{"entre":["C04","C11"],"discriminador":"e_renda_sem_contrapartida","inclina":{"discordo":"C04","concordo":"C11"},"nota":"Únicas duas candidaturas que desenham um benefício de renda; divergem sobre exigir contrapartida."}]});
+
+/**
+ * Interface. Sem framework e sem dependências: o produto é um .html único que
+ * funciona por duplo clique, offline, sem requisição externa. Nada do que o
+ * usuário responde sai do navegador — as respostas dele são as posições
+ * políticas dele, e a única defesa que não depende de confiança é não ter servidor.
+ *
+ * Todo o estado da tela é derivado de `S.respostas` + `S.linhasVermelhas` por
+ * `analisar()`, que é pura. Nada é acumulado — é o que torna trivial voltar e
+ * alterar uma resposta (B11).
+ */
+const CHAVE = "match-presidenciaveis/v1";
+const app = document.getElementById("app");
+
+const S = {
+  tela: "abertura",
+  respostas: {},
+  linhasVermelhas: [],
+  rastro: [],
+  complementar: false,
+  margem: 0.05,
+  editando: null,
+};
+
+// ── util ────────────────────────────────────────────────────────────────────
+const h = (s) => String(s ?? "").replace(/[&<>"']/g, (c) =>
+  ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const f3 = (x) => (x === null || x === undefined ? "—" : x.toFixed(3));
+const f2 = (x) => (x === null || x === undefined ? "—" : x.toFixed(2));
+const cand = (id) => CORPUS.candidatos.find((c) => c.id === id);
+const nomeDe = (id) => { const c = cand(id); return c ? c.nome + (c.partido ? ` (${c.partido})` : "") : id; };
+const eixoDe = (id) => CORPUS.eixos[id]?.label ?? id;
+const posturaDe = (id, eixo) => cand(id)?.posicoes.find((p) => p.eixo === eixo) || null;
+
+function salvar() {
+  try { localStorage.setItem(CHAVE, JSON.stringify({ v: 1, corpusVersion: CORPUS.corpusVersion, ...S })); }
+  catch { /* modo privado, cota cheia: a sessão continua, só não persiste */ }
+}
+function carregar() {
+  try {
+    const raw = localStorage.getItem(CHAVE);
+    if (!raw) return false;
+    const d = JSON.parse(raw);
+    if (d.corpusVersion !== CORPUS.corpusVersion) return false;
+    Object.assign(S, { tela: d.tela, respostas: d.respostas || {}, linhasVermelhas: d.linhasVermelhas || [],
+                       rastro: d.rastro || [], complementar: !!d.complementar, margem: d.margem ?? 0.05 });
+    return Object.keys(S.respostas).length > 0;
+  } catch { return false; }
+}
+const analise = () => analisar(CORPUS, S.respostas, new Set(S.linhasVermelhas), { margem: S.margem });
+const pergunta = (a) => proximaPergunta(CORPUS, S.respostas, a.estados,
+  { complementar: S.complementar, linhasVermelhas: new Set(S.linhasVermelhas), margem: S.margem });
+
+// ── ações ───────────────────────────────────────────────────────────────────
+function responder(q, valor, linhaVermelha) {
+  const antes = analise();
+  const anterior = S.respostas[q.id];
+  S.respostas = { ...S.respostas, [q.id]: valor };
+  const lv = new Set(S.linhasVermelhas);
+  if (linhaVermelha) lv.add(q.id); else lv.delete(q.id);
+  S.linhasVermelhas = [...lv];
+  const depois = analise();
+  // Rastro é append-only: revisar não sobrescreve o registro original (B11).
+  S.rastro.push({
+    pergunta: { id: q.id, tipo: q.tipo, fase: q.fase, pergunta: q.pergunta, label: q.label },
+    resposta: valor, linhaVermelha: !!linhaVermelha,
+    revisaoDe: anterior !== undefined ? anterior : null,
+    transicoes: transicoes(antes, depois),
+  });
+  S.editando = null;
+  if (!pergunta(depois)) S.tela = "resultado";
+  salvar(); render();
+}
+function editar(eixoId) { S.editando = eixoId; S.tela = "entrevista"; render(); }
+function reiniciar() {
+  if (!confirm("Isto apaga todas as suas respostas e o rastro. Continuar?")) return;
+  Object.assign(S, { tela: "abertura", respostas: {}, linhasVermelhas: [], rastro: [], complementar: false, editando: null });
+  try { localStorage.removeItem(CHAVE); } catch {}
+  render();
+}
+function baixar(nome, texto, tipo = "text/plain") {
+  const url = URL.createObjectURL(new Blob([texto], { type: `${tipo};charset=utf-8` }));
+  const a = document.createElement("a");
+  a.href = url; a.download = nome; document.body.appendChild(a); a.click();
+  a.remove(); URL.revokeObjectURL(url);
+}
+function exportarSessao() {
+  baixar("sessao-match-presidenciaveis.json",
+    JSON.stringify({ v: 1, corpusVersion: CORPUS.corpusVersion, respostas: S.respostas,
+                     linhasVermelhas: S.linhasVermelhas, rastro: S.rastro, margem: S.margem }, null, 2),
+    "application/json");
+}
+function importarSessao(arquivo) {
+  const fr = new FileReader();
+  fr.onload = () => {
+    try {
+      const d = JSON.parse(fr.result);
+      if (d.corpusVersion !== CORPUS.corpusVersion &&
+          !confirm(`Esta sessão foi gravada com o corpus ${d.corpusVersion}; o atual é ${CORPUS.corpusVersion}. Importar mesmo assim?`)) return;
+      Object.assign(S, { respostas: d.respostas || {}, linhasVermelhas: d.linhasVermelhas || [],
+                         rastro: d.rastro || [], margem: d.margem ?? 0.05, editando: null });
+      S.tela = pergunta(analise()) ? "entrevista" : "resultado";
+      salvar(); render();
+    } catch (e) { alert("Arquivo de sessão inválido: " + e.message); }
+  };
+  fr.readAsText(arquivo);
+}
+function exportarRelatorio() {
+  baixar("comparacao-de-propostas.txt", montarRelatorio(CORPUS, analise(), S.rastro, {}));
+}
+
+// ── componentes ─────────────────────────────────────────────────────────────
+function citacaoHTML(p) {
+  return `<div class="cit${p.interpretacao ? " inferida" : ""}">
+    ${h(p.citacao.texto)}
+    <span class="fonte">${h(p.citacao.fonte)} · ${h(p.citacao.local)}${p.citacao.contexto ? ` · ${h(p.citacao.contexto)}` : ""}</span>
+    ${p.interpretacao ? `<div class="interp"><b>Interpretação do curador — a postura não está literal nesta citação:</b> ${h(p.interpretacao)}</div>` : ""}
+  </div>`;
+}
+
+function tabelaRanking(a, compacta) {
+  const linhas = [];
+  const push = (id, i) => {
+    const s = a.estados[id];
+    const lider = a.ranking.lideres.includes(id);
+    const morto = s.estado === "eliminado";
+    const cobBaixa = s.cobertura !== null && s.cobertura < 0.7;
+    linhas.push(`<tr class="${lider ? "lider" : ""} ${morto ? "morto" : ""}">
+      <td class="n">${i ?? ""}</td>
+      <td>${h(nomeDe(id))}${lider && a.ranking.empate ? ' <span class="selo">empatado</span>' : ""}
+        ${morto ? `<div class="mini perigo-cor">${h(explicarMotivo(CORPUS, s.motivo))}</div>` : ""}
+        ${!compacta && s.afinidade !== null ? `<div class="barra"><i style="width:${(s.afinidade * 100).toFixed(0)}%"></i></div>` : ""}</td>
+      <td class="n">${f3(s.afinidade)}</td>
+      <td class="n ${cobBaixa ? "cob-baixa" : ""}">${f2(s.cobertura)}</td>
+    </tr>`);
+  };
+  a.ranking.ordem.forEach((id, i) => push(id, i + 1));
+  a.ranking.semSinal.forEach((id) => push(id, "—"));
+  CORPUS.candidatos.filter((c) => a.estados[c.id].estado === "eliminado").forEach((c) => push(c.id, "×"));
+  return `<table class="rank"><thead><tr><th></th><th>Candidatura</th><th>Afinidade</th><th>Cobertura</th></tr></thead>
+    <tbody>${linhas.join("")}</tbody></table>`;
+}
+
+const PROXIMIDADE = 0.25;   // "logo atrás": 5× a margem padrão de empate
+function alertasSilencio(a) {
+  const out = [];
+  for (const id of a.ranking.lideres) {
+    const s = a.estados[id];
+    if (s.cobertura !== null && s.cobertura < 0.7)
+      out.push(`<b>${h(nomeDe(id))}</b> lidera com cobertura ${f2(s.cobertura)}: pronunciou-se sobre menos de 70% do peso do que você respondeu.`);
+    // "quem vem atrás" é quem está logo atrás — citar alguém com afinidade 0,21
+    // como referência de cobertura seria ruído, não informação.
+    const atras = a.ranking.ordem.filter((x) => !a.ranking.lideres.includes(x) &&
+      a.estados[x].afinidade >= s.afinidade - PROXIMIDADE &&
+      a.estados[x].cobertura !== null && s.cobertura !== null && a.estados[x].cobertura > s.cobertura);
+    if (atras.length)
+      out.push(`<b>${h(nomeDe(id))}</b> lidera com cobertura menor que ${atras.map((x) => h(nomeDe(x))).join(", ")}, logo atrás — falou menos e por isso errou menos.`);
+  }
+  if (!out.length) return "";
+  return `<div class="aviso"><h3>Silêncio — leia antes do ranking</h3>
+    <p class="mini">Ausência de posição nunca soma nem subtrai. É por isso que reduz a cobertura, e é por isso que quem fala pouco sobe fácil.</p>
+    <ul class="mini">${out.map((x) => `<li>${x}</li>`).join("")}</ul></div>`;
+}
+
+// ── telas ───────────────────────────────────────────────────────────────────
+function telaAbertura() {
+  const cls = classificarEixos(CORPUS, CORPUS.candidatos);
+  const temSessao = Object.keys(S.respostas).length > 0;
+  return `
+  <h1>Onde as candidaturas realmente divergem</h1>
+  <p>Este instrumento percorre as posições declaradas nos planos de governo de
+     ${CORPUS.candidatos.length} candidaturas e pergunta a <b>sua</b> posição sobre os
+     ${cls.divisivos.length} pontos em que elas divergem entre si. No fim, mostra quem está mais
+     alinhado a você — <b>e o que ficou sem resposta</b>, que costuma importar mais.</p>
+
+  <div class="aviso perigo">
+    <h3>O que este instrumento não é</h3>
+    <p>Ele <b>não recomenda voto</b>. Compara posições declaradas em documentos e ignora, por
+       construção: histórico de mandato, capacidade de execução, coalizão, quem financia a campanha
+       e a distância conhecida entre plano de governo e governo.</p>
+    <p>A escolha de quais eixos existem e de qual trecho representa cada candidatura é o maior viés
+       deste sistema, e ele é invisível no resultado. Cada citação aparece na tela com a fonte, para
+       que você possa discordar da curadoria enquanto usa o instrumento.</p>
+  </div>
+
+  <div class="aviso"><h3>Estado do corpus</h3>
+    <p class="mini">${h(CORPUS.aviso)}</p>
+    <ul class="mini">${(CORPUS.curadoria.limitacoesConhecidas || []).map((x) => `<li>${h(x)}</li>`).join("")}</ul>
+  </div>
+
+  <div class="cartao">
+    <h2>Como funciona</h2>
+    <div class="eixo-linha"><b>Perguntas em ordem de poder de separação.</b> O motor pergunta primeiro
+      o eixo que divide o campo ao meio e tem mais peso, não o mais importante em abstrato. Um ponto em que
+      todos concordam não separa ninguém e por isso não é perguntado.</div>
+    <div class="eixo-linha"><b>Discordar junto conta como concordar.</b> Se você é contra algo e o plano
+      também é, isso é alinhamento.</div>
+    <div class="eixo-linha"><b>Não sei ≠ indiferente ≠ não perguntado.</b> Os três são registrados
+      separadamente e nenhum deles pesa no resultado.</div>
+    <div class="eixo-linha"><b>Silêncio não conta a favor.</b> Se o plano não fala de um assunto, isso não
+      vira concordância — vira <i>cobertura</i> menor, exibida sempre ao lado da afinidade.</div>
+    <div class="eixo-linha"><b>Linha vermelha elimina.</b> Você pode marcar um ponto como inegociável;
+      quem divergir dele sai da comparação, com a citação que causou a eliminação.</div>
+    <div class="eixo-linha"><b>Nada sai do seu navegador.</b> Não há servidor, não há telemetria, não há
+      requisição externa. A sessão fica salva só neste aparelho.</div>
+  </div>
+
+  <div class="acoes">
+    <button class="primario" data-acao="comecar">${temSessao ? "Continuar de onde parei" : "Começar"}</button>
+    ${temSessao ? '<button data-acao="reiniciar">Recomeçar do zero</button>' : ""}
+    <button data-acao="importar">Importar sessão</button>
+    <input type="file" id="arq" accept="application/json" class="oculto">
+  </div>
+  <p class="mini">Corpus ${h(CORPUS.corpusVersion)} · ${CORPUS.candidatos.length} candidaturas ·
+     ${Object.keys(CORPUS.eixos).length} eixos (${cls.divisivos.length} divisivos, ${cls.unanimes.length} unânimes,
+     ${cls.unilaterais.length} unilaterais) · margem de empate ${S.margem.toFixed(2)}</p>`;
+}
+
+function telaEntrevista() {
+  const a = analise();
+  const q = S.editando
+    ? { tipo: "eixo", id: S.editando, ...CORPUS.eixos[S.editando], revisao: true }
+    : pergunta(a);
+  if (!q) { S.tela = "resultado"; return telaResultado(); }
+
+  const respondidas = Object.keys(S.respostas).length;
+  const divisivosAbertos = a.classes.divisivos.filter((d) => S.respostas[d.eixo] === undefined).length;
+  const jaLV = S.linhasVermelhas.includes(q.id);
+
+  let porque = "";
+  if (q.tipo === "eixo" && q.fase === 1) {
+    const favor = CORPUS.candidatos.filter((c) => a.estados[c.id].estado === "vivo" && posturaDe(c.id, q.id)?.postura === "favor");
+    const contra = CORPUS.candidatos.filter((c) => a.estados[c.id].estado === "vivo" && posturaDe(c.id, q.id)?.postura === "contra");
+    porque = `<div class="porque">
+      Perguntado agora porque separa <b>${q.separa.favor} × ${q.separa.contra}</b> candidaturas
+      (${q.separa.separacoes} pares) com peso ${q.peso} — ganho ${q.separa.ganho}, o maior ainda em aberto.
+      ${q.separa.mudos ? `${q.separa.mudos} candidatura(s) não dizem nada sobre isto.` : ""}
+      <br><b class="ok-cor">A favor:</b> ${favor.map((c) => h(c.nome)).join(", ") || "—"}
+      <br><b class="perigo-cor">Contra:</b> ${contra.map((c) => h(c.nome)).join(", ") || "—"}
+      ${q.entreLideres ? `<br><span class="selo destaque">desempata a liderança</span> É a única coisa que separa
+        ${q.desempata.map((x) => h(nomeDe(x))).join(" e ")}, hoje empatados.` : ""}
+    </div>`;
+  } else if (q.tipo === "eixo" && q.fase === 4) {
+    porque = `<div class="porque"><span class="selo comp">não separa ninguém</span>
+      ${q.categoria === "unanime"
+        ? `Todas as candidaturas vivas declaram a mesma posição aqui.`
+        : `${q.campo.nFalam} candidatura(s) se pronunciam, ${q.campo.mudos} não dizem nada — e nenhuma se opõe.`}
+      Responder <b>não altera o ranking</b> (incluir isto inverteria a ordem em favor de quem falou pouco).
+      Vai para uma métrica separada: o quanto este campo eleitoral inteiro representa você.
+      Faltam ${q.restantes} perguntas desta fase; você pode parar quando quiser.</div>`;
+  } else if (q.tipo === "portao") {
+    porque = `<div class="porque"><span class="selo">portão</span> ${h(q.nota || "")}</div>`;
+  } else if (q.revisao) {
+    porque = `<div class="porque">Você está <b>revisando</b> uma resposta já dada
+      (${h(S.respostas[q.id])}). O registro original fica no rastro; a alteração é anexada, não sobrescrita.</div>`;
+  }
+
+  const podeLV = q.tipo === "eixo";
+  return `
+  <div class="painel">
+    <div>
+      <div class="cartao">
+        <span class="selo">${q.tipo === "portao" ? "Portão" : `Eixo · ${h(q.dominio || "")}`}</span>
+        ${q.fase === 4 ? '<span class="selo comp">fase complementar</span>' : ""}
+        <div class="pergunta">${h(q.pergunta)}</div>
+        ${q.formulacaoNeutra === false ? `<div class="aviso"><h3>Redação não neutra</h3><p class="mini">${h(q.notaRedacao)}</p></div>` : ""}
+        ${porque}
+        <div class="respostas" data-q="${h(q.id)}">
+          ${q.tipo === "portao"
+            ? `<button data-v="sim"><b>Sim</b></button><button data-v="nao"><b>Não</b></button>`
+            : `<button data-v="concordo"><b>Concordo</b><i>Sou a favor desta política</i></button>
+               <button data-v="discordo"><b>Discordo</b><i>Sou contra esta política</i></button>
+               <button data-v="indiferente"><b>Indiferente</b><i>Não quero que este ponto pese</i></button>
+               <button data-v="ns"><b>Não sei</b><i>Não tenho posição formada; fica registrado como pendência</i></button>`}
+        </div>
+        ${podeLV ? `<div class="lv ${jaLV ? "ativa" : ""}">
+          <label><input type="checkbox" id="lv" ${jaLV ? "checked" : ""}>
+            <span><b>Isto é inegociável para mim.</b> Não é "peso alto": qualquer candidatura que
+            divirja aqui é <b>eliminada</b> da comparação, por mais que concorde com você no resto.
+            Reversível a qualquer momento.</span></label>
+        </div>` : ""}
+        ${S.editando ? '<div class="acoes"><button data-acao="cancelar-edicao">Cancelar revisão</button></div>' : ""}
+      </div>
+
+      ${a.diagnostico.rankingVazioComRespostas ? `<div class="aviso"><h3>O ranking está vazio — e isso tem explicação</h3>
+        <p class="mini">${a.diagnostico.semEixosDiscriminantes
+          ? "Não sobrou nenhum eixo em que as candidaturas ainda vivas divirjam entre si."
+          : "Nenhuma candidatura viva declarou posição sobre o que você respondeu."}
+        ${a.diagnostico.reclassificados.length ? `Depois das eliminações, ${a.diagnostico.reclassificados.map((e) => h(eixoDe(e))).join(", ")}
+          passaram a ter um lado só e saíram da conta.` : ""}</p></div>` : ""}
+
+      <div class="cartao">
+        <h2>Rastro</h2>
+        <p class="mini">${respondidas} resposta(s). Clique para revisar — o registro original é preservado.</p>
+        <ul class="rastro">${S.rastro.map((p, i) => `<li>
+          <b class="mini">${i + 1}</b>
+          <span>${h(p.pergunta.label || p.pergunta.pergunta)}${p.revisaoDe ? ' <span class="selo">revisão</span>' : ""}
+            ${p.transicoes.ranking.mudou ? `<div class="mini">liderança: ${(p.transicoes.lideres.para.map(nomeDe).join(", ")) || "—"}</div>` : ""}
+            ${p.transicoes.estados.length ? `<div class="mini perigo-cor">${p.transicoes.estados.map((e) => `${h(nomeDe(e.id))}: ${e.de}→${e.para}`).join(" · ")}</div>` : ""}
+          </span>
+          <span class="r">${h(p.resposta)}</span>
+          ${p.pergunta.tipo === "eixo" ? `<button class="fantasma" data-editar="${h(p.pergunta.id)}">revisar</button>` : ""}
+        </li>`).join("") || '<li class="mini">Nada respondido ainda.</li>'}</ul>
+      </div>
+    </div>
+
+    <div>
+      <div class="cartao">
+        <h2>Estado das candidaturas</h2>
+        <p class="mini">Afinidade e cobertura andam sempre juntas. Afinidade sem cobertura mente.</p>
+        ${tabelaRanking(a, true)}
+        <p class="mini" style="margin-top:.6rem">${divisivosAbertos} eixo(s) divisivo(s) ainda em aberto.
+        Margem de empate ${S.margem.toFixed(2)}.</p>
+      </div>
+      ${S.linhasVermelhas.length ? `<div class="cartao">
+        <h2 class="perigo-cor">Linhas vermelhas</h2>
+        ${S.linhasVermelhas.map((e) => `<div class="eixo-linha"><b>${h(eixoDe(e))}</b>
+          <button class="fantasma" data-remover-lv="${h(e)}">remover</button></div>`).join("")}
+      </div>` : ""}
+      <div class="cartao">
+        <h2>Sessão</h2>
+        <div class="acoes">
+          <button data-acao="resultado">Ver resultado agora</button>
+          <button data-acao="exportar-sessao">Exportar</button>
+          <button data-acao="reiniciar">Recomeçar</button>
+        </div>
+        <p class="mini">Salvo neste aparelho, em <code>localStorage</code>. Nada é enviado a lugar nenhum.</p>
+      </div>
+    </div>
+  </div>`;
+}
+
+function blocoEixos(a, id, chave, titulo) {
+  const s = a.estados[id];
+  if (!s[chave].length) return "";
+  return `<details><summary>${titulo} (${s[chave].length})</summary><div class="corpo">
+    ${s[chave].map((e) => {
+      const p = posturaDe(id, e);
+      return `<div class="eixo-linha"><b>${h(eixoDe(e))}</b>
+        <span class="tag">peso ${CORPUS.eixos[e].peso} · o plano é ${p.postura === "favor" ? "favorável" : "contrário"} · você respondeu "${h(a.respostas[e])}"</span>
+        ${citacaoHTML(p)}</div>`;
+    }).join("")}</div></details>`;
+}
+
+function telaResultado() {
+  const a = analise();
+  const q = pergunta(a);
+  const compPend = [...a.classes.unanimes, ...a.classes.unilaterais].filter((c) => S.respostas[c.eixo] === undefined).length;
+
+  return `
+  <h1>Resultado</h1>
+  <div class="aviso perigo"><h3>Isto não é uma recomendação de voto</h3>
+    <p>O que segue é uma comparação entre as posições que você declarou e as posições declaradas em
+       documentos de campanha. Não considera histórico, execução, coalizão nem financiamento. Leia os
+       planos completos — os links estão no fim desta página.</p></div>
+
+  ${a.todosEliminados ? `<div class="aviso perigo"><h3>Todas as candidaturas foram eliminadas</h3>
+    <p>Suas linhas vermelhas eliminaram o campo inteiro. Isso é um resultado, não um erro — e abaixo
+       está a ordem que existiria sem elas, para que você possa decidir se a linha vermelha
+       continua valendo a pena.</p></div>` : ""}
+
+  ${a.ranking.lideres.length ? `
+    <h2>${a.ranking.empate ? `Empate declarado entre ${a.ranking.lideres.length} candidaturas` : "Mais alinhado a você"}</h2>
+    ${a.ranking.empate ? `<p class="mini">Não há ordem entre elas: a diferença está dentro da margem de
+      ${S.margem.toFixed(2)}. A margem existe porque os pesos dos eixos foram escolhidos à mão e não têm
+      precisão para separar 0,84 de 0,81.</p>` : ""}
+    <div class="lideres">${a.ranking.lideres.map((id) => `<div class="lider-cartao">
+      <h3>${h(nomeDe(id))}</h3>
+      <div class="metrica">
+        <div><b>${f3(a.estados[id].afinidade)}</b><small>afinidade</small></div>
+        <div><b class="${a.estados[id].cobertura < 0.7 ? "cob-baixa" : ""}">${f2(a.estados[id].cobertura)}</b><small>cobertura</small></div>
+      </div>
+      <p class="mini">${a.estados[id].alinhados.length} alinhamentos · ${a.estados[id].divergentes.length} divergências ·
+         ${a.estados[id].silencios.length} silêncios</p>
+      ${cand(id).planoUrl ? `<p class="mini"><a href="${h(cand(id).planoUrl)}" target="_blank" rel="noopener noreferrer">Ler o plano de governo integral →</a></p>` : ""}
+    </div>`).join("")}</div>` : ""}
+
+  ${alertasSilencio(a)}
+
+  ${a.diagnostico.reclassificados.length || a.diagnostico.rankingVazioComRespostas ? `<div class="aviso">
+    <h3>O que as eliminações fizeram com a conta</h3>
+    ${a.diagnostico.reclassificados.length ? `<p class="mini">Depois de eliminar candidaturas,
+      ${a.diagnostico.reclassificados.length} eixo(s) ficaram com um lado só e deixaram de separar quem
+      sobrou — saíram do ranking e foram para o consenso do campo:
+      <b>${a.diagnostico.reclassificados.map((e) => h(eixoDe(e))).join(", ")}</b>.
+      É por isso que as afinidades mudaram de escala: o ranking passou a se apoiar em menos eixos.</p>` : ""}
+    ${a.diagnostico.rankingVazioComRespostas ? `<p class="mini">Não sobrou nenhum eixo em que as candidaturas
+      vivas divirjam entre si, então não há afinidade a calcular. Remova uma linha vermelha para ver a
+      comparação completa.</p>` : ""}
+  </div>` : ""}
+
+  <div class="cartao">
+    <h2>Ranking completo</h2>
+    <p class="mini"><b>Afinidade</b> mede alinhamento <b>nos pontos em que as candidaturas divergem entre si</b> —
+      não é percentual de concordância com o plano. Um eleitor que concorda com 90% de um plano pode ver
+      afinidade 0,55, porque tudo em que o campo pensa igual fica fora da conta.
+      <b>Cobertura</b> é a fração do que você respondeu sobre a qual aquela candidatura se pronunciou.</p>
+    ${tabelaRanking(a, false)}
+    ${a.ranking.semSinal.length ? `<p class="mini">Sem afinidade calculável (não declararam nada sobre o que você
+      respondeu): ${a.ranking.semSinal.map((x) => h(nomeDe(x))).join(", ")}. Ausência de posição não é zero
+      e não é concordância; ficam fora da ordem.</p>` : ""}
+  </div>
+
+  <h2>Por candidatura</h2>
+  <p class="mini">Cada alinhamento e cada divergência vem com a citação que o sustenta. Discorde da curadoria
+     se ela estiver errada — é para isso que a fonte está aqui.</p>
+  ${[...a.ranking.ordem, ...a.ranking.semSinal].map((id) => `<details><summary>${h(nomeDe(id))} —
+     afinidade ${f3(a.estados[id].afinidade)} · cobertura ${f2(a.estados[id].cobertura)}</summary>
+     <div class="corpo">
+       ${blocoEixos(a, id, "alinhados", "Por que se alinha")}
+       ${blocoEixos(a, id, "divergentes", "Divergências")}
+       ${a.estados[id].silencios.length ? `<details><summary>Silêncios (${a.estados[id].silencios.length})</summary>
+         <div class="corpo"><p class="mini">Eixos que você respondeu e sobre os quais este plano não diz nada.
+         Não somam nem subtraem — e é por isso que reduzem a cobertura.</p>
+         ${a.estados[id].silencios.map((e) => `<div class="eixo-linha"><b>${h(eixoDe(e))}</b>
+           <span class="tag">peso ${CORPUS.eixos[e].peso}</span></div>`).join("")}</div></details>` : ""}
+       ${a.estados[id].inconclusivos.length ? `<p class="mini">Você respondeu "não sei" em
+         ${a.estados[id].inconclusivos.length} eixo(s) em que este plano declara posição:
+         ${a.estados[id].inconclusivos.map((e) => h(eixoDe(e))).join(", ")}.</p>` : ""}
+       ${a.estados[id].indiferentes.length ? `<p class="mini">Você marcou como indiferente
+         ${a.estados[id].indiferentes.length} eixo(s) em que este plano declara posição:
+         ${a.estados[id].indiferentes.map((e) => h(eixoDe(e))).join(", ")}.</p>` : ""}
+     </div></details>`).join("")}
+
+  ${Object.values(a.estados).some((s) => s.estado === "eliminado") ? `
+    <h2 class="perigo-cor">Eliminadas</h2>
+    <p class="mini">Nenhuma candidatura some em silêncio: cada eliminação vem com a citação que a causou.</p>
+    ${CORPUS.candidatos.filter((c) => a.estados[c.id].estado === "eliminado").map((c) => {
+      const m = a.estados[c.id].motivo;
+      return `<div class="cartao"><h3>${h(nomeDe(c.id))}</h3>
+        <p class="mini">${h(explicarMotivo(CORPUS, m))}</p>
+        ${m.tipo === "linha-vermelha" ? `<p class="mini">Eixo marcado por você como inegociável:
+          <b>${h(eixoDe(m.eixo))}</b></p>${citacaoHTML({ citacao: m.citacao, interpretacao: m.interpretacao })}` : ""}</div>`;
+    }).join("")}
+    ${a.contrafactual ? `<details><summary>Ranking contrafactual — a ordem que existiria sem nenhuma linha vermelha</summary>
+      <div class="corpo"><table class="rank"><tbody>${a.contrafactual.ranking.ordem.map((id, i) =>
+        `<tr><td class="n">${i + 1}</td><td>${h(nomeDe(id))}</td>
+         <td class="n">${f3(a.contrafactual.estados[id].afinidade)}</td>
+         <td class="n">${f2(a.contrafactual.estados[id].cobertura)}</td></tr>`).join("") ||
+        '<tr><td class="mini">nenhuma afinidade calculável</td></tr>'}</tbody></table></div></details>` : ""}` : ""}
+
+  <h2>Consenso do campo</h2>
+  <p class="mini">Eixos que <b>não separam ninguém</b> e por isso não entram no ranking. Ficam de fora porque
+     incluí-los inverteria a ordem em favor de quem falou pouco — mas são, muitas vezes, as afirmações mais
+     úteis que este instrumento consegue fazer.</p>
+  ${a.campo.respondidos ? `<div class="cartao">
+    <div class="metrica">
+      <div><b>${f3(a.campo.afinidade)}</b><small>afinidade com o campo</small></div>
+      <div><b>${f2(a.campo.cobertura)}</b><small>cobertura</small></div>
+    </div>
+    <p class="mini">Outra pergunta, outro número: não "quem é mais parecido comigo", mas "o quanto este campo
+       eleitoral inteiro me representa". ${a.campo.respondidos} de ${a.campo.total} eixos respondidos.
+       Afinidade com o campo baixa significa que nenhum ranking entre estas candidaturas conserta o problema.</p>
+    ${[...a.ranking.ordem].filter((id) => a.estados[id].complementar.afinidade !== null).length ? `
+      <p class="mini"><b>Por candidatura, fora do ranking</b> — é aqui que candidaturas empatadas nos eixos
+      divisivos se separam:</p>
+      <table class="rank"><tbody>${a.ranking.ordem.filter((id) => a.estados[id].complementar.afinidade !== null)
+        .map((id) => `<tr><td>${h(nomeDe(id))}</td>
+          <td class="n">${f3(a.estados[id].complementar.afinidade)}</td>
+          <td class="n">${f2(a.estados[id].complementar.cobertura)}</td></tr>`).join("")}</tbody></table>` : ""}
+  </div>` : `<div class="aviso"><h3>Fase complementar não respondida</h3>
+    <p class="mini">Há ${compPend} eixo(s) em que o campo fala com uma voz só ou em que ninguém se opõe.
+    Eles não afetam o ranking, mas respondem uma pergunta diferente — e são o que separa candidaturas
+    que hoje estão empatadas.</p>
+    <button class="primario" data-acao="complementar">Responder a fase complementar (${compPend} perguntas)</button></div>`}
+
+  <details><summary>Unânimes (${a.classes.unanimes.length}) e unilaterais (${a.classes.unilaterais.length})</summary>
+    <div class="corpo">
+      ${a.classes.unanimes.map((u) => `<div class="eixo-linha"><b>${h(eixoDe(u.eixo))}</b>
+        <span class="tag">todas as ${u.nFalam} candidaturas vivas são ${u.postura === "favor" ? "a favor" : "contrárias"}</span></div>`).join("")}
+      ${a.classes.unilaterais.map((u) => `<div class="eixo-linha"><b>${h(eixoDe(u.eixo))}</b>
+        <span class="tag">${u.nFalam} ${u.postura === "favor" ? "a favor" : "contrárias"}, ${u.mudos} não dizem nada — e ninguém se opõe</span></div>`).join("")}
+    </div></details>
+
+  <h2>Não investigado</h2>
+  <p class="mini">Pares de candidaturas próximas e a única coisa que as separa, ainda sem resposta sua.
+     Esta seção é a defesa contra o fechamento prematuro: o instrumento existe tanto para dizer o que ficou
+     de fora quanto para dizer o que fechou.</p>
+  ${a.contrastes.naoInvestigados.length ? a.contrastes.naoInvestigados.map((t) => {
+    const desempata = a.contrastes.desempates.some((d) => d.entre.join() === t.entre.join());
+    return `<div class="cartao"><h3>${t.entre.map((x) => h(nomeDe(x))).join("  vs  ")}
+      ${desempata ? '<span class="selo destaque">desempataria a liderança</span>' : ""}</h3>
+      <p class="mini"><b>${h(eixoDe(t.discriminador))}</b> — ${h(t.motivo)}</p>
+      ${t.nota ? `<p class="mini">${h(t.nota)}</p>` : ""}
+      <button data-editar="${h(t.discriminador)}">Responder este eixo</button></div>`;
+  }).join("") : '<p class="mini">Nenhum. Todos os contrastes ativos foram investigados.</p>'}
+  ${a.contrastes.investigados.length ? `<details><summary>Investigados (${a.contrastes.investigados.length})</summary>
+    <div class="corpo">${a.contrastes.investigados.map((t) => `<div class="eixo-linha">
+      ${t.entre.map((x) => h(nomeDe(x))).join(" vs ")} — <b>${h(eixoDe(t.discriminador))}</b> =
+      "${h(t.resposta)}" → inclina para <b>${t.inclina ? h(nomeDe(t.inclina)) : "nenhum lado"}</b></div>`).join("")}</div></details>` : ""}
+
+  <h2>Planos de governo integrais</h2>
+  <p class="mini">As citações deste instrumento são resumos. Os documentos abaixo prevalecem sobre qualquer
+     coisa dita aqui — se você chegou a uma conclusão, o passo seguinte é ler o plano inteiro.</p>
+  <table class="planos"><tbody>${CORPUS.candidatos.map((c) => `<tr>
+    <td>${h(c.nome)}${c.partido ? ` <span class="tag">${h(c.partido)}</span>` : ""}</td>
+    <td>${c.planoUrl ? `<a href="${h(c.planoUrl)}" target="_blank" rel="noopener noreferrer">${h(c.planoUrl)}</a>` : "—"}</td>
+  </tr>`).join("")}</tbody></table>
+
+  <div class="acoes">
+    ${q ? '<button class="primario" data-acao="continuar">Continuar respondendo</button>' : ""}
+    <button data-acao="relatorio">Baixar relatório completo (.txt)</button>
+    <button data-acao="exportar-sessao">Exportar sessão (.json)</button>
+    <button data-acao="ver-relatorio">Ver relatório na tela</button>
+    <button data-acao="reiniciar">Recomeçar</button>
+  </div>
+  <pre class="relatorio oculto" id="rel"></pre>
+
+  <div class="aviso"><h3>Curadoria</h3>
+    <p class="mini"><b>Método:</b> ${h(CORPUS.curadoria.metodo)}</p>
+    <p class="mini"><b>Critério de inclusão:</b> ${h(CORPUS.curadoria.criterioDeInclusao)}</p>
+    <p class="mini"><b>Responsável:</b> ${h(CORPUS.curadoria.responsavel || "não identificado")} ·
+       <b>Revisão independente:</b> ${h(CORPUS.curadoria.revisadoPor || "nenhuma")}</p>
+    <ul class="mini">${(CORPUS.curadoria.limitacoesConhecidas || []).map((x) => `<li>${h(x)}</li>`).join("")}</ul>
+  </div>`;
+}
+
+// ── render + eventos ────────────────────────────────────────────────────────
+function render() {
+  document.getElementById("topo-escopo").textContent =
+    `${CORPUS.escopo.eleicao} · ${CORPUS.escopo.cargo}`;
+  document.getElementById("topo-versao").textContent =
+    `corpus ${CORPUS.corpusVersion} · ${CORPUS.status}`;
+  app.innerHTML = S.tela === "abertura" ? telaAbertura()
+                : S.tela === "resultado" ? telaResultado()
+                : telaEntrevista();
+  window.scrollTo({ top: 0 });
+}
+
+app.addEventListener("click", (ev) => {
+  const alvo = ev.target.closest("[data-acao], [data-v], [data-editar], [data-remover-lv]");
+  if (!alvo) return;
+  if (alvo.dataset.v !== undefined) {
+    const q = S.editando
+      ? { tipo: "eixo", id: S.editando, ...CORPUS.eixos[S.editando] }
+      : pergunta(analise());
+    if (q) responder(q, alvo.dataset.v, document.getElementById("lv")?.checked);
+    return;
+  }
+  if (alvo.dataset.editar) return editar(alvo.dataset.editar);
+  if (alvo.dataset.removerLv) {
+    S.linhasVermelhas = S.linhasVermelhas.filter((x) => x !== alvo.dataset.removerLv);
+    salvar(); render(); return;
+  }
+  switch (alvo.dataset.acao) {
+    case "comecar": case "continuar": S.tela = "entrevista"; salvar(); render(); break;
+    case "resultado": S.tela = "resultado"; salvar(); render(); break;
+    case "cancelar-edicao": S.editando = null; render(); break;
+    case "complementar": S.complementar = true; S.tela = "entrevista"; salvar(); render(); break;
+    case "reiniciar": reiniciar(); break;
+    case "exportar-sessao": exportarSessao(); break;
+    case "relatorio": exportarRelatorio(); break;
+    case "ver-relatorio": {
+      const el = document.getElementById("rel");
+      el.textContent = montarRelatorio(CORPUS, analise(), S.rastro, {});
+      el.classList.toggle("oculto");
+      break;
+    }
+    case "importar": {
+      const inp = document.getElementById("arq");
+      inp.onchange = () => inp.files[0] && importarSessao(inp.files[0]);
+      inp.click(); break;
+    }
+  }
+});
+
+if (carregar()) S.tela = S.tela === "abertura" ? "abertura" : S.tela;
+render();
+
+</script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+{
+  "id": "P001",
+  "titulo": "Eleitora estatista",
+  "autoria": {
+    "redigidoPor": null,
+    "independenteDoCorpus": false,
+    "data": null,
+    "nota": "ATENÇÃO — CIRCULARIDADE (§9.4/§25.2). Este perfil foi redigido por quem montou o corpus, olhando os eixos que o corpus tem. Ele mede se a curadoria é internamente consistente; NÃO mede se ela é justa. Um perfil escrito por um eleitor real, sem ver o corpus, vale mais do que os sete daqui somados."
+  },
+  "descricao": "Trabalha no serviço público, viu a terceirização chegar ao seu setor e associa concessão a perda de qualidade. Acha que hospital e escola são obrigação do Estado, não oportunidade de contrato. Desconfia de disciplina militar em escola. Quer estabilidade no emprego e benefício social pago sem cobrança de contrapartida — para ela, exigir trabalho em troca de auxílio é trocar assistência por mão de obra barata.",
+  "respostas": {
+    "e_gestao_privada_saude": "discordo",
+    "e_privatizacoes": "discordo",
+    "e_ensino_civico_militar": "discordo",
+    "e_flexibilizacao_trabalhista": "discordo",
+    "e_encarceramento_excecao": "discordo",
+    "e_renda_sem_contrapartida": "concordo",
+    "e_estabilidade_emprego": "concordo"
+  },
+  "linhasVermelhas": [],
+  "esperado": {
+    "deveLiderar": [
+      "C09",
+      "C10",
+      "C11",
+      "C12"
+    ],
+    "naoPodeLiderar": [
+      "C01",
+      "C02",
+      "C03",
+      "C04",
+      "C08"
+    ],
+    "deveEliminar": [],
+    "deveEmpatar": [
+      "C05",
+      "C09",
+      "C10",
+      "C11",
+      "C12"
+    ],
+    "deveSinalizar": [],
+    "semAssercao": [
+      "C06",
+      "C07"
+    ]
+  },
+  "justificativa": "As quatro candidaturas do bloco anticapitalista declaram exatamente as posições dela em todos os eixos divisivos. Lula empata com elas por concordância perfeita, mas declarou postura em UM único eixo divisivo (flexibilização) — o empate dele é feito de silêncio, e cobertura 0,15 tem de aparecer na mesma linha do resultado. C06 e C07 ficam sem asserção: falam pouco demais para que este perfil diga algo confiável sobre eles."
+}

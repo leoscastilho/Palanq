@@ -1,0 +1,51 @@
+{
+  "id": "P007",
+  "titulo": "Eleitora de fronteira entre blocos opostos",
+  "autoria": {
+    "redigidoPor": null,
+    "independenteDoCorpus": false,
+    "data": null,
+    "nota": "ATENÇÃO — CIRCULARIDADE (§9.4/§25.2). Este perfil foi redigido por quem montou o corpus, olhando os eixos que o corpus tem. Ele mede se a curadoria é internamente consistente; NÃO mede se ela é justa. Um perfil escrito por um eleitor real, sem ver o corpus, vale mais do que os sete daqui somados."
+  },
+  "descricao": "Quer privatização e é contra gestão privada no SUS; é contra escola disciplinar mas a favor da flexibilização do trabalho e do endurecimento prisional; a favor de estabilidade no emprego. Um eleitor que nenhum dos dois blocos representa, e que fica a meio caminho dos dois.",
+  "respostas": {
+    "e_gestao_privada_saude": "discordo",
+    "e_privatizacoes": "concordo",
+    "e_ensino_civico_militar": "discordo",
+    "e_flexibilizacao_trabalhista": "concordo",
+    "e_encarceramento_excecao": "concordo",
+    "e_renda_sem_contrapartida": "ns",
+    "e_estabilidade_emprego": "concordo"
+  },
+  "linhasVermelhas": [],
+  "esperado": {
+    "deveLiderar": [
+      "C01",
+      "C10"
+    ],
+    "naoPodeLiderar": [
+      "C05",
+      "C06",
+      "C07",
+      "C02",
+      "C03"
+    ],
+    "deveEliminar": [],
+    "deveEmpatar": [
+      "C01",
+      "C10"
+    ],
+    "deveSinalizar": [
+      [
+        "C04",
+        "C11"
+      ]
+    ],
+    "semAssercao": [
+      "C08",
+      "C09",
+      "C12"
+    ]
+  },
+  "justificativa": "SEGUNDO PERFIL ADVERSARIAL, e o mais duro: os dois líderes vêm de blocos opostos e estão a 0,029 um do outro (0,600 e 0,571), ambos com cobertura alta (0,88 e 0,82). Nenhum dos dois passa de 0,60 — o resultado honesto é \"este campo não te representa bem\", e é a afinidade com o campo, não o ranking, que deve dizer isso."
+}

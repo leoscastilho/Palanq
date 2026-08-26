@@ -1,0 +1,18 @@
+{
+  "name": "match-presidenciaveis",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Compara posições declaradas pelo usuário com posições declaradas em planos de governo. Não recomenda voto.",
+  "type": "module",
+  "engines": { "node": ">=18" },
+  "scripts": {
+    "corpus": "node tools/gerar-corpus.mjs && node tools/gerar-perfis.mjs",
+    "validate": "node tools/validate.mjs",
+    "test": "node src/motor.test.mjs && node src/perfis.mjs",
+    "perfis:cobertura": "node src/perfis.mjs cobertura",
+    "perfis:mutacao": "node src/perfis.mjs mutacao",
+    "build": "npm run validate && node tools/build.mjs",
+    "dev": "node tools/servir.mjs",
+    "ci": "npm run validate && npm test && npm run build"
+  }
+}
