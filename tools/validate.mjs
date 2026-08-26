@@ -13,6 +13,7 @@ console.log(`${metricas.candidatos} candidatos · ${metricas.eixos} eixos · ${m
 console.log(`eixos: ${cls.divisivos.length} divisivos · ${cls.unanimes.length} unânimes · ${cls.unilaterais.length} unilaterais · ${cls.mudos.length} mudos`);
 console.log(`superfície de responsabilidade autoral: ${metricas.interpretacoes} posturas com interpretação declarada`);
 console.log(`${metricas.semCitacaoLiteral} posturas com fonte de resumo curatorial (sem citação literal auditável)`);
+console.log(`explicação leiga em todos os eixos · ${metricas.explicacaoMedia} caracteres em média (texto autoral, sem âncora em citação — é o que mais precisa de revisão externa)`);
 
 for (const a of avisos) console.log(`aviso: ${a}`);
 if (erros.length) {

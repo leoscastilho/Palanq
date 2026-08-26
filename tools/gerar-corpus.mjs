@@ -83,6 +83,118 @@ const INTERPRETACOES = {
   "e_estatizacao_setores/C12": "A postura \"favor\" é inferida das propostas de estatização declaradas ao longo do plano (imprensa, ensino pago, empresas que demitem), não de uma formulação geral de monopólio estatal.",
 };
 
+
+/**
+ * Explicação em linguagem leiga: o que a proposta quer dizer na prática.
+ *
+ * É o texto mais fácil de enviesar do projeto inteiro — mais que a escolha das
+ * citações, porque aqui não há trecho de plano para servir de âncora. A disciplina
+ * adotada: descrever o mecanismo concreto e, onde o desacordo é real, dar uma frase
+ * a cada lado, na mesma extensão. Onde o tema tem pouca controvérsia, dizer isso em
+ * vez de fabricar uma polêmica.
+ *
+ * Não é neutro por construção e não há trava técnica que o torne. É o item que mais
+ * precisa de revisão de terceiros.
+ */
+const EXPLICACOES = {
+  e_privatizacao_estatais:
+    "O governo é dono de empresas como Petrobras, Correios e bancos públicos. Privatizar é vendê-las a investidores. Quem defende diz que empresa privada é mais eficiente e que a venda abate dívida; quem é contra diz que o país perde controle sobre setores estratégicos e que o novo dono passa a cobrar pelo que era serviço.",
+  e_ppp_servicos_publicos:
+    "O serviço continua público e gratuito para você, mas quem constrói e opera é uma empresa contratada, remunerada pelo Estado ou por tarifa — como já acontece em rodovias e em alguns hospitais. Discute-se se entrega mais rápido e mais barato, ou se transfere o lucro ao particular e deixa o risco com o poder público.",
+  e_gestao_privada_saude:
+    "Em vez de contratar médicos por concurso, o poder público paga uma organização social para tocar o hospital, ou compra consultas e exames de clínicas privadas. O atendimento segue pelo SUS e de graça. Discute-se se diminui fila, ou se precariza o vínculo de quem trabalha e drena dinheiro da rede própria.",
+  e_ans_planos_flexiveis:
+    "Hoje todo plano de saúde é obrigado a cobrir uma lista mínima de procedimentos. Flexibilizar é permitir planos mais baratos que cobrem menos. Quem defende diz que dá acesso a quem não tem plano nenhum; quem é contra diz que a pessoa só descobre o que ficou de fora na hora em que adoece.",
+  e_ensino_civico_militar:
+    "São escolas públicas comuns em que militares ou policiais da reserva cuidam da disciplina, do uniforme e da rotina, enquanto professores civis dão as aulas. Discute-se se isso melhora o ambiente e as notas, ou se escola não é lugar de hierarquia militar.",
+  e_negociado_sobre_legislado:
+    "Hoje a CLT define um piso que nenhum acordo pode rebaixar. A mudança permite que o acordo entre empresa e trabalhadores valha mais do que a lei em pontos como jornada e intervalos. Quem defende fala em flexibilidade para cada setor; quem é contra diz que quem precisa do emprego não negocia de igual para igual.",
+  e_estabilidade_emprego:
+    "Depois de um tempo de casa, a empresa não poderia demitir sem justificar o motivo — como já vale para servidores concursados. Quem defende fala em segurança para planejar a vida; quem é contra diz que empresa que não pode demitir também contrata menos.",
+  e_renda_sem_contrapartida:
+    "É o desenho do Bolsa Família: o dinheiro entra na conta de quem está abaixo de uma linha de renda, sem exigir trabalho em troca. A alternativa é pagar mediante horas de serviço comunitário. Discute-se se a contrapartida ajuda a sair da pobreza ou se vira mão de obra barata.",
+  e_encarceramento_excecao:
+    "É o modelo aplicado em El Salvador: prender em massa e suspender temporariamente garantias como o direito de defesa e o limite de tempo sem julgamento. Não se trata de construir presídio de segurança máxima, o que quase todos defendem, mas de afrouxar as regras do processo. Quem defende aponta a queda de homicídios lá; quem é contra aponta prisões de inocentes e mortes sob custódia.",
+  e_autonomia_banco_central:
+    "O Banco Central define os juros básicos, e hoje seu presidente tem mandato fixo — não pode ser demitido pelo presidente da República. Acabar com a autonomia devolve essa decisão à influência do governo. Quem defende a autonomia diz que ela protege contra inflação em ano eleitoral; quem é contra diz que juro alto demais trava emprego e que ninguém elegeu quem decide.",
+  e_margem_equatorial:
+    "A Margem Equatorial é a costa entre o Amapá e o Rio Grande do Norte, perto da foz do Amazonas, onde há indício de muito petróleo. Abrir a exploração é autorizar perfuração em área ambientalmente sensível. Discute-se se o país deve extrair essa riqueza enquanto ela vale algo, ou se apostar em petróleo novo contradiz o compromisso climático.",
+  e_reforma_agraria:
+    "O governo desapropria terras que não cumprem função social, indeniza o dono e assenta famílias sem terra. Continuar é criar novos assentamentos; parar é concentrar esforço em tornar produtivos os que já existem. Discute-se se corrige uma concentração histórica de terra ou se atrapalha a produção e estimula invasões.",
+  e_tributar_altas_rendas:
+    "O Brasil cobra pouco sobre patrimônio, herança e lucro distribuído a sócios, e muito sobre consumo — o que pesa proporcionalmente mais em quem ganha menos. A proposta cria ou aumenta imposto sobre o topo. Quem defende fala em justiça e em financiar serviços; quem é contra diz que capital sai do país e que o Estado deveria gastar melhor antes de arrecadar mais.",
+  e_reforma_previdencia:
+    "A idade mínima para se aposentar passaria a subir sozinha, conforme os brasileiros vivem mais, sem depender de nova votação. Quem defende diz que é o que mantém a conta fechando com menos jovens contribuindo; quem é contra diz que quem faz trabalho pesado não chega inteiro a essa idade.",
+  e_alinhamento_brics:
+    "O BRICS reúne Brasil, Rússia, Índia, China e outros, como bloco fora da órbita dos Estados Unidos e da Europa. Permanecer é manter essa aposta; sair é aproximar-se do bloco ocidental. Discute-se se o país ganha mais barganhando com todos ou escolhendo um lado.",
+  e_licenciamento_simplificado:
+    "Antes de uma obra ou mineração começar, órgãos ambientais analisam impactos e podem exigir mudanças. Simplificar é fixar prazos curtos e dispensar etapas para projetos tidos como de menor risco. Quem defende diz que hoje obra trava por anos; quem é contra lembra que desastres recentes passaram por licenciamento abreviado.",
+  e_liberdade_irrestrita_redes:
+    "Hoje as plataformas removem posts e derrubam perfis por regras próprias, e a Justiça também manda tirar conteúdo do ar. A proposta proíbe essa remoção: o que fosse ilegal se resolveria depois, com processo e indenização. Quem defende diz que nem empresa nem juiz deveria decidir o que pode ser dito; quem é contra diz que golpe, fraude e ataque coordenado se espalham antes de qualquer processo terminar.",
+  e_mineracao_terras_indigenas:
+    "A Constituição admite mineração em terra indígena se o Congresso aprovar uma lei regulamentando — o que nunca aconteceu, então hoje toda extração ali é ilegal. Regulamentar é criar essa lei, com regras de consulta e divisão de ganhos. Discute-se se organiza o que hoje é garimpo criminoso, ou se abre território protegido a mineradoras.",
+  e_reducao_jornada:
+    "Reduzir por lei a jornada semanal — por exemplo, acabar com a escala de seis dias de trabalho e um de folga — mantendo o salário. Quem defende diz que a produtividade já cresceu o bastante para dividir o ganho em tempo livre; quem é contra diz que o custo por hora sobe e o emprego formal encolhe.",
+  e_vigilancia_massa:
+    "Câmeras nas ruas comparam rostos com bancos de dados de procurados, em tempo real. Quem defende aponta prisões de foragidos; quem é contra aponta erros de identificação — mais frequentes com pessoas negras — e o fato de todos passarem a ser filmados e conferidos o tempo todo.",
+  e_ministerio_seguranca:
+    "Segurança pública hoje é responsabilidade sobretudo dos estados, e a União coordena pouco. Criar o ministério dá ao governo federal comando próprio para integrar polícias, dados e fronteiras. Discute-se se resolve a falta de coordenação ou se apenas soma mais uma estrutura à que já existe.",
+  e_ensino_integral:
+    "O aluno passa o dia inteiro na escola, em vez de um turno, com aulas, reforço, esporte e refeições. Quem defende fala em aprendizagem e em tirar a criança da rua; a dificuldade é custo, professor e prédio — cada vaga integral custa perto do dobro.",
+  e_interoperabilidade_saude:
+    "Seu histórico, exames e receitas ficariam num sistema único, acessível em qualquer posto ou hospital do país. Evita repetir exame e ajuda em emergência. A discussão é sobre quem pode ver esses dados e o que acontece se vazarem.",
+  e_desmilitarizacao:
+    "A polícia militar deixaria de ter estrutura, hierarquia e formação de caserna, virando polícia civil de bairro. Quem defende diz que treinamento militar produz confronto onde caberia mediação; quem é contra diz que a disciplina militar é o que sustenta uma força que atua armada na rua.",
+  e_isolamento_liderancas:
+    "Chefes de facção iriam para presídios federais longe de sua região, com visita restrita e bloqueio de celular, para não seguirem mandando no crime de dentro da cadeia. Tem apoio amplo; discute-se o custo e se o comando apenas passa para outro nome.",
+  e_reforma_administrativa:
+    "Reduzir o número de ministérios, cortar cargos de confiança e limitar salários acima do teto no funcionalismo. Quem defende fala em máquina mais barata; quem é contra diz que o corte costuma cair sobre serviço que atende gente, e não sobre os privilégios do topo.",
+  e_simplificacao_fiscal:
+    "Empresas gastam milhares de horas por ano só para calcular e declarar imposto. Simplificar é unificar regras e automatizar isso: não muda quanto se paga, muda o trabalho de pagar. É das poucas ideias com apoio quase unânime.",
+  e_ia_soberania_digital:
+    "O Estado investir em centros de dados, modelos e nuvem próprios, em vez de depender de empresas estrangeiras. Quem defende fala em não ficar refém de tecnologia de fora; quem é contra questiona o custo e se o governo consegue acompanhar o ritmo do setor privado.",
+  e_estatizacao_setores:
+    "Energia, mineração, telecomunicações e bancos passariam a ser operados só pelo Estado, sem concorrência privada. É mais forte do que reestatizar uma empresa: fecha o setor inteiro. Quem defende diz que serviço essencial não deve dar lucro a ninguém; quem é contra lembra de fila, atraso e falta de investimento em monopólios estatais.",
+  e_auditoria_divida:
+    "Boa parte do orçamento vai para juros e amortização da dívida pública. A proposta é suspender esses pagamentos e revisar contrato por contrato antes de retomar. Quem defende diz que esse dinheiro faltaria menos na saúde; quem é contra diz que país que suspende pagamento perde crédito e paga mais caro depois.",
+  e_arcabouco_fiscal:
+    "É a regra que limita quanto o gasto público pode crescer por ano, para a dívida não subir sem parar. Quem defende diz que sem limite a inflação e os juros voltam; quem é contra diz que a regra corta investimento e serviço justamente quando mais se precisa deles.",
+  e_controle_externo_stf:
+    "Ministros do Supremo ficam no cargo até os 75 anos e são fiscalizados por eles mesmos. As propostas variam: mandato com prazo, órgão externo de correição, aval do Senado para derrubar leis. Quem defende fala em freio a decisões individuais de muito alcance; quem é contra diz que tribunal sob pressão política deixa de proteger quem é minoria.",
+  e_reeleicao:
+    "Presidente, governador e prefeito não poderiam mais disputar um segundo mandato seguido. Quem defende diz que o mandatário usa a máquina para se reeleger e governa pensando na próxima eleição; quem é contra diz que tira do eleitor o direito de manter quem vai bem.",
+  e_emendas_parlamentares:
+    "Emendas são fatias do orçamento que cada parlamentar direciona para onde quiser, hoje em boa parte sem rastro de quem pediu. Restringir e rastrear é obrigar a dizer quem indicou, para onde foi e o que foi entregue. Discute-se se limita a barganha política ou se reduz o poder do Legislativo sobre o orçamento.",
+  e_fim_fundo_eleitoral:
+    "Campanhas e partidos hoje são bancados por dinheiro público, já que doação de empresa é proibida. Acabar com o fundo faria a campanha depender só de doação de pessoas físicas. Quem defende diz que é dinheiro que faria mais falta em outro lugar; quem é contra diz que sem fundo só quem tem dinheiro ou acesso a doadores disputa.",
+  e_maioridade_penal:
+    "Hoje quem tem menos de 18 anos responde pelo ECA e cumpre no máximo três anos de internação. Reduzir é responder como adulto e ir para presídio comum a partir dos 16. Quem defende fala em crimes graves cometidos por adolescentes; quem é contra diz que presídio brasileiro devolve a pessoa pior do que entrou.",
+  e_porte_arma_rural:
+    "O produtor rural já pode ter arma em casa; a proposta estende o direito de andar armado por toda a extensão da propriedade, que pode ter quilômetros. Quem defende fala em socorro que demora horas para chegar; quem é contra diz que amplia o risco em conflitos por terra.",
+  e_homeschooling:
+    "A família educaria a criança em casa, sem matrícula em escola, com avaliação periódica pelo Estado. É comum nos Estados Unidos e hoje proibido no Brasil. Quem defende fala em liberdade da família; quem é contra diz que a escola também é onde a criança convive com quem é diferente e onde maus-tratos são percebidos.",
+  e_descriminalizacao_drogas:
+    "Usar e portar droga para consumo próprio deixaria de ser crime — o tráfico continuaria sendo. É o que Portugal faz desde 2001, tratando dependência como caso de saúde. Quem defende diz que a lei atual enche presídio de usuário pobre e pequeno traficante; quem é contra diz que afrouxar a lei aumenta o consumo.",
+  e_aborto:
+    "Hoje o aborto é crime, com três exceções: risco de vida da mulher, gravidez por estupro e feto sem cérebro. Descriminalizar é deixar de ser crime; legalizar é oferecer o procedimento na rede de saúde. É o tema mais dividido deste comparador, e a forma de perguntar já influencia a resposta.",
+  e_cotas_trans:
+    "Reservar vagas em universidade e concurso público para pessoas trans, como já existe para candidatos negros e pessoas com deficiência. Quem defende aponta a expectativa de vida e a exclusão desse grupo do mercado formal; quem é contra diz que a seleção deveria olhar só o mérito.",
+  e_passe_livre:
+    "Ninguém paga passagem: o custo do ônibus e do metrô sai inteiro do orçamento público, como já acontece com escola e posto de saúde. Algumas cidades brasileiras já fazem. Discute-se se cabe no caixa e o que se deixa de financiar para pagar.",
+  e_plebiscito_penitenciario:
+    "Em vez de o governo decidir sozinho como serão os presídios, a pergunta iria a voto popular. Quem defende diz que decisão desse tamanho precisa de mandato explícito; quem é contra diz que política penal por votação tende ao mais severo e que direito fundamental não se decide por maioria.",
+  e_fusao_municipios:
+    "Municípios pequenos demais para se sustentar — que vivem de repasse e gastam quase tudo com a própria máquina — seriam fundidos a vizinhos. Quem defende fala em economia e serviço melhor; quem é contra diz que a cidade pequena perde voz e o serviço fica mais longe.",
+  e_unicameralismo:
+    "Acabar com o Senado e deixar uma câmara só, somada a conselhos de trabalhadores e moradores com poder de decidir. Quem defende diz que duas casas emperram e que o Senado super-representa estados pequenos; quem é contra diz que a segunda casa é freio contra decisão tomada no calor do momento.",
+  e_estatizacao_midia:
+    "Cancelar as concessões de rádio e TV dos grandes grupos e passar o controle desses veículos a trabalhadores do setor. Quem defende fala em quebrar a concentração de quem informa o país; quem é contra diz que governo escolhendo quem pode transmitir é o começo da censura.",
+  e_saude_animal_unica:
+    "Vigiar junto a saúde de pessoas, animais e ambiente, porque a maior parte das epidemias novas começa em animal. Na prática, é integrar veterinária, saúde pública e meio ambiente num sistema só de alerta. Há pouca controvérsia; a discussão é de custo e prioridade.",
+  e_gestao_emocional_educacao:
+    "Incluir no currículo o ensino de lidar com frustração, ansiedade e conflito, com aula e método próprios, e não só como projeto isolado da escola. Quem defende aponta o adoecimento mental de adolescentes; quem é contra diz que a escola já não dá conta do básico e que isso é papel da família.",
+};
+
 /**
  * Eixos cuja pergunta não foi possível escrever sem carga avaliativa. O validador
  * exige nota; o relatório e a interface sinalizam sempre que o eixo é respondido.
@@ -126,6 +238,7 @@ for (const [id, spec] of Object.entries(TODOS)) {
     peso: spec.peso,
     formulacaoNeutra: !(id in REDACAO_NAO_NEUTRA),
     notaRedacao: REDACAO_NAO_NEUTRA[id] ?? null,
+    explicacao: EXPLICACOES[id] ?? null,
   };
   for (const [cid, p] of Object.entries(spec.posturas)) {
     const cand = POR_ID[cid];
@@ -224,4 +337,6 @@ const corpus = {
 writeFileSync(new URL("data/corpus.json", raiz), JSON.stringify(corpus, null, 2) + "\n");
 
 const nPos = CANDIDATOS.reduce((n, c) => n + posicoesPorCandidato[c.id].length, 0);
+const semExpl = Object.keys(eixos).filter((k) => !eixos[k].explicacao);
+if (semExpl.length) { console.error(`eixos sem explicação: ${semExpl.join(", ")}`); process.exit(1); }
 console.log(`corpus.json ${corpus.corpusVersion} · ${CANDIDATOS.length} candidatos · ${Object.keys(eixos).length} eixos · ${nPos} posturas (100% com citação literal e página) · ${nInterp} com interpretação declarada · ${corpus.contrastes.length} contrastes`);

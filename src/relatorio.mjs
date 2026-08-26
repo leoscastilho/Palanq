@@ -247,6 +247,7 @@ export function montarRelatorio(corpus, analise, rastro = [], meta = {}) {
     const r = analise.respostas[id];
     if (r === undefined) continue;
     L.push(`  ${eixoLabel(id)} [peso ${def.peso}]${lv.has(id) ? " [INEGOCIÁVEL]" : ""}: ${rotulo(r)}`);
+    if (def.explicacao) L.push(`    ${def.explicacao}`);
     if (def.formulacaoNeutra === false)
       L.push(`    [REDAÇÃO NÃO NEUTRA] ${def.notaRedacao}`);
   }

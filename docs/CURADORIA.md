@@ -101,6 +101,37 @@ proporção passar de 10%. As mais frágeis, em ordem:
 | Reconhecimento facial × desmilitarização | Nenhum plano da esquerda rejeita vigilância eletrônica por escrito. Vigilância ficou unilateral, com 7 mudos. |
 | Aborto — direita `contra` | Só o plano de Flávio Bolsonaro cita *"a vida desde a concepção"* entre seus valores. Os demais silenciam, e silêncio não é oposição. O eixo tem 1×1. |
 
+## 3-A. As explicações em linguagem leiga
+
+Cada um dos 48 temas tem um texto curto (295 caracteres em média) que explica o que a
+proposta quer dizer na prática. É o que aparece no verso do cartão, no motor e no
+relatório.
+
+**É o texto mais fácil de enviesar do projeto inteiro** — mais que a escolha das
+citações, porque aqui não existe trecho de plano para servir de âncora: é prosa
+autoral do começo ao fim, e nenhuma trava técnica pode verificá-la.
+
+A disciplina adotada:
+
+- descrever o **mecanismo concreto** — o que muda na vida de quem lê, não a
+  categoria abstrata;
+- onde o desacordo é real, dar **uma frase a cada lado**, na mesma extensão, na forma
+  "quem defende diz… quem é contra diz…";
+- onde o tema tem **pouca controvérsia**, dizer isso, em vez de fabricar uma polêmica
+  para parecer equilibrado — é o caso de simplificação tributária, prontuário
+  eletrônico e isolamento de lideranças;
+- separar o que está em disputa do que não está. O exemplo mais importante é o de
+  suspensão de garantias: a explicação diz explicitamente que **não** se trata de
+  construir presídio de segurança máxima, "o que quase todos defendem", mas de
+  afrouxar as regras do processo. Sem essa frase, o leitor responderia a outra
+  pergunta.
+
+O validador exige que exista explicação em todo tema e recusa texto acima de 520
+caracteres, que não caberia no verso do cartão. Nenhuma das duas travas diz nada
+sobre o conteúdo ser justo.
+
+**Este é o item que mais precisa de revisão de terceiros**, e ele não a teve.
+
 ## 4. Pesos
 
 Escala escolhida pelo curador, **ausente dos planos**:

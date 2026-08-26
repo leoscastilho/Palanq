@@ -61,6 +61,11 @@ export function validarCorpus(c) {
       E(`eixo "${id}": peso "${def.peso}" fora da faixa documentada 1–3`);
     if (def.formulacaoNeutra === false && !def.notaRedacao)
       E(`eixo "${id}": formulacaoNeutra=false exige notaRedacao explicando por quê`);
+    // A explicação leiga é exibida ao usuário no lugar de qualquer citação; sem ela
+    // o verso do cartão fica vazio, e um eixo sem explicação passaria despercebido.
+    if (!def.explicacao?.trim()) E(`eixo "${id}": sem explicação em linguagem leiga`);
+    else if (def.explicacao.length > 520)
+      E(`eixo "${id}": explicação com ${def.explicacao.length} caracteres — não cabe no verso do cartão (máx. 520)`);
   }
 
   for (const [id, g] of Object.entries(c.portoes || {})) {
@@ -134,6 +139,9 @@ export function validarCorpus(c) {
       candidatos: ids.size, eixos: eixos.size, posturas: nPosturas,
       interpretacoes: nInterpretacoes, semCitacaoLiteral: nSemCitacaoLiteral,
       contrastes: (c.contrastes || []).length, portoes: Object.keys(c.portoes || {}).length,
+      explicacaoMedia: Math.round(
+        Object.values(c.eixos || {}).reduce((n, e) => n + (e.explicacao?.length || 0), 0) /
+        Math.max(Object.keys(c.eixos || {}).length, 1)),
       citacoesPorCandidato: porCandidato,
     },
   };

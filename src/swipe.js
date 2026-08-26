@@ -17,6 +17,7 @@ const Z = {
   respostas: {},
   linhasVermelhas: [],
   pedindoLado: false,
+  virado: false,
   margem: 0.05,
 };
 
@@ -114,6 +115,8 @@ const ICONE = {
   ine: SVG('<path d="M12 3 4 6v6c0 4.5 3.2 8.3 8 9 4.8-.7 8-4.5 8-9V6l-8-3Z"/><path d="M12 8.5v4"/><circle cx="12" cy="15.6" r=".9" fill="currentColor" stroke="none"/>'),
   // seta para baixo — não opinar
   pular: SVG('<path d="M12 5v13M6 13l6 6 6-6"/>'),
+  // setas em círculo — virar o cartão
+  virar: SVG('<path d="M3 11a9 9 0 0 1 15-6.7L21 7"/><path d="M21 3v4h-4"/><path d="M21 13a9 9 0 0 1-15 6.7L3 17"/><path d="M3 21v-4h4"/>'),
 };
 
 // ── responder ────────────────────────────────────────────────────────────────
@@ -126,6 +129,7 @@ function responderCartao(valor, inegociavel = false) {
   if (inegociavel) lv.add(q.id); else lv.delete(q.id);
   Z.linhasVermelhas = [...lv];
   Z.pedindoLado = false;
+  Z.virado = false;
   if (acabou(olhar())) Z.tela = "resultado";
   gravar();
   desenhar();
@@ -166,13 +170,23 @@ function telaCartoes() {
     .slice(0, 2)
     .map((d) => CORPUS.eixos[d.eixo]);
 
-  const corpo = (e) => `
-    <div class="dominio"><i></i>${esc(e.dominio || "")}</div>
-    <h2>${esc(e.label)}</h2>
-    <div class="pergunta">${esc(e.pergunta)}</div>
-    ${e.formulacaoNeutra === false
-      ? '<div class="nota">Não foi possível escrever esta pergunta sem carga. Leia com isso em mente.</div>'
-      : ""}`;
+  const frente = (e, comBotao) => `
+    <div class="face frente">
+      <div class="dominio"><i></i>${esc(e.dominio || "")}</div>
+      <h2>${esc(e.label)}</h2>
+      <div class="pergunta">${esc(e.pergunta)}</div>
+      ${e.formulacaoNeutra === false
+        ? '<div class="nota">Não foi possível escrever esta pergunta sem carga. Leia com isso em mente.</div>'
+        : ""}
+      ${comBotao ? `<button class="virar" data-ir="virar">${ICONE.virar} Me explique melhor</button>` : ""}
+    </div>`;
+  const verso = (e) => `
+    <div class="face verso">
+      <div class="rotulo">o que isso quer dizer</div>
+      <div class="explicacao">${esc(e.explicacao || "")}</div>
+      <button class="virar" data-ir="virar">${ICONE.virar} Voltar à pergunta</button>
+    </div>`;
+  const corpo = (e, comBotao) => `<div class="giro${comBotao && Z.virado ? " virado" : ""}">${frente(e, comBotao)}${comBotao ? verso(e) : ""}</div>`;
   const tema = (e) => `style="--h:${matizDe(e.dominio)}"`;
 
   return `
@@ -183,14 +197,14 @@ function telaCartoes() {
   </div>
 
   <div class="pilha">
-    ${seguintes.map((e, i) => `<article class="cartao fundo${i ? "2" : ""}" ${tema(e)} aria-hidden="true">${corpo(e)}</article>`).reverse().join("")}
+    ${seguintes.map((e, i) => `<article class="cartao fundo${i ? "2" : ""}" ${tema(e)} aria-hidden="true">${corpo(e, false)}</article>`).reverse().join("")}
     <article class="cartao" id="topo" tabindex="0" aria-live="polite" ${tema(q)}
              aria-label="${esc(e_label(q))}">
       <span class="carimbo c-sim">Concordo</span>
       <span class="carimbo c-nao">Discordo</span>
       <span class="carimbo c-ine">Inegociável</span>
       <span class="carimbo c-pular">Não opinar</span>
-      ${corpo(q)}
+      ${corpo(q, true)}
       ${Z.pedindoLado ? `<div class="overlay">
         <h3>Inegociável de que lado?</h3>
         <p class="mini" style="margin:0">Quem pensar diferente sai da comparação, por mais que combine
@@ -317,6 +331,14 @@ function telaResultado() {
   </div>`;
 }
 
+/** Vira sem redesenhar: assim a transição 3D acontece de verdade. */
+function virarCartao() {
+  Z.virado = !Z.virado;
+  const g = document.querySelector("#topo .giro");
+  if (g) g.classList.toggle("virado", Z.virado);
+  else desenhar();
+}
+
 // ── render ───────────────────────────────────────────────────────────────────
 function desenhar() {
   appEl.innerHTML = Z.tela === "abertura" ? telaAbertura()
@@ -398,12 +420,14 @@ appEl.addEventListener("click", (ev) => {
     case "recomecar": recomecar(); break;
     case "pedir-lado": Z.pedindoLado = true; desenhar(); break;
     case "cancelar-lado": Z.pedindoLado = false; desenhar(); break;
+    case "virar": virarCartao(); break;
   }
 });
 document.addEventListener("keydown", (ev) => {
   if (Z.tela !== "cartoes" || Z.pedindoLado) return;
   const m = { ArrowRight: "concordo", ArrowLeft: "discordo", ArrowDown: "indiferente" };
   if (ev.key === "ArrowUp") { ev.preventDefault(); Z.pedindoLado = true; desenhar(); return; }
+  if (ev.key === " " || ev.key === "Enter") { ev.preventDefault(); virarCartao(); return; }
   if (m[ev.key]) { ev.preventDefault(); responderCartao(m[ev.key]); }
 });
 

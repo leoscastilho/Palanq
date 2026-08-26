@@ -274,6 +274,10 @@ function telaEntrevista() {
         ${q.fase === 4 ? '<span class="selo comp">não muda o ranking</span>' : ""}
         <div class="pergunta">${h(q.pergunta)}</div>
         ${q.formulacaoNeutra === false ? `<div class="aviso"><h3>Redação não neutra</h3><p class="mini">${h(q.notaRedacao)}</p></div>` : ""}
+        ${q.explicacao ? `<details><summary>O que isso quer dizer, em outras palavras</summary>
+          <div class="corpo"><p style="margin:0">${h(q.explicacao)}</p>
+          <p class="mini" style="margin:.6rem 0 0">Texto de quem montou a comparação, não trecho de plano —
+          não tem citação para ancorá-lo e é onde o viés entra mais fácil.</p></div></details>` : ""}
         ${porque}
         <div class="respostas" data-q="${h(q.id)}">
           ${q.tipo === "portao"

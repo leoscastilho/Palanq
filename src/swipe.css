@@ -45,59 +45,95 @@ button:focus-visible { outline: 2px solid var(--acento); outline-offset: 3px; bo
 .pilha { position: relative; width: 100%; flex: 1 1 auto; min-height: 300px; max-height: 440px;
          margin-bottom: 34px; }
 .cartao {
+  position: absolute; inset: 0; border-radius: 18px;
+  user-select: none; touch-action: none; will-change: transform;
+  perspective: 1400px;   /* o arraste transforma ESTA camada… */
+}
+/* …e a virada transforma a de dentro, para os dois transform não brigarem. */
+.giro { position: absolute; inset: 0; transform-style: preserve-3d;
+        transition: transform .55s cubic-bezier(.3,.7,.3,1); }
+.giro.virado { transform: rotateY(180deg); }
+.face {
   position: absolute; inset: 0; background: var(--caixa); border: 1px solid var(--linha);
   border-radius: 18px; padding: 1.6rem 1.4rem; display: flex; flex-direction: column;
-  box-shadow: 0 10px 30px rgba(0,0,0,.07); user-select: none; touch-action: none;
-  will-change: transform;
+  box-shadow: 0 10px 30px rgba(0,0,0,.07);
+  backface-visibility: hidden; -webkit-backface-visibility: hidden;
 }
+.face.verso { transform: rotateY(180deg); }
 /* O cartão recebe foco por código, para as setas do teclado funcionarem. O anel
    padrão do navegador aparece nesse caso e fica feio; o anel próprio só aparece
    para quem está de fato navegando por teclado. */
 .cartao:focus { outline: none; }
 .cartao:focus-visible { outline: 2px solid var(--acento); outline-offset: 3px; }
-.cartao.fundo { transform: scale(.94) translateY(14px); opacity: .55; pointer-events: none; box-shadow: none; }
-.cartao.fundo2 { transform: scale(.88) translateY(28px); opacity: .28; pointer-events: none; box-shadow: none; }
+.cartao.fundo { transform: scale(.94) translateY(14px); opacity: .55; pointer-events: none; }
+.cartao.fundo2 { transform: scale(.88) translateY(28px); opacity: .28; pointer-events: none; }
+.cartao.fundo .face, .cartao.fundo2 .face { box-shadow: none; }
+
+/* botão de virar, no pé do cartão */
+.virar {
+  margin-top: auto; align-self: center; display: inline-flex; align-items: center; gap: .45rem;
+  font-size: .84rem; color: hsl(var(--h) 42% 34%); border: 1px solid hsl(var(--h) 40% 46% / .35);
+  background: hsl(var(--h) 60% 50% / .07); border-radius: 999px; padding: .45rem 1rem;
+  transition: background .15s ease;
+}
+.virar:hover { background: hsl(var(--h) 60% 50% / .14); }
+.virar svg { width: 15px; height: 15px; }
+@media (prefers-color-scheme: dark) {
+  .virar { color: hsl(var(--h) 48% 74%); border-color: hsl(var(--h) 40% 60% / .35);
+           background: hsl(var(--h) 55% 60% / .10); }
+  .virar:hover { background: hsl(var(--h) 55% 60% / .18); }
+}
+/* verso */
+.face.verso .rotulo { font-size: .7rem; text-transform: uppercase; letter-spacing: .11em;
+                      text-align: center; color: hsl(var(--h) 46% 34%); margin-bottom: .3rem; }
+@media (prefers-color-scheme: dark) { .face.verso .rotulo { color: hsl(var(--h) 52% 72%); } }
+.face.verso .explicacao {
+  flex: 1 1 auto; min-height: 0; overflow-y: auto; display: flex; align-items: center;
+  font-size: 1rem; line-height: 1.55; text-align: left; padding: .9rem .2rem;
+  -webkit-overflow-scrolling: touch;
+}
 /* Cor do tema. Só o matiz varia entre os cartões (--h vem do JS); saturação e
    luminosidade são fixas, para que os 21 temas pareçam uma família e não um
    arco-íris. O indicativo é uma tarja no topo do cartão. */
 .cartao { --h: 215; isolation: isolate; }
 /* inset + border-radius herdado faz a tarja acompanhar os cantos arredondados;
    z-index negativo a põe acima do fundo do cartão e abaixo do conteúdo. */
-.cartao::before {
+.face { isolation: isolate; }
+.face::before {
   content: ""; position: absolute; inset: 0; border-radius: inherit; z-index: -1;
   pointer-events: none;
   background: linear-gradient(hsl(var(--h) 58% 46%) 0 6px, transparent 6px);
 }
 @media (prefers-color-scheme: dark) {
-  .cartao::before { background: linear-gradient(hsl(var(--h) 52% 56%) 0 6px, transparent 6px); }
+  .face::before { background: linear-gradient(hsl(var(--h) 52% 56%) 0 6px, transparent 6px); }
 }
-.cartao .dominio {
+.face .dominio {
   font-size: .7rem; text-transform: uppercase; letter-spacing: .11em; text-align: center;
   color: hsl(var(--h) 46% 34%); margin-bottom: .8rem;
   display: flex; align-items: center; justify-content: center; gap: .45rem;
 }
-.cartao .dominio i { width: 7px; height: 7px; border-radius: 50%;
+.face .dominio i { width: 7px; height: 7px; border-radius: 50%;
                      background: hsl(var(--h) 62% 46%); flex: 0 0 auto; }
 @media (prefers-color-scheme: dark) {
-  .cartao .dominio { color: hsl(var(--h) 52% 72%); }
-  .cartao .dominio i { background: hsl(var(--h) 58% 62%); }
+  .face .dominio { color: hsl(var(--h) 52% 72%); }
+  .face .dominio i { background: hsl(var(--h) 58% 62%); }
 }
-.cartao h2 { font-size: 1.35rem; text-align: center; text-wrap: balance; margin-bottom: 0; }
+.face h2 { font-size: 1.35rem; text-align: center; text-wrap: balance; margin-bottom: 0; }
 /* separador fino sob o título, na cor do tema, esmaecendo nas duas pontas */
-.cartao h2::after {
+.face h2::after {
   content: ""; display: block; height: 1px; width: min(190px, 62%); margin: .95rem auto 0;
   background: linear-gradient(90deg, transparent, hsl(var(--h) 52% 46% / .6), transparent);
 }
 @media (prefers-color-scheme: dark) {
-  .cartao h2::after { background: linear-gradient(90deg, transparent, hsl(var(--h) 48% 66% / .55), transparent); }
+  .face h2::after { background: linear-gradient(90deg, transparent, hsl(var(--h) 48% 66% / .55), transparent); }
 }
 /* o corpo ocupa o que sobra e se centraliza nos dois eixos */
-.cartao .pergunta {
+.face .pergunta {
   font-size: 1.08rem; color: var(--fg); flex: 1 1 auto; min-height: 0;
   display: flex; align-items: center; justify-content: center; text-align: center;
   text-wrap: pretty; padding: 1rem 0;
 }
-.cartao .nota { padding-top: .5rem; font-size: .76rem; color: var(--fg3); text-align: center; }
+.face .nota { padding-top: .5rem; font-size: .76rem; color: var(--fg3); text-align: center; }
 
 /* carimbos que aparecem ao arrastar */
 .carimbo {

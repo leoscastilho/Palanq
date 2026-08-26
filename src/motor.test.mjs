@@ -460,6 +460,19 @@ t("interpretação do curador é exibida junto da citação", () => {
   const txt = montarRelatorio(CORPUS, a, [], { geradoEm: "FIXO" });
   assert(txt.includes("[INTERPRETAÇÃO DO CURADOR"), "inferência não literal precisa ser visível e atacável");
 });
+t("todo eixo tem explicação em linguagem leiga, e ela vai ao relatório", () => {
+  const semExpl = Object.entries(CORPUS.eixos).filter(([, e]) => !e.explicacao?.trim());
+  eq(semExpl.map(([k]) => k), [], "eixo sem explicação deixaria o verso do cartão vazio");
+  const c = structuredClone(CORPUS);
+  delete c.eixos.e_privatizacao_estatais.explicacao;
+  assert(validarCorpus(c).erros.some((e) => e.includes("sem explicação")), "o validador precisa recusar");
+  const longa = structuredClone(CORPUS);
+  longa.eixos.e_privatizacao_estatais.explicacao = "x".repeat(600);
+  assert(validarCorpus(longa).erros.some((e) => e.includes("não cabe no verso")), "explicação longa demais falha o build");
+  const a = analisar(CORPUS, { e_privatizacao_estatais: "concordo" });
+  const txt = montarRelatorio(CORPUS, a, [], { geradoEm: "FIXO" });
+  assert(txt.includes(CORPUS.eixos.e_privatizacao_estatais.explicacao.slice(0, 50)));
+});
 t("redação não neutra é sinalizada quando o eixo foi respondido", () => {
   const a = analisar(CORPUS, { e_encarceramento_excecao: "concordo" });
   const txt = montarRelatorio(CORPUS, a, [], { geradoEm: "FIXO" });

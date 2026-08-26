@@ -8,7 +8,7 @@ Duas telas sobre o mesmo motor e o mesmo corpus:
 
 | | onde | o que é |
 |---|---|---|
-| **cartões** | `/` | o produto. Um tema por vez, deslizando; para assim que o resultado está decidido; resultado em gráfico |
+| **cartões** | `/` | o produto. Um tema por vez, deslizando; o cartão vira e explica a proposta em linguagem leiga; para assim que o resultado está decidido; resultado em gráfico |
 | **motor** | `/motor` | o instrumento completo: por que cada pergunta veio, as citações, o relatório, a auditoria da curadoria |
 
 As perguntas, a ordem e as fórmulas são as mesmas nas duas. O que muda é a forma de
@@ -106,6 +106,12 @@ candidaturas, e isso pode encolher o questionário para menos de dez perguntas. 
 na ordem atual, o oitavo tema distinto aparece na nona pergunta, então quem manda de
 fato é o piso de dez; o de temas é rede de proteção para o caso de o corpus mudar e a
 ordem passar a agrupar assuntos.
+
+**Cada tema explica a si mesmo.** Todo tema tem um texto curto em linguagem leiga —
+o que a proposta quer dizer na prática, e uma frase para cada lado onde o desacordo é
+real. É o que o cartão mostra ao virar. Como é prosa sem citação que a ancore, é o
+conteúdo mais fácil de enviesar do projeto e o que mais precisa de revisão externa;
+ver [`docs/CURADORIA.md`](docs/CURADORIA.md).
 
 **Empate é resultado válido.** Candidaturas dentro da margem (padrão 0,05) aparecem
 lado a lado, sem ordem entre elas. Os pesos foram escolhidos à mão e não têm precisão
