@@ -26,6 +26,7 @@ const Z = {
   // multiplicam o que dá para saber sobre cada plano.
   extra: false,
   aberto: null,   // candidatura expandida no resultado
+  encerrado: false,   // o leitor pediu para ver o resultado antes da hora
   margem: 0.05,
 };
 
@@ -90,6 +91,7 @@ function pergunta(a) {
 const MINIMO = 10;
 const MINIMO_TEMAS = 8;
 function acabou(a) {
+  if (Z.encerrado) return true;
   if (!pergunta(a)) return true;                 // acabaram as perguntas
   if (Z.continuar || Z.extra) return false;      // o usuário pediu para responder o resto
   if (!a.decisao.estavel) return false;          // ainda dá para mudar quem lidera
@@ -111,14 +113,16 @@ function recuperar() {
     if (!d || d.cv !== CORPUS.corpusVersion) return false;
     Object.assign(Z, { tela: d.tela, respostas: d.respostas || {},
                        linhasVermelhas: d.linhasVermelhas || [],
-                       continuar: !!d.continuar, extra: !!d.extra });
+                       continuar: !!d.continuar, extra: !!d.extra,
+                       encerrado: !!d.encerrado });
     Z.pedindoLado = false;
     return Object.keys(Z.respostas).length > 0;
   } catch { return false; }
 }
 function recomecar() {
   Object.assign(Z, { tela: "abertura", respostas: {}, linhasVermelhas: [], pedindoLado: false,
-                     virado: false, continuar: false, extra: false, aberto: null });
+                     virado: false, continuar: false, extra: false, aberto: null,
+                     encerrado: false });
   try { localStorage.removeItem(CHAVE_S); } catch {}
   desenhar();
 }
@@ -252,7 +256,12 @@ function telaCartoes() {
       <span>Inegociável</span></div>
     <div class="acao"><button class="b-sim" data-resp="concordo" aria-label="Concordo">${ICONE.sim}</button>
       <span>Concordo</span></div>
-  </div>`;
+  </div>
+
+  <button class="encerrar" id="encerrar" type="button">
+    <i class="carga" aria-hidden="true"></i>
+    <span>Segure para encerrar agora</span>
+  </button>`;
 }
 const e_label = (q) => `${q.label}. ${q.pergunta}`;
 
@@ -305,6 +314,7 @@ function telaResultado() {
   // que o gráfico já denuncia; o título não pode dizer outra coisa.
   const calado = (id) => pesoDe(est[id].silencios) > pesoDe(est[id].alinhados);
   const caladosNoTopo = lideres.filter(calado);
+  const respondidas = Object.keys(Z.respostas).length;
   const faltam = a.classes.divisivos.filter((d) => Z.respostas[d.eixo] === undefined).length;
   const extraFaltam = [...a.classes.unilaterais, ...a.classes.unanimes]
     .filter((u) => Z.respostas[u.eixo] === undefined).length;
@@ -337,6 +347,17 @@ function telaResultado() {
   <h1 style="font-size:1.6rem">${esc(titulo)}</h1>
   ${subtitulo}
 
+  ${Z.encerrado ? `<div class="aviso" style="border-left-color:var(--pular)">
+    <h3>Você encerrou antes do fim</h3>
+    <p class="mini" style="margin:0">${a.decisao.estavel
+      ? `Com as ${respondidas} respostas que você deu, ninguém de fora chega ao topo. ${lideres.length > 1
+          ? "Mas o empate lá em cima ainda se desfaz se você continuar."
+          : "O resto da ordem, porém, ainda muda."}`
+      : `São ${respondidas} resposta${respondidas > 1 ? "s" : ""}, e isso ainda não basta para fechar
+         a comparação: a ordem pode mudar, <b>inclusive no topo</b>.`}
+    Nada se perdeu — dá para continuar de onde parou.</p>
+  </div>` : ""}
+
   <p class="mini" style="text-align:center">Toque em uma candidatura para abrir onde vocês concordam e divergem.</p>
   <div class="chave">
     <span><i style="background:var(--sim)"></i>vocês concordam</span>
@@ -354,8 +375,10 @@ function telaResultado() {
   declarou. O que muda é o tamanho do plano — quem escreveu sobre mais temas tem menos hachurado.</p>` : ""}
   ${faltam ? `<div class="aviso" style="border-left-color:var(--acento);background:var(--realce)">
     <h3 style="color:var(--acento)">Ainda dá para afinar</h3>
-    <p class="mini" style="margin:0 0 .7rem">Paramos porque quem está no topo já não muda. Mas
-    ${faltam === 1 ? "um tema continua" : `${faltam} temas continuam`} sem resposta, e a ordem de quem vem
+    <p class="mini" style="margin:0 0 .7rem">${Z.encerrado
+      ? "Você pediu para ver o resultado agora."
+      : "Paramos porque quem está no topo já não muda."} ${
+      faltam === 1 ? "Um tema continua" : `${faltam} temas continuam`} sem resposta, e a ordem de quem vem
     depois ainda vai mudar${caladosNoTopo.length ? " — inclusive o tanto de hachurado no topo" : ""}.</p>
     <button data-ir="continuar" style="border:1px solid var(--acento);border-radius:999px;padding:.5rem 1.1rem;background:var(--caixa)">${
       faltam === 1 ? "Responder o último" : `Responder os ${faltam} restantes`}</button>
@@ -402,7 +425,7 @@ function desenhar() {
                   : Z.tela === "resultado" ? telaResultado()
                   : telaCartoes();
   appEl.classList.toggle("abertura", Z.tela === "abertura");
-  if (Z.tela === "cartoes") ligarArraste();
+  if (Z.tela === "cartoes") { ligarArraste(); ligarEncerrar(); }
   window.scrollTo({ top: 0 });
 }
 
@@ -471,6 +494,42 @@ function ligarArraste() {
   el.focus({ preventScroll: true });
 }
 
+
+// ── encerrar antes da hora ───────────────────────────────────────────────────
+// Apertar e segurar, não clicar. Um toque acidental jogaria fora o resto do
+// questionário, e desfazer isso custa caro; segurar pede confirmação sem meter uma
+// caixa de diálogo no meio do fluxo. O tempo é a própria confirmação, e a barra que
+// enche dá ao gesto um ponto de desistência visível.
+const SEGURAR = 900;
+
+function encerrarAgora() {
+  Z.encerrado = true;
+  Z.continuar = false;
+  Z.extra = false;
+  Z.tela = "resultado";
+  gravar();
+  desenhar();
+}
+
+function ligarEncerrar() {
+  const b = document.getElementById("encerrar");
+  if (!b) return;
+  let t = null;
+  const parar = () => { clearTimeout(t); t = null; b.classList.remove("carregando"); };
+  const comecar = () => {
+    if (t) return;
+    b.classList.add("carregando");
+    t = setTimeout(() => { parar(); encerrarAgora(); }, SEGURAR);
+  };
+  b.addEventListener("pointerdown", (ev) => { ev.preventDefault(); comecar(); });
+  for (const nome of ["pointerup", "pointerleave", "pointercancel"]) b.addEventListener(nome, parar);
+  // Teclado: segurar Espaço/Enter dispara keydown repetido; `comecar` ignora repetição.
+  b.addEventListener("keydown", (ev) => {
+    if (ev.key === " " || ev.key === "Enter") { ev.preventDefault(); comecar(); }
+  });
+  b.addEventListener("keyup", parar);
+  b.addEventListener("blur", parar);
+}
 
 // ── painel de uma candidatura ────────────────────────────────────────────────
 // Antes isto era um acordeão dentro da linha do gráfico. Numa linha de ~40 caracteres
@@ -600,9 +659,9 @@ appEl.addEventListener("click", (ev) => {
   if (!b) return;
   if (b.dataset.resp) return responderCartao(b.dataset.resp, b.dataset.ine === "1");
   switch (b.dataset.ir) {
-    case "cartoes": Z.tela = "cartoes"; gravar(); desenhar(); break;
-    case "continuar": Z.continuar = true; Z.tela = "cartoes"; gravar(); desenhar(); break;
-    case "extra": Z.extra = true; Z.tela = "cartoes"; gravar(); desenhar(); break;
+    case "cartoes": Z.encerrado = false; Z.tela = "cartoes"; gravar(); desenhar(); break;
+    case "continuar": Z.continuar = true; Z.encerrado = false; Z.tela = "cartoes"; gravar(); desenhar(); break;
+    case "extra": Z.extra = true; Z.encerrado = false; Z.tela = "cartoes"; gravar(); desenhar(); break;
     case "abrir": abrirPainel(b.dataset.quem); break;
     case "recomecar": recomecar(); break;
     case "pedir-lado": Z.pedindoLado = true; desenhar(); break;
@@ -614,6 +673,7 @@ document.addEventListener("keydown", (ev) => {
   if (ev.key === "Escape" && !painelEl.hidden) { ev.preventDefault(); return fecharPainel(); }
   if (!painelEl.hidden) return;
   if (Z.tela !== "cartoes" || Z.pedindoLado) return;
+  if (ev.target?.closest?.("#encerrar")) return;
   const m = { ArrowRight: "concordo", ArrowLeft: "discordo", ArrowDown: "indiferente" };
   if (ev.key === "ArrowUp") { ev.preventDefault(); Z.pedindoLado = true; desenhar(); return; }
   if (ev.key === " " || ev.key === "Enter") { ev.preventDefault(); virarCartao(); return; }

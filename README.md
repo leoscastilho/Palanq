@@ -110,6 +110,17 @@ na ordem atual, o oitavo tema distinto aparece na nona pergunta, então quem man
 fato é o piso de dez; o de temas é rede de proteção para o caso de o corpus mudar e a
 ordem passar a agrupar assuntos.
 
+**Dá para encerrar a qualquer momento.** Abaixo dos botões de resposta há um
+"segure para encerrar agora" que leva ao resultado de onde estiver — nas perguntas
+iniciais, nos temas restantes ou nos complementares. É apertar e segurar, não clicar:
+um toque acidental jogaria fora o resto do questionário, e segurar pede confirmação
+sem enfiar uma caixa de diálogo no meio do fluxo. Soltar antes do fim cancela, e a
+barra volta a zero sem transição para o cancelamento ficar óbvio.
+
+O resultado que sai daí diz que veio de uma parada antecipada e o que isso custa em
+confiança — se a liderança já está fechada ou se a ordem ainda pode virar no topo. E
+os mesmos botões de sempre continuam ali para retomar de onde parou; nada se perde.
+
 **Depois da decisão, dá para continuar — sem mexer no ranking.** O resultado oferece
 dois caminhos, nessa ordem. Primeiro os temas divisivos que sobraram ("responder os N
 restantes"): esses ainda contam, e podem mudar a ordem. Depois deles, os **25 temas
