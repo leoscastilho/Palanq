@@ -1,0 +1,180 @@
+/* Palanq — versão de cartões. Sem fontes externas, sem requisição de rede. */
+:root {
+  --bg: #f6f4f0; --fg: #17181c; --fg2: #5b5952; --fg3: #8c8880;
+  --linha: #e0dbd2; --caixa: #fff; --realce: #efeae1;
+  --acento: #1f4f7a;
+  --sim: #1c6b45; --sim-bg: #e6f4ec;
+  --nao: #9b2226; --nao-bg: #fdecec;
+  --ine: #8a4b12; --ine-bg: #fbf0e4;
+  --pular: #5b5952; --pular-bg: #eeece8;
+  --sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #131418; --fg: #ecebe7; --fg2: #a5a29a; --fg3: #77746d;
+    --linha: #2e3037; --caixa: #1c1e23; --realce: #23252b;
+    --acento: #6aa6dc;
+    --sim: #6ec69a; --sim-bg: #172b21;
+    --nao: #e88a8a; --nao-bg: #2c1a1b;
+    --ine: #d99a4e; --ine-bg: #2c2317;
+    --pular: #a5a29a; --pular-bg: #24262c;
+  }
+}
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body { height: 100%; }
+body {
+  margin: 0; background: var(--bg); color: var(--fg); font-family: var(--sans);
+  font-size: 16px; line-height: 1.5; overscroll-behavior: none;
+}
+h1, h2, h3 { margin: 0 0 .5rem; line-height: 1.2; font-weight: 650; letter-spacing: -.01em; }
+p { margin: 0 0 .8rem; }
+button { font: inherit; cursor: pointer; border: 0; background: none; color: inherit; }
+button:focus-visible { outline: 2px solid var(--acento); outline-offset: 3px; border-radius: 8px; }
+.mini { font-size: .82rem; color: var(--fg2); }
+.oculto { display: none !important; }
+
+.tela { min-height: 100%; display: flex; flex-direction: column; align-items: center;
+        padding: 1rem; max-width: 560px; margin: 0 auto; }
+.marca { font-weight: 700; letter-spacing: -.02em; font-size: 1.05rem; }
+.barra-topo { width: 100%; display: flex; align-items: center; gap: .75rem; padding: .2rem 0 1rem; }
+.progresso { flex: 1; height: 4px; background: var(--linha); border-radius: 99px; overflow: hidden; }
+.progresso i { display: block; height: 100%; background: var(--acento); transition: width .3s ease; }
+
+/* ── pilha de cartões ─────────────────────────────────────────────────────── */
+.pilha { position: relative; width: 100%; flex: 1 1 auto; min-height: 300px; max-height: 440px;
+         margin-bottom: 34px; }
+.cartao {
+  position: absolute; inset: 0; background: var(--caixa); border: 1px solid var(--linha);
+  border-radius: 18px; padding: 1.6rem 1.4rem; display: flex; flex-direction: column;
+  box-shadow: 0 10px 30px rgba(0,0,0,.07); user-select: none; touch-action: none;
+  will-change: transform;
+}
+/* O cartão recebe foco por código, para as setas do teclado funcionarem. O anel
+   padrão do navegador aparece nesse caso e fica feio; o anel próprio só aparece
+   para quem está de fato navegando por teclado. */
+.cartao:focus { outline: none; }
+.cartao:focus-visible { outline: 2px solid var(--acento); outline-offset: 3px; }
+.cartao.fundo { transform: scale(.94) translateY(14px); opacity: .55; pointer-events: none; box-shadow: none; }
+.cartao.fundo2 { transform: scale(.88) translateY(28px); opacity: .28; pointer-events: none; box-shadow: none; }
+/* Cor do tema. Só o matiz varia entre os cartões (--h vem do JS); saturação e
+   luminosidade são fixas, para que os 21 temas pareçam uma família e não um
+   arco-íris. O indicativo é uma tarja no topo do cartão. */
+.cartao { --h: 215; isolation: isolate; }
+/* inset + border-radius herdado faz a tarja acompanhar os cantos arredondados;
+   z-index negativo a põe acima do fundo do cartão e abaixo do conteúdo. */
+.cartao::before {
+  content: ""; position: absolute; inset: 0; border-radius: inherit; z-index: -1;
+  pointer-events: none;
+  background: linear-gradient(hsl(var(--h) 58% 46%) 0 6px, transparent 6px);
+}
+@media (prefers-color-scheme: dark) {
+  .cartao::before { background: linear-gradient(hsl(var(--h) 52% 56%) 0 6px, transparent 6px); }
+}
+.cartao .dominio {
+  font-size: .7rem; text-transform: uppercase; letter-spacing: .11em; text-align: center;
+  color: hsl(var(--h) 46% 34%); margin-bottom: .8rem;
+  display: flex; align-items: center; justify-content: center; gap: .45rem;
+}
+.cartao .dominio i { width: 7px; height: 7px; border-radius: 50%;
+                     background: hsl(var(--h) 62% 46%); flex: 0 0 auto; }
+@media (prefers-color-scheme: dark) {
+  .cartao .dominio { color: hsl(var(--h) 52% 72%); }
+  .cartao .dominio i { background: hsl(var(--h) 58% 62%); }
+}
+.cartao h2 { font-size: 1.35rem; text-align: center; text-wrap: balance; margin-bottom: 0; }
+/* separador fino sob o título, na cor do tema, esmaecendo nas duas pontas */
+.cartao h2::after {
+  content: ""; display: block; height: 1px; width: min(190px, 62%); margin: .95rem auto 0;
+  background: linear-gradient(90deg, transparent, hsl(var(--h) 52% 46% / .6), transparent);
+}
+@media (prefers-color-scheme: dark) {
+  .cartao h2::after { background: linear-gradient(90deg, transparent, hsl(var(--h) 48% 66% / .55), transparent); }
+}
+/* o corpo ocupa o que sobra e se centraliza nos dois eixos */
+.cartao .pergunta {
+  font-size: 1.08rem; color: var(--fg); flex: 1 1 auto; min-height: 0;
+  display: flex; align-items: center; justify-content: center; text-align: center;
+  text-wrap: pretty; padding: 1rem 0;
+}
+.cartao .nota { padding-top: .5rem; font-size: .76rem; color: var(--fg3); text-align: center; }
+
+/* carimbos que aparecem ao arrastar */
+.carimbo {
+  position: absolute; top: 1.4rem; padding: .35rem .8rem; border-radius: 10px;
+  border: 3px solid currentColor; font-weight: 800; font-size: 1rem; letter-spacing: .06em;
+  text-transform: uppercase; opacity: 0; pointer-events: none; transition: opacity .1s;
+}
+.carimbo.c-sim   { left: 1.4rem;  color: var(--sim);   transform: rotate(-12deg); }
+.carimbo.c-nao   { right: 1.4rem; color: var(--nao);   transform: rotate(12deg); }
+.carimbo.c-ine   { left: 50%; margin-left: -5.2rem; color: var(--ine); }
+.carimbo.c-pular { left: 50%; margin-left: -4rem; bottom: 1.4rem; top: auto; color: var(--pular); }
+
+/* ── botões ───────────────────────────────────────────────────────────────── */
+.acoes { display: flex; gap: .9rem; justify-content: center; align-items: flex-start;
+         padding: 1.2rem 0 .4rem; width: 100%; }
+.acao { display: flex; flex-direction: column; align-items: center; gap: .4rem; flex: 0 0 auto; }
+.acao span { font-size: .64rem; color: var(--fg3); text-transform: uppercase; letter-spacing: .05em;
+             text-align: center; line-height: 1.25; max-width: 72px; }
+.acoes button {
+  width: 62px; height: 62px; border-radius: 50%; display: grid; place-items: center;
+  background: var(--caixa); border: 1px solid var(--linha); box-shadow: 0 3px 10px rgba(0,0,0,.06);
+  transition: transform .12s ease, background .12s ease;
+}
+.acoes button:active { transform: scale(.9); }
+.acoes button svg { width: 26px; height: 26px; }
+.acoes button.b-nao   { color: var(--nao); }
+.acoes button.b-sim   { color: var(--sim); }
+.acoes button.b-ine   { color: var(--ine); width: 52px; height: 52px; }
+.acoes button.b-pular { color: var(--pular); width: 52px; height: 52px; }
+.acoes button:hover { background: var(--realce); }
+
+
+/* ── overlay do inegociável ───────────────────────────────────────────────── */
+.overlay { position: absolute; inset: 0; background: var(--ine-bg); border-radius: 18px;
+           border: 2px solid var(--ine); padding: 1.6rem 1.4rem; display: flex;
+           flex-direction: column; justify-content: center; gap: .8rem; z-index: 3; }
+.overlay h3 { color: var(--ine); }
+.overlay .escolhas { display: grid; gap: .6rem; }
+.overlay .escolhas button { border: 1px solid var(--linha); background: var(--caixa);
+                            border-radius: 12px; padding: .85rem 1rem; text-align: left; font-weight: 600; }
+.overlay .escolhas button small { display: block; font-weight: 400; color: var(--fg2); font-size: .8rem; }
+.overlay .voltar { align-self: center; color: var(--fg2); font-size: .85rem; text-decoration: underline; }
+
+/* ── resultado ────────────────────────────────────────────────────────────── */
+.grafico { width: 100%; }
+.raia { display: grid; grid-template-columns: 1fr; gap: .2rem; padding: .55rem 0;
+        border-bottom: 1px solid var(--linha); }
+.raia:last-child { border-bottom: 0; }
+.raia .quem { display: flex; align-items: baseline; gap: .4rem; font-size: .92rem; }
+.raia .quem b { font-weight: 650; }
+.raia .quem em { font-style: normal; font-size: .74rem; color: var(--fg3); }
+.raia.topo .quem b { color: var(--acento); }
+.raia .barra { display: flex; height: 15px; border-radius: 4px; overflow: hidden; background: var(--linha); }
+.raia .barra i { display: block; height: 100%; }
+.raia .barra .a { background: var(--sim); }
+.raia .barra .d { background: var(--nao); }
+.raia .barra .s { background: repeating-linear-gradient(45deg, var(--linha), var(--linha) 3px, transparent 3px, transparent 6px); }
+.raia.morta { opacity: .5; }
+.raia.morta .quem b { text-decoration: line-through; }
+.chave { display: flex; gap: 1rem; flex-wrap: wrap; font-size: .76rem; color: var(--fg2); margin: .6rem 0 1.2rem; }
+.chave i { display: inline-block; width: 11px; height: 11px; border-radius: 3px; margin-right: .3rem;
+           vertical-align: -1px; }
+.aviso { border: 1px solid var(--linha); border-left: 4px solid var(--nao); background: var(--nao-bg);
+         padding: .8rem .9rem; border-radius: 4px; margin: 0 0 1.2rem; width: 100%; }
+.aviso h3 { color: var(--nao); font-size: .95rem; }
+.rodape { width: 100%; margin-top: 1.6rem; display: flex; gap: .6rem; flex-wrap: wrap; justify-content: center; }
+.rodape button, .rodape a {
+  border: 1px solid var(--linha); background: var(--caixa); border-radius: 999px;
+  padding: .55rem 1.1rem; font-size: .9rem; color: inherit; text-decoration: none;
+}
+.planos { width: 100%; font-size: .88rem; margin-top: 1rem; }
+.planos a { display: flex; justify-content: space-between; gap: .6rem; padding: .5rem 0;
+            border-bottom: 1px solid var(--linha); color: inherit; text-decoration: none; }
+.planos a span:last-child { color: var(--acento); white-space: nowrap; }
+.abertura { justify-content: center; text-align: center; gap: .4rem; }
+.abertura h1 { font-size: 2.4rem; margin-bottom: .1rem; }
+.abertura .slogan { font-size: 1.3rem; line-height: 1.3; font-weight: 500; text-wrap: balance;
+                    margin: .8rem 0 1rem; max-width: 22ch; }
+.abertura .comecar { background: var(--acento); color: #fff; border-radius: 999px;
+                     padding: .85rem 2.2rem; font-weight: 650; margin-top: 1rem; }

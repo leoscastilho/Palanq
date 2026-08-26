@@ -50,9 +50,9 @@ jobs:
       - name: build do arquivo único
         run: node tools/build.mjs
 
-      - name: conferir que motor/index.html versionado está atualizado
-        run: git diff --exit-code -- motor/index.html
-          || (echo "::error::motor/index.html está desatualizado — rode 'npm run build' e faça commit" && exit 1)
+      - name: conferir que as páginas versionadas estão atualizadas
+        run: git diff --exit-code -- index.html motor/index.html
+          || (echo "::error::index.html ou motor/index.html desatualizados — rode 'npm run build' e faça commit" && exit 1)
 
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3

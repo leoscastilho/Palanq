@@ -1,13 +1,18 @@
-# Palanq — motor de comparação
+# Palanq
 
-Instrumento que percorre os **12 planos de governo registrados** da eleição
-presidencial de 2026 — 788 páginas — e indica quais candidaturas mais se alinham às
-posições que **você** declara, sempre mostrando o que ficou sem investigar e sempre
-citando a fonte.
+Percorre os **12 planos de governo registrados** da eleição presidencial de 2026 —
+788 páginas — e indica quais candidaturas mais se alinham às posições que **você**
+declara, sempre mostrando o que ficou sem investigar e sempre citando a fonte.
 
-Esta é a versão **motor**, servida em `/motor`: o instrumento completo, usado para
-validar as fórmulas e a curadoria. A raiz `/` está reservada para a versão
-simplificada do Palanq, ainda a desenvolver.
+Duas telas sobre o mesmo motor e o mesmo corpus:
+
+| | onde | o que é |
+|---|---|---|
+| **cartões** | `/` | o produto. Um tema por vez, deslizando; para assim que o resultado está decidido; resultado em gráfico |
+| **motor** | `/motor` | o instrumento completo: por que cada pergunta veio, as citações, o relatório, a auditoria da curadoria |
+
+As perguntas, a ordem e as fórmulas são as mesmas nas duas. O que muda é a forma de
+responder e o quanto a tela explica.
 
 **Não recomenda voto.** Compara posições declaradas em documentos e ignora, por
 construção: histórico de mandato, capacidade de execução, coalizão, financiamento de
@@ -20,10 +25,11 @@ para o resto.
 ## Rodar
 
 ```bash
-node tools/servir.mjs      # http://localhost:8731 → /motor/
+node tools/servir.mjs      # http://localhost:8731
 ```
 
-Ou abra `motor/index.html` com duplo clique — ele é autocontido e funciona offline.
+Ou abra `index.html` (ou `motor/index.html`) com duplo clique — as duas páginas são
+autocontidas e funcionam offline.
 
 Sem `npm install`: **zero dependências**, Node 18+ apenas para os scripts.
 
@@ -33,11 +39,11 @@ npm run validate           # 16 travas + travas de processo — bloqueia o build
 npm test                   # 59 testes do motor + 7 perfis de referência
 npm run perfis:cobertura   # o que nenhum perfil exercita
 npm run perfis:mutacao     # o que pode ser apagado do corpus sem ninguém acusar
-npm run build              # valida e escreve motor/index.html (arquivo único)
+npm run build              # valida e escreve index.html e motor/index.html
 ```
 
-`motor/index.html` é versionado e é o que o GitHub Pages serve em `/motor`. A CI
-recusa o deploy se ele estiver desatualizado em relação às fontes.
+`index.html` e `motor/index.html` são versionados e é o que o GitHub Pages serve. A
+CI recusa o deploy se estiverem desatualizados em relação às fontes.
 
 ## Estrutura
 
@@ -52,7 +58,8 @@ src/validar.mjs    validarCorpus() — as 16 travas do §24
 src/relatorio.mjs  montarRelatorio() — única função com efeito de ambiente
 src/perfis.mjs     executor de perfis: verificação, cobertura, mutação
 src/ui.js          interface, sem framework
-tools/build.mjs    empacota tudo em motor/index.html
+src/swipe.*        a tela de cartões
+tools/build.mjs    empacota tudo nas duas páginas
 docs/CURADORIA.md  as decisões de curadoria e o viés que elas embutem
 ```
 
@@ -83,6 +90,22 @@ campo eleitoral inteiro me representa*.
 dar peso alto a ele: quem pensa diferente sai da comparação, e sai com a frase do
 plano que causou a eliminação. Se todas caírem, o instrumento mostra a ordem que
 existiria sem os inegociáveis em vez de devolver conjunto vazio.
+
+**A gente para quando já está decidido.** A cada resposta o motor calcula o intervalo
+em que a afinidade de cada candidatura ainda pode terminar; quando nenhuma resposta
+futura consegue mudar quem lidera, a tela de cartões vai ao resultado. A garantia
+cobre quem lidera, não a ordem inteira — e o resultado diz isso.
+
+A garantia sozinha pode chegar com 5 respostas, o que é correto e ruim: o resultado
+fica apoiado em pouca coisa e o gráfico sai quase todo hachurado. Por isso a tela de
+cartões só aceita a parada depois de **10 perguntas** e **8 temas distintos**
+(`MINIMO` e `MINIMO_TEMAS` em `src/swipe.js`) — pisos de produto, não do motor.
+
+Os dois são limitados pelo que existe: marcar um tema como inegociável elimina
+candidaturas, e isso pode encolher o questionário para menos de dez perguntas. Medido
+na ordem atual, o oitavo tema distinto aparece na nona pergunta, então quem manda de
+fato é o piso de dez; o de temas é rede de proteção para o caso de o corpus mudar e a
+ordem passar a agrupar assuntos.
 
 **Empate é resultado válido.** Candidaturas dentro da margem (padrão 0,05) aparecem
 lado a lado, sem ordem entre elas. Os pesos foram escolhidos à mão e não têm precisão

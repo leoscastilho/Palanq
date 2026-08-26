@@ -17,6 +17,7 @@
     "perfis:mutacao": "node src/perfis.mjs mutacao",
     "build": "npm run validate && node tools/build.mjs",
     "dev": "node tools/servir.mjs",
-    "ci": "npm run validate && npm test && npm run build"
+    "ci": "npm run validate && npm test && npm run build",
+    "medir:parada": "node tools/medir-parada.mjs"
   }
 }

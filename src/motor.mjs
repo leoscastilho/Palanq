@@ -261,6 +261,74 @@ export function afinidadeComOCampo(corpus, respostas, classes) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
+// Parada antecipada — quando a disputa já está decidida
+// ─────────────────────────────────────────────────────────────────────────────
+
+/**
+ * Intervalo em que a afinidade de cada candidatura ainda pode terminar, dadas as
+ * respostas que faltam.
+ *
+ * A conta sai de uma identidade da §17: com `P` = peso declarado e `a` = peso
+ * alinhado, `afinidade = (score + P) / (2P)` e `score = a − d`, logo
+ *
+ *     afinidade = a / P
+ *
+ * Então, se `R` é o peso ainda não respondido dos temas em que ESTA candidatura
+ * declara posição, o piso é responder tudo contra ela (`a / (P+R)`) e o teto é
+ * responder tudo a favor (`(a+R) / (P+R)`). Exato, não estimativa.
+ *
+ * RESSALVA: os limites valem para respostas comuns. Marcar um tema como
+ * inegociável elimina candidaturas, e eliminar candidaturas pode tirar um tema da
+ * conta (§20) — o que move os limites. Por isso `decisaoEstavel()` só é consultada
+ * para PARAR de perguntar, nunca para impedir o usuário de continuar.
+ */
+export function limitesAfinidade(corpus, respostas, estados, classes) {
+  const pendentes = classes.divisivos.filter((d) => respostas[d.eixo] === undefined);
+  const out = {};
+  for (const cand of corpus.candidatos) {
+    const s = estados[cand.id];
+    const P = s.pesoDeclarado;
+    const alinhado = (P + s.score) / 2;
+    const R = pendentes.reduce((n, d) => n + (postura(cand, d.eixo) ? d.peso : 0), 0);
+    const total = P + R;
+    out[cand.id] = total
+      ? { min: alinhado / total, max: (alinhado + R) / total, emJogo: R, decidido: P }
+      : { min: null, max: null, emJogo: 0, decidido: 0 };
+  }
+  return out;
+}
+
+/**
+ * A decisão está estável quando nenhuma resposta futura consegue mudar QUEM
+ * lidera. Uma candidatura ainda pode liderar se o teto dela alcança o maior piso
+ * do campo, descontada a margem de empate; quando esse conjunto coincide com os
+ * líderes de agora, perguntar mais não muda o desfecho.
+ */
+export function decisaoEstavel(corpus, respostas, estados, opts = {}) {
+  const margem = opts.margem ?? MARGEM_PADRAO;
+  const vivos = corpus.candidatos.filter((c) => estados[c.id]?.estado === "vivo");
+  const classes = opts.classes || classificarEixos(corpus, vivos.length ? vivos : corpus.candidatos);
+  const lim = limitesAfinidade(corpus, respostas, estados, classes);
+  const comSinal = vivos.filter((c) => lim[c.id].min !== null);
+  const lideres = ranking(corpus, estados, margem).lideres;
+
+  if (!comSinal.length) {
+    const restam = classes.divisivos.filter((d) => respostas[d.eixo] === undefined).length;
+    return { estavel: restam === 0, possiveis: [], lideres, emDisputa: 0, restam };
+  }
+  const maiorPiso = Math.max(...comSinal.map((c) => lim[c.id].min));
+  const possiveis = comSinal
+    .filter((c) => lim[c.id].max >= maiorPiso - margem)
+    .map((c) => c.id)
+    .sort();
+  const restam = classes.divisivos.filter((d) => respostas[d.eixo] === undefined).length;
+  const igual = possiveis.length === lideres.length &&
+    [...lideres].sort().every((x, i) => x === possiveis[i]);
+  return { estavel: restam === 0 || igual, possiveis, lideres, limites: lim,
+           emDisputa: possiveis.length, restam };
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
 // Contrastes — porte direto de diferenciais(). NUNCA elimina.
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -427,6 +495,7 @@ export function analisar(corpus, respostas, linhasVermelhas = new Set(), opts = 
   return {
     respostas, linhasVermelhas: [...asSet(linhasVermelhas)], margem,
     estados, ranking: rk, classes, diagnostico,
+    decisao: decisaoEstavel(corpus, respostas, estados, { margem, classes }),
     contrastes: { ...ctr, desempates },
     campo: afinidadeComOCampo(corpus, respostas, classes),
     portoes: Object.fromEntries(
