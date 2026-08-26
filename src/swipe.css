@@ -190,7 +190,15 @@ button:focus-visible { outline: 2px solid var(--acento); outline-offset: 3px; bo
 .raia { display: grid; grid-template-columns: 1fr; gap: .2rem; padding: .55rem 0;
         border-bottom: 1px solid var(--linha); }
 .raia:last-child { border-bottom: 0; }
-.raia .quem { display: flex; align-items: baseline; gap: .4rem; font-size: .92rem; }
+.raia .quem { display: flex; align-items: baseline; gap: .4rem; font-size: .92rem;
+              width: 100%; text-align: left; padding: .25rem .5rem; margin: 0 -.5rem .1rem;
+              width: calc(100% + 1rem); border-radius: 8px; cursor: pointer; }
+.raia .quem .conta { margin-left: auto; font-size: .74rem; color: var(--nao); white-space: nowrap; }
+.raia .quem .seta { font-size: 1rem; color: var(--fg3); flex: 0 0 auto; }
+.raia .quem:hover { background: var(--realce); }
+.raia .quem:hover .seta { color: var(--acento); transform: translateX(2px); }
+.raia .quem .seta { transition: transform .15s ease, color .15s ease; }
+
 .raia .pos { font-family: var(--mono); font-size: .78rem; color: var(--fg3);
              min-width: 1.9em; text-align: right; flex: 0 0 auto; }
 .raia.topo .pos { color: var(--acento); font-weight: 700; }
@@ -226,3 +234,94 @@ button:focus-visible { outline: 2px solid var(--acento); outline-offset: 3px; bo
                     margin: .8rem 0 1rem; max-width: 22ch; }
 .abertura .comecar { background: var(--acento); color: #fff; border-radius: 999px;
                      padding: .85rem 2.2rem; font-weight: 650; margin-top: 1rem; }
+
+/* ── painel de uma candidatura ────────────────────────────────────────────────
+   Folha sobreposta em vez de acordeão: a citação é literal, portanto longa, e
+   dentro da linha do gráfico ela ficava numa coluna estreita demais para ler.
+   O resultado continua atrás, na mesma posição de rolagem. */
+/* `display: flex` de autor vence o estilo de agente do atributo `hidden` — sem esta
+   linha o fundo invisível fica sobre a página inteira e engole todo clique. */
+.painel-fundo[hidden] { display: none; }
+.painel-fundo { position: fixed; inset: 0; z-index: 50; display: flex;
+                justify-content: center; align-items: flex-end;
+                background: color-mix(in srgb, var(--fg) 45%, transparent);
+                opacity: 0; transition: opacity .18s ease; }
+.painel-fundo.visivel { opacity: 1; }
+body.travado { overflow: hidden; }
+
+.painel { display: flex; flex-direction: column; width: min(46rem, 100%);
+          max-height: min(92vh, 100%); background: var(--bg);
+          border: 1px solid var(--linha); border-bottom: 0;
+          border-radius: 16px 16px 0 0; box-shadow: 0 -8px 40px rgb(0 0 0 / .18);
+          transform: translateY(14px); transition: transform .22s cubic-bezier(.2,.8,.3,1); }
+.painel-fundo.visivel .painel { transform: none; }
+
+.painel > header { position: sticky; top: 0; z-index: 1; padding: 1rem 1.3rem .8rem;
+                   background: var(--bg); border-bottom: 1px solid var(--linha);
+                   border-radius: 16px 16px 0 0; }
+.painel .cab { display: flex; align-items: center; gap: .6rem; }
+.painel .cab .pos { font-family: var(--mono); font-size: .82rem; color: var(--fg3); flex: 0 0 auto; }
+.painel .cab .nome { display: flex; align-items: baseline; gap: .45rem;
+                     flex-wrap: wrap; min-width: 0; }
+.painel .cab .nome b { font-size: 1.12rem; font-weight: 650; }
+.painel .cab .nome em { font-style: normal; font-size: .78rem; color: var(--fg3); }
+.painel .cab .nome em.morto { color: var(--nao); }
+.painel .fechar { margin-left: auto; flex: 0 0 auto; display: grid; place-items: center;
+                  width: 2.1rem; height: 2.1rem; border-radius: 999px;
+                  border: 1px solid var(--linha); background: var(--caixa); color: var(--fg2); }
+.painel .fechar svg { width: 1rem; height: 1rem; }
+.painel .fechar:hover { background: var(--realce); color: var(--fg); }
+.painel > header .barra { display: flex; height: 10px; margin-top: .7rem;
+                          border-radius: 4px; overflow: hidden; background: var(--linha); }
+.painel > header .barra i { display: block; height: 100%; }
+.painel > header .barra .a { background: var(--sim); }
+.painel > header .barra .d { background: var(--nao); }
+.painel > header .barra .s { background: repeating-linear-gradient(45deg, var(--linha),
+                             var(--linha) 3px, transparent 3px, transparent 6px); }
+.painel .contagem { margin: .45rem 0 0; font-size: .76rem; color: var(--fg3); }
+
+.painel .corpo { overflow-y: auto; overscroll-behavior: contain;
+                 padding: .4rem 1.3rem 1.6rem; -webkit-overflow-scrolling: touch; }
+/* Cada bloco leva um fundo de sua cor e um título que gruda no topo da rolagem —
+   sem isso, no meio da lista não dá para saber se o que está na tela é divergência
+   ou concordância. O fundo do título é opaco de propósito: o texto passa por baixo. */
+.painel .grupo { margin: 0 -1.3rem; padding: 0 1.3rem .6rem; }
+.painel .grupo.d { background: color-mix(in srgb, var(--nao) 5%, transparent); }
+.painel .grupo.a { background: color-mix(in srgb, var(--sim) 5%, transparent); }
+.painel .grupo h3 { position: sticky; top: 0; z-index: 1;
+                    margin: 0 -1.3rem .2rem; padding: .5rem 1.3rem;
+                    font-size: .74rem; text-transform: uppercase;
+                    letter-spacing: .08em; font-weight: 700; }
+.painel .grupo.d h3 { color: var(--nao); border-bottom: 1px solid color-mix(in srgb, var(--nao) 22%, transparent);
+                      background: color-mix(in srgb, var(--nao) 11%, var(--bg)); }
+.painel .grupo.a h3 { color: var(--sim); border-bottom: 1px solid color-mix(in srgb, var(--sim) 22%, transparent);
+                      background: color-mix(in srgb, var(--sim) 11%, var(--bg)); }
+.painel .item { padding: .85rem 0; border-bottom: 1px solid var(--linha); }
+.painel .item:last-of-type { border-bottom: 0; }
+.painel .grupo.d .item { border-bottom-color: color-mix(in srgb, var(--nao) 15%, transparent); }
+.painel .grupo.a .item { border-bottom-color: color-mix(in srgb, var(--sim) 15%, transparent); }
+.painel .item b { font-size: .95rem; font-weight: 650; line-height: 1.35; }
+.painel .item em.fora { font-style: normal; font-size: .68rem; color: var(--fg3);
+                        border: 1px solid var(--linha); border-radius: 999px;
+                        padding: .05rem .4rem; margin-left: .4rem; white-space: nowrap; }
+.painel .cit { margin: .4rem 0 0; font-size: .88rem; line-height: 1.6; color: var(--fg2);
+               border-left: 2px solid var(--linha); padding: .1rem 0 .1rem .8rem; }
+.painel .cit .fonte { display: block; font-size: .72rem; color: var(--fg3); margin-top: .35rem; }
+.painel .plano { display: inline-block; margin-top: 1.2rem; font-size: .88rem; color: var(--acento); }
+.painel .voltar { display: block; width: 100%; margin-top: 1.2rem; padding: .7rem;
+                  border: 1px solid var(--linha); border-radius: 999px;
+                  background: var(--caixa); font-size: .88rem; color: var(--fg2); }
+.painel .voltar:hover { background: var(--realce); color: var(--fg); }
+
+/* Em telas largas a folha vira caixa centralizada — nada de 92vh de altura vazia. */
+@media (min-width: 720px) {
+  .painel-fundo { align-items: center; padding: 2rem 1rem; }
+  .painel { border-bottom: 1px solid var(--linha); border-radius: 16px;
+            box-shadow: 0 10px 50px rgb(0 0 0 / .22); max-height: 100%; }
+  .painel > header { border-radius: 16px 16px 0 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .painel-fundo, .painel { transition: none; }
+  .painel { transform: none; }
+}

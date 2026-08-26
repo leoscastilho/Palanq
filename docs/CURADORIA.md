@@ -143,8 +143,13 @@ Escala escolhida pelo curador, **ausente dos planos**:
 | 1 | mecanismo institucional específico |
 
 `node src/perfis.mjs mutacao`, medido: dobrar o peso muda algum desfecho em **22 dos
-48 eixos** — exatamente os 22 divisivos. Os 26 restantes são decorativos para o
-ranking. **O ranking inteiro depende de 22 números escolhidos à mão.**
+48 eixos**. Os 26 restantes são decorativos para o ranking. **O ranking inteiro
+depende de 22 números escolhidos à mão.**
+
+Os 22 críticos são um subconjunto dos 23 divisivos: `e_maioridade_penal` — o eixo que
+só virou divisivo na varredura de oposições — é divisivo mas decorativo, porque
+nenhum dos sete perfis de teste chega a percebê-lo. Isso mede a cobertura dos perfis,
+não a irrelevância do eixo.
 
 ## 5. Redação das perguntas
 
@@ -265,6 +270,66 @@ Cruza cada candidatura calada com um padrão de ASSUNTO — deliberadamente larg
 é uma postura: é um lugar para um humano ir verificar. O padrão precisa ser diferente
 do que localiza a postura; reusar aquele repetiria exatamente o mesmo ponto cego que
 criou o problema. A primeira tentativa cometeu esse erro e achou 6 lacunas em vez de 99.
+
+### Os 25 eixos unilaterais não são lixo — são o outro produto
+
+Fora do ranking não quer dizer fora do aplicativo. Os 25 eixos em que só um lado tem
+plano escrito ficam fora do cálculo por §20, mas a partir de agora podem ser
+respondidos depois da decisão, numa fase complementar marcada como *não conta no
+ranking*.
+
+A razão é que eles respondem uma pergunta diferente da que o ranking responde. O
+ranking diz de quem você está mais perto. A fase complementar diz onde você discorda
+de alguém — inclusive de quem você já pretendia votar. Medido: as posições avaliáveis
+vão de 130 para 214 (+65%), e quem mais ganha é quem hoje quase não dá para avaliar
+(Grassi 3→11, Cury 5→13, Flávio 10→19).
+
+O risco editorial é o oposto do de sempre: aqui o aplicativo mostra concordância e
+discordância que ele próprio declara não valerem para a comparação. Se o rótulo *não
+conta no ranking* sumir da tela, a promessa de §20 quebra no lugar onde o usuário
+olha, mesmo que o cálculo continue certo.
+
+### A normalização que estragava a citação literal
+
+O pior defeito encontrado até agora não veio da extração do PDF: veio de `limpar()`,
+em `tools/gerar-corpus.mjs`. A função tinha duas regex para remontar ligaduras que a
+extração parte ("T oda" → "Toda"), e as duas eram largas demais para o português:
+
+- `/\b([A-ZÀ-Ý])\s([a-zà-ÿ]{2,})/` colava qualquer maiúscula solta. Mas **O, A, E, É
+  e À são palavras**: "O governo" virou `Ogoverno`, "A carga" virou `Acarga`, "E
+  vamos" virou `Evamos`. 38 ocorrências.
+- `/\b([A-ZÀ-Ý]{2,})\s([A-ZÀ-Ý]{1,2})\b/` colava caixa-alta com palavra curta:
+  "CORTAR OS" virou `CORTAROS`, "SUFOCAM O" virou `SUFOCAMO`, "BRASIL ÀS" virou
+  `BRASILÀS`, "DEMOCRACIAS E" virou `DEMOCRACIASE`. 45 ocorrências, das quais **uma**
+  era reparo legítimo — e mesmo essa a regra fazia errado ("SEGURANÇA PÚ BLICA"
+  virava `SEGURANÇAPÚ BLICA`).
+
+**52 das 214 citações estavam alteradas.** Num aplicativo cuja promessa é reproduzir
+o texto do plano para o leitor conferir, isso é o defeito mais grave possível: não
+enviesa a comparação, enviesa a prova.
+
+O conserto tem duas partes. A capitular solta agora só é remontada quando a letra
+**nunca é palavra sozinha** (`[B-DF-HJ-NP-TV-Z]`). As palavras que a extração partiu
+de fato viraram lista explícita e conferida uma a uma — 11 casos, de `AL TERNATIVA` a
+`segur ança` — porque só um humano sabe se "CL T" é "CLT" ou duas siglas.
+
+Quatro dessas 11 eu só encontrei porque estavam na tela na hora em que olhei. Isso
+não é método, é sorte, e o corpus tem 214 citações. A varredura que as achou virou
+checagem do validador: uma palavra está partida quando **as duas metades quase não
+existem soltas** nas ~1.000 páginas dos planos (≤4 ocorrências cada) e a junção é
+comum (≥15, e mais que o triplo de qualquer metade). O sinal é forte o bastante para
+ser erro, não aviso — `públ`+`ica` aparecem 1× cada, `pública` 342×. Caso novo
+derruba o build até alguém conferir no plano e acrescentar a linha em `PARTIDAS`.
+
+A trava contra a reincidência é uma propriedade estática: a regex é testada contra
+"O governo", "A carga", "E vamos", "CORTAR OS", "SUFOCAM O", "BRASIL ÀS" e a geração
+falha se ela casar. A primeira trava que escrevi contava substituições usando a
+própria regex — alargar a regra alargava a contagem junto, e ela não disparava. Uma
+trava que se mede com o mesmo instrumento que deveria vigiar não vigia nada.
+
+Restam dois artefatos conhecidos, de outra natureza: títulos correntes do PDF que
+entram no meio da frase ("...criar seus filhos em SEGURANÇA PÚBLICA E DESMILITARIZAÇÃO
+DAS POLÍCIAS paz..."). O texto está fiel; o que falta é separar o título do corpo.
 
 ## 6. Desequilíbrio de curadoria
 

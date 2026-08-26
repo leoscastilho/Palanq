@@ -174,6 +174,14 @@ t("afinidadeComOCampo é métrica separada e não influencia o ranking", () => {
   eq(a.campo.cobertura, 1, "unânime: todos os vivos declararam");
   eq(a.ranking.ordem.slice(0, 2), ["A", "B"]);
 });
+t("pularPortoes deixa a fase 4 acontecer com portões em aberto", () => {
+  // Sem a opção, um portão não respondido trava a fase 3 e a fase 4 nunca é oferecida.
+  const r = { d: "concordo" };
+  const a = analisar(FG, r);
+  eq(proximaPergunta(FG, r, a.estados, { complementar: true }).tipo, "portao");
+  const q = proximaPergunta(FG, r, a.estados, { complementar: true, pularPortoes: true });
+  eq(q.tipo, "eixo"); eq(q.fase, 4); eq(q.id, "uni");
+});
 t("fase 4 oferece os não discriminantes, marcados como tal", () => {
   const r = { d: "concordo", g1: "sim", g2: "sim" };
   const a = analisar(FG, r);

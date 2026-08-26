@@ -21,6 +21,11 @@ const Z = {
   // O usuário pediu para ir além da parada antecipada: daí em diante só encerra
   // quando as perguntas acabarem de verdade.
   continuar: false,
+  // Fase extra: os temas que não separam candidaturas. Não entram no ranking
+  // (§20 — incluí-los inverteria a ordem em favor de quem escreveu menos), mas
+  // multiplicam o que dá para saber sobre cada plano.
+  extra: false,
+  aberto: null,   // candidatura expandida no resultado
   margem: 0.05,
 };
 
@@ -50,12 +55,18 @@ const lista = (xs) => xs.length < 2 ? (xs[0] ?? "")
 
 const olhar = () => analisar(CORPUS, Z.respostas, new Set(Z.linhasVermelhas), { margem: Z.margem });
 const proxima = (a) => proximaPergunta(CORPUS, Z.respostas, a.estados,
-  { linhasVermelhas: new Set(Z.linhasVermelhas), margem: Z.margem });
+  { linhasVermelhas: new Set(Z.linhasVermelhas), margem: Z.margem,
+    complementar: Z.extra, pularPortoes: true });
 
-/** Só os temas em disputa entram nesta versão: nada de portões nem de fase extra. */
+/**
+ * Fase 1 são os temas em disputa — os que decidem o ranking. Fase 4 são os que não
+ * separam ninguém e só entram quando o usuário pede. Portões e contrastes (fases 2
+ * e 3) não aparecem nesta versão.
+ */
 function pergunta(a) {
   const q = proxima(a);
-  return q && q.tipo === "eixo" && q.fase === 1 ? q : null;
+  if (!q || q.tipo !== "eixo") return null;
+  return q.fase === 1 || (Z.extra && q.fase === 4) ? q : null;
 }
 /**
  * Pisos de produto para aceitar a parada antecipada. A garantia do motor é sobre
@@ -80,7 +91,7 @@ const MINIMO = 10;
 const MINIMO_TEMAS = 8;
 function acabou(a) {
   if (!pergunta(a)) return true;                 // acabaram as perguntas
-  if (Z.continuar) return false;                 // o usuário pediu para responder o resto
+  if (Z.continuar || Z.extra) return false;      // o usuário pediu para responder o resto
   if (!a.decisao.estavel) return false;          // ainda dá para mudar quem lidera
   const div = a.classes.divisivos;
   const feitas = div.filter((d) => Z.respostas[d.eixo] !== undefined);
@@ -99,14 +110,15 @@ function recuperar() {
     const d = JSON.parse(localStorage.getItem(CHAVE_S) || "null");
     if (!d || d.cv !== CORPUS.corpusVersion) return false;
     Object.assign(Z, { tela: d.tela, respostas: d.respostas || {},
-                       linhasVermelhas: d.linhasVermelhas || [], continuar: !!d.continuar });
+                       linhasVermelhas: d.linhasVermelhas || [],
+                       continuar: !!d.continuar, extra: !!d.extra });
     Z.pedindoLado = false;
     return Object.keys(Z.respostas).length > 0;
   } catch { return false; }
 }
 function recomecar() {
-  Object.assign(Z, { tela: "abertura", respostas: {}, linhasVermelhas: [],
-                     pedindoLado: false, virado: false, continuar: false });
+  Object.assign(Z, { tela: "abertura", respostas: {}, linhasVermelhas: [], pedindoLado: false,
+                     virado: false, continuar: false, extra: false, aberto: null });
   try { localStorage.removeItem(CHAVE_S); } catch {}
   desenhar();
 }
@@ -125,6 +137,8 @@ const ICONE = {
   // seta para baixo — não opinar
   pular: SVG('<path d="M12 5v13M6 13l6 6 6-6"/>'),
   // setas em círculo — virar o cartão
+  // ✕ — fechar o painel de uma candidatura
+  fechar: SVG('<path d="M18 6 6 18M6 6l12 12"/>'),
   virar: SVG('<path d="M3 11a9 9 0 0 1 15-6.7L21 7"/><path d="M21 3v4h-4"/><path d="M21 13a9 9 0 0 1-15 6.7L3 17"/><path d="M3 21v-4h4"/>'),
 };
 
@@ -257,13 +271,7 @@ function telaResultado() {
   // comprimento do verde como se fosse a ordem — e ele não é: a barra mostra
   // verde/total, enquanto o ranking compara verde com vermelho e ignora o hachurado.
   // Duas candidaturas podem ter a mesma afinidade com barras bem diferentes.
-  const posicao = {};
-  let n = 0, anterior = null;
-  for (const id of a.ranking.ordem) {
-    const f = est[id].afinidade;
-    if (anterior === null || Math.abs(f - anterior) > 1e-9) { n++; anterior = f; }
-    posicao[id] = n;
-  }
+  const posicao = posicoes(a);
 
   const raia = (id) => {
     const s = est[id];
@@ -271,11 +279,16 @@ function telaResultado() {
     const lider = a.ranking.lideres.includes(id);
     const A = peso(s.alinhados), D = peso(s.divergentes), S = peso(s.silencios);
     const p = (x) => (x / totalPeso) * 100;
+    const nDiv = s.divergentes.length + s.complementar.divergentes.length;
     return `<div class="raia ${lider ? "topo" : ""} ${morto ? "morta" : ""}">
-      <div class="quem"><span class="pos">${morto ? "×" : posicao[id] ? posicao[id] + "º" : "—"}</span>
+      <button class="quem" data-ir="abrir" data-quem="${id}" aria-haspopup="dialog">
+        <span class="pos">${morto ? "×" : posicao[id] ? posicao[id] + "º" : "—"}</span>
         <b>${esc(nomeC(id))}</b>${siglaC(id) ? `<em>${esc(siglaC(id))}</em>` : ""}
         ${lider ? '<em style="color:var(--acento)">mais alinhado</em>' : ""}
-        ${morto ? '<em style="color:var(--nao)">fora — inegociável</em>' : ""}</div>
+        ${morto ? '<em style="color:var(--nao)">fora — inegociável</em>' : ""}
+        <span class="conta">${nDiv ? `${nDiv} divergência${nDiv > 1 ? "s" : ""}` : ""}</span>
+        <span class="seta" aria-hidden="true">›</span>
+      </button>
       <div class="barra" role="img" aria-label="${A ? "concorda em parte" : ""}">
         <i class="a" style="width:${p(A)}%"></i><i class="d" style="width:${p(D)}%"></i><i class="s" style="width:${p(S)}%"></i>
       </div></div>`;
@@ -293,6 +306,8 @@ function telaResultado() {
   const calado = (id) => pesoDe(est[id].silencios) > pesoDe(est[id].alinhados);
   const caladosNoTopo = lideres.filter(calado);
   const faltam = a.classes.divisivos.filter((d) => Z.respostas[d.eixo] === undefined).length;
+  const extraFaltam = [...a.classes.unilaterais, ...a.classes.unanimes]
+    .filter((u) => Z.respostas[u.eixo] === undefined).length;
 
   const titulo = !lideres.length
     ? "Nenhuma candidatura sobrou"
@@ -322,6 +337,7 @@ function telaResultado() {
   <h1 style="font-size:1.6rem">${esc(titulo)}</h1>
   ${subtitulo}
 
+  <p class="mini" style="text-align:center">Toque em uma candidatura para abrir onde vocês concordam e divergem.</p>
   <div class="chave">
     <span><i style="background:var(--sim)"></i>vocês concordam</span>
     <span><i style="background:var(--nao)"></i>vocês divergem</span>
@@ -343,6 +359,15 @@ function telaResultado() {
     depois ainda vai mudar${caladosNoTopo.length ? " — inclusive o tanto de hachurado no topo" : ""}.</p>
     <button data-ir="continuar" style="border:1px solid var(--acento);border-radius:999px;padding:.5rem 1.1rem;background:var(--caixa)">${
       faltam === 1 ? "Responder o último" : `Responder os ${faltam} restantes`}</button>
+  </div>` : ""}
+
+  ${extraFaltam && !faltam ? `<div class="aviso" style="border-left-color:var(--pular);background:var(--realce)">
+    <h3 style="color:var(--fg)">Conhecer melhor cada candidatura</h3>
+    <p class="mini" style="margin:0 0 .7rem">Há ${extraFaltam} tema(s) em que as candidaturas não
+    divergem entre si — por isso não entram no ranking e não mudam o resultado acima. Mas é onde você
+    pode descobrir que discorda de quem pretende apoiar: responder todos multiplica por
+    ${(214 / 130).toFixed(1)} o que dá para saber sobre cada plano.</p>
+    <button data-ir="extra" style="border:1px solid var(--linha);border-radius:999px;padding:.5rem 1.1rem;background:var(--caixa)">Responder esses ${extraFaltam} temas</button>
   </div>` : ""}
 
   <div class="aviso" style="margin-top:1.2rem">
@@ -372,6 +397,7 @@ function virarCartao() {
 
 // ── render ───────────────────────────────────────────────────────────────────
 function desenhar() {
+  fecharPainel();
   appEl.innerHTML = Z.tela === "abertura" ? telaAbertura()
                   : Z.tela === "resultado" ? telaResultado()
                   : telaCartoes();
@@ -445,6 +471,129 @@ function ligarArraste() {
   el.focus({ preventScroll: true });
 }
 
+
+// ── painel de uma candidatura ────────────────────────────────────────────────
+// Antes isto era um acordeão dentro da linha do gráfico. Numa linha de ~40 caracteres
+// as citações literais — que são longas por serem literais — ficavam ilegíveis. Virou
+// uma folha sobreposta: o resultado continua atrás, intacto, e a volta é um gesto só.
+
+/** Mesmo número para quem empata — a barra mede verde/total, o ranking mede verde×vermelho. */
+function posicoes(a) {
+  const pos = {};
+  let n = 0, anterior = null;
+  for (const id of a.ranking.ordem) {
+    const f = a.estados[id].afinidade;
+    if (anterior === null || Math.abs(f - anterior) > 1e-9) { n++; anterior = f; }
+    pos[id] = n;
+  }
+  return pos;
+}
+
+const posturaDe = (id, e) => cand_(id)?.posicoes.find((p) => p.eixo === e) || null;
+
+/** Lista de temas com a frase do plano — é aqui que "onde eu discordo dele" aparece. */
+function itensPainel(est, id, chave, extra) {
+  const s = est[id];
+  const lista = extra ? s.complementar[chave] : s[chave];
+  if (!lista.length) return "";
+  return lista.map((e) => {
+    const p = posturaDe(id, e);
+    return `<article class="item">
+      <b>${esc(CORPUS.eixos[e].label)}</b>${extra ? '<em class="fora">não conta no ranking</em>' : ""}
+      <blockquote class="cit">“${esc(p.citacao.texto)}”
+        <span class="fonte">${esc(p.citacao.local)}</span></blockquote></article>`;
+  }).join("");
+}
+
+function conteudoPainel(id) {
+  const a = olhar();
+  const est = a.estados, s = est[id];
+  const pos = posicoes(a);
+  const morto = s.estado === "eliminado";
+  const nDiv = s.divergentes.length + s.complementar.divergentes.length;
+  const nAli = s.alinhados.length + s.complementar.alinhados.length;
+  const nSil = s.silencios.length;
+
+  const totalPeso = Math.max(...CORPUS.candidatos.map((c) => est[c.id].pesoRespondido), 1);
+  const w = (ids) => (ids.reduce((n, e) => n + CORPUS.eixos[e].peso, 0) / totalPeso) * 100;
+
+  // Agrupado em <section> para o título poder grudar no topo enquanto rola: com as
+  // duas listas seguidas, a meio caminho não dava para saber qual delas se está lendo.
+  const secao = (chave, titulo, classe) =>
+    (s[chave].length || s.complementar[chave].length)
+      ? `<section class="grupo ${classe}"><h3>${titulo}</h3>${
+          itensPainel(est, id, chave)}${itensPainel(est, id, chave, true)}</section>`
+      : "";
+
+  const nada = !nDiv && !nAli;
+  const contagem = [nDiv ? `${nDiv} divergência${nDiv > 1 ? "s" : ""}` : "",
+                    nAli ? `${nAli} concordância${nAli > 1 ? "s" : ""}` : "",
+                    nSil ? `${nSil} sem posição no plano` : ""].filter(Boolean).join(" · ");
+
+  return `<div class="painel" role="dialog" aria-modal="true" aria-labelledby="painel-nome">
+    <header>
+      <div class="cab">
+        <span class="pos">${morto ? "×" : pos[id] ? pos[id] + "º" : "—"}</span>
+        <div class="nome"><b id="painel-nome">${esc(nomeC(id))}</b>${
+          siglaC(id) ? `<em>${esc(siglaC(id))}</em>` : ""}${
+          morto ? '<em class="morto">fora — inegociável</em>' : ""}</div>
+        <button class="fechar" data-fechar aria-label="Voltar ao resultado">${ICONE.fechar}</button>
+      </div>
+      <div class="barra" role="img" aria-label="${esc(contagem)}">
+        <i class="a" style="width:${w(s.alinhados)}%"></i><i class="d" style="width:${w(s.divergentes)}%"></i><i class="s" style="width:${w(s.silencios)}%"></i>
+      </div>
+      <p class="contagem">${esc(contagem)}</p>
+    </header>
+    <div class="corpo">
+      ${nada ? `<p class="mini">Este plano não trata de nada do que você respondeu.</p>` : ""}
+      ${secao("divergentes", "Vocês divergem", "d")}
+      ${secao("alinhados", "Vocês concordam", "a")}
+      ${cand_(id).planoUrl ? `<a class="plano" href="${esc(cand_(id).planoUrl)}" target="_blank"
+        rel="noopener noreferrer">Ler o plano completo de ${esc(nomeC(id))} →</a>` : ""}
+      <button class="voltar" data-fechar>Voltar ao resultado</button>
+    </div>
+  </div>`;
+}
+
+const painelEl = document.createElement("div");
+painelEl.className = "painel-fundo";
+painelEl.hidden = true;
+document.body.appendChild(painelEl);
+
+let focoAnterior = null;
+
+function abrirPainel(id) {
+  focoAnterior = document.activeElement;
+  Z.aberto = id;
+  painelEl.innerHTML = conteudoPainel(id);
+  painelEl.hidden = false;
+  // Trava a rolagem de trás sem perder a posição: ao fechar, o resultado está
+  // exatamente onde estava.
+  document.body.classList.add("travado");
+  appEl.inert = true;   // sem isto o Tab passeia pelo resultado atrás da folha
+  requestAnimationFrame(() => {
+    painelEl.classList.add("visivel");
+    painelEl.querySelector(".fechar")?.focus({ preventScroll: true });
+  });
+}
+
+function fecharPainel() {
+  if (painelEl.hidden) return;
+  Z.aberto = null;
+  painelEl.classList.remove("visivel");
+  document.body.classList.remove("travado");
+  appEl.inert = false;
+  painelEl.hidden = true;
+  painelEl.innerHTML = "";
+  focoAnterior?.focus?.({ preventScroll: true });
+  focoAnterior = null;
+}
+
+painelEl.addEventListener("click", (ev) => {
+  // Fecha no ✕, no botão de voltar e no fundo — nunca num clique dentro da folha.
+  if (ev.target.closest("[data-fechar]") || ev.target === painelEl) fecharPainel();
+});
+
 // ── eventos ──────────────────────────────────────────────────────────────────
 appEl.addEventListener("click", (ev) => {
   const b = ev.target.closest("[data-resp], [data-ir]");
@@ -453,6 +602,8 @@ appEl.addEventListener("click", (ev) => {
   switch (b.dataset.ir) {
     case "cartoes": Z.tela = "cartoes"; gravar(); desenhar(); break;
     case "continuar": Z.continuar = true; Z.tela = "cartoes"; gravar(); desenhar(); break;
+    case "extra": Z.extra = true; Z.tela = "cartoes"; gravar(); desenhar(); break;
+    case "abrir": abrirPainel(b.dataset.quem); break;
     case "recomecar": recomecar(); break;
     case "pedir-lado": Z.pedindoLado = true; desenhar(); break;
     case "cancelar-lado": Z.pedindoLado = false; desenhar(); break;
@@ -460,6 +611,8 @@ appEl.addEventListener("click", (ev) => {
   }
 });
 document.addEventListener("keydown", (ev) => {
+  if (ev.key === "Escape" && !painelEl.hidden) { ev.preventDefault(); return fecharPainel(); }
+  if (!painelEl.hidden) return;
   if (Z.tela !== "cartoes" || Z.pedindoLado) return;
   const m = { ArrowRight: "concordo", ArrowLeft: "discordo", ArrowDown: "indiferente" };
   if (ev.key === "ArrowUp") { ev.preventDefault(); Z.pedindoLado = true; desenhar(); return; }

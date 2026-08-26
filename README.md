@@ -110,6 +110,29 @@ na ordem atual, o oitavo tema distinto aparece na nona pergunta, então quem man
 fato é o piso de dez; o de temas é rede de proteção para o caso de o corpus mudar e a
 ordem passar a agrupar assuntos.
 
+**Depois da decisão, dá para continuar — sem mexer no ranking.** O resultado oferece
+dois caminhos, nessa ordem. Primeiro os temas divisivos que sobraram ("responder os N
+restantes"): esses ainda contam, e podem mudar a ordem. Depois deles, os **25 temas
+unilaterais** — aqueles em que só um lado tem plano escrito. Eles ficam fora do
+ranking por construção (§20: incluir tema não discriminante inverte a ordem em favor
+de quem escreveu menos), e o motor só os entrega quando `complementar: true` é pedido
+explicitamente.
+
+O que eles servem é para a pergunta que o ranking não responde: *eu discordo de quem
+eu pretendia votar?* Medido no corpus atual, respondê-los leva as posições avaliáveis
+de **130 para 214 (+65%)**, e o ganho é maior justamente para quem hoje quase não dá
+para avaliar — Grassi 3→11, Cury 5→13, Flávio 10→19. A barra de cada candidatura fica
+igual; o que cresce é a lista de divergências que ela abre.
+
+Essa lista abre numa folha sobreposta, não num acordeão dentro da linha do gráfico.
+A citação é literal — logo, longa — e numa coluna de ~40 caracteres ela não era
+legível. A folha cobre a tela, o resultado fica intacto atrás dela na mesma posição
+de rolagem, e a volta é ✕, Esc, toque no fundo ou o botão no fim da lista.
+
+Na prática isso exigiu `opts.pularPortoes` no motor: os portões (fase 3) vêm antes da
+fase complementar, e a tela de cartões trata o conteúdo deles na abertura, não como
+cartão. Sem a opção, um portão não respondido bloquearia a fase 4 para sempre.
+
 **Cada tema explica a si mesmo.** Todo tema tem um texto curto em linguagem leiga —
 o que a proposta quer dizer na prática, e uma frase para cada lado onde o desacordo é
 real. É o que o cartão mostra ao virar. Como é prosa sem citação que a ancore, é o

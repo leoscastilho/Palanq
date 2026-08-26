@@ -214,14 +214,53 @@ const REDACAO_NAO_NEUTRA = {
 };
 
 /** Limpeza final dos artefatos de extração de PDF que sobrevivem à passada automática. */
+/** Capitular separada do resto pela extração: "T oda" → "Toda". */
+const LIGADURA = /\b([B-DF-HJ-NP-TV-Z])\s([a-zà-ÿ]{2,})/g;
+
+// Trava. A versão anterior desta regra aceitava qualquer maiúscula e colava 52 das
+// 214 citações: "O governo" virava "Ogoverno", "CORTAR OS" virava "CORTAROS". Num
+// app cuja promessa é a citação literal, falsear a fonte é o pior defeito possível.
+// A checagem é a propriedade que importa — a regex não pode casar onde a letra
+// solta é palavra de verdade — e não a contagem de substituições, que se mede com
+// a própria regex e por isso acompanha qualquer alargamento dela.
+for (const caso of ["O governo", "A carga", "E vamos", "É preciso", "À noite",
+                    "CORTAR OS", "SUFOCAM O", "BRASIL ÀS", "DEMOCRACIAS E"]) {
+  LIGADURA.lastIndex = 0;
+  if (LIGADURA.test(caso)) {
+    throw new Error(`LIGADURA colaria "${caso}" — a regra está larga demais.`);
+  }
+}
+LIGADURA.lastIndex = 0;
+
+/** Palavras que a extração do PDF partiu ao meio, conferidas uma a uma no plano. */
+const PARTIDAS = [
+  [/\bAL TERNATIVA\b/g, "ALTERNATIVA"],   // C03, p.44
+  [/\bMAIS AL TOS\b/g, "MAIS ALTOS"],     // C03, p.18
+  [/\bCL T\b/g, "CLT"],                   // C03, p.44 — "À CLT"
+  [/\braci smo\b/g, "racismo"],           // C02, p.67
+  [/\bpúbl ica\b/g, "pública"],           // C02, p.47
+  [/\bman dato\b/g, "mandato"],           // C04, p.43
+  [/\bpo bres\b/g, "pobres"],             // C06, p.98
+  [/\bministério s\b/g, "ministérios"],   // C06, p.37
+  [/\bminist ério\b/g, "ministério"],     // C06, p.37
+  [/\bsegur ança\b/g, "segurança"],       // C06, p.37
+  [/\bPRIV ADOS\b/g, "PRIVADOS"],         // C09, p.19
+];
+
 function limpar(t) {
   let s = t.replace(/\s+/g, " ").trim();
   // o PDF da UP (C09) renderiza cada linha duas vezes
   for (let i = 0; i < 4; i++) s = s.replace(/([\wÀ-ÿ][^.;!?]{10,}?)\.?\s*\1/g, "$1");
   s = s.replace(/(\b[\wÀ-ÿ]{4,})\.\1\b/g, "$1");
-  // ligaduras quebradas pela extração ("T oda", "AL TERNATIVA", "CL T")
-  s = s.replace(/\b([A-ZÀ-Ý]{2,})\s([A-ZÀ-Ý]{1,3})\b/g, (m, a, b) => (b.length <= 2 ? a + b : m));
-  s = s.replace(/\b([A-ZÀ-Ý])\s([a-zà-ÿ]{2,})/g, "$1$2");
+  // Ligaduras quebradas pela extração. A versão anterior usava duas regex largas
+  // e colava 74 pares legítimos: "O governo" virava "Ogoverno", "CORTAR OS" virava
+  // "CORTAROS", "BRASIL ÀS" virava "BRASILÀS". Em citação literal isso é falsear a
+  // fonte, então as duas regras foram estreitadas.
+  //
+  // Palavra partida ao meio: lista explícita. Só um humano sabe se "CL T" é "CLT"
+  // ou duas siglas — regex genérica não sabe. Caso novo entra aqui, auditável.
+  for (const [re, com] of PARTIDAS) s = s.replace(re, com);
+  s = s.replace(LIGADURA, "$1$2");
   s = s.replace(/\s+([,.;:!?])/g, "$1").replace(/\s{2,}/g, " ").trim();
   s = s.replace(/^[•▪●–—-]\s*/, "");
   return s;

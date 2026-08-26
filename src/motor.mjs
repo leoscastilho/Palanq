@@ -415,13 +415,19 @@ export function proximaPergunta(corpus, respostas, estados, opts = {}) {
     };
   }
 
-  // Fase 3 — portões. Gatilho lido do estado SEM portões (correção do B1).
+  // Fase 3 — portões.
+  // `opts.pularPortoes` existe para o cliente que trata o conteúdo dos portões de
+  // outra forma — a tela de cartões mostra a ressalva na abertura, não como cartão.
+  // Sem essa opção, um portão não respondido bloquearia a fase 4 para sempre.
+  if (!opts.pularPortoes) {
+  // Gatilho lido do estado SEM portões (correção do B1).
   const semPortoes = { ...respostas };
   for (const g of Object.keys(corpus.portoes || {})) delete semPortoes[g];
   const estadosSemPortoes = avaliar(corpus, semPortoes, opts.linhasVermelhas || new Set(), { classes });
   if (ranking(corpus, estadosSemPortoes, margem).ordem.length > 0) {
     const g = Object.keys(corpus.portoes || {}).find((k) => respostas[k] === undefined);
     if (g) return { tipo: "portao", fase: 3, id: g, ...corpus.portoes[g], naoDiscriminante: false };
+  }
   }
 
   // Fase 4 — encerramento complementar, opcional
