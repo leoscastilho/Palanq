@@ -1,0 +1,371 @@
+{
+ "e_vigilancia_massa": {
+  "label": "Reconhecimento facial e vigilância eletrônica",
+  "peso": 3,
+  "dominio": "seguranca",
+  "pergunta": "Você concorda com o uso de reconhecimento facial e vigilância eletrônica em larga escala na segurança pública?",
+  "rx": "reconhecimento facial|videomonitoramento com inteligencia artificial|vigilancia eletronica continua",
+  "favor": {
+   "C01": "muralha brasileira",
+   "C02": "videomonitoramento com inteligencia artificial",
+   "C04": "reconhecimento facial em tempo real",
+   "C06": "reconhecimento facial",
+   "C07": "vigilancia eletronica continua",
+   "C08": "drones e analise de imagens dentro do marco legal|sensores, radares e monitoramento remoto"
+  }
+ },
+ "e_ministerio_seguranca": {
+  "label": "Ministério da Segurança Pública",
+  "peso": 1,
+  "dominio": "seguranca",
+  "pergunta": "Você concorda com a criação de um ministério federal dedicado à segurança pública?",
+  "rx": "ministerio da seguranca publica",
+  "favor": {
+   "C02": "implantar o ministerio da seguranca publica",
+   "C05": "criaremos o ministerio da seguranca publica",
+   "C06": "recriacao do ministerio da seguranca publica"
+  },
+  "contra": {
+   "C10": "substituindo uma politica e um ministerio de seguranca publica"
+  }
+ },
+ "e_ensino_integral": {
+  "label": "Escola em tempo integral",
+  "peso": 2,
+  "dominio": "educacao",
+  "pergunta": "Você concorda com a ampliação da escola pública em tempo integral?",
+  "rx": "escola em tempo integral|educacao em tempo integral|escolas em tempo integral|escola de tempo integral|creches e pre-escolas publicas e em tempo integral",
+  "favor": {
+   "C01": "apoiamos a escola em tempo integral",
+   "C02": "escola de tempo integral",
+   "C05": "financiamento a educacao em tempo integral",
+   "C06": "tempo integral",
+   "C09": "creches e pre-escolas publicas e em tempo integral",
+   "C11": "escolas publicas, gratuitas e em tempo integral"
+  }
+ },
+ "e_interoperabilidade_saude": {
+  "label": "Prontuário eletrônico integrado",
+  "peso": 2,
+  "dominio": "saude",
+  "pergunta": "Você concorda com a centralização de prontuários e exames em uma base nacional integrada?",
+  "rx": "prontuario eletronico|prontuario unico|interoperabilidade.{0,40}saude|historico clinico digital",
+  "favor": {
+   "C01": "prontuario eletronico",
+   "C02": "prontuario interoperavel",
+   "C03": "prontuario eletronico",
+   "C04": "prontuario eletronico",
+   "C05": "prontuario unico do cidadao",
+   "C06": "digitalizacao dos prontuarios",
+   "C08": "prontuario interoperavel"
+  }
+ },
+ "e_desmilitarizacao": {
+  "label": "Desmilitarização das polícias",
+  "peso": 3,
+  "dominio": "seguranca",
+  "pergunta": "Você concorda com a transformação das polícias militares em forças civis de policiamento de proximidade?",
+  "rx": "desmilitarizacao|desmilitarizada|ciclo completo|unificacao das policias",
+  "favor": {
+   "C09": "desmilitarizacao",
+   "C10": "desmilitarizacao da seguranca publica",
+   "C11": "desmilitarizacao da pm"
+  }
+ },
+ "e_isolamento_liderancas": {
+  "label": "Isolamento de lideranças de facções",
+  "peso": 2,
+  "dominio": "seguranca",
+  "pergunta": "Você concorda com presídios federais de segurança máxima para isolar lideranças de facções e bloquear sua comunicação?",
+  "rx": "presidios federais de seguranca maxima|isolamento (absoluto|efetivo) (de|das|dos) (chefes|lideranca)|bloqueio de comunicacao|superpresidios|seguranca maxima",
+  "favor": {
+   "C01": "seguranca maxima",
+   "C02": "seguranca maxima",
+   "C04": "superpresidios de seguranca maxima",
+   "C07": "isolamento efetivo da lideranca|unidade de grande escala",
+   "C08": "separacao e gestao de liderancas criminosas"
+  }
+ },
+ "e_reforma_administrativa": {
+  "label": "Reforma administrativa e corte de ministérios",
+  "peso": 2,
+  "dominio": "estado",
+  "pergunta": "Você concorda com uma reforma administrativa que corte ministérios, cargos comissionados e supersalários?",
+  "rx": "reforma administrativa|corte de no minimo 10 ministerios|cargos comissionados|supersalarios|penduricalhos",
+  "favor": {
+   "C01": "corte de no minimo 10 ministerios",
+   "C03": "acima do teto constitucional|supersalarios",
+   "C04": "reforma administrativa",
+   "C06": "reforma administrativa",
+   "C07": "digitalizar automatizar arrecadacao|reforma administrativa"
+  }
+ },
+ "e_simplificacao_fiscal": {
+  "label": "Simplificação tributária",
+  "peso": 2,
+  "dominio": "tributacao",
+  "pergunta": "Você concorda com a simplificação e a digitalização das obrigações tributárias para reduzir o custo de conformidade?",
+  "rx": "simplificacao (do sistema )?tributari|simplificar os impostos|custo de conformidade|burocracia tributaria",
+  "favor": {
+   "C01": "esforco de simplificacao",
+   "C02": "sistema permanece complexo|simplificacao tributaria",
+   "C03": "simplificar os impostos",
+   "C06": "simplificacao do sistema tributario",
+   "C07": "carga tributaria das tres esferas",
+   "C08": "simplificacao regulatoria"
+  }
+ },
+ "e_ia_soberania_digital": {
+  "label": "Inteligência artificial e soberania digital",
+  "peso": 2,
+  "dominio": "tecnologia",
+  "pergunta": "Você concorda que o Estado invista pesadamente em inteligência artificial e infraestrutura digital própria como política nacional?",
+  "rx": "inteligencia artificial|soberania digital|data center|centro de dados",
+  "favor": {
+   "C01": "inteligencia artificial",
+   "C02": "inteligencia artificial",
+   "C04": "inteligencia artificial",
+   "C05": "inteligencia artificial",
+   "C06": "inteligencia artificial",
+   "C08": "ia como apoio clinico e administrativo",
+   "C07": "inteligencia artificial|rastreabilidade da cadeia produtiva"
+  }
+ },
+ "e_estatizacao_setores": {
+  "label": "Monopólio estatal em setores estratégicos",
+  "peso": 3,
+  "dominio": "economia",
+  "pergunta": "Você concorda com o monopólio estatal em setores estratégicos como energia, mineração e telecomunicações?",
+  "rx": "monopolio (publico|estatal)|estatizacao de|nacionalizacao dos bancos|controle publico dos setores estrategicos",
+  "favor": {
+   "C09": "monopolio publico em areas estrategicas",
+   "C10": "monopolio estatal das telecomunicacoes",
+   "C11": "estatizacao",
+   "C12": "estatizacao"
+  }
+ },
+ "e_auditoria_divida": {
+  "label": "Suspensão e auditoria da dívida pública",
+  "peso": 3,
+  "dominio": "fiscal",
+  "pergunta": "Você concorda com a suspensão do pagamento da dívida pública e uma auditoria dos seus contratos?",
+  "rx": "auditoria da divida|nao pagamento da divida|suspensao do pagamento da divida|cancelamento das dividas|servico da divida",
+  "favor": {
+   "C09": "gasto com a divida publica cresce",
+   "C10": "divida publica sera reestruturada",
+   "C11": "suspensao do pagamento da divida publica",
+   "C12": "cancelamento das dividas"
+  }
+ },
+ "e_arcabouco_fiscal": {
+  "label": "Regras de teto de gastos",
+  "peso": 3,
+  "dominio": "fiscal",
+  "pergunta": "Você concorda com a manutenção de regras que limitam o crescimento do gasto público, como o arcabouço fiscal?",
+  "rx": "arcabouco fiscal|teto de gastos|lei de responsabilidade fiscal|superavit primario|equilibrio fiscal|ancora fiscal",
+  "favor": {
+   "C01": "equilibrio fiscal",
+   "C02": "reconstruir superavits",
+   "C03": "superavits primarios",
+   "C04": "ajuste fiscal",
+   "C07": "responsabilidade fiscal",
+   "C08": "revisao de gastos e subsidios"
+  },
+  "contra": {
+   "C09": "fim do arcabouco fiscal",
+   "C10": "revogacao do arcabouco fiscal",
+   "C11": "arcabouco fiscal"
+  }
+ },
+ "e_controle_externo_stf": {
+  "label": "Limitação e controle do Supremo",
+  "peso": 2,
+  "dominio": "justica",
+  "pergunta": "Você concorda com medidas que limitem o poder do Supremo Tribunal Federal, como mandato para ministros ou controle externo?",
+  "rx": "limitar o poder do supremo|mandato de oito anos para os ministros|corregedoria externa do stf|fim do supremo tribunal federal|mandatos por tempo definido|competencias criminais originarias do stf",
+  "favor": {
+   "C01": "competencias criminais originarias do stf",
+   "C03": "limitar o poder do supremo",
+   "C06": "mandato de oito anos para os ministros",
+   "C10": "mandatos por tempo definido",
+   "C12": "fim do supremo tribunal federal"
+  }
+ },
+ "e_reeleicao": {
+  "label": "Fim da reeleição no Executivo",
+  "peso": 2,
+  "dominio": "politica",
+  "pergunta": "Você concorda com o fim da reeleição consecutiva para presidente, governadores e prefeitos?",
+  "rx": "reeleicao|renovacao consecutiva de mandatos",
+  "favor": {
+   "C02": "reeleicao"
+  }
+ },
+ "e_emendas_parlamentares": {
+  "label": "Controle das emendas parlamentares",
+  "peso": 2,
+  "dominio": "orcamento",
+  "pergunta": "Você concorda com a restrição e a rastreabilidade obrigatória das emendas parlamentares?",
+  "rx": "emendas parlamentares|orcamento secreto|emendas impositivas",
+  "favor": {
+   "C01": "transparencia, controle e rastreabilidade as emendas parlamentares",
+   "C02": "emendas",
+   "C03": "emendas parlamentares distribuidas sem transparencia",
+   "C05": "emendas parlamentares",
+   "C07": "emenda"
+  }
+ },
+ "e_fim_fundo_eleitoral": {
+  "label": "Fim do fundo eleitoral e partidário",
+  "peso": 2,
+  "dominio": "politica",
+  "pergunta": "Você concorda com o fim do financiamento público de partidos e campanhas?",
+  "rx": "fundo (partidario|eleitoral)|financiamento publico de (partidos|campanhas)",
+  "favor": {
+   "C03": "fundo",
+   "C04": "fundo"
+  }
+ },
+ "e_maioridade_penal": {
+  "label": "Redução da maioridade penal",
+  "peso": 3,
+  "dominio": "seguranca",
+  "pergunta": "Você concorda com a redução da maioridade penal?",
+  "rx": "maioridade penal",
+  "favor": {
+   "C01": "maioridade penal",
+   "C02": "maioridade penal",
+   "C03": "maioridade penal"
+  }
+ },
+ "e_porte_arma_rural": {
+  "label": "Porte de arma no meio rural",
+  "peso": 2,
+  "dominio": "seguranca",
+  "pergunta": "Você concorda em ampliar o direito do produtor rural de portar arma em toda a extensão de sua propriedade?",
+  "rx": "porte de armas em toda a extensao da propriedade|direito a autodefesa do produtor",
+  "favor": {
+   "C03": "porte de armas em toda a extensao da propriedade"
+  }
+ },
+ "e_homeschooling": {
+  "label": "Educação domiciliar",
+  "peso": 2,
+  "dominio": "educacao",
+  "pergunta": "Você concorda com a regulamentação do ensino domiciliar (homeschooling)?",
+  "rx": "homeschooling|educacao domiciliar|ensino domiciliar",
+  "favor": {
+   "C03": "homeschooling"
+  }
+ },
+ "e_descriminalizacao_drogas": {
+  "label": "Descriminalização das drogas",
+  "peso": 3,
+  "dominio": "seguranca",
+  "pergunta": "Você concorda com a descriminalização das drogas e o fim da política de guerra às drogas?",
+  "rx": "descriminalizacao das drogas|guerra as drogas|revogacao da lei antidrogas|politica de .guerra as drogas.",
+  "favor": {
+   "C10": "guerra as drogas",
+   "C11": "descriminalizacao das drogas"
+  }
+ },
+ "e_aborto": {
+  "label": "Descriminalização do aborto",
+  "peso": 3,
+  "dominio": "saude",
+  "pergunta": "Você concorda com a descriminalização e a legalização do aborto?",
+  "rx": "descriminalizacao e legalizacao do aborto|legalizacao do aborto|aborto legal|vida desde a concepcao",
+  "favor": {
+   "C09": "descriminalizacao e legalizacao do aborto"
+  },
+  "contra": {
+   "C01": "vida desde a concepcao"
+  }
+ },
+ "e_cotas_trans": {
+  "label": "Cotas e políticas para pessoas trans",
+  "peso": 2,
+  "dominio": "social",
+  "pergunta": "Você concorda com cotas para pessoas trans em universidades e concursos públicos?",
+  "rx": "cotas trans|cotas universitarias para a populacao trans|banheiros multigenero",
+  "favor": {
+   "C10": "cotas universitarias para a populacao trans",
+   "C11": "cotas trans"
+  }
+ },
+ "e_passe_livre": {
+  "label": "Tarifa zero no transporte público",
+  "peso": 2,
+  "dominio": "transporte",
+  "pergunta": "Você concorda com a tarifa zero no transporte público, custeada integralmente pelo Estado?",
+  "rx": "tarifa zero|passe livre",
+  "favor": {
+   "C09": "passe livre",
+   "C10": "tarifa zero",
+   "C11": "tarifa zero",
+   "C12": "passe livre"
+  }
+ },
+ "e_plebiscito_penitenciario": {
+  "label": "Plebiscito sobre o modelo penitenciário",
+  "peso": 2,
+  "dominio": "seguranca",
+  "pergunta": "Você concorda que o modelo penitenciário do país seja decidido por plebiscito popular?",
+  "rx": "plebiscito|consulta popular",
+  "favor": {
+   "C07": "consulta popular|plebiscito"
+  }
+ },
+ "e_fusao_municipios": {
+  "label": "Fusão compulsória de municípios",
+  "peso": 2,
+  "dominio": "federativo",
+  "pergunta": "Você concorda com a fusão compulsória de pequenos municípios economicamente inviáveis?",
+  "rx": "fusao de pequenos municipios|consolidacao municipal|municipios.{0,40}inviaveis",
+  "favor": {
+   "C04": "fusao de pequenos municipios|consolidacao municipal"
+  }
+ },
+ "e_unicameralismo": {
+  "label": "Parlamento unicameral e conselhos populares",
+  "peso": 3,
+  "dominio": "politica",
+  "pergunta": "Você concorda com a substituição do Congresso por um parlamento unicameral com conselhos populares deliberativos?",
+  "rx": "parlamento unicameral|extincao do senado|conselhos populares",
+  "favor": {
+   "C10": "parlamento unicameral|conselhos populares"
+  }
+ },
+ "e_estatizacao_midia": {
+  "label": "Estatização de grupos de comunicação",
+  "peso": 3,
+  "dominio": "comunicacao",
+  "pergunta": "Você concorda com o cancelamento das concessões dos grandes grupos de mídia e a transferência de seus ativos ao controle de trabalhadores?",
+  "rx": "cancelamento da concessao da rede globo|estatizacao dos monopolios de imprensa|monopolios privados de comunicacoes",
+  "favor": {
+   "C10": "monopolios privados de comunicacoes",
+   "C12": "cancelamento da concessao da rede globo"
+  }
+ },
+ "e_saude_animal_unica": {
+  "label": "Saúde única (humana, animal e ambiental)",
+  "peso": 2,
+  "dominio": "saude",
+  "pergunta": "Você concorda que a política sanitária integre saúde humana, animal e ambiental num único sistema de vigilância?",
+  "rx": "saude unica|zoonoses|vigilancia de zoonoses",
+  "favor": {
+   "C07": "saude unica|vigilancia de zoonoses"
+  }
+ },
+ "e_gestao_emocional_educacao": {
+  "label": "Educação socioemocional",
+  "peso": 2,
+  "dominio": "educacao",
+  "pergunta": "Você concorda que o ensino básico incorpore formalmente o desenvolvimento socioemocional ao currículo?",
+  "rx": "gestao da emocao|socioemocional|inteligencia socioemocional|educacao emocional",
+  "favor": {
+   "C06": "socioemocional",
+   "C02": "socioemocional"
+  }
+ }
+}

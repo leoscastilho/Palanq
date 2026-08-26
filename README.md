@@ -1,7 +1,8 @@
 # Match Presidenciáveis
 
-Instrumento que percorre as posições declaradas em planos de governo e indica quais
-candidaturas mais se alinham às posições que **você** declara — sempre mostrando o que
+Instrumento que percorre os **12 planos de governo registrados** da eleição
+presidencial de 2026 — 788 páginas — e indica quais candidaturas mais se alinham às
+posições que **você** declara — sempre mostrando o que
 ficou sem investigar e sempre citando a fonte.
 
 **Não recomenda voto.** Compara posições declaradas em documentos e ignora, por
@@ -37,8 +38,11 @@ estiver desatualizado em relação às fontes.
 ## Estrutura
 
 ```
-source/            propostas.md e auxiliar.md — as fontes, intocadas
-data/corpus.json   o corpus (gerado por tools/gerar-corpus.mjs, versionado)
+source/propostas/  os 12 planos de governo registrados, em PDF — as fontes
+source/*.md        resumos de terceiro, usados só para descobrir o que investigar
+data/corpus.json   o corpus (gerado, versionado)
+data/_paginas.json texto dos planos, página a página (gerado do PDF)
+tools/extracao/    o pipeline de citação: quais trechos sustentam quais posturas
 src/motor.mjs      o motor. PURO: sem Date, sem I/O, sem dependências
 src/validar.mjs    validarCorpus() — as 16 travas do §24
 src/relatorio.mjs  montarRelatorio() — única função com efeito de ambiente
@@ -87,7 +91,15 @@ onde mandá-las.
 
 ## Estado do corpus
 
-`status: draft`. As citações são **resumos curatoriais** de `source/`, não trechos
-literais de planos registrados — a limitação está impressa em toda tela e em todo
-relatório, e o validador impede promover o corpus a `verified` enquanto for verdade.
-Leia [`docs/CURADORIA.md`](docs/CURADORIA.md) antes de confiar em qualquer resultado.
+`status: draft`. **Todas as 200 posturas são trechos literais dos planos de governo
+registrados, com número de página**, e cada citação linka o PDF completo. 16 delas
+(8%) carregam uma inferência do curador, declarada no corpus e exibida em destaque ao
+lado do trecho.
+
+O que ainda falta para `verified` é revisão por alguém que não montou o corpus: a
+escolha de **quais eixos existem** e de **qual trecho** representa cada candidatura
+continua sendo do curador, e nenhuma trava técnica protege contra isso. O validador
+recusa a promoção enquanto `curadoria.revisadoPor` estiver vazio.
+
+Leia [`docs/CURADORIA.md`](docs/CURADORIA.md) antes de confiar em qualquer resultado —
+inclusive a lista das inferências mais frágeis e do que a mutação não cobre.

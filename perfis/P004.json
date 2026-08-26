@@ -1,53 +1,68 @@
 {
   "id": "P004",
-  "titulo": "Eleitora com a lacuna no eixo que decide",
+  "titulo": "Eleitor de direita sem posição sobre o BRICS",
   "autoria": {
     "redigidoPor": null,
     "independenteDoCorpus": false,
-    "data": null,
-    "nota": "ATENÇÃO — CIRCULARIDADE (§9.4/§25.2). Este perfil foi redigido por quem montou o corpus, olhando os eixos que o corpus tem. Ele mede se a curadoria é internamente consistente; NÃO mede se ela é justa. Um perfil escrito por um eleitor real, sem ver o corpus, vale mais do que os sete daqui somados."
+    "data": "2026-08-26",
+    "nota": "ATENÇÃO — CIRCULARIDADE (§9.4/§25.2). Estes perfis foram redigidos por quem montou o corpus, olhando os eixos que o corpus tem. Medem se a curadoria é internamente consistente; NÃO medem se ela é justa. Um perfil escrito por um eleitor real, sem ver o corpus, vale mais do que os sete daqui somados."
   },
-  "descricao": "Concorda com toda a agenda de mercado e com a escola disciplinar. Sobre regimes prisionais de exceção, não tem posição: ouviu falar do modelo salvadorenho, achou eficaz e achou assustador, e responde que não sabe.",
+  "descricao": "Mesmo eleitor de P002, mas sobre a permanência do Brasil no BRICS não tem opinião formada: não acompanha política externa e desconfia igualmente de quem promete alinhamento automático e de quem promete independência automática.",
   "respostas": {
+    "e_privatizacao_estatais": "concordo",
+    "e_ppp_servicos_publicos": "concordo",
     "e_gestao_privada_saude": "concordo",
-    "e_privatizacoes": "concordo",
+    "e_ans_planos_flexiveis": "concordo",
     "e_ensino_civico_militar": "concordo",
-    "e_flexibilizacao_trabalhista": "concordo",
-    "e_encarceramento_excecao": "ns",
-    "e_renda_sem_contrapartida": "concordo",
-    "e_estabilidade_emprego": "concordo"
+    "e_negociado_sobre_legislado": "concordo",
+    "e_estabilidade_emprego": "discordo",
+    "e_renda_sem_contrapartida": "discordo",
+    "e_encarceramento_excecao": "concordo",
+    "e_autonomia_banco_central": "concordo",
+    "e_margem_equatorial": "concordo",
+    "e_reforma_agraria": "discordo",
+    "e_tributar_altas_rendas": "discordo",
+    "e_reforma_previdencia": "concordo",
+    "e_licenciamento_simplificado": "concordo",
+    "e_mineracao_terras_indigenas": "concordo",
+    "e_reducao_jornada": "discordo",
+    "e_ministerio_seguranca": "concordo",
+    "e_arcabouco_fiscal": "concordo",
+    "e_aborto": "discordo",
+    "e_liberdade_irrestrita_redes": "concordo"
   },
   "linhasVermelhas": [],
   "esperado": {
     "deveLiderar": [
       "C01",
-      "C07"
+      "C03",
+      "C04"
     ],
     "naoPodeLiderar": [
       "C05",
       "C09",
       "C10",
+      "C11",
       "C12"
     ],
     "deveEliminar": [],
     "deveEmpatar": [
       "C01",
-      "C02",
+      "C03",
+      "C04",
       "C06",
-      "C07",
       "C08"
     ],
     "deveSinalizar": [
       [
-        "C01",
-        "C07"
+        "C02",
+        "C03"
       ]
     ],
     "semAssercao": [
-      "C03",
-      "C04",
-      "C11"
+      "C02",
+      "C07"
     ]
   },
-  "justificativa": "O desfecho CORRETO aqui não é eleger alguém — é sinalizar a lacuna. Flávio Bolsonaro e Wilson Grassi aparecem empatados em 1,000 e são exatamente os dois lados do único contraste que ela deixou em aberto. Se o instrumento fechar sem destacar isso, induziu fechamento prematuro, que é o dano que a seção NÃO INVESTIGADO existe para evitar. Note também a cobertura: C06 e C07 lideram com 0,18."
+  "justificativa": "Espelho de P003 do outro lado do campo: Caiado e Zema concordam em privatizar, simplificar licenciamento e disciplinar o gasto, e a única coisa que os separa é sair ou não do BRICS. O contraste precisa aparecer como não investigado."
 }

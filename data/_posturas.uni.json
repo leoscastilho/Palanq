@@ -1,0 +1,744 @@
+{
+ "e_vigilancia_massa": {
+  "label": "Reconhecimento facial e vigilância eletrônica",
+  "peso": 3,
+  "dominio": "seguranca",
+  "pergunta": "Você concorda com o uso de reconhecimento facial e vigilância eletrônica em larga escala na segurança pública?",
+  "posturas": {
+   "C01": {
+    "postura": "favor",
+    "pagina": 15,
+    "texto": "Luz, câmara, prisão Vamos implantar o Muralha Brasileira - um sistema nacional de reconhecimento facial integrado a bancos de dados criminais, inspirado no Smart Sampa, da Prefeitura de São Paulo, e no Muralha Paulista, do Governo do Estado."
+   },
+   "C02": {
+    "postura": "favor",
+    "pagina": 67,
+    "texto": "Segurança pública sem discriminação Aperfeiçoar formação, protocolos de abordagem, videomonitoramento com Inteligência Artificial (estratégias de reconhecimento facial e uso de câmeras deverão considerar toda a diversidade brasileira, com auditoria permanente e medidas para treinar, identificar e reduzir vieses raciais e enfrentar o raci smo algorítmico), supervisão e responsabilização, protegendo simultaneamente cidadãos e policiais."
+   },
+   "C04": {
+    "postura": "favor",
+    "pagina": 13,
+    "texto": "Um novo sistema de drones e totens de denúncia transformará a reação ao crime em prevenção, com patrulhamento autônomo e reconhecimento facial em tempo real, integrado ao uso de dados genéticos e identificação facial para a resolução de crimes hediondos."
+   },
+   "C06": {
+    "postura": "favor",
+    "pagina": 188,
+    "texto": "• Reconhecimento facial (conforme a legislação vigente);"
+   },
+   "C07": {
+    "postura": "favor",
+    "pagina": 22,
+    "texto": "▪ Vigilância eletrônica contínua dos trechos críticos de fronteira, com sensoriamento remoto e apoio logístico das Forças Armadas."
+   },
+   "C08": {
+    "postura": "favor",
+    "pagina": 9,
+    "texto": "Drones e análise de imagens dentro do marco legal"
+   }
+  }
+ },
+ "e_ministerio_seguranca": {
+  "label": "Ministério da Segurança Pública",
+  "peso": 1,
+  "dominio": "seguranca",
+  "pergunta": "Você concorda com a criação de um ministério federal dedicado à segurança pública?",
+  "posturas": {
+   "C02": {
+    "postura": "favor",
+    "pagina": 16,
+    "texto": "Implantar o Ministério da Segurança Pública e o Sistema Integrado de Proteção à Soberania Nacional"
+   },
+   "C05": {
+    "postura": "favor",
+    "pagina": 30,
+    "texto": "Uma vez aprovada a PEC da Segurança Pública proposta pelo Executivo, criaremos o Ministério da Segurança Pública para coordenar, em articulação com estados e municípios, a execução das políticas nacionais de segurança pública no âmbito do Sistema Único de Segurança Pública (SUSP)."
+   },
+   "C06": {
+    "postura": "favor",
+    "pagina": 45,
+    "texto": "SEGURANÇA PÚBLICA 4.0 a) Integração das forças de segurança Recriação do Ministério da segurança pública."
+   },
+   "C10": {
+    "postura": "contra",
+    "pagina": 12,
+    "texto": "– Segurança dos Direitos no lugar da velha “Segurança Pública” A segurança pública será desmilitarizada e reorganizada sob o marco civil, com controle social substituindo uma política e um ministério de segurança pública para uma política de segurança dos direitos, com base na criminologia crítica e no acúmulo político e programático dos movimentos negros e populares."
+   }
+  }
+ },
+ "e_ensino_integral": {
+  "label": "Escola em tempo integral",
+  "peso": 2,
+  "dominio": "educacao",
+  "pergunta": "Você concorda com a ampliação da escola pública em tempo integral?",
+  "posturas": {
+   "C01": {
+    "postura": "favor",
+    "pagina": 35,
+    "texto": "Apoiamos a escola em tempo integral, para que a criança tenha mais tempo de aprendizado, reforço e atividades formativas, e não fique entregue à própria sorte no contraturno."
+   },
+   "C02": {
+    "postura": "favor",
+    "pagina": 39,
+    "texto": "Esporte e educação em todas as etapas Garantir educação física de qualidade, iniciação multiesportiva, jogos escolares e acesso a atividades no contraturno e na escola de tempo integral."
+   },
+   "C05": {
+    "postura": "favor",
+    "pagina": 31,
+    "texto": "A partir de 2026, com a inclusão, no Fundeb, do financiamento à educação em tempo integral, a expectativa é que a ampliação dessa modalidade se acelere, garantindo melhores condições de aprendizado para os estudantes."
+   },
+   "C06": {
+    "postura": "favor",
+    "pagina": 68,
+    "texto": "A EDUCAÇÃO COMO PRIORIDADE NACIONAL Não existe nação desenvolvida sem educação de excelência em tempo integral."
+   },
+   "C09": {
+    "postura": "favor",
+    "pagina": 28,
+    "texto": "Rede pública de cuidados: Universalização do acesso a creches e pré-escolas públicas e em tempo integral, lavanderias comunitárias e restaurantes populares para retirar das costas das mulheres o fardo do trabalho doméstico não pago."
+   },
+   "C11": {
+    "postura": "favor",
+    "pagina": 23,
+    "texto": "Creches e escolas públicas, gratuitas e em tempo integral para todas as crianças, como condição para a independência das mulheres Restaurantes populares e lavanderias públicas em todos os bairros Ampliação dos serviços públicos de cuidado (idosos, pessoas com necessidades especiais) retirando das mulheres essa sobrecarga."
+   }
+  }
+ },
+ "e_interoperabilidade_saude": {
+  "label": "Prontuário eletrônico integrado",
+  "peso": 2,
+  "dominio": "saude",
+  "pergunta": "Você concorda com a centralização de prontuários e exames em uma base nacional integrada?",
+  "posturas": {
+   "C01": {
+    "postura": "favor",
+    "pagina": 25,
+    "texto": "Saúde digital e prontuário eletrônico único seu histórico de saúde vai com você Todos os anos, milhares de brasileiros morrem de doenças que poderiam ter sido tratadas a tempo, porque a informação sobre a própria saúde está"
+   },
+   "C02": {
+    "postura": "favor",
+    "pagina": 2,
+    "texto": "A saúde preservará os princípios do SUS, mas mudará sua capacidade de entrega: cuidado preventivo, atendimento perto de casa, prontuário interoperável, fila transparente, especialista no tempo certo e hospitais remunerados por qualidade e resultado."
+   },
+   "C03": {
+    "postura": "favor",
+    "pagina": 57,
+    "texto": "Apesar de a maioria das unidades básicas já utilizarem o prontuário eletrônico, apenas uma pequena parte está conectada à rede nacional de dados, e o histórico do paciente se perde a cada unidade que ele procura."
+   },
+   "C04": {
+    "postura": "favor",
+    "pagina": 26,
+    "texto": "Outra ideia que buscaremos implementar, uma das mais arrojadas deste livro, é a integração do Programa Genomas Brasil ao Prontuário Eletrônico do SUS, cujo novo formato também delineamos aqui."
+   },
+   "C05": {
+    "postura": "favor",
+    "pagina": 35,
+    "texto": "Vamos acelerar os esforços na consolidação do prontuário único do cidadão, que já avança por meio da Rede Nacional de Dados em Saúde (RNDS)."
+   },
+   "C06": {
+    "postura": "favor",
+    "pagina": 44,
+    "texto": "Nossa prioridade será fortalecer sua gestão por meio da digitalização dos prontuários, integração dos sistemas, redução das filas, melhoria da eficiência administrativa e utilização de indicadores de desempenho para aprimorar continuamente os serviços prestados."
+   },
+   "C08": {
+    "postura": "favor",
+    "pagina": 11,
+    "texto": "Coordenação do cuidado e prontuário interoperável"
+   }
+  }
+ },
+ "e_desmilitarizacao": {
+  "label": "Desmilitarização das polícias",
+  "peso": 3,
+  "dominio": "seguranca",
+  "pergunta": "Você concorda com a transformação das polícias militares em forças civis de policiamento de proximidade?",
+  "posturas": {
+   "C09": {
+    "postura": "favor",
+    "pagina": 47,
+    "texto": "T oda pessoa tem o direito de viver sem medo da violência, de criar seus filhos em SEGURANÇA PÚBLICA E DESMILITARIZAÇÃO DAS POLÍCIAS paz, de circular com tranquilidade e de confiar que o Estado atuará para proteger sua vida e sua dignidade."
+   },
+   "C10": {
+    "postura": "favor",
+    "pagina": 6,
+    "texto": "O governo do Poder Popular agirá com rigor no combate ao genocídio da população negra, pondo fim à política de “guerra às drogas”, para o que se faz necessária a completa desmilitarização da segurança pública, com unificação das polícias e instituição do ciclo completo junto com a desvinculação das forças de segurança do exército, sob bases curriculares e formativas completamente reestruturadas numa lógica democrática."
+   },
+   "C11": {
+    "postura": "favor",
+    "pagina": 21,
+    "texto": "Contra a redução da maioridade penal Desmilitarização da pm e unificação das polícias sob controle dos trabalhadores Revogação da Lei Antidrogas e fim da privatização dos presídios."
+   }
+  }
+ },
+ "e_isolamento_liderancas": {
+  "label": "Isolamento de lideranças de facções",
+  "peso": 2,
+  "dominio": "seguranca",
+  "pergunta": "Você concorda com presídios federais de segurança máxima para isolar lideranças de facções e bloquear sua comunicação?",
+  "posturas": {
+   "C01": {
+    "postura": "favor",
+    "pagina": 14,
+    "texto": "Mais presídios, menos bandidos soltos O Brasil terá 5 novos presídios de segurança máxima no modelo adotado por El Salvador."
+   },
+   "C02": {
+    "postura": "favor",
+    "pagina": 18,
+    "texto": "Criar uma Rede Nacional de Presídios de Segurança Máxima, com padrões comuns para unidades federais e estaduais."
+   },
+   "C04": {
+    "postura": "favor",
+    "pagina": 13,
+    "texto": "As lideranças condenadas serão deslocadas a superpresídios de segurança máxima em regiões remotas, no modelo do CECOT salvadorenho, equipados com blindagem eletromagnética e biometria contínua, neutralizando o comando das facções a partir do cárcere."
+   },
+   "C07": {
+    "postura": "favor",
+    "pagina": 24,
+    "texto": "Unidade de grande escala erguida em prazo curto, separação física por facção, isolamento efetivo da liderança, bloqueio de comunicação com o exterior, controle rígido de circulação interna, visita restrita e monitorada."
+   },
+   "C08": {
+    "postura": "favor",
+    "pagina": 10,
+    "texto": "• Separação e gestão de lideranças criminosas conforme a lei"
+   }
+  }
+ },
+ "e_reforma_administrativa": {
+  "label": "Reforma administrativa e corte de ministérios",
+  "peso": 2,
+  "dominio": "estado",
+  "pergunta": "Você concorda com uma reforma administrativa que corte ministérios, cargos comissionados e supersalários?",
+  "posturas": {
+   "C01": {
+    "postura": "favor",
+    "pagina": 69,
+    "texto": "Isso inclui o corte de no mínimo 10 ministérios, a redução de cargos comissionados e de despesas administrativas e o combate aos penduricalhos e supersalários que corroem o orçamento, tudo com um objetivo: mais eficiência e racionalidade para servir à sociedade."
+   },
+   "C03": {
+    "postura": "favor",
+    "pagina": 39,
+    "texto": "Na gestão de pessoas, convivemos com um setor público desigual: mais de 300 tabelas salariais só na União, uma elite do funcionalismo com prêmio salarial de 96% em relação ao setor privado e supersalários acima do teto constitucional."
+   },
+   "C04": {
+    "postura": "favor",
+    "pagina": 24,
+    "texto": "Nesse sentido, propomos seis diretrizes principais: 1 aumento do investimento estatal em infraestrutura, condicionado à reforma administrativa e fiscal prévia;"
+   },
+   "C06": {
+    "postura": "favor",
+    "pagina": 37,
+    "texto": "Uma ampla reforma administrativa buscará simplificar estruturas, eliminar sobreposições de funções, estudos para redução de ministério s e criação do minist ério da segur ança para reduzir a criminalidade."
+   },
+   "C07": {
+    "postura": "favor",
+    "pagina": 7,
+    "texto": "Digitalizar Automatizar arrecadação, identificação e concessão de direito."
+   }
+  }
+ },
+ "e_simplificacao_fiscal": {
+  "label": "Simplificação tributária",
+  "peso": 2,
+  "dominio": "tributacao",
+  "pergunta": "Você concorda com a simplificação e a digitalização das obrigações tributárias para reduzir o custo de conformidade?",
+  "posturas": {
+   "C01": {
+    "postura": "favor",
+    "pagina": 30,
+    "texto": "O esforço de simplificação continuará: menos impostos, legislação unificada, desoneração das exportações e dos investimentos e redução das exceções, para que grupos parecidos paguem impostos parecidos."
+   },
+   "C02": {
+    "postura": "favor",
+    "pagina": 12,
+    "texto": "A carga tributária já é elevada e o sistema permanece complexo."
+   },
+   "C03": {
+    "postura": "favor",
+    "pagina": 17,
+    "texto": "O caminho para o Brasil transformar esse sonho em realidade está à nossa frente: derrubar os juros, libertar as famílias das dívidas, simplificar os impostos, destravar a infraestrutura, dar segurança a quem empreende e abrir o país ao mundo Assim, o Brasil terá as condições para atrair os investimentos das novas tecnologias e transformar nossas vantagens em riqueza."
+   },
+   "C06": {
+    "postura": "favor",
+    "pagina": 38,
+    "texto": "g) Compromisso com uma carga tributária menor ao fim da transição A simplificação do sistema tributário já está em curso e será conduzida com responsabilidade até sua implantação plena."
+   },
+   "C07": {
+    "postura": "favor",
+    "pagina": 11,
+    "texto": "A carga tributária das três esferas somadas foi de 32,40% do PIB, cerca de R$ 4,11 trilhões, conforme o Tesouro Nacional."
+   },
+   "C08": {
+    "postura": "favor",
+    "pagina": 5,
+    "texto": "• Simplificação regulatória"
+   }
+  }
+ },
+ "e_ia_soberania_digital": {
+  "label": "Inteligência artificial e soberania digital",
+  "peso": 2,
+  "dominio": "tecnologia",
+  "pergunta": "Você concorda que o Estado invista pesadamente em inteligência artificial e infraestrutura digital própria como política nacional?",
+  "posturas": {
+   "C01": {
+    "postura": "favor",
+    "pagina": 25,
+    "texto": "Inteligência artificial a serviço do cidadão o governo se antecipa à sua necessidade A inteligência artificial não precisa ser uma abstração distante."
+   },
+   "C02": {
+    "postura": "favor",
+    "pagina": 44,
+    "texto": "Digitalizar a indústria e ampliar o uso da Inteligência Artificial Acelerar a transformação digital da indústria, com prioridade para as pequenas e médias empresas, e fazer da inteligência artificial um vetor de produtividade."
+   },
+   "C04": {
+    "postura": "favor",
+    "pagina": 43,
+    "texto": "O Projeto Abaporu será um laboratório nacional de inteligência artificial com capital privado majoritário, governança independente e man dato concentrado na exploração das vantagens competitivas únicas do nosso país."
+   },
+   "C05": {
+    "postura": "favor",
+    "pagina": 82,
+    "texto": "tecnologias digitais e a inteligência artificial, baseada na soberania digital com proteção de dados, cooperação científica, transferência de tecnologias estratégicas e regulamentação democrática das plataformas digitais e da IA."
+   },
+   "C06": {
+    "postura": "favor",
+    "pagina": 46,
+    "texto": "c) Tecnologia e Inteligência Artificial A segurança pública será fortalecida pelo uso de câmeras inteligentes, reconhecimento de padrões, análise preditiva, drones, monitoramento integrado e inteligência artificial."
+   },
+   "C08": {
+    "postura": "favor",
+    "pagina": 12,
+    "texto": "IA como apoio clínico e administrativo com governança, auditoria e privacidade Indicadores sugeridos: tempo de espera;"
+   },
+   "C07": {
+    "postura": "favor",
+    "pagina": 47,
+    "texto": "Combater o desmatamento ilegal com inteligência, rastreabilidade da cadeia produtiva e responsabilização patrimonial, com o mesmo instrumental do Pilar 2 do Eixo 3."
+   }
+  }
+ },
+ "e_estatizacao_setores": {
+  "label": "Monopólio estatal em setores estratégicos",
+  "peso": 3,
+  "dominio": "economia",
+  "pergunta": "Você concorda com o monopólio estatal em setores estratégicos como energia, mineração e telecomunicações?",
+  "posturas": {
+   "C09": {
+    "postura": "favor",
+    "pagina": 60,
+    "texto": "Monopólio público em áreas estratégicas como geração de energia, mineração, produção e distribuição de combustíveis, indústria de defesa.combustíveis, indústria de defesa."
+   },
+   "C10": {
+    "postura": "favor",
+    "pagina": 13,
+    "texto": "Defendemos a forte regulação das Big Techs e redes sociais imperialistas e o monopólio estatal das telecomunicações, da telefonia e da internet, com incentivo à criação de cooperativas dos trabalhadores."
+   },
+   "C11": {
+    "postura": "favor",
+    "pagina": 28,
+    "texto": "Suspensão do pagamento da dívida pública aos grandes investidores e auditoria Fim a Lei de Responsabilidade Fiscal A estatização do sistema financeiro e centralização do crédito em um banco único é essencial para planejar a economia e garantir o controle de capitais."
+   },
+   "C12": {
+    "postura": "favor",
+    "pagina": 3,
+    "texto": "Nacionalização e estatização, sem indenização, de todas as reservas minerais, refinarias etc."
+   }
+  }
+ },
+ "e_auditoria_divida": {
+  "label": "Suspensão e auditoria da dívida pública",
+  "peso": 3,
+  "dominio": "fiscal",
+  "pergunta": "Você concorda com a suspensão do pagamento da dívida pública e uma auditoria dos seus contratos?",
+  "posturas": {
+   "C09": {
+    "postura": "favor",
+    "pagina": 14,
+    "texto": "De fato, segundo o próprio Banco Central, a cada 1% de aumento na Selic, o gasto com a dívida pública cresce R$ 55 bilhões."
+   },
+   "C10": {
+    "postura": "favor",
+    "pagina": 4,
+    "texto": "A dívida pública será reestruturada e seu passivo será substituído por títulos de longo prazo."
+   },
+   "C11": {
+    "postura": "favor",
+    "pagina": 28,
+    "texto": "Suspensão do pagamento da dívida pública aos grandes investidores e auditoria Fim a Lei de Responsabilidade Fiscal A estatização do sistema financeiro e centralização do crédito em um banco único é essencial para planejar a economia e garantir o controle de capitais."
+   },
+   "C12": {
+    "postura": "favor",
+    "pagina": 6,
+    "texto": "Cancelamento das dívidas externa e interna com os bancos e grandes credores"
+   }
+  }
+ },
+ "e_arcabouco_fiscal": {
+  "label": "Regras de teto de gastos",
+  "peso": 3,
+  "dominio": "fiscal",
+  "pergunta": "Você concorda com a manutenção de regras que limitam o crescimento do gasto público, como o arcabouço fiscal?",
+  "posturas": {
+   "C01": {
+    "postura": "favor",
+    "pagina": 71,
+    "texto": "Vamos construir o equilíbrio fiscal duradouro, entregando superávits primários e limitando o crédito subsidiado com recursos do Tesouro, mitigando pressões inflacionárias."
+   },
+   "C02": {
+    "postura": "favor",
+    "pagina": 13,
+    "texto": "COMPROMISSO: estabilizar a dívida, reconstruir superávits, proteger o investimento e reduzir o peso dos juros sem transferir a conta aos mais pobres e sem recorrer a aumentos permanentes de carga tributária."
+   },
+   "C03": {
+    "postura": "favor",
+    "pagina": 18,
+    "texto": "ROMEU ZEMA | 18 DERRUBAR UM DOS JUROS MAIS AL TOS DO MUNDO Criar condições para a queda da taxa de juros: Garantir a queda da curva de juros por meio de um choque fiscal para estabilizar a relação dívida/PIB, promovendo reformas e mantendo superávits primários que permitam o pagamento da dívida."
+   },
+   "C04": {
+    "postura": "favor",
+    "pagina": 9,
+    "texto": "CAPÍTULO I AJUSTE FISCAL UM REMÉDIO AMARGO O ajuste fiscal urgente para desatolar o Estado brasileiro O PROBLEMA EM NÚMEROS A RESPOSTA DA MISSÃO O PROBLEMA O governo brasileiro hoje não tem dinheiro para gastar."
+   },
+   "C07": {
+    "postura": "favor",
+    "pagina": 4,
+    "texto": "O compromisso que substitui isso é verificável: todo projeto enviado ao Congresso irá acompanhado de estimativa de impacto orçamentário e financeiro, na forma que a Lei de Responsabilidade Fiscal exige."
+   },
+   "C08": {
+    "postura": "favor",
+    "pagina": 6,
+    "texto": "• Revisão de gastos e subsídios"
+   },
+   "C09": {
+    "postura": "contra",
+    "pagina": 9,
+    "texto": "Fim do Arcabouço Fiscal garantindo o reajuste nos benefícios de aposentadoria e assistência social.de aposentadoria e assistência social."
+   },
+   "C10": {
+    "postura": "contra",
+    "pagina": 4,
+    "texto": "Agiremos para promover a revogação do Arcabouço Fiscal, da Lei de Responsabilidade Fiscal, da Lei das Estatais (13.303/2016), a retomada do Banco Central (fim da autonomia), desmontando todo fiscalismo e arcabouço jurídico e institucional neoliberal"
+   },
+   "C11": {
+    "postura": "contra",
+    "pagina": 4,
+    "texto": "Mantém o arcabouço fiscal e a agiotagem escandalosa do pagamento da dívida, preserva os lucros dos bilionários, concede subsídios às multinacionais e submete o país às exigências do imperialismo."
+   }
+  }
+ },
+ "e_controle_externo_stf": {
+  "label": "Limitação e controle do Supremo",
+  "peso": 2,
+  "dominio": "justica",
+  "pergunta": "Você concorda com medidas que limitem o poder do Supremo Tribunal Federal, como mandato para ministros ou controle externo?",
+  "posturas": {
+   "C01": {
+    "postura": "favor",
+    "pagina": 65,
+    "texto": "Fim das competências criminais originárias do STF, permitindo que parlamentares sejam julgados por instâncias inferiores, como o STJ ou os TRFs, para que exerçam seus mandatos com mais altivez, sem que isso represente qualquer contrapartida de impunidade."
+   },
+   "C03": {
+    "postura": "favor",
+    "pagina": 11,
+    "texto": "Dessa forma, apresentamos soluções em três eixos principais: LIMITAR O PODER DO SUPREMO Aumentar os requisitos para indicação de ministros do STF: Robustecer os requisitos mínimos para a indicação de ministros do STF, exigindo idade mínima de 60 anos e implementando mecanismos para evitar a vinculação política dos indicados, de modo que a ida ao Supremo seja a coroação de uma carreira jurídica exemplar."
+   },
+   "C06": {
+    "postura": "favor",
+    "pagina": 64,
+    "texto": "ª REFORMA: MANDATO DE OITO ANOS PARA OS MINISTROS DO STF Propomos estabelecer mandato de oito anos para os ministros do Supremo Tribunal Federal (STF), com critérios mais objetivos de composição e ingresso."
+   },
+   "C10": {
+    "postura": "favor",
+    "pagina": 4,
+    "texto": "O Judiciário também será democratizado, com mandatos por tempo definido para os Tribunais Regionais e Superiores."
+   },
+   "C12": {
+    "postura": "favor",
+    "pagina": 6,
+    "texto": "Fim do Supremo Tribunal Federal (STF);"
+   }
+  }
+ },
+ "e_reeleicao": {
+  "label": "Fim da reeleição no Executivo",
+  "peso": 2,
+  "dominio": "politica",
+  "pergunta": "Você concorda com o fim da reeleição consecutiva para presidente, governadores e prefeitos?",
+  "posturas": {
+   "C02": {
+    "postura": "favor",
+    "pagina": 8,
+    "texto": "Propor o fim da reeleição no Poder Executivo Encaminhar ao Congresso, no início do mandato, proposta de emenda à Constituição para extinguir a reeleição consecutiva para os cargos do Poder Executivo, com aplicação inclusive ao mandato presidencial iniciado em 2027."
+   }
+  }
+ },
+ "e_emendas_parlamentares": {
+  "label": "Controle das emendas parlamentares",
+  "peso": 2,
+  "dominio": "orcamento",
+  "pergunta": "Você concorda com a restrição e a rastreabilidade obrigatória das emendas parlamentares?",
+  "posturas": {
+   "C01": {
+    "postura": "favor",
+    "pagina": 69,
+    "texto": "No mesmo esforço de organizar melhor o orçamento, daremos mais transparência, controle e rastreabilidade às emendas parlamentares, priorizando sua alocação em políticas públicas prioritárias do Plano Plurianual, aprovado pelo parlamento."
+   },
+   "C02": {
+    "postura": "favor",
+    "pagina": 13,
+    "texto": "Reordenar as emendas parlamentares Pactuar com o Congresso critérios de planejamento, transparência, manutenção, custo total e resultado, reduzindo pulverização e impedindo que recursos escassos sejam destinados a objetos sem capacidade de operação."
+   },
+   "C03": {
+    "postura": "favor",
+    "pagina": 8,
+    "texto": "Ao mesmo tempo, a própria estrutura do Estado abriga distorções graves: hoje, mais de 53 mil servidores ativos e inativos recebem acima do teto constitucional, com custo anual estimado em cerca de R$ 20 bilhões, enquanto o orçamento público segue sendo desviado para privilégios e fins eleitorais, com bilhões em emendas parlamentares distribuídas sem transparência adequada."
+   },
+   "C05": {
+    "postura": "favor",
+    "pagina": 15,
+    "texto": "Propomos ainda enfrentar uma grave distorção na elaboração e gestão do orçamento federal – o atual sistema de emendas parlamentares."
+   },
+   "C07": {
+    "postura": "favor",
+    "pagina": 17,
+    "texto": "O que não muda de um dia para o outro Reforma tributária depende de emenda constitucional, e emenda depende do Congresso."
+   }
+  }
+ },
+ "e_fim_fundo_eleitoral": {
+  "label": "Fim do fundo eleitoral e partidário",
+  "peso": 2,
+  "dominio": "politica",
+  "pergunta": "Você concorda com o fim do financiamento público de partidos e campanhas?",
+  "posturas": {
+   "C03": {
+    "postura": "favor",
+    "pagina": 75,
+    "texto": "Extinguir o Fundo Partidário e o Fundo Eleitoral: Extinguir o Fundo Partidário e o Fundo Eleitoral, substituindo-os por um modelo de financiamento privado de campanhas, com doações permitidas por pessoas físicas e jurídicas, havendo critérios rígidos de transparência, rastreabilidade e limites que preservem a justa competição entre os candidatos."
+   },
+   "C04": {
+    "postura": "favor",
+    "pagina": 18,
+    "texto": "▪ Vínculo com o Financiamento Partidário: O repasse do Fundo Partidário e do Fundo Eleitoral passará a ser calculado com base na qualidade gerencial dos mandatários."
+   }
+  }
+ },
+ "e_maioridade_penal": {
+  "label": "Redução da maioridade penal",
+  "peso": 3,
+  "dominio": "seguranca",
+  "pergunta": "Você concorda com a redução da maioridade penal?",
+  "posturas": {
+   "C01": {
+    "postura": "favor",
+    "pagina": 13,
+    "texto": "O crime do menor não é menor O novo governo do Brasil vai apoiar e sancionar a redução da maioridade penal de 18 para 16 anos."
+   },
+   "C02": {
+    "postura": "favor",
+    "pagina": 20,
+    "texto": "Reduzir a maioridade penal e agravar o furto de celular"
+   },
+   "C03": {
+    "postura": "favor",
+    "pagina": 6,
+    "texto": "REDUZIR A MAIORIDADE PENAL E ENDURECER A LEGISLAÇÃO Reduzir a maioridade penal para 16 anos ou menos: Reduzir a maioridade penal para 16 anos, assegurando a responsabilização criminal de adolescentes a partir dessa idade e permitindo, excepcionalmente, a imputação penal de pessoas ainda mais jovens nos casos de crimes graves, como homicídio e estupro, ou reincidência."
+   }
+  }
+ },
+ "e_porte_arma_rural": {
+  "label": "Porte de arma no meio rural",
+  "peso": 2,
+  "dominio": "seguranca",
+  "pergunta": "Você concorda em ampliar o direito do produtor rural de portar arma em toda a extensão de sua propriedade?",
+  "posturas": {
+   "C03": {
+    "postura": "favor",
+    "pagina": 45,
+    "texto": "DEFENDER A PROPRIEDADE RURAL Garantir o porte de armas em toda a extensão da propriedade rural e o direito à autodefesa do produtor: Consolidar e ampliar o direito do produtor rural de portar arma em toda a extensão de sua propriedade, avançando para além da posse estendida já prevista em lei, com segurança jurídica para o exercício da legítima defesa e proteção efetiva do Estado contra invasões."
+   }
+  }
+ },
+ "e_homeschooling": {
+  "label": "Educação domiciliar",
+  "peso": 2,
+  "dominio": "educacao",
+  "pergunta": "Você concorda com a regulamentação do ensino domiciliar (homeschooling)?",
+  "posturas": {
+   "C03": {
+    "postura": "favor",
+    "pagina": 53,
+    "texto": "DAR ÀS FAMÍLIAS MAIS LIBERDADE DE ESCOLHA E PLURALIDADE DE MODELOS EDUCACIONAIS Aumentar as opções de modelos educacionais no país: Dar mais liberdade aos pais de escolher o modelo educacional de seus filhos, facilitando a formalização de parcerias com instituições comunitárias, filantrópicas e confessionais, avançando em uma agenda de parcerias com escolas conveniadas na educação, escolas cívico-militares e regulamentando o homeschooling."
+   }
+  }
+ },
+ "e_descriminalizacao_drogas": {
+  "label": "Descriminalização das drogas",
+  "peso": 3,
+  "dominio": "seguranca",
+  "pergunta": "Você concorda com a descriminalização das drogas e o fim da política de guerra às drogas?",
+  "posturas": {
+   "C10": {
+    "postura": "favor",
+    "pagina": 6,
+    "texto": "O governo do Poder Popular agirá com rigor no combate ao genocídio da população negra, pondo fim à política de “guerra às drogas”, para o que se faz necessária a completa desmilitarização da segurança pública, com unificação das polícias e instituição do ciclo completo junto com a desvinculação das forças de segurança do exército, sob bases curriculares e formativas completamente reestruturadas numa lógica democrática."
+   },
+   "C11": {
+    "postura": "favor",
+    "pagina": 19,
+    "texto": "Descriminalização das drogas e revogação da Lei Antidrogas, para efetivamente combater e acabar com o narcotráfico, junto com políticas públicas de prevenção, tratamento e redução de danos."
+   }
+  }
+ },
+ "e_aborto": {
+  "label": "Descriminalização do aborto",
+  "peso": 3,
+  "dominio": "saude",
+  "pergunta": "Você concorda com a descriminalização e a legalização do aborto?",
+  "posturas": {
+   "C09": {
+    "postura": "favor",
+    "pagina": 28,
+    "texto": "Descriminalização e legalização do aborto, primando pela vida das mulheres, tratando a saúde da mulher como questão de saúde pública.como questão de saúde pública."
+   },
+   "C01": {
+    "postura": "contra",
+    "pagina": 9,
+    "texto": "Nossos valores Nossa forma de governar permanece fiel a valores que consideramos inegociáveis e que sustentam a sociedade brasileira: o respeito à liberdade, à família, à vida desde a concepção, à propriedade privada, à democracia, à liberdade de expressão e à liberdade religiosa."
+   }
+  }
+ },
+ "e_cotas_trans": {
+  "label": "Cotas e políticas para pessoas trans",
+  "peso": 2,
+  "dominio": "social",
+  "pergunta": "Você concorda com cotas para pessoas trans em universidades e concursos públicos?",
+  "posturas": {
+   "C10": {
+    "postura": "favor",
+    "pagina": 12,
+    "texto": "Universalização das cotas universitárias para a população Trans."
+   },
+   "C11": {
+    "postura": "favor",
+    "pagina": 25,
+    "texto": "Cotas trans nas universidades e concursos públicos, rumo ao pleno emprego!"
+   }
+  }
+ },
+ "e_passe_livre": {
+  "label": "Tarifa zero no transporte público",
+  "peso": 2,
+  "dominio": "transporte",
+  "pergunta": "Você concorda com a tarifa zero no transporte público, custeada integralmente pelo Estado?",
+  "posturas": {
+   "C09": {
+    "postura": "favor",
+    "pagina": 52,
+    "texto": "Passe Livre para T oda a População: O transporte deve ser tratado como direito fundamental constitucional, e não como negócio."
+   },
+   "C10": {
+    "postura": "favor",
+    "pagina": 7,
+    "texto": "No transporte será implantada a tarifa zero com transporte 100% público em todo território nacional, acabando com a política de emendas parlamentares para contribuir com o custeio, processo que se complementará com ampliação da malha ferroviária e hidroviária."
+   },
+   "C11": {
+    "postura": "favor",
+    "pagina": 13,
+    "texto": "Hoje, setores empresariais passam a defender a tarifa zero como forma de ampliar subsídios estatais, garantindo lucros sem assegurar qualidade, expansão da rede ou condições dignas de trabalho."
+   },
+   "C12": {
+    "postura": "favor",
+    "pagina": 2,
+    "texto": "Passe livre nos transportes para desempregados e trabalhadores da economia informal."
+   }
+  }
+ },
+ "e_plebiscito_penitenciario": {
+  "label": "Plebiscito sobre o modelo penitenciário",
+  "peso": 2,
+  "dominio": "seguranca",
+  "pergunta": "Você concorda que o modelo penitenciário do país seja decidido por plebiscito popular?",
+  "posturas": {
+   "C07": {
+    "postura": "favor",
+    "pagina": 54,
+    "texto": "Portaria e convênio Dias 60 a 100 Caderno técnico do modelo penitenciário de segurança máxima publicado, com custo, projeto de referência e parecer de constitucionalidade, para instruir a consulta popular."
+   }
+  }
+ },
+ "e_fusao_municipios": {
+  "label": "Fusão compulsória de municípios",
+  "peso": 2,
+  "dominio": "federativo",
+  "pergunta": "Você concorda com a fusão compulsória de pequenos municípios economicamente inviáveis?",
+  "posturas": {
+   "C04": {
+    "postura": "favor",
+    "pagina": 15,
+    "texto": "Nessa linha, o governo da Missão vai promover a maior reorganização territorial da história republicana brasileira: a Grande Consolidação Municipal, programa federal de fusão de municípios inviáveis em unidades administrativas com escala suficiente para entregar serviços públicos de qualidade."
+   }
+  }
+ },
+ "e_unicameralismo": {
+  "label": "Parlamento unicameral e conselhos populares",
+  "peso": 3,
+  "dominio": "politica",
+  "pergunta": "Você concorda com a substituição do Congresso por um parlamento unicameral com conselhos populares deliberativos?",
+  "posturas": {
+   "C10": {
+    "postura": "favor",
+    "pagina": 4,
+    "texto": "Visando aprofundar as liberdades democráticas e implantar mecanismos de democracia direta, serão instituídos os Conselhos Populares, eleitos nos locais de trabalho, moradia e estudo, como instrumentos permanentes de participação popular."
+   }
+  }
+ },
+ "e_estatizacao_midia": {
+  "label": "Estatização de grupos de comunicação",
+  "peso": 3,
+  "dominio": "comunicacao",
+  "pergunta": "Você concorda com o cancelamento das concessões dos grandes grupos de mídia e a transferência de seus ativos ao controle de trabalhadores?",
+  "posturas": {
+   "C10": {
+    "postura": "favor",
+    "pagina": 4,
+    "texto": "O governo popular realizará a democratização dos meios de comunicação, com a transformação dos monopólios privados de comunicações em cooperativas dos trabalhadores e o fortalecimento da Empresa Brasileira de Comunicação (EBC), sob a direção de um Conselho de Trabalhadores."
+   },
+   "C12": {
+    "postura": "favor",
+    "pagina": 6,
+    "texto": "Acabar com a ditadura do \"PIG\" (\"Partido da Imprensa Golpista\"): cancelamento da concessão da Rede Globo (e dos demais grandes meios de comunicação) por crimes contra o País."
+   }
+  }
+ },
+ "e_saude_animal_unica": {
+  "label": "Saúde única (humana, animal e ambiental)",
+  "peso": 2,
+  "dominio": "saude",
+  "pergunta": "Você concorda que a política sanitária integre saúde humana, animal e ambiental num único sistema de vigilância?",
+  "posturas": {
+   "C07": {
+    "postura": "favor",
+    "pagina": 26,
+    "texto": "▪ Programa nacional permanente de vigilância de zoonoses, com financiamento federal pactuado e meta de cobertura por município, começando pelas áreas de maior incidência histórica."
+   }
+  }
+ },
+ "e_gestao_emocional_educacao": {
+  "label": "Educação socioemocional",
+  "peso": 2,
+  "dominio": "educacao",
+  "pergunta": "Você concorda que o ensino básico incorpore formalmente o desenvolvimento socioemocional ao currículo?",
+  "posturas": {
+   "C06": {
+    "postura": "favor",
+    "pagina": 194,
+    "texto": "Idealizador da Escola da Inteligência , o primeiro programa mundial de educação socioemocional, com mais de um milhão e meio de pessoas impactadas, entre"
+   },
+   "C02": {
+    "postura": "favor",
+    "pagina": 33,
+    "texto": "Adaptar o ensino à adolescência, fortalecer matemática e ciência e prevenir abandono por busca ativa e apoio socioemocional."
+   }
+  }
+ }
+}

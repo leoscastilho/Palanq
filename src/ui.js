@@ -149,9 +149,14 @@ function alertasSilencio(a) {
       out.push(`<b>${h(nomeDe(id))}</b> lidera com cobertura ${f2(s.cobertura)}: pronunciou-se sobre menos de 70% do peso do que você respondeu.`);
     // "quem vem atrás" é quem está logo atrás — citar alguém com afinidade 0,21
     // como referência de cobertura seria ruído, não informação.
-    const atras = a.ranking.ordem.filter((x) => !a.ranking.lideres.includes(x) &&
+    // Cobertura maior por perto — inclusive de outro líder empatado.
+    const perto = a.ranking.ordem.filter((x) => x !== id &&
       a.estados[x].afinidade >= s.afinidade - PROXIMIDADE &&
-      a.estados[x].cobertura !== null && s.cobertura !== null && a.estados[x].cobertura > s.cobertura);
+      a.estados[x].cobertura !== null && s.cobertura !== null && a.estados[x].cobertura > s.cobertura + 0.15);
+    const empatados = perto.filter((x) => a.ranking.lideres.includes(x));
+    const atras = perto.filter((x) => !a.ranking.lideres.includes(x));
+    if (empatados.length)
+      out.push(`<b>${h(nomeDe(id))}</b> está empatado com ${empatados.map((x) => h(nomeDe(x))).join(", ")}, que se pronunciaram sobre bem mais do que você respondeu (cobertura ${empatados.map((x) => f2(a.estados[x].cobertura)).join(", ")} contra ${f2(s.cobertura)}). Empatar com quem falou o dobro não é o mesmo empate.`);
     if (atras.length)
       out.push(`<b>${h(nomeDe(id))}</b> lidera com cobertura menor que ${atras.map((x) => h(nomeDe(x))).join(", ")}, logo atrás — falou menos e por isso errou menos.`);
   }

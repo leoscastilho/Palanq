@@ -1,0 +1,644 @@
+{
+ "e_privatizacao_estatais": {
+  "label": "Privatização de empresas estatais",
+  "peso": 3,
+  "dominio": "economia",
+  "pergunta": "Você concorda que o Estado venda as empresas estatais que controla hoje?",
+  "posturas": {
+   "C01": {
+    "postura": "favor",
+    "pagina": 70,
+    "texto": "E vamos retomar o Programa Nacional de Desestatização com critério, avaliando caso a caso onde a presença do Estado deixou de fazer sentido."
+   },
+   "C03": {
+    "postura": "favor",
+    "pagina": 15,
+    "texto": "RETIRAR O GOVERNO DE ONDE ELE NÃO É ESSENCIAL Privatizar todas as empresas estatais: Privatizar todas as empresas estatais para que o governo possa se concentrar naquilo que de fato lhe cabe, como segurança pública e educação, reduzindo o espaço para escândalos de corrupção e garantindo maior eficiência no uso dos recursos públicos e mais competição na economia brasileira."
+   },
+   "C09": {
+    "postura": "contra",
+    "pagina": 15,
+    "texto": "Mas, apesar disso, quando se trata de destinar mais verbas para moradia, saúde e educação, ou ser contra a privatização do patrimônio público, os analistas burgueses ficam escandalizados nos programas de TV com o “desperdício do dinheiro público”."
+   },
+   "C10": {
+    "postura": "contra",
+    "pagina": 10,
+    "texto": "Política de saneamento básico, tratamento de esgoto e energia para todos (com a reestatização da Eletrobras), visando acabar com o problema dos milhões de moradias sem banheiro, sem acesso a tratamento de esgoto e sem acesso à energia."
+   },
+   "C11": {
+    "postura": "contra",
+    "pagina": 2,
+    "texto": "Até mesmo o saneamento básico está sendo entregue aos grupos estrangeiros, num sentido inverso a diversos países da Europa que hoje estão sendo obrigados a reverterem uma série de privatizações do setor de saneamento."
+   },
+   "C12": {
+    "postura": "contra",
+    "pagina": 3,
+    "texto": "É preciso cancelar a venda do patrimônio do povo brasileiro e reestatizar todas as empresas entregues ao capital estrangeiro por verdadeiros lesa-pátria."
+   }
+  }
+ },
+ "e_ppp_servicos_publicos": {
+  "label": "PPPs e concessões em serviços públicos",
+  "peso": 3,
+  "dominio": "economia",
+  "pergunta": "Você concorda que serviços públicos como saúde, educação e infraestrutura sejam prestados por concessões e parcerias público-privadas?",
+  "posturas": {
+   "C02": {
+    "postura": "favor",
+    "pagina": 47,
+    "texto": "Ampliação das concessões e parcerias público-privadas Manter um calendário permanente e previsível de leilões (dando continuidade ao Programa de Parcerias em Investimentos, o PPI) em rodovias, ferrovias, portos, aeroportos, saneamento, energia e infraestrutura social, como hospitais, escolas e iluminação públ ica."
+   },
+   "C03": {
+    "postura": "favor",
+    "pagina": 15,
+    "texto": "Ampliar as parcerias público-privadas em todos os serviços públicos, inclusive saúde e educação: Aumentar o investimento privado no país por meio da ampliação das parcerias público-privadas em todos os setores da administração pública, inclusive em projetos que geram impacto direto na qualidade dos serviços e na vida da população, como saúde e educação."
+   },
+   "C04": {
+    "postura": "favor",
+    "pagina": 36,
+    "texto": "A governança desses polos opera por meio de Parcerias Público-Privadas (Lei 11.079/2004) e, quando cruzar fronteiras estaduais, de Consórcios Públicos (Lei 11.107/2005), com previsão de expansão para outros estados."
+   },
+   "C06": {
+    "postura": "favor",
+    "pagina": 50,
+    "texto": "Por isso, ampliaremos as concessões e as parcerias público-privadas, sempre com regras claras, segurança jurídica e rigorosa fiscalização."
+   },
+   "C08": {
+    "postura": "favor",
+    "pagina": 5,
+    "texto": "Concessões, PPPs e planejamento de longo prazo Indicadores sugeridos: custo logístico;"
+   },
+   "C09": {
+    "postura": "contra",
+    "pagina": 7,
+    "texto": "Privatizações e concessões transformam patrimônio coletivo em fonte privada de lucros."
+   },
+   "C10": {
+    "postura": "contra",
+    "pagina": 10,
+    "texto": "– Saúde 100% pública Expansão do sistema público de saúde, com a reversão das privatizações e revogação dos contratos de todas as OSs no setor, bem como estatização de todo o setor privado de saúde."
+   },
+   "C11": {
+    "postura": "contra",
+    "pagina": 13,
+    "texto": "Avançam processos de privatização e concessão de metrôs, estradas e ferrovias, aprofundando a mercantilização da mobilidade."
+   },
+   "C12": {
+    "postura": "contra",
+    "pagina": 3,
+    "texto": "Cancelar as privatizações e a destruição da economia nacional Todo o País sofre horrores por conta da entrega das empresas estatais ou do seu sucateamento, iniciada na famigerada era FHC."
+   }
+  }
+ },
+ "e_gestao_privada_saude": {
+  "label": "Organizações sociais e setor privado no SUS",
+  "peso": 3,
+  "dominio": "saude",
+  "pergunta": "Você concorda que o poder público entregue a gestão de serviços de saúde a organizações sociais e compre atendimento da rede privada?",
+  "posturas": {
+   "C01": {
+    "postura": "favor",
+    "pagina": 21,
+    "texto": "Também estruturaremos uma Rede Nacional de Cuidado, ampliando o apoio a idosos e pessoas com deficiência, com centros-dia e atendimento domiciliar em parcerias público privado com estados, municípios e organizações sociais."
+   },
+   "C02": {
+    "postura": "favor",
+    "pagina": 77,
+    "texto": "mobilizar hospitais públicos, filantrópicos, universitários e privados contratados quando necessário;"
+   },
+   "C03": {
+    "postura": "favor",
+    "pagina": 57,
+    "texto": "O setor privado, que tem estrutura e capacidade ociosa, é subutilizado para desafogar o sistema público e o excesso de regulação e a judicialização encarecem a saúde suplementar e empurram ainda mais pessoas para o SUS."
+   },
+   "C09": {
+    "postura": "contra",
+    "pagina": 20,
+    "texto": "Fortalecimento e Unificação do SUS 100% Estatal: Fim da entrega da gestão hospitalar a Organizações Sociais (OSs), fundações privadas e cooperativas empresariais."
+   },
+   "C10": {
+    "postura": "contra",
+    "pagina": 10,
+    "texto": "– Saúde 100% pública Expansão do sistema público de saúde, com a reversão das privatizações e revogação dos contratos de todas as OSs no setor, bem como estatização de todo o setor privado de saúde."
+   },
+   "C11": {
+    "postura": "contra",
+    "pagina": 11,
+    "texto": "Defesa do sus público, universal, gratuito e 100% estatal Fim da privatização e da gestão privada da saúde (OS, Fundações e PPP) Proibição da transferência de leitos públicos para planos privados Ampliação do investimento público em saúde, com prioridade para a atenção básica Cuidado com a saúde mental: ampliação do investimento público nos Centros de Atenção Psicossocial (Caps), no Serviço de Residências Terapêuticas e Centros de Convivência."
+   },
+   "C12": {
+    "postura": "contra",
+    "pagina": 5,
+    "texto": "Fim do lucro com a doença: saúde pública e gratuita, sob o controle dos trabalhadores A destruição sistemática do SUS e o avanço da privatização da saúde aumentam o sofrimento e as mortes, enquanto geram gigantescos lucros dos mercadores dos planos de saúde, hospitais e empresas."
+   }
+  }
+ },
+ "e_ans_planos_flexiveis": {
+  "label": "Desregulação dos planos de saúde",
+  "peso": 2,
+  "dominio": "saude",
+  "pergunta": "Você concorda em flexibilizar a regulação dos planos de saúde, permitindo produtos com cobertura reduzida e preço menor?",
+  "posturas": {
+   "C03": {
+    "postura": "favor",
+    "pagina": 61,
+    "texto": "Modernizar a regulação sobre planos de saúde para ampliar opções aos pacientes: Combater entraves excessivos do marco regulatório da ANS para permitir modelos diferenciados de planos de saúde, com variações de cobertura, segmentação de serviços e mecanismos de compartilhamento de custos flexíveis, ampliando a competição no setor e as opções disponíveis aos beneficiários, para que o aumento da concorrência se traduza em mais escolhas e melhor custo-benefício para os beneficiários."
+   },
+   "C09": {
+    "postura": "contra",
+    "pagina": 19,
+    "texto": "FIM DA EXPLORAÇÃO DOS PLANOS DE SAÚDE PRIV ADOS"
+   },
+   "C12": {
+    "postura": "contra",
+    "pagina": 5,
+    "texto": "Fim do lucro com a doença: saúde pública e gratuita, sob o controle dos trabalhadores A destruição sistemática do SUS e o avanço da privatização da saúde aumentam o sofrimento e as mortes, enquanto geram gigantescos lucros dos mercadores dos planos de saúde, hospitais e empresas."
+   }
+  }
+ },
+ "e_ensino_civico_militar": {
+  "label": "Escolas cívico-militares",
+  "peso": 3,
+  "dominio": "educacao",
+  "pergunta": "Você concorda com a ampliação das escolas cívico-militares na educação básica?",
+  "posturas": {
+   "C01": {
+    "postura": "favor",
+    "pagina": 35,
+    "texto": "Vamos ampliar as Escolas Cívico-Militares, que uniram disciplina e bom desempenho onde foram implantadas, e garantir atendimento ao aluno com altas habilidades, que hoje se perde por falta de estímulo: a política nacional que trata do tema é lei mas segue sem implementação, e nós vamos tirá-la do papel."
+   },
+   "C03": {
+    "postura": "favor",
+    "pagina": 53,
+    "texto": "DAR ÀS FAMÍLIAS MAIS LIBERDADE DE ESCOLHA E PLURALIDADE DE MODELOS EDUCACIONAIS Aumentar as opções de modelos educacionais no país: Dar mais liberdade aos pais de escolher o modelo educacional de seus filhos, facilitando a formalização de parcerias com instituições comunitárias, filantrópicas e confessionais, avançando em uma agenda de parcerias com escolas conveniadas na educação, escolas cívico-militares e regulamentando o homeschooling."
+   },
+   "C04": {
+    "postura": "favor",
+    "pagina": 32,
+    "texto": "A militarização das escolas deve ser vista como uma medida provisória, a fim de estancar a violência endêmica, em especial nas regiões com alta criminalidade no entorno."
+   },
+   "C10": {
+    "postura": "contra",
+    "pagina": 10,
+    "texto": "Fim das escolas cívico-militares."
+   },
+   "C11": {
+    "postura": "contra",
+    "pagina": 12,
+    "texto": "Não à militarização das escolas e a projetos de controle ideológico, como Escola Sem Partido!"
+   }
+  }
+ },
+ "e_negociado_sobre_legislado": {
+  "label": "Negociado sobre o legislado",
+  "peso": 3,
+  "dominio": "trabalho",
+  "pergunta": "Você concorda que empregado e empregador possam negociar condições de trabalho que prevaleçam sobre o que a lei estabelece?",
+  "posturas": {
+   "C01": {
+    "postura": "favor",
+    "pagina": 44,
+    "texto": "Por isso defendemos o negociado sobre o legislado, ou seja, permitir que trabalhador e empresa combinem diretamente as condições de trabalho que funcionam para os dois, dentro da lei, em vez de seguir uma regra única imposta a todos."
+   },
+   "C03": {
+    "postura": "favor",
+    "pagina": 23,
+    "texto": "Por isso, propomos enfrentar esses desafios em quatro eixos principais: CRIAR UMA AL TERNATIVA FLEXÍVEL À CL T Oferecer ao trabalhador e ao empregador um regime alternativo à CLT, com mais liberdade para negociarem as regras da contratação: Permitir que trabalhador e empregador ajustem o modelo de contratação às suas preferências e à realidade de cada atividade, com prevalência do negociado sobre o legislado."
+   },
+   "C05": {
+    "postura": "contra",
+    "pagina": 74,
+    "texto": "Vamos continuar combatendo a pejotização espúria, com fiscalização, regras que inibam migrações fraudulentas, equiparando responsabilidades administrativas e previdenciárias e fortalecendo a inspeção do trabalho."
+   },
+   "C10": {
+    "postura": "contra",
+    "pagina": 13,
+    "texto": "Fim das terceirizações, das privatizações e de todas as flexibilizações legais e tributárias em favor dos grandes capitalistas."
+   },
+   "C11": {
+    "postura": "contra",
+    "pagina": 8,
+    "texto": "Revogação da reforma trabalhista Revogação da lei das terceirizações."
+   },
+   "C12": {
+    "postura": "contra",
+    "pagina": 3,
+    "texto": "É preciso uma ampla mobilização que ponha fim à criminosa reforma trabalhista levada a cabo pelos golpistas e imponha o imediato restabelecimento de toda a CLT e o fim da terceirização, com direitos iguais para todos os trabalhadores."
+   }
+  }
+ },
+ "e_estabilidade_emprego": {
+  "label": "Estabilidade no emprego",
+  "peso": 2,
+  "dominio": "trabalho",
+  "pergunta": "Você concorda com a garantia legal de estabilidade no emprego após um período de vínculo?",
+  "posturas": {
+   "C10": {
+    "postura": "favor",
+    "pagina": 5,
+    "texto": "Resgataremos o direito à estabilidade no trabalho, em consonância com a convenção 158 da OIT, que combate a demissão sem justa causa."
+   },
+   "C12": {
+    "postura": "favor",
+    "pagina": 4,
+    "texto": "estabilidade imediata para todos os servidores contratados precariamente, com isonomia de direitos e salários"
+   },
+   "C03": {
+    "postura": "contra",
+    "pagina": 41,
+    "texto": "Modernizar os vínculos e formas de trabalho no setor público: Flexibilizar a composição da força de trabalho do setor público, reformulando os modelos de contratação existentes e instituindo novos vínculos adaptados a diferentes necessidades, como contratos por tempo determinado para projetos específicos, vínculos por tempo indeterminado sem estabilidade ampla e definição clara dos cargos típicos de estado."
+   }
+  }
+ },
+ "e_renda_sem_contrapartida": {
+  "label": "Transferência de renda sem contrapartida",
+  "peso": 3,
+  "dominio": "social",
+  "pergunta": "Você concorda com programas de transferência de renda pagos sem exigência de contrapartida em trabalho ou serviço comunitário?",
+  "posturas": {
+   "C02": {
+    "postura": "favor",
+    "pagina": 61,
+    "texto": "Transferência de renda com segurança e porta de saída Preservar os programas de transferência de renda, atualizar cadastros e combater fraude sem constranger beneficiários."
+   },
+   "C05": {
+    "postura": "favor",
+    "pagina": 58,
+    "texto": "Estas conquistas devem-se às políticas de garantia de renda e elevação do poder de compra das famílias, como o Bolsa Família e a política de valorização do saláriomínimo;"
+   },
+   "C12": {
+    "postura": "favor",
+    "pagina": 2,
+    "texto": "Auxílio emergencial de verdade, Bolsa Família de pelo menos um salário mínimo, enquanto durar a situação de caos atual"
+   },
+   "C04": {
+    "postura": "contra",
+    "pagina": 21,
+    "texto": "Traduzimos as ideias à nossa realidade política e adicionamos também outros temas de interesse, em especial o projeto de reforma do assistencialismo, com a substituição do Bolsa Família por um programa de Frentes Cidadãs que incentive a inserção dos beneficiários ao mercado formal de trabalho."
+   },
+   "C06": {
+    "postura": "contra",
+    "pagina": 98,
+    "texto": "f) O BOLSA FAMILIA O Bolsa família ama a pobreza, mas não ama os po bres, pois os perpetuam na pobreza."
+   }
+  }
+ },
+ "e_encarceramento_excecao": {
+  "label": "Suspensão de garantias como política penal",
+  "peso": 3,
+  "dominio": "seguranca",
+  "pergunta": "Você concorda com a adoção de um regime prisional de exceção, com encarceramento em larga escala e restrição de garantias individuais, como política de segurança?",
+  "posturas": {
+   "C04": {
+    "postura": "favor",
+    "pagina": 13,
+    "texto": "As lideranças condenadas serão deslocadas a superpresídios de segurança máxima em regiões remotas, no modelo do CECOT salvadorenho, equipados com blindagem eletromagnética e biometria contínua, neutralizando o comando das facções a partir do cárcere."
+   },
+   "C07": {
+    "postura": "contra",
+    "pagina": 24,
+    "texto": "Não pode ir a suspensão de garantias individuais."
+   },
+   "C09": {
+    "postura": "contra",
+    "pagina": 50,
+    "texto": "Enfrentamento do encarceramento em massa e do abuso da prisão provisória."
+   },
+   "C10": {
+    "postura": "contra",
+    "pagina": 12,
+    "texto": "Adoção das 16 medidas contra o encarceramento em massa do IBCCRIM."
+   },
+   "C11": {
+    "postura": "contra",
+    "pagina": 30,
+    "texto": "Da mesma forma, exigir o fim da matança e do encarceramento em massa da juventude pobre e negra, a desmilitarização da PM, a eleição de delegados pelas comunidades e o controle popular da segurança significa enfrentar o braço armado do Estado burguês nas periferias, assim como as relações entre repressão, milícias, tráfico, poder econômico e poder político."
+   }
+  }
+ },
+ "e_autonomia_banco_central": {
+  "label": "Autonomia do Banco Central",
+  "peso": 3,
+  "dominio": "economia",
+  "pergunta": "Você concorda que o Banco Central mantenha autonomia em relação ao governo para definir a política monetária?",
+  "posturas": {
+   "C02": {
+    "postura": "favor",
+    "pagina": 13,
+    "texto": "Coordenar políticas fiscal e monetária com respeito à autonomia do Banco Central Reduzir pressões fiscais sobre preços, aperfeiçoar comunicação e previsibilidade e criar condições para que inflação controlada, juros menores e desenvolvimento coexistam de forma sustentável."
+   },
+   "C09": {
+    "postura": "contra",
+    "pagina": 18,
+    "texto": "Fim da autonomia do Banco Central em relação ao governo e submissão da política monetária e cambial aos interesses do desenvolvimento social.interesses do desenvolvimento social."
+   },
+   "C10": {
+    "postura": "contra",
+    "pagina": 4,
+    "texto": "Agiremos para promover a revogação do Arcabouço Fiscal, da Lei de Responsabilidade Fiscal, da Lei das Estatais (13.303/2016), a retomada do Banco Central (fim da autonomia), desmontando todo fiscalismo e arcabouço jurídico e institucional neoliberal"
+   },
+   "C12": {
+    "postura": "contra",
+    "pagina": 6,
+    "texto": "Fim da “independência” do Banco Central"
+   }
+  }
+ },
+ "e_margem_equatorial": {
+  "label": "Exploração de novas fronteiras de petróleo",
+  "peso": 3,
+  "dominio": "energia",
+  "pergunta": "Você concorda com a abertura de novas fronteiras de exploração de petróleo, como a Margem Equatorial?",
+  "posturas": {
+   "C02": {
+    "postura": "favor",
+    "pagina": 37,
+    "texto": "Petróleo: pilar da matriz, motor da transição Assegurar previsibilidade na oferta de petróleo e derivados, orientando a avaliação de novas fronteiras pelo rigor ambiental, pela segurança operacional e pela melhor evidência técnica disponível."
+   },
+   "C03": {
+    "postura": "favor",
+    "pagina": 33,
+    "texto": "Abrir o setor de petróleo à concorrência: Desverticalizar a Petrobras, separando as operações de produção, refino, transporte e logística em diferentes empresas para permitir a entrada de novos concorrentes e ampliar a concorrência em igualdade de condições."
+   },
+   "C10": {
+    "postura": "contra",
+    "pagina": 14,
+    "texto": "No lugar da exploração da Margem Equatorial, defendemos pesquisas e buscas em outras áreas e uma melhor exploração do Pré-Sal, reduzindo os lucros e a extração desenfreada, que visam apenas beneficiar o grande capital, drenando nossas reservas e encarecendo produtos e serviços."
+   },
+   "C11": {
+    "postura": "contra",
+    "pagina": 15,
+    "texto": "Não à exploração do petróleo da Margem Equatorial!"
+   }
+  }
+ },
+ "e_reforma_agraria": {
+  "label": "Reforma agrária e desapropriação",
+  "peso": 3,
+  "dominio": "agrario",
+  "pergunta": "Você concorda com a continuidade da reforma agrária, com desapropriação de terras e criação de novos assentamentos?",
+  "posturas": {
+   "C05": {
+    "postura": "favor",
+    "pagina": 60,
+    "texto": "Continuaremos a avançar na política de reforma agrária, assentando as famílias acampadas, estruturando os assentamentos e ampliando o acesso ao crédito fundiário."
+   },
+   "C09": {
+    "postura": "favor",
+    "pagina": 11,
+    "texto": "Garantia de trabalho no campo com reforma agrária e incentivo estatal à produção camponesa e construção de cooperativas.cooperativas."
+   },
+   "C10": {
+    "postura": "favor",
+    "pagina": 6,
+    "texto": "No campo, realizaremos a reforma agrária popular, e todos os latifúndios improdutivos, áreas de trabalho escravo ou as fazendas que não cumpram sua função social serão desapropriados sem indenização."
+   },
+   "C11": {
+    "postura": "favor",
+    "pagina": 16,
+    "texto": "Por reforma agrária e por uma revolução na estrutura do campo brasileiro!"
+   },
+   "C12": {
+    "postura": "favor",
+    "pagina": 4,
+    "texto": "Reforma Agrária com expropriação do latifúndio e demarcação das terras dos índios O latifúndio mata de fome e de bala milhares de brasileiros."
+   },
+   "C04": {
+    "postura": "contra",
+    "pagina": 42,
+    "texto": "O governo da Missão não criará um único novo assentamento enquanto os já existentes não atingirem níveis de produtividade compatíveis com os exigidos dos demais imóveis rurais brasileiros."
+   }
+  }
+ },
+ "e_tributar_altas_rendas": {
+  "label": "Tributar grandes fortunas, lucros e heranças",
+  "peso": 3,
+  "dominio": "tributacao",
+  "pergunta": "Você concorda com a criação de impostos sobre grandes fortunas, heranças e lucros e dividendos, ainda que isso eleve a carga tributária total?",
+  "posturas": {
+   "C09": {
+    "postura": "favor",
+    "pagina": 17,
+    "texto": "instituição do imposto progressivo sobre grandes fortunas, lucros, dividendos e heranças dos bilionários."
+   },
+   "C10": {
+    "postura": "favor",
+    "pagina": 14,
+    "texto": "Reforma tributária: redução da tributação sobre o consumo, com cobrança progressiva de impostos, de acordo com o rendimento de cada contribuinte, além da criação de um imposto especial sobre lucros e dividendos, grandes fortunas, transações financeiras e heranças."
+   },
+   "C11": {
+    "postura": "favor",
+    "pagina": 27,
+    "texto": "Imposto progressivo sobre as verdadeiras grandes fortunas, o topo da pirâmide, os que possuem de R$ 1 bilhão para cima."
+   },
+   "C12": {
+    "postura": "favor",
+    "pagina": 3,
+    "texto": "Imposto sobre as grandes fortunas para garantir os recursos necessários para as aposentadorias e pensões"
+   },
+   "C01": {
+    "postura": "contra",
+    "pagina": 30,
+    "texto": "O esforço de simplificação continuará: menos impostos, legislação unificada, desoneração das exportações e dos investimentos e redução das exceções, para que grupos parecidos paguem impostos parecidos."
+   },
+   "C02": {
+    "postura": "contra",
+    "pagina": 13,
+    "texto": "COMPROMISSO: estabilizar a dívida, reconstruir superávits, proteger o investimento e reduzir o peso dos juros sem transferir a conta aos mais pobres e sem recorrer a aumentos permanentes de carga tributária."
+   },
+   "C03": {
+    "postura": "contra",
+    "pagina": 16,
+    "texto": "ROMEU ZEMA | 16 CORTAR OS IMPOSTOS QUE SUFOCAM O BRASILEIRO Definir metas de redução de impostos que forcem o corte efetivo de gastos: Fixar metas progressivas de redução da carga tributária que imponham os cortes de gastos necessários para atingi-las, invertendo a lógica atual em que o gasto define o imposto."
+   },
+   "C06": {
+    "postura": "contra",
+    "pagina": 38,
+    "texto": "g) Compromisso com uma carga tributária menor ao fim da transição A simplificação do sistema tributário já está em curso e será conduzida com responsabilidade até sua implantação plena."
+   }
+  }
+ },
+ "e_reforma_previdencia": {
+  "label": "Nova reforma da previdência",
+  "peso": 3,
+  "dominio": "previdencia",
+  "pergunta": "Você concorda com uma nova reforma da previdência que eleve automaticamente a idade mínima de aposentadoria conforme a expectativa de vida?",
+  "posturas": {
+   "C03": {
+    "postura": "favor",
+    "pagina": 14,
+    "texto": "Por isso, defendemos um plano de ação dividido em três eixos principais: REALIZAR UM CHOQUE FISCAL NOS GASTOS DO GOVERNO Reformar a Previdência de forma definitiva: Fazer uma Reforma da Previdência envolvendo estados e municípios, bem como a previdência rural e militar, criando também um mecanismo de reajuste automático da idade mínima para aposentadoria com base na expectativa de vida da população e na sustentabilidade do sistema previdenciário no longo prazo, para que as futuras gerações tenham segurança de que serão protegidas na velhice."
+   },
+   "C10": {
+    "postura": "contra",
+    "pagina": 13,
+    "texto": "– Uma política econômica anticapitalista Revogação de todas as contrarreformas neoliberais, como a previdenciária e a trabalhista e do Arcabouço Fiscal, bem como da autonomia do Banco Central."
+   },
+   "C11": {
+    "postura": "contra",
+    "pagina": 8,
+    "texto": "Revogação da reforma da Previdência Correção anual e atualização integral da tabela do Imposto de Renda para os assalariados Ao lutar por salário, jornada e direitos, os trabalhadores se deparam com os limites impostos pelas empresas, pelo mercado e pela lógica do lucro, o que abre o caminho para questionarmos quem controla a produção e a riqueza."
+   },
+   "C12": {
+    "postura": "contra",
+    "pagina": 3,
+    "texto": "Em defesa das aposentadorias e pensões confiscadas com a reforma da Previdência"
+   }
+  }
+ },
+ "e_alinhamento_brics": {
+  "label": "Permanência no BRICS",
+  "peso": 3,
+  "dominio": "externa",
+  "pergunta": "Você concorda que o Brasil permaneça no BRICS e mantenha uma política externa não alinhada às grandes potências ocidentais?",
+  "posturas": {
+   "C02": {
+    "postura": "favor",
+    "pagina": 74,
+    "texto": "Multilateralismo com resultado e aproximação com a OCDE Participar ativamente da ONU, da OMC, do G20 e do BRICS e retomar, com pragmatismo, o processo de aproximação com a OCDE."
+   },
+   "C05": {
+    "postura": "favor",
+    "pagina": 12,
+    "texto": "Alcançamos esses resultados tão positivos a despeito de um cenário internacional extremamente desafiador marcado por ataques ao multilateralismo e ao direito internacional e pela tentativa de imposição de uma ordem mundial predatória."
+   },
+   "C03": {
+    "postura": "contra",
+    "pagina": 37,
+    "texto": "ALINHAR O BRASIL ÀS DEMOCRACIAS E AOS MERCADOS GLOBAIS Sair do BRICS: Retirar o Brasil do BRICS de forma diplomática, preservando pragmaticamente as relações comerciais com todos os países do bloco e recusando qualquer direcionamento que comprometa valores constitucionais e democráticos do Brasil."
+   }
+  }
+ },
+ "e_licenciamento_simplificado": {
+  "label": "Licenciamento ambiental simplificado",
+  "peso": 3,
+  "dominio": "ambiental",
+  "pergunta": "Você concorda com a simplificação do licenciamento ambiental, com prazos fixos e ritos abreviados para acelerar obras e investimentos?",
+  "posturas": {
+   "C02": {
+    "postura": "favor",
+    "pagina": 47,
+    "texto": "Licenciamento ambiental com prazo e previsibilidade Dar ao licenciamento prazos definidos, procedimentos simplificados para projetos padronizados e de baixo impacto, e coordenação unificada para os projetos estruturantes."
+   },
+   "C03": {
+    "postura": "favor",
+    "pagina": 44,
+    "texto": "Reduzir entraves do licenciamento ambiental à atividade agropecuária: Garantir a implementação efetiva da Nova Lei do Licenciamento Ambiental, com prazos definidos e critérios técnicos objetivos, distinguindo os diferentes graus de impacto e simplificando o licenciamento de atividades de baixo risco, para atrair investimentos sem abrir mão da conservação ambiental."
+   },
+   "C04": {
+    "postura": "favor",
+    "pagina": 39,
+    "texto": "▪ Racionalização e simplificação dos processos de licenciamento ambiental para a exploração dos minérios, com base na nova Lei Geral do Licenciamento Ambiental (Lei nº 15.190/2025, em vigor desde fevereiro de 2026)."
+   },
+   "C06": {
+    "postura": "favor",
+    "pagina": 47,
+    "texto": "Estabeleceremos prazos máximos legais para o licenciamento ambiental, sanitário e de outorga de água, com procedimento digital integrado entre União, Estados e Municípios e classificação por nível de risco, concentrando a análise técnica detalhada nos empreendimentos de"
+   },
+   "C05": {
+    "postura": "contra",
+    "pagina": 9,
+    "texto": "A demolição planejada das estruturas ambientais legitimou o garimpo ilegal, a grilagem de terras públicas e o aumento recorde do desmatamento ilegal."
+   },
+   "C07": {
+    "postura": "contra",
+    "pagina": 48,
+    "texto": "e licenciamento ambiental pleno, com proibição de mercúrio, garantia financeira prévia para recuperação de área degradada e responsabilidade solidária de quem compra o minério."
+   }
+  }
+ },
+ "e_liberdade_irrestrita_redes": {
+  "label": "Liberdade de expressão irrestrita nas redes",
+  "peso": 3,
+  "dominio": "comunicacao",
+  "pergunta": "Você concorda que as plataformas digitais sejam proibidas de remover conteúdo e suspender perfis, deixando o debate correr sem moderação?",
+  "posturas": {
+   "C03": {
+    "postura": "favor",
+    "pagina": 74,
+    "texto": "Proibir a censura nas redes sociais: Vedar a exclusão de perfis e a moderação de opiniões pelas plataformas, inclusive por determinação judicial, substituindo esses mecanismos por procedimentos administrativos e judiciais que garantam direito à retratação e indenização, assegurando que o debate público no Brasil seja resolvido pela livre circulação de ideias e não pelo controle de juízes ou empresas de tecnologia."
+   },
+   "C12": {
+    "postura": "favor",
+    "pagina": 6,
+    "texto": "Fim de todo tipo de censura, liberdade irrestrita de expressão, na imprensa, na Internet, nas ruas etc."
+   },
+   "C10": {
+    "postura": "contra",
+    "pagina": 13,
+    "texto": "Defendemos a forte regulação das Big Techs e redes sociais imperialistas e o monopólio estatal das telecomunicações, da telefonia e da internet, com incentivo à criação de cooperativas dos trabalhadores."
+   },
+   "C11": {
+    "postura": "contra",
+    "pagina": 23,
+    "texto": "Combate às ideologias misóginas e responsabilização das plataformas que lucram com a disseminação do ódio contra as mulheres."
+   }
+  }
+ },
+ "e_mineracao_terras_indigenas": {
+  "label": "Mineração em terras indígenas",
+  "peso": 3,
+  "dominio": "agrario",
+  "pergunta": "Você concorda com a regulamentação da exploração mineral dentro de terras indígenas?",
+  "posturas": {
+   "C04": {
+    "postura": "favor",
+    "pagina": 42,
+    "texto": "e construir, no Congresso, o marco da exploração mineral controlada em terras indígenas, que abrigam reservas estratégicas de fosfato e potássio."
+   },
+   "C09": {
+    "postura": "contra",
+    "pagina": 35,
+    "texto": "Retirada de grileiros, garimpeiros, madeireiros e demais invasores."
+   },
+   "C10": {
+    "postura": "contra",
+    "pagina": 12,
+    "texto": "Demarcação e proteção integral de todos os territórios indígenas, que serão geridos por conselhos populares dos povos originários."
+   },
+   "C11": {
+    "postura": "contra",
+    "pagina": 15,
+    "texto": "Reparação e demarcação imediata das terras indígenas, titulação dos territórios quilombolas e proteção das comunidades tradicionais Reconhecimento e reparação das populações atingidas por crimes ambientais Garantia do direito à autodefesa de todas as comunidades e militantes que lutam em defesa do meio ambiente diante da violência patronal e estatal."
+   }
+  }
+ },
+ "e_reducao_jornada": {
+  "label": "Redução legal da jornada de trabalho",
+  "peso": 3,
+  "dominio": "trabalho",
+  "pergunta": "Você concorda com a redução da jornada semanal de trabalho por lei, sem redução de salário?",
+  "posturas": {
+   "C05": {
+    "postura": "favor",
+    "pagina": 75,
+    "texto": "Manteremos nossa ação junto ao Senado Federal para assegurar o fim da escala 6x1 e a redução da jornada de trabalho para 40 horas, sem redução salarial, nos termos aprovados na Câmara dos Deputados."
+   },
+   "C09": {
+    "postura": "favor",
+    "pagina": 10,
+    "texto": "A força da luta resultou na votação, em 27 de maio de 2026, na Câmara dos Deputados, uma proposta para o fim da escala 6x1, com redução da jornada máxima para 40 horas semanais, sem redução salarial, e dois dias de descanso."
+   },
+   "C10": {
+    "postura": "favor",
+    "pagina": 2,
+    "texto": "C) Propomos reformas estruturais nas áreas sociais e do mundo do trabalho, com a implantação da jornada de 30 horas semanais sem redução salarial e o fim da escala 6x1;"
+   },
+   "C11": {
+    "postura": "favor",
+    "pagina": 8,
+    "texto": "Fim da escala 6×1 sem redução de salários e direitos, sem pejotização e sem demissões Redução da jornada de trabalho para 36 horas, sem redução dos salários e sem flexibilização de direitos, rumo à escala móvel de horas de trabalho (pleno emprego)."
+   },
+   "C12": {
+    "postura": "favor",
+    "pagina": 2,
+    "texto": "• Redução da jornada de trabalho para o máximo de 7 horas por dia, 5 dias por semana (35 horas semanais): trabalhar menos para que todos trabalhem"
+   },
+   "C01": {
+    "postura": "contra",
+    "pagina": 45,
+    "texto": "Situações que se repetem na discussão de jornada – onde o governo deseja ignorar a prevalência do negociado sobre o legislado – ou na discussão de situações já pacificadas pela reforma trabalhista, aprovada há quase dez anos."
+   }
+  }
+ }
+}

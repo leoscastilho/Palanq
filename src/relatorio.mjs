@@ -73,11 +73,20 @@ export function montarRelatorio(corpus, analise, rastro = [], meta = {}) {
       alertas.push(`${nome(id)} lidera com cobertura ${cob(s.cobertura)}: pronunciou-se sobre menos de 70% do peso que você respondeu.`);
     // "quem vem atrás" (§18, regra 3) é quem está logo atrás — não o campo inteiro.
     // Citar alguém com afinidade 0,21 como referência de cobertura é ruído.
-    const atras = rk.ordem.filter((x) => !rk.lideres.includes(x))
+    // Quem tem cobertura maior e está por perto: tanto quem vem logo atrás quanto
+    // outro LÍDER empatado. Empatar com quem falou o dobro não é o mesmo empate.
+    const perto = rk.ordem
+      .filter((x) => x !== id)
       .filter((x) => estados[x].afinidade >= s.afinidade - PROXIMIDADE)
-      .filter((x) => estados[x].cobertura !== null && s.cobertura !== null && estados[x].cobertura > s.cobertura);
-    if (atras.length)
-      alertas.push(`${nome(id)} lidera com cobertura menor que ${atras.map(nome).join(", ")}, logo atrás — falou menos e por isso errou menos.`);
+      .filter((x) => estados[x].cobertura !== null && s.cobertura !== null && estados[x].cobertura > s.cobertura + 0.15);
+    if (perto.length) {
+      const empatados = perto.filter((x) => rk.lideres.includes(x));
+      const atras = perto.filter((x) => !rk.lideres.includes(x));
+      if (empatados.length)
+        alertas.push(`${nome(id)} está empatado com ${empatados.map(nome).join(", ")}, que se pronunciaram sobre bem mais do que você respondeu (cobertura ${empatados.map((x) => cob(estados[x].cobertura)).join(", ")} contra ${cob(s.cobertura)}). Empatar com quem falou o dobro não é o mesmo empate.`);
+      if (atras.length)
+        alertas.push(`${nome(id)} lidera com cobertura menor que ${atras.map(nome).join(", ")}, logo atrás — falou menos e por isso errou menos.`);
+    }
   }
   if (alertas.length) {
     L.push("");

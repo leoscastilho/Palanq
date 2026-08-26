@@ -4,34 +4,50 @@
   "autoria": {
     "redigidoPor": null,
     "independenteDoCorpus": false,
-    "data": null,
-    "nota": "ATENÇÃO — CIRCULARIDADE (§9.4/§25.2). Este perfil foi redigido por quem montou o corpus, olhando os eixos que o corpus tem. Ele mede se a curadoria é internamente consistente; NÃO mede se ela é justa. Um perfil escrito por um eleitor real, sem ver o corpus, vale mais do que os sete daqui somados."
+    "data": "2026-08-26",
+    "nota": "ATENÇÃO — CIRCULARIDADE (§9.4/§25.2). Estes perfis foram redigidos por quem montou o corpus, olhando os eixos que o corpus tem. Medem se a curadoria é internamente consistente; NÃO medem se ela é justa. Um perfil escrito por um eleitor real, sem ver o corpus, vale mais do que os sete daqui somados."
   },
-  "descricao": "Mesmas posições de P001, mas privatização para ele não é preferência: é inegociável. Marca o eixo como linha vermelha e declara que não considera candidatura que defenda transferir infraestrutura pública à iniciativa privada, qualquer que seja o resto do plano.",
+  "descricao": "Mesmas posições de P001, mas para ele privatizar não é preferência: é inegociável. Marca privatização de estatais e PPPs em serviços públicos como linhas vermelhas e declara que não considera candidatura que defenda qualquer uma das duas, por mais que concorde com ele no resto.",
   "respostas": {
+    "e_privatizacao_estatais": "discordo",
+    "e_ppp_servicos_publicos": "discordo",
     "e_gestao_privada_saude": "discordo",
-    "e_privatizacoes": "discordo",
+    "e_ans_planos_flexiveis": "discordo",
     "e_ensino_civico_militar": "discordo",
-    "e_flexibilizacao_trabalhista": "discordo",
-    "e_encarceramento_excecao": "discordo",
+    "e_negociado_sobre_legislado": "discordo",
+    "e_estabilidade_emprego": "concordo",
     "e_renda_sem_contrapartida": "concordo",
-    "e_estabilidade_emprego": "concordo"
+    "e_encarceramento_excecao": "discordo",
+    "e_autonomia_banco_central": "discordo",
+    "e_margem_equatorial": "discordo",
+    "e_reforma_agraria": "concordo",
+    "e_tributar_altas_rendas": "concordo",
+    "e_reforma_previdencia": "discordo",
+    "e_alinhamento_brics": "concordo",
+    "e_licenciamento_simplificado": "discordo",
+    "e_mineracao_terras_indigenas": "discordo",
+    "e_reducao_jornada": "concordo",
+    "e_ministerio_seguranca": "discordo",
+    "e_arcabouco_fiscal": "discordo",
+    "e_aborto": "concordo",
+    "e_liberdade_irrestrita_redes": "discordo"
   },
   "linhasVermelhas": [
-    "e_privatizacoes"
+    "e_privatizacao_estatais",
+    "e_ppp_servicos_publicos"
   ],
   "esperado": {
     "deveLiderar": [
       "C09",
       "C10",
-      "C11",
-      "C12"
+      "C11"
     ],
     "naoPodeLiderar": [
       "C01",
       "C02",
       "C03",
       "C04",
+      "C06",
       "C08"
     ],
     "deveEliminar": [
@@ -39,20 +55,20 @@
       "C02",
       "C03",
       "C04",
+      "C06",
       "C08"
     ],
     "deveEmpatar": [
       "C09",
       "C10",
-      "C11",
-      "C12"
+      "C11"
     ],
     "deveSinalizar": [],
     "semAssercao": [
       "C05",
-      "C06",
-      "C07"
+      "C07",
+      "C12"
     ]
   },
-  "justificativa": "Cinco candidaturas caem por linha vermelha e cada uma precisa sair do relatório COM a citação que a derrubou — eliminação silenciosa é o pior desfecho possível (§21). Repare no efeito colateral do §20 que o motor tem de diagnosticar: sem C01–C04 e C08, o eixo privatizações fica só com o lado \"contra\" e deixa de ser divisivo; o ranking passa a se apoiar em menos eixos."
+  "justificativa": "Metade do campo cai, e cada eliminação precisa sair do relatório COM o trecho do plano que a causou — eliminação silenciosa é o pior desfecho possível (§21). Repare também no efeito do §20 que o motor tem de diagnosticar: sem as seis eliminadas, eixos antes divisivos ficam com um lado só e saem da conta."
 }

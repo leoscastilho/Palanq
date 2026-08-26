@@ -187,8 +187,8 @@ console.log("\n§19 — seleção por ganho de discriminação");
 t("ordena por ganho = nFavor × nContra × peso, desempate lexicográfico", () => {
   const a = analisar(CORPUS, {});
   const q = proximaPergunta(CORPUS, {}, a.estados, {});
-  eq(q.id, "e_gestao_privada_saude", "7×4×3 = 84 é o maior ganho do corpus");
-  eq(q.separa.ganho, 84);
+  eq(q.id, "e_ppp_servicos_publicos", "5×4×3 = 60 é o maior ganho do corpus");
+  eq(q.separa.ganho, 60);
 });
 t("eixo com separacoes = 0 nunca entra na fase 1", () => {
   const a = analisar(FG, {});
@@ -306,10 +306,10 @@ t("fase 2 é inalcançável enquanto as travas 15/16 valerem", () => {
   eq([...fases].sort(), [1, 3, 4]);
 });
 t("contraste respondido com ns continua não investigado e vai ao relatório", () => {
-  const r = { e_encarceramento_excecao: "ns" };
+  const r = { e_liberdade_irrestrita_redes: "ns" };
   const a = analisar(CORPUS, r);
-  const alvo = a.contrastes.naoInvestigados.find((t) => t.discriminador === "e_encarceramento_excecao");
-  assert(alvo, "o contraste C01~C07 precisa continuar aberto");
+  const alvo = a.contrastes.naoInvestigados.find((t) => t.discriminador === "e_liberdade_irrestrita_redes");
+  assert(alvo, "os contrastes C10~C12 e C11~C12 precisam continuar abertos");
   eq(alvo.motivo, "resposta inconclusiva");
 });
 t("reclassificação após eliminação é diagnosticada, não silenciosa", () => {
@@ -358,7 +358,7 @@ t("sem fase complementar, o corpus real encerra em 9 perguntas", () => {
   while ((q = proximaPergunta(CORPUS, r, a.estados, {}))) {
     r = { ...r, [q.id]: q.tipo === "portao" ? "sim" : "concordo" }; a = analisar(CORPUS, r); n++;
   }
-  eq(n, 9, "7 eixos divisivos + 2 portões");
+  eq(n, 24, "22 eixos divisivos + 2 portões");
 });
 t("transicoes registra a mudança de ranking causada pela resposta", () => {
   const a0 = analisar(FG, {});
@@ -400,17 +400,22 @@ t("trava 11 — reflexiva não gera o falso positivo do B13", () => {
 t("travas de processo — verified exige curadoria revisada e citação literal", () => {
   const c = structuredClone(CORPUS); c.status = "verified";
   const e = validarCorpus(c).erros;
-  assert(e.some((x) => x.includes("responsavel")));
-  assert(e.some((x) => x.includes("resumo curatorial")));
+  assert(e.some((x) => x.includes("responsavel")), "verified exige responsável identificado");
+  assert(e.some((x) => x.includes("revisadoPor")), "verified exige revisão independente");
+  eq(validarCorpus(CORPUS).metricas.semCitacaoLiteral, 0,
+     "todas as posturas têm citação literal do plano registrado");
 });
 t("interpretações são contadas a cada build", () => {
-  eq(validarCorpus(CORPUS).metricas.interpretacoes, 3);
+  const m = validarCorpus(CORPUS).metricas;
+  eq(m.interpretacoes, 16);
+  assert(m.interpretacoes / m.posturas < 0.1,
+         "a superfície de inferência do curador precisa ficar abaixo de 10% das posturas");
 });
 
 console.log("\n§27 — relatório");
 
 t("o relatório traz todas as seções obrigatórias", () => {
-  const a = analisar(CORPUS, { e_privatizacoes: "concordo" });
+  const a = analisar(CORPUS, { e_privatizacao_estatais: "concordo" });
   const txt = montarRelatorio(CORPUS, a, [], { geradoEm: "FIXO" });
   for (const sec of ["RANKING", "POR QUE", "DIVERGÊNCIAS", "SILÊNCIOS", "ELIMINADOS",
                      "CONSENSO DO CAMPO", "NÃO INVESTIGADO", "PORTÕES", "SUAS RESPOSTAS",
@@ -421,7 +426,7 @@ t("o relatório traz todas as seções obrigatórias", () => {
   assert(txt.includes(CORPUS.curadoria.metodo.slice(0, 40)), "método de curadoria precisa ser impresso");
 });
 t("afinidade e cobertura nunca aparecem separadas", () => {
-  const a = analisar(CORPUS, { e_privatizacoes: "concordo", e_gestao_privada_saude: "concordo" });
+  const a = analisar(CORPUS, { e_privatizacao_estatais: "concordo", e_gestao_privada_saude: "concordo" });
   const txt = montarRelatorio(CORPUS, a, [], { geradoEm: "FIXO" });
   // Toda linha que exibe um VALOR de afinidade precisa exibir a cobertura ao lado.
   let n = 0;
@@ -438,18 +443,20 @@ t("líder com cobertura baixa é denunciado na seção do ranking", () => {
   const a = analisar(CORPUS, p6.respostas, new Set(p6.linhasVermelhas));
   const txt = montarRelatorio(CORPUS, a, [], { geradoEm: "FIXO" });
   assert(txt.includes("[SILÊNCIO — leia antes do ranking]"), "o alerta de cobertura precisa aparecer");
-  assert(txt.includes("falou menos e por isso errou menos"), "precisa nomear quem tem cobertura maior atrás");
+  assert(/falou menos e por isso errou menos|Empatar com quem falou o dobro/.test(txt),
+         "precisa nomear quem tem cobertura maior por perto — atrás ou empatado");
 });
 t("eliminado sai do relatório com a citação que o derrubou", () => {
   const p5 = JSON.parse(readFileSync(new URL("../perfis/P005.json", import.meta.url), "utf8"));
   const a = analisar(CORPUS, p5.respostas, new Set(p5.linhasVermelhas));
   const txt = montarRelatorio(CORPUS, a, [], { geradoEm: "FIXO" });
   assert(txt.includes("RANKING CONTRAFACTUAL"), "eliminação exige o contrafactual");
-  assert(txt.includes("Transferência de ativos e serviços de infraestrutura pública"),
-         "a citação que causou a eliminação precisa estar no relatório");
+  assert(txt.includes("Privatizar todas as empresas estatais"),
+         "o trecho literal do plano que causou a eliminação precisa estar no relatório");
+  assert(/p\. \d+ de \d+/.test(txt), "toda citação precisa carregar a página do plano");
 });
 t("interpretação do curador é exibida junto da citação", () => {
-  const a = analisar(CORPUS, { e_encarceramento_excecao: "concordo" });
+  const a = analisar(CORPUS, { e_tributar_altas_rendas: "concordo" });
   const txt = montarRelatorio(CORPUS, a, [], { geradoEm: "FIXO" });
   assert(txt.includes("[INTERPRETAÇÃO DO CURADOR"), "inferência não literal precisa ser visível e atacável");
 });
@@ -470,7 +477,7 @@ t("o rastro registra a mudança de ranking causada por cada resposta", () => {
   assert(/1\. \[eixo · fase 1\]/.test(txt));
 });
 t("montarRelatorio é determinístico quando geradoEm é fornecido", () => {
-  const a = analisar(CORPUS, { e_privatizacoes: "concordo" });
+  const a = analisar(CORPUS, { e_privatizacao_estatais: "concordo" });
   eq(montarRelatorio(CORPUS, a, [], { geradoEm: "X" }), montarRelatorio(CORPUS, a, [], { geradoEm: "X" }));
 });
 
@@ -493,11 +500,14 @@ t("perfis opostos elegem blocos opostos — checagem de corpus não degenerado",
 t("há ao menos um perfil adversarial (dois líderes dentro da margem)", () => {
   const adversariais = carregarPerfis().filter((p) => {
     const a = analisar(CORPUS, p.respostas, new Set(p.linhasVermelhas));
-    if (a.ranking.lideres.length !== 2) return false;
-    const [x, y] = a.ranking.lideres.map((id) => a.estados[id].afinidade);
-    return x !== y;
+    // fronteira = mais de um líder E afinidades distintas entre eles. Empate exato
+    // não é fronteira: nenhuma mutação pequena o desfaz de forma detectável.
+    if (a.ranking.lideres.length < 2) return false;
+    const f = a.ranking.lideres.map((id) => a.estados[id].afinidade);
+    return new Set(f).size > 1;
   });
-  assert(adversariais.length >= 2, `perfis de fronteira: ${adversariais.length} — §25.3 exige ao menos 1`);
+  assert(adversariais.length >= 2,
+         `perfis de fronteira: ${adversariais.length} — §25.3 exige ao menos 1, e este corpus sustenta 2`);
 });
 
 console.log(`\n${ok} ok · ${fail} falhas\n`);

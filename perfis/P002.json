@@ -4,24 +4,38 @@
   "autoria": {
     "redigidoPor": null,
     "independenteDoCorpus": false,
-    "data": null,
-    "nota": "ATENÇÃO — CIRCULARIDADE (§9.4/§25.2). Este perfil foi redigido por quem montou o corpus, olhando os eixos que o corpus tem. Ele mede se a curadoria é internamente consistente; NÃO mede se ela é justa. Um perfil escrito por um eleitor real, sem ver o corpus, vale mais do que os sete daqui somados."
+    "data": "2026-08-26",
+    "nota": "ATENÇÃO — CIRCULARIDADE (§9.4/§25.2). Estes perfis foram redigidos por quem montou o corpus, olhando os eixos que o corpus tem. Medem se a curadoria é internamente consistente; NÃO medem se ela é justa. Um perfil escrito por um eleitor real, sem ver o corpus, vale mais do que os sete daqui somados."
   },
-  "descricao": "Empresário de cidade média. Acha o Estado grande e lento, quer o serviço público entregue a quem executa melhor, aceita gestão privada no SUS se a fila anda. Na escola quer ordem e hierarquia. Na segurança, acha que o país precisa endurecer de verdade, inclusive no que outros chamam de exceção. Rejeita auxílio sem contrapartida e acha a estabilidade no emprego um privilégio.",
+  "descricao": "Dono de uma transportadora. Acha o Estado caro e lento, quer concessão e PPP em tudo que der, licenciamento com prazo, imposto menor e conta pública fechada. Na escola quer disciplina; na segurança, quer endurecimento de verdade. Desconfia de auxílio pago sem contrapartida e considera a estabilidade no serviço público um privilégio.",
   "respostas": {
+    "e_privatizacao_estatais": "concordo",
+    "e_ppp_servicos_publicos": "concordo",
     "e_gestao_privada_saude": "concordo",
-    "e_privatizacoes": "concordo",
+    "e_ans_planos_flexiveis": "concordo",
     "e_ensino_civico_militar": "concordo",
-    "e_flexibilizacao_trabalhista": "concordo",
-    "e_encarceramento_excecao": "concordo",
+    "e_negociado_sobre_legislado": "concordo",
+    "e_estabilidade_emprego": "discordo",
     "e_renda_sem_contrapartida": "discordo",
-    "e_estabilidade_emprego": "discordo"
+    "e_encarceramento_excecao": "concordo",
+    "e_autonomia_banco_central": "concordo",
+    "e_margem_equatorial": "concordo",
+    "e_reforma_agraria": "discordo",
+    "e_tributar_altas_rendas": "discordo",
+    "e_reforma_previdencia": "concordo",
+    "e_alinhamento_brics": "discordo",
+    "e_licenciamento_simplificado": "concordo",
+    "e_mineracao_terras_indigenas": "concordo",
+    "e_reducao_jornada": "discordo",
+    "e_ministerio_seguranca": "concordo",
+    "e_arcabouco_fiscal": "concordo",
+    "e_aborto": "discordo",
+    "e_liberdade_irrestrita_redes": "concordo"
   },
   "linhasVermelhas": [],
   "esperado": {
     "deveLiderar": [
       "C01",
-      "C02",
       "C03",
       "C04"
     ],
@@ -35,7 +49,6 @@
     "deveEliminar": [],
     "deveEmpatar": [
       "C01",
-      "C02",
       "C03",
       "C04",
       "C06",
@@ -43,8 +56,9 @@
     ],
     "deveSinalizar": [],
     "semAssercao": [
+      "C02",
       "C07"
     ]
   },
-  "justificativa": "Espelho de P001. Que P001 e P002 elejam blocos opostos é a checagem mínima de que o corpus não está degenerado. C06 e C08 entram no empate por silêncio (cobertura 0,15 e 0,30) e é por isso que aparecem em deveEmpatar mas não em deveLiderar como afirmação forte: o instrumento deve dizer que eles empatam por não terem falado."
+  "justificativa": "Espelho de P001: perfis opostos elegem blocos opostos, que é a checagem mínima de corpus não degenerado. Repare em quem entra no empate por silêncio: Clariana Barão fecha em 1,000 com cobertura 0,10 — o plano dela tem 15 páginas e declara posição em 7 eixos. O relatório precisa denunciar isso na mesma tela do resultado, ou o instrumento mente sem dizer nenhuma inverdade."
 }

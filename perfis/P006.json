@@ -1,45 +1,63 @@
 {
   "id": "P006",
-  "titulo": "Eleitor cujo líder quase não falou",
+  "titulo": "Eleitora de esquerda conservadora nos costumes",
   "autoria": {
     "redigidoPor": null,
     "independenteDoCorpus": false,
-    "data": null,
-    "nota": "ATENÇÃO — CIRCULARIDADE (§9.4/§25.2). Este perfil foi redigido por quem montou o corpus, olhando os eixos que o corpus tem. Ele mede se a curadoria é internamente consistente; NÃO mede se ela é justa. Um perfil escrito por um eleitor real, sem ver o corpus, vale mais do que os sete daqui somados."
+    "data": "2026-08-26",
+    "nota": "ATENÇÃO — CIRCULARIDADE (§9.4/§25.2). Estes perfis foram redigidos por quem montou o corpus, olhando os eixos que o corpus tem. Medem se a curadoria é internamente consistente; NÃO medem se ela é justa. Um perfil escrito por um eleitor real, sem ver o corpus, vale mais do que os sete daqui somados."
   },
-  "descricao": "É contra gestão privada no SUS e contra privatização, mas quer escola com disciplina e aceita endurecimento prisional de exceção. É contra flexibilizar o trabalho, contra auxílio sem contrapartida e a favor de estabilidade no emprego. Uma combinação que nenhum bloco cobre inteira.",
+  "descricao": "Auxiliar de limpeza, evangélica, sindicalizada. Na economia é de esquerda sem hesitar: quer tributar o topo, revogar o teto de gastos, reduzir jornada e reforma agrária. Nos costumes, não: é contra a legalização do aborto e acha que escola com disciplina e hierarquia faz bem para o filho dela.",
   "respostas": {
+    "e_privatizacao_estatais": "discordo",
+    "e_ppp_servicos_publicos": "discordo",
     "e_gestao_privada_saude": "discordo",
-    "e_privatizacoes": "discordo",
+    "e_ans_planos_flexiveis": "discordo",
     "e_ensino_civico_militar": "concordo",
-    "e_flexibilizacao_trabalhista": "discordo",
-    "e_encarceramento_excecao": "concordo",
-    "e_renda_sem_contrapartida": "discordo",
-    "e_estabilidade_emprego": "concordo"
+    "e_negociado_sobre_legislado": "discordo",
+    "e_estabilidade_emprego": "concordo",
+    "e_renda_sem_contrapartida": "concordo",
+    "e_encarceramento_excecao": "discordo",
+    "e_autonomia_banco_central": "discordo",
+    "e_margem_equatorial": "discordo",
+    "e_reforma_agraria": "concordo",
+    "e_tributar_altas_rendas": "concordo",
+    "e_reforma_previdencia": "discordo",
+    "e_alinhamento_brics": "concordo",
+    "e_licenciamento_simplificado": "discordo",
+    "e_mineracao_terras_indigenas": "discordo",
+    "e_reducao_jornada": "concordo",
+    "e_ministerio_seguranca": "discordo",
+    "e_arcabouco_fiscal": "discordo",
+    "e_aborto": "discordo",
+    "e_liberdade_irrestrita_redes": "discordo"
   },
   "linhasVermelhas": [],
   "esperado": {
     "deveLiderar": [
-      "C05"
+      "C05",
+      "C10"
     ],
     "naoPodeLiderar": [
-      "C06",
-      "C07",
-      "C08",
+      "C01",
       "C02",
-      "C03"
+      "C03",
+      "C04",
+      "C06",
+      "C08"
     ],
     "deveEliminar": [],
-    "deveEmpatar": [],
-    "deveSinalizar": [],
-    "semAssercao": [
-      "C01",
-      "C04",
-      "C09",
+    "deveEmpatar": [
+      "C05",
       "C10",
       "C11",
-      "C12"
+      "C12",
+      "C09"
+    ],
+    "deveSinalizar": [],
+    "semAssercao": [
+      "C07"
     ]
   },
-  "justificativa": "Lula lidera SOZINHO com afinidade 1,000 e cobertura 0,15: acertou o único eixo divisivo em que declarou posição. Logo atrás, Edmilson Costa tem 0,786 com cobertura 0,70. Este é o caso que o §18 existe para tornar impossível de ler errado — se o relatório mostrar 1,000 sem a cobertura ao lado, o instrumento mentiu sem dizer nenhuma inverdade."
+  "justificativa": "PERFIL ADVERSARIAL. Cinco líderes dentro da margem com afinidades DISTINTAS (0,947 a 0,914) — é o cenário mais sensível a mutação que este corpus produz: remover uma postura ou dobrar um peso reordena a lista. Perfis confortáveis, em que um candidato domina, não detectam nada (§25.3). Note o contraste de cobertura entre o líder (0,31) e quem vem logo atrás (0,77)."
 }

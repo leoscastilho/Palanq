@@ -7,87 +7,103 @@
 
 ## 1. Fontes
 
-| Arquivo | O que traz |
+**Toda postura deste corpus é um trecho literal de um plano de governo registrado,
+com número de página.** Os 12 PDFs estão em `source/propostas/` — 788 páginas ao
+todo — e cada citação exibida na interface linka o documento completo.
+
+| Arquivo | Papel |
 |---|---|
-| `source/propostas.md` | o que cada candidatura **defende**, por eixo temático |
-| `source/auxiliar.md`, Parte 1 | o que cada candidatura declara **combater** |
-| `source/auxiliar.md`, Parte 2 | propostas exclusivas que diferenciam candidaturas de plataforma quase idêntica |
+| `source/propostas/*.pdf` | **as fontes.** Os planos registrados, na íntegra |
+| `source/propostas.md` | resumo curatorial de terceiro. Usado só para **descobrir** quais temas investigar |
+| `source/auxiliar.md` | idem, para as oposições declaradas |
 
-**Nenhum dos dois é transcrição literal de plano registrado.** Os dois são resumos
-curatoriais escritos por terceiro. O §26 da especificação diz que paráfrase nunca
-substitui citação; aqui a paráfrase é tudo o que existe. A consequência está
-declarada em `corpus.curadoria.limitacoesConhecidas`, impressa em todo relatório e
-exibida na tela de abertura: **nenhuma postura deste corpus tem citação verbatim
-auditável.** Enquanto isso for verdade, `status` não pode ser `verified` — e o
-validador recusa a promoção (trava de processo).
+Os dois arquivos `.md` **não sustentam nenhuma postura**. Onde o plano original não
+disse o que o resumo afirmava, a postura foi removida — ver §2.
 
-Os planos integrais estão em `candidatos[].planoUrl` e prevalecem sobre qualquer
-resumo daqui. Eles aparecem na tela de resultado e no fim do relatório: a última
-coisa que o instrumento faz é mandar o usuário ler o documento original.
-
-### Inconsistência descartada
+### Inconsistências descartadas
 
 Os códigos entre colchetes de `source/auxiliar.md` são internamente contraditórios
-(`C03` designa Romeu Zema **e** Augusto Cury; Lula aparece como `C12`; Hertz Dias
-como `C06`). Foram descartados. Os IDs `C01`–`C12` deste corpus seguem estritamente
-a ordem de `source/propostas.md`.
+(`C03` designa Romeu Zema **e** Augusto Cury; Lula aparece como `C12`). Foram
+descartados. Os IDs `C01`–`C12` seguem a ordem de `source/propostas.md`.
 
-## 2. A decisão que mais afeta o resultado: quando registrar `"contra"`
+### Reprodutibilidade
 
-`source/propostas.md`, sozinho, só diz o que cada candidatura **apoia**. Um corpus
-construído só a partir dele teria `nContra = 0` em todos os eixos, `separacoes = 0`
-em todos os eixos, e o motor **não faria pergunta nenhuma** (§19). O `auxiliar.md`
-resolve isso ao registrar oposições declaradas.
+```bash
+python3 -m venv .venv && .venv/bin/pip install pypdf
+.venv/bin/python tools/extracao/indexar-pdfs.py   # PDFs → data/_paginas.json
+npm run citacoes                                  # → data/_posturas.*.json
+npm run corpus                                    # → data/corpus.json
+```
 
-A regra adotada:
+`tools/extracao/eixos-*.json` declara, para cada par (eixo, candidatura), o padrão
+que localiza o trecho. O extrator escolhe a melhor frase e grava página + texto.
+As saídas são versionadas, então o build em Node continua com **zero dependências**;
+o `pypdf` só é necessário para regerar a indexação.
 
-> Uma postura `"contra"` só é registrada quando **o texto declara rejeição àquela
-> política**. Quando a postura é inferida e não é literal, ela vai com o campo
-> `interpretacao` preenchido, e a interface exibe a inferência ao lado da citação,
-> em destaque, para que o usuário possa recusá-la.
+## 2. O que mudou ao confrontar os resumos com os planos originais
 
-**Silêncio nunca vira oposição.** Não citar vigilância eletrônica não faz ninguém
-contrário a ela. Isso violaria o §18 e seria o viés invisível que o §26 manda evitar.
+Três posturas que o resumo afirmava **não se sustentaram** e foram removidas ou
+reclassificadas:
 
-### As três inferências deste corpus
+- **Renan Missão em "privatizações".** O resumo o colocava a favor. O plano dele
+  critica explicitamente a fórmula de *"bastava privatizar tudo, retirar o Estado de
+  todas as áreas"* (p. 5) como simplismo da nova direita. Ele **usa** PPPs como
+  instrumento de governança (p. 36), mas não defende privatização como programa. O
+  eixo foi **partido em dois** — `e_privatizacao_estatais` e `e_ppp_servicos_publicos`
+  — e ele só aparece no segundo.
+- **"Encarceramento de exceção".** A postura mais frágil do corpus anterior era uma
+  inferência sobre Flávio Bolsonaro a partir de um rótulo curatorial. Nos planos
+  originais o eixo tem lados literais e mais nítidos: **Renan Missão** propõe
+  *"superpresídios de segurança máxima em regiões remotas, no modelo do CECOT
+  salvadorenho"* (p. 13), e **Wilson Grassi** separa explicitamente a engenharia
+  prisional, que quer importar, da suspensão de garantias, que recusa: *"Não pode ir
+  a suspensão de garantias individuais"* (p. 24), citando CIDH e Anistia
+  Internacional. A inferência sobre Flávio foi descartada.
+- **"Ensino integral"** era atribuído a quatro candidaturas; nos planos, seis
+  declaram apoio. Passou a não discriminante.
 
-São as únicas posturas com `interpretacao` preenchida, e o validador as conta a cada
-build. Em ordem de fragilidade crescente:
+## 3. Quando registrar `"contra"`
 
-1. **C11 · `e_renda_sem_contrapartida` = favor.** O plano propõe "benefício de um
-   salário mínimo para cidadãos sem colocação profissional" sem condicionalidade
-   declarada. A inferência é que ausência de contrapartida no desenho equivale a ser
-   favorável a benefício sem contrapartida. Razoável, não literal.
-2. **C01 · `e_flexibilizacao_trabalhista` = favor.** O plano declara "contrariedade
-   ativa à imposição de vínculos empregatícios rígidos" no trabalho por plataformas.
-   Inferir apoio à flexibilização a partir de oposição à rigidez é uma dupla negação
-   defensável, mas é inferência.
-3. **C01 · `e_encarceramento_excecao` = favor.** *A mais frágil deste corpus.* A
-   postura apoia-se no enunciado curatorial que rotula a proposta como
-   "Infraestrutura Prisional de Padrão Salvadorenho". O texto da proposta em si
-   descreve presídios federais de segurança máxima para lideranças de facções — não
-   encarceramento em massa nem suspensão de garantias. Quem discordar desta
-   inferência deve descartar o eixo inteiro; o outro lado dele (C07) é literal.
+> Uma postura `"contra"` só é registrada quando **o plano declara rejeição àquela
+> política por escrito**. Quando o sentido não é literal no trecho, a inferência vai
+> no campo `interpretacao`, e a interface a exibe ao lado da citação, em destaque,
+> para que o usuário possa recusá-la.
 
-### Oposições que **não** foram registradas, e por quê
+**Silêncio nunca vira oposição.** Não citar reconhecimento facial não faz ninguém
+contrário a ele. Isso violaria o §18 e é o viés invisível que o §26 manda evitar.
+
+### As 16 interpretações declaradas
+
+São 16 de 200 posturas (8%). O validador as conta a cada build e o teste falha se a
+proporção passar de 10%. As mais frágeis, em ordem:
+
+1. **`e_tributar_altas_rendas` — quatro candidaturas de direita marcadas `contra`.**
+   Nenhuma menciona imposto sobre grandes fortunas. A postura vem do compromisso
+   declarado de reduzir ou não aumentar a carga tributária total, que é incompatível
+   com criar um novo tributo sobre patrimônio. **É a inferência mais carregada do
+   corpus** — quem discorda dela deve descartar o eixo, que hoje tem o segundo maior
+   ganho de discriminação.
+2. **`e_mineracao_terras_indigenas` — três candidaturas `contra`.** Inferido da
+   exigência de retirada de garimpeiros e de proteção integral dos territórios.
+3. **`e_licenciamento_simplificado/C07`.** O plano de Grassi está **dos dois lados**:
+   defende licenciamento com prazo definido (p. 47) e licenciamento pleno com
+   garantia financeira prévia para mineração (p. 48). O corpus registrou o lado mais
+   restritivo, e isso está declarado.
+4. **`e_reducao_jornada/C01`.** O plano não rejeita reduzir jornada; rejeita que se
+   reduza por lei em vez de por negociação. A postura `contra` refere-se à redução
+   **legal**.
+
+### Oposições que **não** foram registradas
 
 | Par tentador | Por que ficou de fora |
 |---|---|
-| Simplificação fiscal × justiça fiscal progressiva | São ortogonais. Simplificar obrigações não diz nada sobre progressividade. Registrar oposição aqui seria projeção partidária. |
-| Vigilância tecnológica × desmilitarização | "Policiamento pautado estritamente em garantias fundamentais" sugere tensão com vigilância de massa, mas não a rejeita. Vigilância fica unilateral, com 4 mudos. |
-| Isolamento de lideranças × desmilitarização | Paradigmas diferentes, não negações. Foram mantidos como dois eixos unilaterais separados. |
-| Ensino disciplinar × estatização do ensino | Tratam de coisas distintas (disciplina × acesso). A oposição real ao ensino cívico-militar está declarada em `auxiliar.md` e foi essa que entrou. |
+| Simplificação fiscal × tributação progressiva | Ortogonais. Simplificar obrigação não diz nada sobre progressividade. |
+| Reconhecimento facial × desmilitarização | Nenhum plano da esquerda rejeita vigilância eletrônica por escrito. Vigilância ficou unilateral, com 7 mudos. |
+| Aborto — direita `contra` | Só o plano de Flávio Bolsonaro cita *"a vida desde a concepção"* entre seus valores. Os demais silenciam, e silêncio não é oposição. O eixo tem 1×1. |
 
-`e_privatizacoes` e `e_reestatizacao` **não** foram registrados como um eixo
-bidirecional único por acaso: a "Reestatização e Gestão da Dívida" é eixo próprio
-(unilateral), e a oposição a privatizações vem da rejeição explícita a "convênios com
-OSs, fundações de direito privado e privatização de hospitais, escolas, transportes e
-saneamento". Registrar os dois como espelhos um do outro seria contar a mesma
-informação duas vezes no score.
+## 4. Pesos
 
-## 3. Pesos
-
-Escala, escolhida pelo curador e **não presente nas fontes**:
+Escala escolhida pelo curador, **ausente dos planos**:
 
 | peso | significado |
 |---|---|
@@ -95,35 +111,39 @@ Escala, escolhida pelo curador e **não presente nas fontes**:
 | 2 | política setorial relevante, de efeito amplo mas delimitado |
 | 1 | mecanismo institucional específico |
 
-`node src/perfis.mjs mutacao` mede de quais pesos o resultado depende. Medição atual:
-dobrar o peso muda algum desfecho em **7 de 55 eixos** — exatamente os 7 divisivos.
-Os outros 48 são decorativos para o ranking (só afetam a afinidade com o campo).
-Isso quer dizer que **o ranking inteiro depende de 7 números escolhidos à mão**, e o
-relatório precisa continuar dizendo isso.
+`node src/perfis.mjs mutacao`, medido: dobrar o peso muda algum desfecho em **22 dos
+48 eixos** — exatamente os 22 divisivos. Os 26 restantes são decorativos para o
+ranking. **O ranking inteiro depende de 22 números escolhidos à mão.**
 
-## 4. Redação das perguntas
+## 5. Redação das perguntas
 
-`eixos[].formulacaoNeutra` é autoavaliação do curador e marcador de revisão, não
-garantia. "Você concorda com IPTU progressivo sobre imóveis ociosos?" e "você concorda
-em aumentar impostos sobre proprietários?" descrevem a mesma política e colhem
-respostas diferentes.
+`eixos[].formulacaoNeutra` é autoavaliação, não garantia. Três eixos estão marcados
+`false`, com `notaRedacao` obrigatória (o validador exige) e sinalização na interface
+e no relatório sempre que respondidos:
 
-Um eixo está marcado `formulacaoNeutra: false`, com `notaRedacao` obrigatória
-(o validador exige): **`e_encarceramento_excecao`**. Não foi possível descrever o
-mecanismo sem já qualificá-lo. O relatório e a interface sinalizam isso sempre que
-o eixo é respondido.
+- **`e_encarceramento_excecao`** — "suspensão de garantias" e "regime de exceção" são
+  os termos das próprias candidaturas dos dois lados, e ambos carregam juízo.
+- **`e_aborto`** — a formulação move a resposta mais do que em qualquer outro eixo. A
+  redação adotada usa os termos do lado favorável.
+- **`e_liberdade_irrestrita_redes`** — "censura" e "moderação" descrevem o mesmo ato
+  com sinais opostos, e cada lado usa uma das duas palavras.
 
-## 5. Desequilíbrio de citações
+## 6. Desequilíbrio de curadoria
 
-O validador emite aviso quando a contagem de citações de uma candidatura se afasta
-mais de 1,5 desvio da média. Estado atual: **Clariana Barão (C08) tem 6 citações
-contra média 13,0.** Ela vai ser penalizada por silêncio que pode ser da curadoria e
-não do plano — a fonte lhe dá menos linhas que às outras. A cobertura exibe isso, mas
-não conserta.
+O validador avisa quando a contagem de citações se afasta 1,5 desvio da média (16,7).
+Estado atual:
 
-## 6. O que este corpus não verifica
+- **Clariana Barão: 7 citações.** O plano tem 15 páginas e é um arcabouço genérico —
+  cada seção repete *"Transformar o eixo em uma agenda executável"* e lista tópicos,
+  não posições. Ela aparece com afinidade alta e **cobertura 0,10**, e é o caso que a
+  métrica de cobertura existe para tornar impossível de ler errado.
+- **Edmilson Costa: 26 citações.** Programa curto e extremamente denso em posições
+  declaradas.
 
-Rode os relatórios; eles são gerados por máquina e priorizados:
+Nos dois casos a diferença é do documento, não da curadoria — mas o instrumento não
+tem como provar isso, e por isso o aviso permanece.
+
+## 7. O que este corpus não verifica
 
 ```bash
 node src/perfis.mjs cobertura
@@ -132,24 +152,29 @@ node src/perfis.mjs mutacao
 
 Estado atual, medido:
 
-- **116 de 156 posturas sobrevivem à mutação** — podem ser apagadas do corpus sem que
-  nenhum perfil de referência acuse. Todas são de eixos não discriminantes, que os
+- **87 de 200 posturas sobrevivem à mutação** (56% cobertas, contra 26% na versão
+  0.1.0). As sobreviventes são quase todas de eixos não discriminantes, que os
   perfis não exercitam.
-- **2 de 4 contrastes** não são sinalizados por nenhum perfil (`C01~C05`, `C03~C10`).
-- **48 de 55 eixos** não são respondidos por nenhum perfil.
+- **3 de 6 contrastes** não são sinalizados por nenhum perfil.
+- **2 candidaturas** — Caiado e Grassi — nenhum perfil coloca na liderança.
+- **26 de 48 eixos** nenhum perfil responde.
 
 Cada linha acima é tarefa de curadoria, não defeito do motor.
 
-## 7. A regra que a automação não pode quebrar
+## 8. A regra que a automação não pode quebrar
+
+A extração de citações é automatizada; a **decisão de qual postura existe** não é.
+Cada par (eixo, candidatura) foi lido antes de entrar no `eixos-*.json`.
 
 Perfis de referência são escritos por **humano**, e os sete daqui **não são
-independentes do corpus** — foram redigidos por quem montou os eixos. Eles medem se a
-curadoria é internamente consistente; **não medem se ela é justa.** O executor emite
-esse aviso a cada execução, por perfil, e não há como desligá-lo.
+independentes do corpus**. Medem se a curadoria é internamente consistente; **não
+medem se ela é justa.** O executor emite esse aviso a cada execução, por perfil, e não
+há como desligá-lo.
 
 Um perfil gerado a partir do corpus deriva as respostas dos mesmos critérios que
 deveria testar: a asserção vira "o motor concorda com o corpus", verdadeira por
 construção. Isso é pior que ausência de teste, porque **parece cobertura**.
 
-Uso legítimo de automação: apontar *onde* falta perfil. Nunca escrever o par
+Uso legítimo de automação: apontar *onde* falta perfil, e localizar o trecho de um
+plano depois que um humano decidiu que a postura existe. Nunca escrever o par
 descrição + respostas.

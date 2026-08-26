@@ -1,11 +1,15 @@
 {
   "name": "match-presidenciaveis",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "description": "Compara posições declaradas pelo usuário com posições declaradas em planos de governo. Não recomenda voto.",
   "type": "module",
-  "engines": { "node": ">=18" },
+  "engines": {
+    "node": ">=18"
+  },
   "scripts": {
+    "indexar": "python3 tools/extracao/indexar-pdfs.py",
+    "citacoes": "python3 tools/extracao/extrair-citacoes.py tools/extracao/eixos-divisivos.json data/_posturas.div.json && python3 tools/extracao/extrair-citacoes.py tools/extracao/eixos-nao-discriminantes.json data/_posturas.uni.json",
     "corpus": "node tools/gerar-corpus.mjs && node tools/gerar-perfis.mjs",
     "validate": "node tools/validate.mjs",
     "test": "node src/motor.test.mjs && node src/perfis.mjs",

@@ -21,6 +21,16 @@ jobs:
       - uses: actions/setup-node@v4
         with: { node-version: "20" }
 
+      # As citações são extraídas dos PDFs por um passo em Python cuja saída é
+      # versionada (data/_posturas.*.json). A CI confere que o corpus versionado
+      # corresponde a essa extração — se alguém editar corpus.json à mão, falha.
+      - name: corpus corresponde à extração versionada
+        run: |
+          node tools/gerar-corpus.mjs
+          node tools/gerar-perfis.mjs
+          git diff --exit-code -- data/corpus.json perfis/ \
+            || (echo "::error::data/corpus.json ou perfis/ divergem das fontes — rode 'npm run corpus' e faça commit" && exit 1)
+
       # Corpus inconsistente não é publicável. Esta etapa bloqueia o deploy.
       - name: validar corpus
         run: npm run validate

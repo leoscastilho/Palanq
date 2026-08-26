@@ -1,52 +1,73 @@
 {
   "id": "P003",
-  "titulo": "Eleitor de fronteira entre Flávio Bolsonaro e Romeu Zema",
+  "titulo": "Eleitor de esquerda sem posição sobre regulação das redes",
   "autoria": {
     "redigidoPor": null,
     "independenteDoCorpus": false,
-    "data": null,
-    "nota": "ATENÇÃO — CIRCULARIDADE (§9.4/§25.2). Este perfil foi redigido por quem montou o corpus, olhando os eixos que o corpus tem. Ele mede se a curadoria é internamente consistente; NÃO mede se ela é justa. Um perfil escrito por um eleitor real, sem ver o corpus, vale mais do que os sete daqui somados."
+    "data": "2026-08-26",
+    "nota": "ATENÇÃO — CIRCULARIDADE (§9.4/§25.2). Estes perfis foram redigidos por quem montou o corpus, olhando os eixos que o corpus tem. Medem se a curadoria é internamente consistente; NÃO medem se ela é justa. Um perfil escrito por um eleitor real, sem ver o corpus, vale mais do que os sete daqui somados."
   },
-  "descricao": "Concorda com privatizar e com escola disciplinar, aceita a flexibilização do trabalho em plataformas, mas não quer gestão privada dentro do SUS e é contra estabilidade no emprego. Sobre encarceramento de exceção e sobre auxílio com contrapartida, não tem posição formada e diz que não sabe.",
+  "descricao": "Mesmo eleitor de P001 em tudo, com uma exceção: sobre obrigar as plataformas a remover conteúdo, não tem posição. Acha que desinformação mata, e também que dar a uma empresa o poder de decidir o que pode ser dito é perigoso. Responde que não sabe.",
   "respostas": {
+    "e_privatizacao_estatais": "discordo",
+    "e_ppp_servicos_publicos": "discordo",
     "e_gestao_privada_saude": "discordo",
-    "e_privatizacoes": "concordo",
-    "e_ensino_civico_militar": "concordo",
-    "e_flexibilizacao_trabalhista": "concordo",
-    "e_encarceramento_excecao": "ns",
-    "e_renda_sem_contrapartida": "ns",
-    "e_estabilidade_emprego": "discordo"
+    "e_ans_planos_flexiveis": "discordo",
+    "e_ensino_civico_militar": "discordo",
+    "e_negociado_sobre_legislado": "discordo",
+    "e_estabilidade_emprego": "concordo",
+    "e_renda_sem_contrapartida": "concordo",
+    "e_encarceramento_excecao": "discordo",
+    "e_autonomia_banco_central": "discordo",
+    "e_margem_equatorial": "discordo",
+    "e_reforma_agraria": "concordo",
+    "e_tributar_altas_rendas": "concordo",
+    "e_reforma_previdencia": "discordo",
+    "e_alinhamento_brics": "concordo",
+    "e_licenciamento_simplificado": "discordo",
+    "e_mineracao_terras_indigenas": "discordo",
+    "e_reducao_jornada": "concordo",
+    "e_ministerio_seguranca": "discordo",
+    "e_arcabouco_fiscal": "discordo",
+    "e_aborto": "concordo"
   },
   "linhasVermelhas": [],
   "esperado": {
     "deveLiderar": [
-      "C01",
-      "C03"
-    ],
-    "naoPodeLiderar": [
-      "C02",
-      "C04",
-      "C05",
       "C09",
       "C10",
       "C11",
       "C12"
     ],
+    "naoPodeLiderar": [
+      "C01",
+      "C02",
+      "C03",
+      "C04"
+    ],
     "deveEliminar": [],
     "deveEmpatar": [
-      "C01",
-      "C03"
+      "C09",
+      "C10",
+      "C11",
+      "C12"
     ],
     "deveSinalizar": [
       [
-        "C01",
-        "C07"
+        "C10",
+        "C12"
+      ],
+      [
+        "C11",
+        "C12"
       ]
     ],
     "semAssercao": [
+      "C05",
       "C06",
+      "C07",
       "C08"
     ]
   },
-  "justificativa": "PERFIL ADVERSARIAL. C01 (0,750) e C03 (0,727) ficam a 0,023 um do outro — dentro da margem de 0,05, e por isso empatados. É aqui que remover uma postura ou dobrar um peso vira mudança de desfecho; perfis confortáveis não detectam nada (§25.3). O contraste C01~C07 tem de aparecer como não investigado: o eleitor respondeu \"não sei\" justamente no eixo que os separa."
+  "justificativa": "PERFIL DA LACUNA. O desfecho correto aqui não é eleger ninguém — é dizer o que falta. As quatro candidaturas do bloco empatam em 1,000, e o único eixo em que PCB e PSTU divergem do PCO é justamente o que ele deixou em branco. Se o instrumento fechar sem destacar os dois contrastes, induziu fechamento prematuro."
 }

@@ -1,51 +1,63 @@
 {
   "id": "P007",
-  "titulo": "Eleitora de fronteira entre blocos opostos",
+  "titulo": "Eleitor de direita fora do consenso do próprio bloco",
   "autoria": {
     "redigidoPor": null,
     "independenteDoCorpus": false,
-    "data": null,
-    "nota": "ATENÇÃO — CIRCULARIDADE (§9.4/§25.2). Este perfil foi redigido por quem montou o corpus, olhando os eixos que o corpus tem. Ele mede se a curadoria é internamente consistente; NÃO mede se ela é justa. Um perfil escrito por um eleitor real, sem ver o corpus, vale mais do que os sete daqui somados."
+    "data": "2026-08-26",
+    "nota": "ATENÇÃO — CIRCULARIDADE (§9.4/§25.2). Estes perfis foram redigidos por quem montou o corpus, olhando os eixos que o corpus tem. Medem se a curadoria é internamente consistente; NÃO medem se ela é justa. Um perfil escrito por um eleitor real, sem ver o corpus, vale mais do que os sete daqui somados."
   },
-  "descricao": "Quer privatização e é contra gestão privada no SUS; é contra escola disciplinar mas a favor da flexibilização do trabalho e do endurecimento prisional; a favor de estabilidade no emprego. Um eleitor que nenhum dos dois blocos representa, e que fica a meio caminho dos dois.",
+  "descricao": "Delegado aposentado. Concorda com quase toda a agenda econômica de mercado, mas não com entregar serviço público a concessionária — viu de perto como funciona — nem com militarizar escola, que para ele confunde os papéis da polícia e do professor.",
   "respostas": {
-    "e_gestao_privada_saude": "discordo",
-    "e_privatizacoes": "concordo",
+    "e_privatizacao_estatais": "concordo",
+    "e_ppp_servicos_publicos": "discordo",
+    "e_gestao_privada_saude": "concordo",
+    "e_ans_planos_flexiveis": "concordo",
     "e_ensino_civico_militar": "discordo",
-    "e_flexibilizacao_trabalhista": "concordo",
+    "e_negociado_sobre_legislado": "concordo",
+    "e_estabilidade_emprego": "discordo",
+    "e_renda_sem_contrapartida": "discordo",
     "e_encarceramento_excecao": "concordo",
-    "e_renda_sem_contrapartida": "ns",
-    "e_estabilidade_emprego": "concordo"
+    "e_autonomia_banco_central": "concordo",
+    "e_margem_equatorial": "concordo",
+    "e_reforma_agraria": "discordo",
+    "e_tributar_altas_rendas": "discordo",
+    "e_reforma_previdencia": "concordo",
+    "e_alinhamento_brics": "discordo",
+    "e_licenciamento_simplificado": "concordo",
+    "e_mineracao_terras_indigenas": "concordo",
+    "e_reducao_jornada": "discordo",
+    "e_ministerio_seguranca": "concordo",
+    "e_arcabouco_fiscal": "concordo",
+    "e_aborto": "discordo",
+    "e_liberdade_irrestrita_redes": "concordo"
   },
   "linhasVermelhas": [],
   "esperado": {
     "deveLiderar": [
       "C01",
-      "C10"
+      "C03"
     ],
     "naoPodeLiderar": [
       "C05",
-      "C06",
-      "C07",
-      "C02",
-      "C03"
+      "C09",
+      "C10",
+      "C11",
+      "C12",
+      "C08"
     ],
     "deveEliminar": [],
     "deveEmpatar": [
       "C01",
-      "C10"
+      "C03"
     ],
-    "deveSinalizar": [
-      [
-        "C04",
-        "C11"
-      ]
-    ],
+    "deveSinalizar": [],
     "semAssercao": [
-      "C08",
-      "C09",
-      "C12"
+      "C02",
+      "C04",
+      "C06",
+      "C07"
     ]
   },
-  "justificativa": "SEGUNDO PERFIL ADVERSARIAL, e o mais duro: os dois líderes vêm de blocos opostos e estão a 0,029 um do outro (0,600 e 0,571), ambos com cobertura alta (0,88 e 0,82). Nenhum dos dois passa de 0,60 — o resultado honesto é \"este campo não te representa bem\", e é a afinidade com o campo, não o ranking, que deve dizer isso."
+  "justificativa": "SEGUNDO PERFIL ADVERSARIAL, e o mais limpo: exatamente dois líderes, com afinidades diferentes (0,875 e 0,850) separadas por 0,025 — dentro da margem de 0,05 e portanto declarados empatados. Cobertura alta nos dois (0,39 e 0,65), então o empate é sobre substância, não sobre silêncio."
 }
