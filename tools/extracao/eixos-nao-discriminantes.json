@@ -169,12 +169,14 @@
    "C03": "superavits primarios",
    "C04": "ajuste fiscal",
    "C07": "responsabilidade fiscal",
-   "C08": "revisao de gastos e subsidios"
+   "C08": "revisao de gastos e subsidios",
+   "C05": "aprovacao do arcabouco fiscal"
   },
   "contra": {
    "C09": "fim do arcabouco fiscal",
    "C10": "revogacao do arcabouco fiscal",
-   "C11": "arcabouco fiscal"
+   "C11": "arcabouco fiscal",
+   "C12": "fim do teto de gastos"
   }
  },
  "e_controle_externo_stf": {
@@ -236,6 +238,11 @@
    "C01": "maioridade penal",
    "C02": "maioridade penal",
    "C03": "maioridade penal"
+  },
+  "contra": {
+   "C09": "nao a reducao da maioridade penal",
+   "C10": "contra a reducao da maioridade penal",
+   "C11": "contra a reducao da maioridade penal"
   }
  },
  "e_porte_arma_rural": {
@@ -276,7 +283,9 @@
   "pergunta": "Você concorda com a descriminalização e a legalização do aborto?",
   "rx": "descriminalizacao e legalizacao do aborto|legalizacao do aborto|aborto legal|vida desde a concepcao",
   "favor": {
-   "C09": "descriminalizacao e legalizacao do aborto"
+   "C09": "descriminalizacao e legalizacao do aborto",
+   "C10": "legalizacao do aborto",
+   "C11": "aborto legal, seguro e gratuito"
   },
   "contra": {
    "C01": "vida desde a concepcao"

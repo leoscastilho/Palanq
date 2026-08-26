@@ -408,6 +408,11 @@
     "pagina": 6,
     "texto": "• Revisão de gastos e subsídios"
    },
+   "C05": {
+    "postura": "favor",
+    "pagina": 10,
+    "texto": "Trabalhamos em conjunto com o Congresso Nacional para a aprovação do arcabouço fiscal, das medidas de recomposição e justiça tributária e da redução dos benefícios fiscais."
+   },
    "C09": {
     "postura": "contra",
     "pagina": 9,
@@ -422,6 +427,11 @@
     "postura": "contra",
     "pagina": 4,
     "texto": "Mantém o arcabouço fiscal e a agiotagem escandalosa do pagamento da dívida, preserva os lucros dos bilionários, concede subsídios às multinacionais e submete o país às exigências do imperialismo."
+   },
+   "C12": {
+    "postura": "contra",
+    "pagina": 4,
+    "texto": "Fim do teto de gastos e da Lei de Responsabilidade Fiscal"
    }
   }
  },
@@ -542,6 +552,21 @@
     "postura": "favor",
     "pagina": 6,
     "texto": "REDUZIR A MAIORIDADE PENAL E ENDURECER A LEGISLAÇÃO Reduzir a maioridade penal para 16 anos ou menos: Reduzir a maioridade penal para 16 anos, assegurando a responsabilização criminal de adolescentes a partir dessa idade e permitindo, excepcionalmente, a imputação penal de pessoas ainda mais jovens nos casos de crimes graves, como homicídio e estupro, ou reincidência."
+   },
+   "C09": {
+    "postura": "contra",
+    "pagina": 30,
+    "texto": "Não à redução da maioridade penal."
+   },
+   "C10": {
+    "postura": "contra",
+    "pagina": 12,
+    "texto": "Contra a redução da maioridade penal e ampliação das medidas socioeducativas."
+   },
+   "C11": {
+    "postura": "contra",
+    "pagina": 21,
+    "texto": "Contra a redução da maioridade penal Desmilitarização da pm e unificação das polícias sob controle dos trabalhadores Revogação da Lei Antidrogas e fim da privatização dos presídios."
    }
   }
  },
@@ -599,6 +624,16 @@
     "postura": "favor",
     "pagina": 28,
     "texto": "Descriminalização e legalização do aborto, primando pela vida das mulheres, tratando a saúde da mulher como questão de saúde pública.como questão de saúde pública."
+   },
+   "C10": {
+    "postura": "favor",
+    "pagina": 11,
+    "texto": "Legalização do aborto, com garantia de atendimento na rede pública de saúde, bem como políticas públicas que possibilitem a emancipação da mulher dos trabalhos domésticos, zerando as filas de creches, ampliando a educação integral e efetuando a construção massiva de restaurantes e lavanderias populares."
+   },
+   "C11": {
+    "postura": "favor",
+    "pagina": 23,
+    "texto": "Aborto legal, seguro e gratuito pelo sus, contra qualquer interferência de igrejas e setores reacionários Licença parental de um ano, compartilhada entre responsáveis."
    },
    "C01": {
     "postura": "contra",

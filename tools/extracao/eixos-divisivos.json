@@ -124,7 +124,8 @@
   "favor": {
    "C02": "preservar os programas de transferencia de renda",
    "C05": "politicas de garantia de renda",
-   "C12": "bolsa familia de pelo menos um salario minimo"
+   "C12": "bolsa familia de pelo menos um salario minimo",
+   "C11": "bolsa equivalente a um salario minimo"
   },
   "contra": {
    "C04": "substituicao do bolsa familia por um programa de frentes cidadas|substituicao do bolsa familia por frentes de trabalho",
@@ -170,7 +171,8 @@
   "rx": "margem equatorial|novas fronteiras|abrir o setor de petroleo a concorrencia|exploracao de petroleo e gas",
   "favor": {
    "C02": "avaliacao de novas fronteiras",
-   "C03": "encarecem a exploracao de petroleo e gas|abrir o setor de petroleo a concorrencia"
+   "C03": "encarecem a exploracao de petroleo e gas|abrir o setor de petroleo a concorrencia",
+   "C05": "as novas reservas serao exploradas"
   },
   "contra": {
    "C10": "no lugar da exploracao da margem equatorial",
@@ -204,13 +206,15 @@
    "C09": "imposto progressivo sobre grandes fortunas",
    "C10": "imposto especial sobre lucros e dividendos, grandes fortunas",
    "C11": "imposto progressivo sobre as verdadeiras grandes fortunas",
-   "C12": "imposto sobre as grandes fortunas"
+   "C12": "imposto sobre as grandes fortunas",
+   "C05": "colocar o pobre no orcamento e o rico no imposto de renda"
   },
   "contra": {
    "C01": "menos impostos",
    "C02": "sem recorrer a aumentos permanentes de carga tributaria",
    "C03": "metas progressivas de reducao da carga tributaria",
-   "C06": "carga tributaria menor"
+   "C06": "carga tributaria menor",
+   "C04": "principal instrumento de ajuste fiscal foi a elevacao da carga tributaria"
   }
  },
  "e_reforma_previdencia": {
@@ -252,7 +256,8 @@
    "C02": "licenciamento ambiental com prazo e previsibilidade",
    "C03": "simplificar o processo de licenciamento|reduzir entraves do licenciamento",
    "C04": "uso ostensivo da licenca ambiental especial|racionalizacao e simplificacao dos processos de licenciamento",
-   "C06": "prazos maximos legais para o licenciamento"
+   "C06": "prazos maximos legais para o licenciamento",
+   "C01": "a licenca deve ser concedida"
   },
   "contra": {
    "C05": "demolicao planejada das estruturas ambientais",
@@ -271,7 +276,8 @@
   },
   "contra": {
    "C10": "forte regulacao das big techs",
-   "C11": "responsabilizacao das plataformas"
+   "C11": "responsabilizacao das plataformas",
+   "C05": "regulacao democratica das redes sociais"
   }
  },
  "e_mineracao_terras_indigenas": {
@@ -286,7 +292,8 @@
   "contra": {
    "C09": "retirando invasores, grileiros e garimpeiros|retirada de grileiros, garimpeiros",
    "C10": "demarcacao e protecao integral de todos os territorios indigenas|fim do marco temporal",
-   "C11": "demarcacao imediata das terras indigenas"
+   "C11": "demarcacao imediata das terras indigenas",
+   "C05": "combatemos o garimpo ilegal"
   }
  },
  "e_reducao_jornada": {

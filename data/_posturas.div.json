@@ -271,6 +271,11 @@
     "pagina": 2,
     "texto": "Auxílio emergencial de verdade, Bolsa Família de pelo menos um salário mínimo, enquanto durar a situação de caos atual"
    },
+   "C11": {
+    "postura": "favor",
+    "pagina": 8,
+    "texto": "Bolsa equivalente a um salário mínimo para trabalhadores desempregados enquanto não houver pleno emprego."
+   },
    "C04": {
     "postura": "contra",
     "pagina": 21,
@@ -360,6 +365,11 @@
     "pagina": 33,
     "texto": "Abrir o setor de petróleo à concorrência: Desverticalizar a Petrobras, separando as operações de produção, refino, transporte e logística em diferentes empresas para permitir a entrada de novos concorrentes e ampliar a concorrência em igualdade de condições."
    },
+   "C05": {
+    "postura": "favor",
+    "pagina": 67,
+    "texto": "As novas reservas serão exploradas com cuidados socioambientais ainda maiores e visão estratégica."
+   },
    "C10": {
     "postura": "contra",
     "pagina": 14,
@@ -436,6 +446,11 @@
     "pagina": 3,
     "texto": "Imposto sobre as grandes fortunas para garantir os recursos necessários para as aposentadorias e pensões"
    },
+   "C05": {
+    "postura": "favor",
+    "pagina": 10,
+    "texto": "Sob a diretriz de “colocar o pobre no orçamento e o rico no Imposto de Renda”, a gestão realizou uma profunda reorganização fiscal que elevou a proteção social sem renunciar ao reequilíbrio das contas públicas."
+   },
    "C01": {
     "postura": "contra",
     "pagina": 30,
@@ -455,6 +470,11 @@
     "postura": "contra",
     "pagina": 38,
     "texto": "g) Compromisso com uma carga tributária menor ao fim da transição A simplificação do sistema tributário já está em curso e será conduzida com responsabilidade até sua implantação plena."
+   },
+   "C04": {
+    "postura": "contra",
+    "pagina": 9,
+    "texto": "Após a implementação do plano, o principal instrumento de ajuste fiscal foi a elevação da carga tributária;"
    }
   }
  },
@@ -535,6 +555,11 @@
     "pagina": 47,
     "texto": "Estabeleceremos prazos máximos legais para o licenciamento ambiental, sanitário e de outorga de água, com procedimento digital integrado entre União, Estados e Municípios e classificação por nível de risco, concentrando a análise técnica detalhada nos empreendimentos de"
    },
+   "C01": {
+    "postura": "favor",
+    "pagina": 50,
+    "texto": "Se não decidir nem se manifestar dentro desse prazo, a licença deve ser concedida, porque a demora do Estado não pode ser um castigo para quem fez a sua parte."
+   },
    "C05": {
     "postura": "contra",
     "pagina": 9,
@@ -572,6 +597,11 @@
     "postura": "contra",
     "pagina": 23,
     "texto": "Combate às ideologias misóginas e responsabilização das plataformas que lucram com a disseminação do ódio contra as mulheres."
+   },
+   "C05": {
+    "postura": "contra",
+    "pagina": 16,
+    "texto": "É parte da reafirmação da democracia avançar ainda mais na regulação democrática das redes sociais e das plataformas digitais, de modo a impedir que elas difundam desinformação, acolham campanhas de ódio e outras formas de comunicação nocivas para a democracia."
    }
   }
  },
@@ -600,6 +630,11 @@
     "postura": "contra",
     "pagina": 15,
     "texto": "Reparação e demarcação imediata das terras indígenas, titulação dos territórios quilombolas e proteção das comunidades tradicionais Reconhecimento e reparação das populações atingidas por crimes ambientais Garantia do direito à autodefesa de todas as comunidades e militantes que lutam em defesa do meio ambiente diante da violência patronal e estatal."
+   },
+   "C05": {
+    "postura": "contra",
+    "pagina": 20,
+    "texto": "Na terra Yanomami enfrentamos a emergência em saúde e combatemos o garimpo ilegal, que foi reduzido em 99%."
    }
   }
  },

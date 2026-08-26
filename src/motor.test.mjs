@@ -187,8 +187,8 @@ console.log("\n§19 — seleção por ganho de discriminação");
 t("ordena por ganho = nFavor × nContra × peso, desempate lexicográfico", () => {
   const a = analisar(CORPUS, {});
   const q = proximaPergunta(CORPUS, {}, a.estados, {});
-  eq(q.id, "e_ppp_servicos_publicos", "5×4×3 = 60 é o maior ganho do corpus");
-  eq(q.separa.ganho, 60);
+  eq(q.id, "e_arcabouco_fiscal", "7×4×3 = 84 é o maior ganho do corpus");
+  eq(q.separa.ganho, 84);
 });
 t("eixo com separacoes = 0 nunca entra na fase 1", () => {
   const a = analisar(FG, {});
@@ -358,7 +358,7 @@ t("sem fase complementar, o corpus real encerra em 9 perguntas", () => {
   while ((q = proximaPergunta(CORPUS, r, a.estados, {}))) {
     r = { ...r, [q.id]: q.tipo === "portao" ? "sim" : "concordo" }; a = analisar(CORPUS, r); n++;
   }
-  eq(n, 24, "22 eixos divisivos + 2 portões");
+  eq(n, 25, "23 eixos divisivos + 2 portões");
 });
 t("transicoes registra a mudança de ranking causada pela resposta", () => {
   const a0 = analisar(FG, {});
@@ -407,7 +407,7 @@ t("travas de processo — verified exige curadoria revisada e citação literal"
 });
 t("interpretações são contadas a cada build", () => {
   const m = validarCorpus(CORPUS).metricas;
-  eq(m.interpretacoes, 16);
+  eq(m.interpretacoes, 21);
   assert(m.interpretacoes / m.posturas < 0.1,
          "a superfície de inferência do curador precisa ficar abaixo de 10% das posturas");
 });

@@ -159,6 +159,113 @@ e no relatório sempre que respondidos:
 - **`e_liberdade_irrestrita_redes`** — "censura" e "moderação" descrevem o mesmo ato
   com sinais opostos, e cada lado usa uma das duas palavras.
 
+## 5-A. O silêncio que é meu, não do plano
+
+A cobertura exibida ao lado da afinidade mistura duas coisas que o usuário não
+distingue: o plano não se posiciona, ou **a extração não achou**. A segunda existia,
+foi medida e foi corrigida numa segunda passada.
+
+### O que a segunda passada mudou
+
+A primeira extração foi guiada por **busca de frase**. Programas escritos como lista
+de reivindicações casam com padrão de busca quase sempre; planos discursivos enterram
+a posição em prosa, com vocabulário próprio, e escapam. O viés não é ideológico: é de
+**gênero de texto**.
+
+Onze posturas foram acrescentadas em duas rodadas. Teto de cobertura nos 22 eixos
+divisivos:
+
+| candidatura | antes | depois |
+|---|---|---|
+| **Luiz Inácio Lula da Silva** | 7/22 · 31% | **12/22 · 55%** |
+| Hertz Dias (PSTU) | 14/22 · 68% | 16/22 · 77% |
+| Edmilson Costa (PCB) | 17/22 · 77% | 18/22 · 82% |
+| Rui Costa Pimenta (PCO) | 13/22 · 60% | 14/22 · 65% |
+| Flávio Bolsonaro | 8/22 · 39% | 9/22 · 44% |
+| Renan Santos | 8/22 · 39% | 9/22 · 44% |
+| demais | — | sem mudança |
+
+O caso mais claro estava na página 10 do plano de Lula — *"Trabalhamos em conjunto com
+o Congresso Nacional para a aprovação do arcabouço fiscal"* — e na 16: *"avançar ainda
+mais na regulação democrática das redes sociais"*. Duas posições declaradas por escrito
+que o corpus não registrava.
+
+### O que NÃO foi acrescentado, e por quê
+
+Registrar as recusas importa tanto quanto registrar as inclusões:
+
+- **Wilson Grassi, tributar altas rendas.** O plano eleva a isenção do IRPF a cinco
+  salários mínimos *e* ajusta as alíquotas superiores — mas para reduzir a carga
+  total. Ele é favorável a tributar mais o topo e contrário a elevar a carga, e a
+  pergunta deste eixo funde as duas coisas. Classificá-lo em qualquer lado seria
+  mentir. **É um defeito da redação do eixo, não do plano.**
+- **Flávio Bolsonaro e Renan Santos, BRICS.** Ambos propõem uma diplomacia menos
+  ideológica e mais próxima do Ocidente, mas nenhum propõe sair do bloco — ficam
+  entre os dois polos do eixo.
+- **Flávio Bolsonaro, liberdade nas redes.** A seção "Tesouraço na Censura" trata de
+  o *governo* criminalizar a crítica, não de plataformas removerem conteúdo. É outro
+  mecanismo.
+- **Três posturas foram acrescentadas e depois retiradas** por serem inferência
+  fraca demais: concessões de Lula (o trecho registra o que foi feito, não um
+  compromisso), devido processo de Caiado (princípio geral de introdução, não
+  política penal) e responsabilidade fiscal de Cury (ensaio sobre valores, não
+  compromisso de regra). A retirada foi disparada pela própria trava: com elas, a
+  proporção de interpretações passava de 10% das posturas, e o teste falhava. Baixar
+  a trava seria mais fácil do que rever as posturas — e teria sido a decisão errada.
+
+### Um segundo ponto cego: só busquei o lado positivo
+
+Os 26 eixos que não separavam ninguém tinham **todos** a mesma postura: `favor`.
+Nenhum tinha um `contra` declarado. Isso não é coincidência do campo eleitoral — é
+sintoma do método. A extração buscou sempre o enunciado da proposta ("ampliar as
+escolas cívico-militares"), nunca a oposição a ela ("contra a redução da maioridade
+penal"). Um plano que rejeita algo por escrito ficava invisível.
+
+A busca pelo lado contrário virou **redução da maioridade penal** de unilateral em
+divisivo, com três oposições literais: *"Não à redução da maioridade penal"* (UP),
+*"Contra a redução da maioridade penal"* (PCB e PSTU). O corpus passou de 22 para
+**23 eixos divisivos**.
+
+Nos demais, a oposição não existe no texto. Ninguém escreve contra tarifa zero, contra
+simplificação tributária ou contra prontuário eletrônico — são consensos reais, e é
+por isso que ficam fora do ranking. Duas oposições foram encontradas mas **não
+incluídas** por serem inferência, e o teto de 10% já estar em 9,8%: o controle de
+armas de Lula, incompatível com ampliar o porte rural, e a troca de cotas por bolsas
+de mérito de Renan Santos. Ficam registradas aqui como dívida.
+
+### O que continua faltando
+
+Cobertura baixa nem sempre é falha de extração. **Augusto Cury (21%), Wilson Grassi
+(15%) e Clariana Barão (10%) foram varridos e realmente não se posicionam** na maior
+parte dos eixos divisivos. Grassi chega a declarar a omissão: *"Este plano não traz
+doutrina de política externa, e a omissão é deliberada"* (p. 51).
+
+Restam **88 lacunas** na varredura automática. Todos os 22 eixos divisivos foram
+percorridos ao menos uma vez com padrão de precisão média sobre cada candidatura
+calada; o que sobrou é, em larga maioria, falso positivo do padrão largo — ele casa
+com "suspeito" quando se busca "suspensão", com "operadora de turismo" quando se
+busca "operadora de plano de saúde". Ainda assim, ninguém leu as 88 uma a uma.
+Enquanto for assim, **a cobertura é um piso, não uma medida.**
+
+Silêncios confirmados como reais nesta rodada, e não como falha de extração:
+autonomia do Banco Central (nenhuma das seis candidaturas caladas se posiciona),
+estabilidade no emprego (nenhuma das cinco), planos de saúde (nenhuma das cinco) e
+BRICS — onde nenhuma das três candidaturas anticapitalistas sequer menciona o bloco,
+apesar de todas serem anti-imperialistas. Anti-imperialismo não é posição sobre o
+BRICS, e tratá-lo como tal seria fabricar postura.
+
+### A ferramenta
+
+```bash
+npm run lacunas
+```
+
+Cruza cada candidatura calada com um padrão de ASSUNTO — deliberadamente largo, em
+`tools/extracao/topicos-divisivos.json` — e aponta a página a ler. Um acerto ali não
+é uma postura: é um lugar para um humano ir verificar. O padrão precisa ser diferente
+do que localiza a postura; reusar aquele repetiria exatamente o mesmo ponto cego que
+criou o problema. A primeira tentativa cometeu esse erro e achou 6 lacunas em vez de 99.
+
 ## 6. Desequilíbrio de curadoria
 
 O validador avisa quando a contagem de citações se afasta 1,5 desvio da média (16,7).
