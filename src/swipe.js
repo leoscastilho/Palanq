@@ -389,6 +389,10 @@ function ligarArraste() {
 
   el.addEventListener("pointerdown", (ev) => {
     if (ev.button !== undefined && ev.button !== 0) return;
+    // Não capturar o ponteiro quando o gesto começa num botão de dentro do cartão:
+    // com a captura ativa o navegador dispara o `click` no elemento que capturou, e
+    // não no botão, o que engolia o "Me explique melhor".
+    if (ev.target.closest("button")) return;
     arrastando = true; pid = ev.pointerId; x0 = ev.clientX; y0 = ev.clientY;
     el.setPointerCapture(pid); el.style.transition = "";
   });

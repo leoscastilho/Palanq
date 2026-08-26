@@ -147,15 +147,20 @@ button:focus-visible { outline: 2px solid var(--acento); outline-offset: 3px; bo
 .face .nota { padding-top: .5rem; font-size: .76rem; color: var(--fg3); text-align: center; }
 
 /* carimbos que aparecem ao arrastar */
+/* z-index acima das faces: elas vêm depois no DOM e têm fundo opaco, então sem isto
+   o carimbo fica escondido atrás do cartão durante o arraste. */
 .carimbo {
-  position: absolute; top: 1.4rem; padding: .35rem .8rem; border-radius: 10px;
+  /* na faixa vazia entre o separador e a pergunta: mais acima cobriria o tema e o
+     título pela metade, deixando os dois ilegíveis. */
+  position: absolute; top: 32%; z-index: 4; padding: .35rem .8rem; border-radius: 10px;
   border: 3px solid currentColor; font-weight: 800; font-size: 1rem; letter-spacing: .06em;
   text-transform: uppercase; opacity: 0; pointer-events: none; transition: opacity .1s;
+  background: var(--caixa);
 }
 .carimbo.c-sim   { left: 1.4rem;  color: var(--sim);   transform: rotate(-12deg); }
 .carimbo.c-nao   { right: 1.4rem; color: var(--nao);   transform: rotate(12deg); }
 .carimbo.c-ine   { left: 50%; margin-left: -5.2rem; color: var(--ine); }
-.carimbo.c-pular { left: 50%; margin-left: -4rem; bottom: 1.4rem; top: auto; color: var(--pular); }
+.carimbo.c-pular { left: 50%; margin-left: -4rem; top: auto; bottom: 22%; color: var(--pular); }
 
 /* ── botões ───────────────────────────────────────────────────────────────── */
 .acoes { display: flex; gap: .9rem; justify-content: center; align-items: flex-start;
@@ -180,7 +185,7 @@ button:focus-visible { outline: 2px solid var(--acento); outline-offset: 3px; bo
 /* ── overlay do inegociável ───────────────────────────────────────────────── */
 .overlay { position: absolute; inset: 0; background: var(--ine-bg); border-radius: 18px;
            border: 2px solid var(--ine); padding: 1.6rem 1.4rem; display: flex;
-           flex-direction: column; justify-content: center; gap: .8rem; z-index: 3; }
+           flex-direction: column; justify-content: center; gap: .8rem; z-index: 6; }
 .overlay h3 { color: var(--ine); }
 .overlay .escolhas { display: grid; gap: .6rem; }
 .overlay .escolhas button { border: 1px solid var(--linha); background: var(--caixa);
@@ -1472,6 +1477,10 @@ function ligarArraste() {
 
   el.addEventListener("pointerdown", (ev) => {
     if (ev.button !== undefined && ev.button !== 0) return;
+    // Não capturar o ponteiro quando o gesto começa num botão de dentro do cartão:
+    // com a captura ativa o navegador dispara o `click` no elemento que capturou, e
+    // não no botão, o que engolia o "Me explique melhor".
+    if (ev.target.closest("button")) return;
     arrastando = true; pid = ev.pointerId; x0 = ev.clientX; y0 = ev.clientY;
     el.setPointerCapture(pid); el.style.transition = "";
   });
