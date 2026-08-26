@@ -18,7 +18,10 @@ responder e o quanto a tela explica.
 construção: histórico de mandato, capacidade de execução, coalizão, financiamento de
 campanha e a distância conhecida entre plano de governo e governo.
 
-Porte do motor de restrições descrito em [`MOTOR-E-PORT-POLITICO.md`](MOTOR-E-PORT-POLITICO.md).
+Porte do motor de restrições descrito em [`MOTOR-E-PORT-POLITICO.md`](MOTOR-E-PORT-POLITICO.md),
+originalmente escrito para outro domínio — o classificador iterativo de transtornos da
+CID-11, em
+[`leoscastilho/classificador-iterativo-transtornos-mentais`](https://github.com/leoscastilho/classificador-iterativo-transtornos-mentais).
 Motor híbrido: **eliminação** para o que o usuário declara inegociável, **acumulação**
 para o resto.
 
@@ -138,3 +141,11 @@ recusa a promoção enquanto `curadoria.revisadoPor` estiver vazio.
 
 Leia [`docs/CURADORIA.md`](docs/CURADORIA.md) antes de confiar em qualquer resultado —
 inclusive a lista das inferências mais frágeis e do que a mutação não cobre.
+
+## Licença
+
+[MIT](LICENSE). A licença cobre o código; os trechos citados em `data/corpus.json` são
+reproduções de planos de governo registrados, que são documentos públicos, e os PDFs em
+`source/propostas/` são dos respectivos autores. Ver o próprio arquivo de licença.
+
+© 2026 Leo Castilho.

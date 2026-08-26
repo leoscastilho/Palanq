@@ -22,9 +22,12 @@
   }
 }
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-html, body { height: 100%; }
+html { height: 100%; }
+/* coluna flexível: a tela cresce, o rodapé fica embaixo dela — e não fora da
+   página, como acontecia com body { height: 100% }. */
 body {
-  margin: 0; background: var(--bg); color: var(--fg); font-family: var(--sans);
+  margin: 0; min-height: 100%; display: flex; flex-direction: column;
+  background: var(--bg); color: var(--fg); font-family: var(--sans);
   font-size: 16px; line-height: 1.5; overscroll-behavior: none;
 }
 h1, h2, h3 { margin: 0 0 .5rem; line-height: 1.2; font-weight: 650; letter-spacing: -.01em; }
@@ -34,8 +37,8 @@ button:focus-visible { outline: 2px solid var(--acento); outline-offset: 3px; bo
 .mini { font-size: .82rem; color: var(--fg2); }
 .oculto { display: none !important; }
 
-.tela { min-height: 100%; display: flex; flex-direction: column; align-items: center;
-        padding: 1rem; max-width: 560px; margin: 0 auto; }
+.tela { flex: 1 0 auto; display: flex; flex-direction: column; align-items: center;
+        padding: 1rem; max-width: 560px; margin: 0 auto; width: 100%; }
 .marca { font-weight: 700; letter-spacing: -.02em; font-size: 1.05rem; }
 .barra-topo { width: 100%; display: flex; align-items: center; gap: .75rem; padding: .2rem 0 1rem; }
 .progresso { flex: 1; height: 4px; background: var(--linha); border-radius: 99px; overflow: hidden; }
@@ -188,6 +191,9 @@ button:focus-visible { outline: 2px solid var(--acento); outline-offset: 3px; bo
         border-bottom: 1px solid var(--linha); }
 .raia:last-child { border-bottom: 0; }
 .raia .quem { display: flex; align-items: baseline; gap: .4rem; font-size: .92rem; }
+.raia .pos { font-family: var(--mono); font-size: .78rem; color: var(--fg3);
+             min-width: 1.9em; text-align: right; flex: 0 0 auto; }
+.raia.topo .pos { color: var(--acento); font-weight: 700; }
 .raia .quem b { font-weight: 650; }
 .raia .quem em { font-style: normal; font-size: .74rem; color: var(--fg3); }
 .raia.topo .quem b { color: var(--acento); }
@@ -204,8 +210,9 @@ button:focus-visible { outline: 2px solid var(--acento); outline-offset: 3px; bo
 .aviso { border: 1px solid var(--linha); border-left: 4px solid var(--nao); background: var(--nao-bg);
          padding: .8rem .9rem; border-radius: 4px; margin: 0 0 1.2rem; width: 100%; }
 .aviso h3 { color: var(--nao); font-size: .95rem; }
-.rodape { width: 100%; margin-top: 1.6rem; display: flex; gap: .6rem; flex-wrap: wrap; justify-content: center; }
-.rodape button, .rodape a {
+/* fileira de ações do resultado — não confundir com o rodapé da página (.rodape) */
+.acoes-final { width: 100%; margin-top: 1.6rem; display: flex; gap: .6rem; flex-wrap: wrap; justify-content: center; }
+.acoes-final button, .acoes-final a {
   border: 1px solid var(--linha); background: var(--caixa); border-radius: 999px;
   padding: .55rem 1.1rem; font-size: .9rem; color: inherit; text-decoration: none;
 }

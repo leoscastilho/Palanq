@@ -1,5 +1,30 @@
 # Motor de restrições — especificação completa e port para propostas de governo
 
+> ## ⚙︎ De onde vem este motor
+>
+> O motor descrito na Parte I **não foi escrito para política**. Ele existe em
+> [`leoscastilho/classificador-iterativo-transtornos-mentais`](https://github.com/leoscastilho/classificador-iterativo-transtornos-mentais),
+> um projeto do mesmo autor, para uma finalidade completamente diferente: percorrer
+> os critérios diagnósticos da CID-11 Capítulo 06 eliminando transtornos a cada
+> resposta, sem nunca eleger um vencedor único e sempre nomeando o que ficou por
+> verificar.
+>
+> Este documento é o **port** daquele motor para um segundo domínio. A Parte I
+> especifica o original linha a linha; a Parte II especifica o que muda para
+> comparar planos de governo. O resultado desse port está implementado em
+> [`leoscastilho/Palanq`](https://github.com/leoscastilho/Palanq).
+>
+> Vale dizer por que o port faz sentido, porque não é óbvio: o valor do motor nunca
+> esteve no domínio clínico. Está na **seleção gulosa da próxima pergunta**, que faz
+> a entrevista encurtar sozinha, e na **camada de fronteiras**, que existe para
+> impedir o instrumento de fechar antes da hora. As duas coisas valem igual para
+> transtorno e para candidatura — e os compromissos que sustentam a primeira versão
+> (ignorância não é negação, lacuna é resultado de primeira classe, toda eliminação
+> tem motivo rastreável) são exatamente os que um comparador eleitoral precisa ter
+> para não mentir.
+
+---
+
 > **Para quem pega este documento sem contexto.**
 > A Parte I especifica, linha a linha, o motor que hoje roda em `src/engine.js` do
 > repositório `classificador-iterativo-transtornos-mentais`. A Parte II especifica como

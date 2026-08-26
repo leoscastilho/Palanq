@@ -5,9 +5,21 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="light dark">
 <meta name="referrer" content="no-referrer">
-<meta name="description" content="Palanq compara suas posições com as posições declaradas nos planos de governo registrados. Não recomenda voto.">
+<meta name="description" content="Versão completa do Palanq: compara suas posições com as posições declaradas nos planos de governo registrados da eleição geral de 2026, com a citação e a página de cada uma. Não recomenda voto.">
+<meta name="author" content="Leo Castilho">
+<!-- Prévia de link no WhatsApp, Telegram e redes. Sem og:image: a política de
+     segurança da página bloqueia host externo, e imagem local não é buscável por
+     quem monta a prévia. -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Palanq">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:title" content="Palanq · motor — No papel, qual candidato combina com você?">
+<meta property="og:description" content="Versão completa do Palanq: compara suas posições com as posições declaradas nos planos de governo registrados da eleição geral de 2026, com a citação e a página de cada uma. Não recomenda voto.">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Palanq · motor — No papel, qual candidato combina com você?">
+<meta name="twitter:description" content="Versão completa do Palanq: compara suas posições com as posições declaradas nos planos de governo registrados da eleição geral de 2026, com a citação e a página de cada uma. Não recomenda voto.">
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data:; connect-src 'none'; form-action 'none'; base-uri 'none'">
-<title>Palanq · motor — Eleição Geral de 2026</title>
+<title>Palanq · motor — No papel, qual candidato combina com você?</title>
 <style>
 /* Sem fontes externas, sem requisição de rede: o argumento de privacidade é a
    ausência de servidor, e uma fonte remota o quebraria (§26). */
@@ -134,6 +146,43 @@ pre.relatorio { white-space: pre-wrap; font-family: var(--mono); font-size: .76r
 .planos td { padding: .35rem .4rem; border-bottom: 1px solid var(--linha); }
 .oculto { display: none !important; }
 
+
+/* Rodapé compartilhado pelas duas páginas. Usa apenas cores próprias, em vez das
+   variáveis de cada folha de estilo, para ficar igual nos dois layouts. */
+.rodape {
+  margin-top: 2.5rem; padding: 16px 20px; flex-shrink: 0;
+  border-top: 1px solid rgba(0, 0, 0, .1);
+  background: rgba(0, 0, 0, .02);
+  color: #6b6862; font-size: .75rem; line-height: 1.5;
+}
+.rodape-in {
+  max-width: 1000px; margin: 0 auto;
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 6px 14px;
+}
+.rodape a { color: #4a4741; text-decoration: none; }
+.rodape a:hover { text-decoration: underline; }
+.rodape-sep { opacity: .5; }
+.rodape-lema { font-weight: 600; color: #4a4741; }
+.rodape-ano { display: inline-flex; align-items: center; gap: 5px; }
+.rodape-ano-sel { position: relative; display: inline-flex; align-items: center; }
+.rodape-ano-sel select {
+  appearance: none; -webkit-appearance: none;
+  background: rgba(255, 255, 255, .8); border: 1px solid rgba(0, 0, 0, .12);
+  border-radius: 6px; padding: 2px 22px 2px 8px;
+  font: inherit; font-size: .75rem; color: inherit; cursor: pointer;
+}
+.rodape-ano-seta {
+  position: absolute; right: 6px; width: 12px; height: 12px;
+  pointer-events: none; opacity: .6;
+}
+@media (prefers-color-scheme: dark) {
+  .rodape { border-top-color: rgba(255, 255, 255, .1); background: rgba(255, 255, 255, .03);
+            color: #918d85; }
+  .rodape a, .rodape-lema { color: #b8b4ab; }
+  .rodape-ano-sel select { background: rgba(255, 255, 255, .06);
+                           border-color: rgba(255, 255, 255, .15); }
+}
+
 </style>
 </head>
 <body>
@@ -145,6 +194,34 @@ pre.relatorio { white-space: pre-wrap; font-family: var(--mono); font-size: .76r
   </div>
 </header>
 <main class="wrap" id="app"></main>
+
+<footer class="rodape">
+  <div class="rodape-in">
+    <span class="rodape-ano">
+      <span class="rodape-ano-sel">
+        <select aria-label="Ano da eleição">
+          <option value="2026" selected>2026</option>
+        </select>
+        <svg class="rodape-ano-seta" viewBox="0 0 12 12" aria-hidden="true">
+          <path d="M3 4.5 6 7.5 9 4.5" fill="none" stroke="currentColor" stroke-width="1.5"
+                stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </span>
+      Palanq
+    </span>
+    <span class="rodape-sep">•</span>
+    <span>© 2026 <a href="https://www.linkedin.com/in/lscastilho/"
+       target="_blank" rel="noopener noreferrer">Leo Castilho</a></span>
+    <span class="rodape-sep">•</span>
+    <a href="https://github.com/leoscastilho/Palanq/blob/main/LICENSE"
+       target="_blank" rel="noopener noreferrer">Licença MIT</a>
+    <span class="rodape-sep">•</span>
+    <a href="https://github.com/leoscastilho/Palanq/blob/main/docs/CURADORIA.md"
+       target="_blank" rel="noopener noreferrer">Entenda mais sobre as decisões</a>
+    <span class="rodape-sep">•</span>
+    <span class="rodape-lema">Vote consciente.</span>
+  </div>
+</footer>
 
 <script type="module">
 /**

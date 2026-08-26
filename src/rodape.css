@@ -1,0 +1,35 @@
+/* Rodapé compartilhado pelas duas páginas. Usa apenas cores próprias, em vez das
+   variáveis de cada folha de estilo, para ficar igual nos dois layouts. */
+.rodape {
+  margin-top: 2.5rem; padding: 16px 20px; flex-shrink: 0;
+  border-top: 1px solid rgba(0, 0, 0, .1);
+  background: rgba(0, 0, 0, .02);
+  color: #6b6862; font-size: .75rem; line-height: 1.5;
+}
+.rodape-in {
+  max-width: 1000px; margin: 0 auto;
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 6px 14px;
+}
+.rodape a { color: #4a4741; text-decoration: none; }
+.rodape a:hover { text-decoration: underline; }
+.rodape-sep { opacity: .5; }
+.rodape-lema { font-weight: 600; color: #4a4741; }
+.rodape-ano { display: inline-flex; align-items: center; gap: 5px; }
+.rodape-ano-sel { position: relative; display: inline-flex; align-items: center; }
+.rodape-ano-sel select {
+  appearance: none; -webkit-appearance: none;
+  background: rgba(255, 255, 255, .8); border: 1px solid rgba(0, 0, 0, .12);
+  border-radius: 6px; padding: 2px 22px 2px 8px;
+  font: inherit; font-size: .75rem; color: inherit; cursor: pointer;
+}
+.rodape-ano-seta {
+  position: absolute; right: 6px; width: 12px; height: 12px;
+  pointer-events: none; opacity: .6;
+}
+@media (prefers-color-scheme: dark) {
+  .rodape { border-top-color: rgba(255, 255, 255, .1); background: rgba(255, 255, 255, .03);
+            color: #918d85; }
+  .rodape a, .rodape-lema { color: #b8b4ab; }
+  .rodape-ano-sel select { background: rgba(255, 255, 255, .06);
+                           border-color: rgba(255, 255, 255, .15); }
+}

@@ -41,6 +41,9 @@ const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) =>
 const cand_ = (id) => CORPUS.candidatos.find((c) => c.id === id);
 const nomeC = (id) => { const c = cand_(id); return c ? c.nome : id; };
 const siglaC = (id) => cand_(id)?.partido || "";
+/** "A" · "A e B" · "A, B e C" — join(" e ") produzia "A e B e C". */
+const lista = (xs) => xs.length < 2 ? (xs[0] ?? "")
+  : `${xs.slice(0, -1).join(", ")} e ${xs[xs.length - 1]}`;
 
 const olhar = () => analisar(CORPUS, Z.respostas, new Set(Z.linhasVermelhas), { margem: Z.margem });
 const proxima = (a) => proximaPergunta(CORPUS, Z.respostas, a.estados,
@@ -244,6 +247,18 @@ function telaResultado() {
   const ordem = [...a.ranking.ordem, ...a.ranking.semSinal,
                  ...CORPUS.candidatos.filter((c) => est[c.id].estado === "eliminado").map((c) => c.id)];
 
+  // Posição explícita, com o MESMO número para quem empata. Sem isto o leitor lê o
+  // comprimento do verde como se fosse a ordem — e ele não é: a barra mostra
+  // verde/total, enquanto o ranking compara verde com vermelho e ignora o hachurado.
+  // Duas candidaturas podem ter a mesma afinidade com barras bem diferentes.
+  const posicao = {};
+  let n = 0, anterior = null;
+  for (const id of a.ranking.ordem) {
+    const f = est[id].afinidade;
+    if (anterior === null || Math.abs(f - anterior) > 1e-9) { n++; anterior = f; }
+    posicao[id] = n;
+  }
+
   const raia = (id) => {
     const s = est[id];
     const morto = s.estado === "eliminado";
@@ -251,7 +266,8 @@ function telaResultado() {
     const A = peso(s.alinhados), D = peso(s.divergentes), S = peso(s.silencios);
     const p = (x) => (x / totalPeso) * 100;
     return `<div class="raia ${lider ? "topo" : ""} ${morto ? "morta" : ""}">
-      <div class="quem"><b>${esc(nomeC(id))}</b>${siglaC(id) ? `<em>${esc(siglaC(id))}</em>` : ""}
+      <div class="quem"><span class="pos">${morto ? "×" : posicao[id] ? posicao[id] + "º" : "—"}</span>
+        <b>${esc(nomeC(id))}</b>${siglaC(id) ? `<em>${esc(siglaC(id))}</em>` : ""}
         ${lider ? '<em style="color:var(--acento)">mais alinhado</em>' : ""}
         ${morto ? '<em style="color:var(--nao)">fora — inegociável</em>' : ""}</div>
       <div class="barra" role="img" aria-label="${A ? "concorda em parte" : ""}">
@@ -261,6 +277,11 @@ function telaResultado() {
 
   const lideres = a.ranking.lideres;
   const pesoDe = (ids) => ids.reduce((n, e) => n + CORPUS.eixos[e].peso, 0);
+  // Líderes empatados cujas barras ficam bem diferentes — o caso que faz o leitor
+  // achar que o ranking está errado.
+  const desigual = lideres.length > 1 &&
+    Math.max(...lideres.map((x) => est[x].cobertura ?? 0)) -
+    Math.min(...lideres.map((x) => est[x].cobertura ?? 0)) > 0.25 ? lideres : [];
   // Um líder que "venceu" mais por silêncio do que por concordância. É o desfecho
   // que o gráfico já denuncia; o título não pode dizer outra coisa.
   const calado = (id) => pesoDe(est[id].silencios) > pesoDe(est[id].alinhados);
@@ -270,23 +291,23 @@ function telaResultado() {
   const titulo = !lideres.length
     ? "Nenhuma candidatura sobrou"
     : caladosNoTopo.length === lideres.length
-    ? "Ninguém combinou muito com você"
+    ? "Nenhum candidatoestá alinhado com suas opiniões"
     : lideres.length === 1
-    ? `Você se parece mais com ${nomeC(lideres[0])}`
+    ? `${nomeC(lideres[0])} está mais alinhado com suas opiniões`
     : `Empate entre ${lideres.length}`;
 
   const subtitulo = !lideres.length
     ? ""
     : caladosNoTopo.length === lideres.length
-    ? `<p class="mini">${lideres.map((x) => esc(nomeC(x))).join(" e ")} ${lideres.length > 1 ? "aparecem" : "aparece"}
+    ? `<p class="mini">${lista(lideres.map((x) => esc(nomeC(x))))} ${lideres.length > 1 ? "aparecem" : "aparece"}
        no topo por <b>não ter dito nada</b> sobre a maior parte do que você respondeu — e não por concordar
        com você. Repare no tanto de hachurado ${lideres.length > 1 ? "nas barras" : "na barra"} logo abaixo.</p>`
     : caladosNoTopo.length
-    ? `<p class="mini">${caladosNoTopo.map((x) => esc(nomeC(x))).join(" e ")} ${caladosNoTopo.length > 1 ? "chegam" : "chega"}
-       ao topo mais por silêncio do que por concordância: o plano ${caladosNoTopo.length > 1 ? "deles" : "dele"} não
-       trata da maior parte do que você respondeu.</p>`
+    ? `<p class="mini">${lista(caladosNoTopo.map((x) => esc(nomeC(x))))}
+       ${caladosNoTopo.length > 1 ? "empatam" : "empata"} no topo mais por silêncio do que por concordância:
+       o plano ${caladosNoTopo.length > 1 ? "deles" : "dele"} não trata da maior parte do que você respondeu.</p>`
     : lideres.length > 1
-    ? `<p class="mini">${lideres.map((x) => esc(nomeC(x))).join(" · ")} — a diferença entre elas é pequena
+    ? `<p class="mini">${lista(lideres.map((x) => esc(nomeC(x))))} — a diferença entre elas é pequena
        demais para desempatar.</p>`
     : "";
 
@@ -305,6 +326,10 @@ function telaResultado() {
   <p class="mini" style="margin-top:1.2rem">Todas as barras têm o mesmo tamanho: o que muda é quanto
   de cada cor. Muito hachurado quer dizer que aquele plano <b>não trata</b> dos temas que você respondeu —
   e não que ele concorde com você.</p>
+  ${desigual.length > 1 ? `<p class="mini"><b>Por que ${lista(desigual.map((x) => esc(nomeC(x))))}
+  empatam, se as barras são tão diferentes?</b> A posição compara o verde com o vermelho e ignora o
+  hachurado: ${desigual.length > 2 ? "nenhum deles diverge" : "nenhum dos dois diverge"} de você naquilo que
+  declarou. O que muda é o tamanho do plano — quem escreveu sobre mais temas tem menos hachurado.</p>` : ""}
   ${faltam ? `<div class="aviso" style="border-left-color:var(--acento);background:var(--realce)">
     <h3 style="color:var(--acento)">Ainda dá para afinar</h3>
     <p class="mini" style="margin:0 0 .7rem">Paramos porque quem está no topo já não muda. Mas
@@ -325,7 +350,7 @@ function telaResultado() {
      rel="noopener noreferrer"><span>${esc(c.nome)}${c.partido ? ` (${esc(c.partido)})` : ""}</span>
      <span>ler →</span></a>`).join("")}</div>
 
-  <div class="rodape">
+  <div class="acoes-final">
     <button data-ir="recomecar">Recomeçar</button>
     <a href="motor/">Ver a versão completa</a>
   </div>`;
