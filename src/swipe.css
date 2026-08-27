@@ -224,22 +224,42 @@ button:focus-visible { outline: 2px solid var(--acento); outline-offset: 3px; bo
 .legenda-ine b { color: var(--ine); font-weight: 650; }
 
 /* Os dois inegociáveis pedem apertar-e-segurar: eles eliminam candidaturas de vez, e
-   ficavam a um toque acidental de distância dos botões de resposta simples. A barra
-   sobe por dentro do próprio círculo — o `overflow: hidden` no botão redondo recorta
-   o preenchimento no formato dele. */
-.acoes button.b-ine-nao, .acoes button.b-ine-sim { position: relative; overflow: hidden;
-                                                   touch-action: none; }
-.acoes button .carga { position: absolute; left: 0; right: 0; bottom: 0; height: 0; }
-.acoes button.b-ine-nao .carga { background: color-mix(in srgb, var(--nao) 28%, transparent); }
-.acoes button.b-ine-sim .carga { background: color-mix(in srgb, var(--sim) 28%, transparent); }
-@keyframes encher { from { height: 0; } to { height: 100%; } }
-.acoes button.carregando .carga { animation: encher .8s linear forwards; }
+   ficavam a um toque acidental de distância dos botões de resposta simples. Quem se
+   enche é o CARTÃO, não o botão — o dedo cobre um círculo de 56px inteiro, e ali o
+   progresso ficava escondido justamente de quem precisa vê-lo. */
+.acoes button.b-ine-nao, .acoes button.b-ine-sim { touch-action: none; }
 .acoes button.b-ine-nao.carregando { border-color: var(--nao); }
 .acoes button.b-ine-sim.carregando { border-color: var(--sim); }
-.acoes button svg { position: relative; z-index: 1; }
+
+/* A moldura recorta nos cantos arredondados; o filho é que cresce. Sem ela o
+   preenchimento a meia altura teria os cantos de cima redondos, no meio do cartão. */
+.cartao .carga-cartao { position: absolute; inset: 0; border-radius: 18px; overflow: hidden;
+                        z-index: 5; pointer-events: none; }
+.cartao .carga-cartao b { position: absolute; left: 0; right: 0; bottom: 0; height: 0; }
+@keyframes encher { from { height: 0; } to { height: 100%; } }
+.cartao.carregando-nao .carga-cartao b,
+.cartao.carregando-sim .carga-cartao b { animation: encher .8s linear forwards; }
+.cartao.carregando-nao .carga-cartao b {
+  background: linear-gradient(to top, color-mix(in srgb, var(--nao) 44%, transparent),
+                                      color-mix(in srgb, var(--nao) 6%, transparent)); }
+.cartao.carregando-sim .carga-cartao b {
+  background: linear-gradient(to top, color-mix(in srgb, var(--sim) 44%, transparent),
+                                      color-mix(in srgb, var(--sim) 6%, transparent)); }
 @media (prefers-reduced-motion: reduce) {
-  .acoes button.carregando .carga { animation: encher .8s steps(6) forwards; }
+  .cartao.carregando-nao .carga-cartao b,
+  .cartao.carregando-sim .carga-cartao b { animation: encher .8s steps(6) forwards; }
 }
+
+/* Recado passageiro para quem só tocou. Fica no meio da tela, longe do polegar. */
+.dica { position: fixed; left: 50%; top: 48%; transform: translate(-50%, -50%) scale(.96);
+        z-index: 60; max-width: 17rem; text-align: center;
+        padding: .7rem 1.1rem; border-radius: 12px;
+        background: var(--fg); color: var(--bg); font-size: .86rem; line-height: 1.35;
+        box-shadow: 0 8px 28px rgb(0 0 0 / .22);
+        opacity: 0; pointer-events: none;
+        transition: opacity .16s ease, transform .16s ease; }
+.dica.visivel { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+@media (prefers-reduced-motion: reduce) { .dica { transition: opacity .16s ease; } }
 
 /* ── overlay do inegociável ───────────────────────────────────────────────── */
 .overlay { position: absolute; inset: 0; background: var(--ine-bg); border-radius: 18px;

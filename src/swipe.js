@@ -258,6 +258,7 @@ function telaCartoes() {
       <span class="carimbo c-nao">Discordo</span>
       <span class="carimbo c-ine">Inegociável</span>
       <span class="carimbo c-pular">Não opinar</span>
+      <i class="carga-cartao" aria-hidden="true"><b></b></i>
       ${corpo(q, true)}
       ${Z.pedindoLado ? `<div class="overlay">
         <h3>Inegociável elimina candidatos</h3>
@@ -282,13 +283,13 @@ function telaCartoes() {
       <span>Discordo</span></div>
     <div class="acao"><button class="b-ine-nao" data-segurar="discordo"
       aria-label="Segure para marcar: discordo, e é inegociável — elimina quem for a favor"
-      ><i class="carga" aria-hidden="true"></i>${ICONE.ineNao}</button>
+      >${ICONE.ineNao}</button>
       <span>Não, inegociável</span></div>
     <div class="acao"><button class="b-pular" data-resp="indiferente" aria-label="Não opinar">${ICONE.pular}</button>
       <span>Não opinar</span></div>
     <div class="acao"><button class="b-ine-sim" data-segurar="concordo"
       aria-label="Segure para marcar: concordo, e é inegociável — elimina quem for contra"
-      ><i class="carga" aria-hidden="true"></i>${ICONE.ineSim}</button>
+      >${ICONE.ineSim}</button>
       <span>Sim, inegociável</span></div>
     <div class="acao"><button class="b-sim" data-resp="concordo" aria-label="Concordo">${ICONE.sim}</button>
       <span>Concordo</span></div>
@@ -553,26 +554,60 @@ function ligarArraste() {
 const SEGURAR = 900;        // encerrar o questionário
 const SEGURAR_INE = 800;    // marcar um tema como inegociável
 
+/** Abaixo disto, soltar conta como toque — não como desistência de um gesto começado. */
+const TOQUE = 350;
+
+let dicaEl = null, dicaT = null;
+/** Recado passageiro. O dedo cobre o botão, então o que ele indica precisa aparecer longe dele. */
+function dizer(texto) {
+  if (!dicaEl) {
+    dicaEl = document.createElement("div");
+    dicaEl.className = "dica";
+    dicaEl.setAttribute("role", "status");
+    document.body.appendChild(dicaEl);
+  }
+  dicaEl.textContent = texto;
+  dicaEl.classList.add("visivel");
+  clearTimeout(dicaT);
+  dicaT = setTimeout(() => dicaEl.classList.remove("visivel"), 2200);
+}
+
 /**
- * Apertar e segurar. Soltar antes do fim cancela, e a barra volta a zero sem
+ * Apertar e segurar. Soltar antes do fim cancela, e o preenchimento volta a zero sem
  * transição — o corte seco é o que faz o cancelamento parecer cancelamento.
  * Serve às três ações caras da tela: encerrar, e os dois inegociáveis.
+ *
+ * `opts.aoComecar`/`aoParar` existem porque nos inegociáveis quem se enche é o CARTÃO,
+ * não o botão: o dedo cobre um botão de 56px inteiro e o progresso ficava invisível.
+ * `opts.aoToque` cobre o outro lado do mesmo problema — quem só toca não vê nada
+ * acontecer e conclui que o botão está quebrado.
  */
-function ligarSegurar(el, ms, aoCompletar) {
-  let t = null;
-  const parar = () => { clearTimeout(t); t = null; el.classList.remove("carregando"); };
+function ligarSegurar(el, ms, aoCompletar, opts = {}) {
+  let t = null, inicio = 0;
+  const parar = () => {
+    clearTimeout(t); t = null;
+    el.classList.remove("carregando");
+    opts.aoParar?.();
+  };
   const comecar = () => {
     if (t) return;
+    inicio = performance.now();
     el.classList.add("carregando");
+    opts.aoComecar?.();
     t = setTimeout(() => { parar(); aoCompletar(); }, ms);
   };
+  const soltar = () => {
+    const curto = t !== null && performance.now() - inicio < TOQUE;
+    parar();
+    if (curto) opts.aoToque?.();
+  };
   el.addEventListener("pointerdown", (ev) => { ev.preventDefault(); comecar(); });
-  for (const nome of ["pointerup", "pointerleave", "pointercancel"]) el.addEventListener(nome, parar);
+  for (const nome of ["pointerup", "pointerleave", "pointercancel"]) el.addEventListener(nome, soltar);
   // Teclado: segurar Espaço/Enter dispara keydown repetido; `comecar` ignora repetição.
   el.addEventListener("keydown", (ev) => {
     if (ev.key === " " || ev.key === "Enter") { ev.preventDefault(); comecar(); }
   });
-  el.addEventListener("keyup", parar);
+  el.addEventListener("keyup", soltar);
   el.addEventListener("blur", parar);
 }
 
@@ -587,10 +622,17 @@ function encerrarAgora() {
 
 function ligarSeguradores() {
   const fim = document.getElementById("encerrar");
-  if (fim) ligarSegurar(fim, SEGURAR, encerrarAgora);
+  if (fim) ligarSegurar(fim, SEGURAR, encerrarAgora,
+    { aoToque: () => dizer("Segure o botão até o fim para encerrar") });
+  const cartao = document.getElementById("topo");
   for (const el of document.querySelectorAll("[data-segurar]")) {
     const lado = el.dataset.segurar;
-    ligarSegurar(el, SEGURAR_INE, () => responderCartao(lado, true));
+    const marca = lado === "concordo" ? "carregando-sim" : "carregando-nao";
+    ligarSegurar(el, SEGURAR_INE, () => responderCartao(lado, true), {
+      aoComecar: () => cartao?.classList.add(marca),
+      aoParar: () => cartao?.classList.remove(marca),
+      aoToque: () => dizer("Segure para marcar como inegociável"),
+    });
   }
 }
 
