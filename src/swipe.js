@@ -145,8 +145,12 @@ const ICONE = {
   nao: SVG('<path d="M18 6 6 18M6 6l12 12"/>'),
   // ✓ — concordo
   sim: SVG('<path d="M20 6 9 17l-5-5"/>'),
-  // escudo com "!" — inegociável
+  // escudo com "!" — inegociável sem lado (só o arraste para cima usa)
   ine: SVG('<path d="M12 3 4 6v6c0 4.5 3.2 8.3 8 9 4.8-.7 8-4.5 8-9V6l-8-3Z"/><path d="M12 8.5v4"/><circle cx="12" cy="15.6" r=".9" fill="currentColor" stroke="none"/>'),
+  // escudo com ✕ — discordo e é inegociável
+  ineNao: SVG('<path d="M12 3 4 6v6c0 4.5 3.2 8.3 8 9 4.8-.7 8-4.5 8-9V6l-8-3Z"/><path d="M14.4 9.6 9.6 14.4M9.6 9.6l4.8 4.8"/>'),
+  // escudo com ✓ — concordo e é inegociável
+  ineSim: SVG('<path d="M12 3 4 6v6c0 4.5 3.2 8.3 8 9 4.8-.7 8-4.5 8-9V6l-8-3Z"/><path d="M15.3 10.1 11 14.4l-2.3-2.3"/>'),
   // seta para baixo — não opinar
   pular: SVG('<path d="M12 5v13M6 13l6 6 6-6"/>'),
   // setas em círculo — virar o cartão
@@ -214,6 +218,8 @@ function telaCartoes() {
         ? { concordo: 0, discordo: q.campo.nFalam }
         : { concordo: q.campo.nFalam, discordo: 0 })
     : { concordo: q.separa.contra, discordo: q.separa.favor };
+  const derruba = (n) => n === 0 ? "não elimina ninguém"
+    : `elimina ${n} candidatura${n > 1 ? "s" : ""}`;
   const custo = (n, lado) => n === 0
     ? `Não elimina ninguém: nenhum plano se posiciona ${lado}`
     : `Elimina ${n} candidatura${n > 1 ? "s" : ""} que ${n > 1 ? "estão" : "está"} ${lado}`;
@@ -274,15 +280,22 @@ function telaCartoes() {
   <div class="acoes">
     <div class="acao"><button class="b-nao" data-resp="discordo" aria-label="Discordo">${ICONE.nao}</button>
       <span>Discordo</span></div>
+    <div class="acao"><button class="b-ine-nao" data-segurar="discordo"
+      aria-label="Segure para marcar: discordo, e é inegociável — elimina quem for a favor"
+      ><i class="carga" aria-hidden="true"></i>${ICONE.ineNao}</button>
+      <span>Não, inegociável</span></div>
     <div class="acao"><button class="b-pular" data-resp="indiferente" aria-label="Não opinar">${ICONE.pular}</button>
       <span>Não opinar</span></div>
-    <div class="acao"><button class="b-ine" data-ir="pedir-lado" aria-label="Inegociável">${ICONE.ine}</button>
-      <span>Inegociável</span></div>
+    <div class="acao"><button class="b-ine-sim" data-segurar="concordo"
+      aria-label="Segure para marcar: concordo, e é inegociável — elimina quem for contra"
+      ><i class="carga" aria-hidden="true"></i>${ICONE.ineSim}</button>
+      <span>Sim, inegociável</span></div>
     <div class="acao"><button class="b-sim" data-resp="concordo" aria-label="Concordo">${ICONE.sim}</button>
       <span>Concordo</span></div>
   </div>
-  ${Z.linhasVermelhas.length ? "" : `<p class="legenda-ine">O escudo é diferente dos outros três:
-    ele <b>elimina</b> quem pensa diferente, em vez de descontar pontos.</p>`}
+  ${Z.linhasVermelhas.length ? "" : `<p class="legenda-ine"><b>Inegociável descarta quem pensa
+    diferente.</b><br>Neste tema, “não” ${derruba(elimina.discordo)}; “sim” ${
+    derruba(elimina.concordo)}.</p>`}
 
   <button class="encerrar" id="encerrar" type="button">
     <i class="carga" aria-hidden="true"></i>
@@ -462,7 +475,7 @@ function desenhar() {
                   : Z.tela === "resultado" ? telaResultado()
                   : telaCartoes();
   appEl.classList.toggle("abertura", Z.tela === "abertura");
-  if (Z.tela === "cartoes") { ligarArraste(); ligarEncerrar(); }
+  if (Z.tela === "cartoes") { ligarArraste(); ligarSeguradores(); }
   window.scrollTo({ top: 0 });
 }
 
@@ -537,7 +550,31 @@ function ligarArraste() {
 // questionário, e desfazer isso custa caro; segurar pede confirmação sem meter uma
 // caixa de diálogo no meio do fluxo. O tempo é a própria confirmação, e a barra que
 // enche dá ao gesto um ponto de desistência visível.
-const SEGURAR = 900;
+const SEGURAR = 900;        // encerrar o questionário
+const SEGURAR_INE = 800;    // marcar um tema como inegociável
+
+/**
+ * Apertar e segurar. Soltar antes do fim cancela, e a barra volta a zero sem
+ * transição — o corte seco é o que faz o cancelamento parecer cancelamento.
+ * Serve às três ações caras da tela: encerrar, e os dois inegociáveis.
+ */
+function ligarSegurar(el, ms, aoCompletar) {
+  let t = null;
+  const parar = () => { clearTimeout(t); t = null; el.classList.remove("carregando"); };
+  const comecar = () => {
+    if (t) return;
+    el.classList.add("carregando");
+    t = setTimeout(() => { parar(); aoCompletar(); }, ms);
+  };
+  el.addEventListener("pointerdown", (ev) => { ev.preventDefault(); comecar(); });
+  for (const nome of ["pointerup", "pointerleave", "pointercancel"]) el.addEventListener(nome, parar);
+  // Teclado: segurar Espaço/Enter dispara keydown repetido; `comecar` ignora repetição.
+  el.addEventListener("keydown", (ev) => {
+    if (ev.key === " " || ev.key === "Enter") { ev.preventDefault(); comecar(); }
+  });
+  el.addEventListener("keyup", parar);
+  el.addEventListener("blur", parar);
+}
 
 function encerrarAgora() {
   Z.encerrado = true;
@@ -548,24 +585,13 @@ function encerrarAgora() {
   desenhar();
 }
 
-function ligarEncerrar() {
-  const b = document.getElementById("encerrar");
-  if (!b) return;
-  let t = null;
-  const parar = () => { clearTimeout(t); t = null; b.classList.remove("carregando"); };
-  const comecar = () => {
-    if (t) return;
-    b.classList.add("carregando");
-    t = setTimeout(() => { parar(); encerrarAgora(); }, SEGURAR);
-  };
-  b.addEventListener("pointerdown", (ev) => { ev.preventDefault(); comecar(); });
-  for (const nome of ["pointerup", "pointerleave", "pointercancel"]) b.addEventListener(nome, parar);
-  // Teclado: segurar Espaço/Enter dispara keydown repetido; `comecar` ignora repetição.
-  b.addEventListener("keydown", (ev) => {
-    if (ev.key === " " || ev.key === "Enter") { ev.preventDefault(); comecar(); }
-  });
-  b.addEventListener("keyup", parar);
-  b.addEventListener("blur", parar);
+function ligarSeguradores() {
+  const fim = document.getElementById("encerrar");
+  if (fim) ligarSegurar(fim, SEGURAR, encerrarAgora);
+  for (const el of document.querySelectorAll("[data-segurar]")) {
+    const lado = el.dataset.segurar;
+    ligarSegurar(el, SEGURAR_INE, () => responderCartao(lado, true));
+  }
 }
 
 // ── painel de uma candidatura ────────────────────────────────────────────────
@@ -711,7 +737,7 @@ document.addEventListener("keydown", (ev) => {
   if (ev.key === "Escape" && !painelEl.hidden) { ev.preventDefault(); return fecharPainel(); }
   if (!painelEl.hidden) return;
   if (Z.tela !== "cartoes" || Z.pedindoLado) return;
-  if (ev.target?.closest?.("#encerrar")) return;
+  if (ev.target?.closest?.("#encerrar, [data-segurar]")) return;
   const m = { ArrowRight: "concordo", ArrowLeft: "discordo", ArrowDown: "indiferente" };
   if (ev.key === "ArrowUp") { ev.preventDefault(); Z.pedindoLado = true; desenhar(); return; }
   if (ev.key === " " || ev.key === "Enter") { ev.preventDefault(); virarCartao(); return; }

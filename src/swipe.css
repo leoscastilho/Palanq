@@ -155,28 +155,55 @@ button:focus-visible { outline: 2px solid var(--acento); outline-offset: 3px; bo
 .carimbo.c-pular { left: 50%; margin-left: -4rem; top: auto; bottom: 22%; color: var(--pular); }
 
 /* ── botões ───────────────────────────────────────────────────────────────── */
-.acoes { display: flex; gap: .9rem; justify-content: center; align-items: flex-start;
-         padding: 1.2rem 0 .4rem; width: 100%; }
-.acao { display: flex; flex-direction: column; align-items: center; gap: .4rem; flex: 0 0 auto; }
-.acao span { font-size: .64rem; color: var(--fg3); text-transform: uppercase; letter-spacing: .05em;
-             text-align: center; line-height: 1.25; max-width: 72px; }
+/* Os cinco ocupam a mesma largura do cartão: `space-between` distribui a folga em vez
+   de fixá-la, então a linha se ajusta sozinha de 375px ao desktop.
+   A curva vertical é o que separa as três respostas do meio das duas das pontas — as
+   duas mais usadas ficam mais baixas e maiores, com o dedo mais perto delas. */
+/* Folga igual entre os cinco círculos. Para o `gap` valer entre BOTÕES e não entre
+   colunas, cada coluna tem a largura exata do seu botão (`--d`) e o rótulo transborda
+   dela, centrado — senão a palavra "INEGOCIÁVEL" ditaria a largura e as folgas sairiam
+   desiguais. O diâmetro cede um pouco abaixo de ~400px: em tamanho cheio os cinco
+   somam 312px numa faixa de 343 e não sobraria folga nenhuma. */
+.acoes { display: flex; justify-content: center; align-items: flex-start;
+         gap: clamp(7px, 2.6vw, 26px);
+         padding: 1.2rem 0 .4rem; width: 100%; box-sizing: border-box; }
+
+.acao { --d: clamp(64px, 17.5vw, 70px); width: var(--d); min-width: 0;
+        display: grid; grid-template-columns: 100%; grid-template-rows: var(--d) auto;
+        justify-items: center;
+        align-items: center; gap: .3rem; flex: 0 0 auto; }
+.acao:nth-child(2), .acao:nth-child(4) { --d: clamp(54px, 15vw, 60px); }
+.acao:nth-child(3) { --d: clamp(48px, 13.5vw, 52px); }
+.acao:first-child, .acao:last-child { margin-top: 14px; }
+.acao:nth-child(2), .acao:nth-child(3), .acao:nth-child(4) { margin-top: -4px; }
+.acao span { font-size: clamp(.55rem, 1.7vw, .64rem); color: var(--fg3); text-transform: uppercase;
+             letter-spacing: .04em; text-align: center; line-height: 1.25;
+             width: clamp(58px, 17vw, 80px); }
 .acoes button {
-  width: 62px; height: 62px; border-radius: 50%; display: grid; place-items: center;
+  width: var(--d); height: var(--d);
+  border-radius: 50%; display: grid; place-items: center;
   background: var(--caixa); border: 1px solid var(--linha); box-shadow: 0 3px 10px rgba(0,0,0,.06);
   transition: transform .12s ease, background .12s ease;
 }
 .acoes button:active { transform: scale(.9); }
-.acoes button svg { width: 26px; height: 26px; }
+.acoes button svg { width: 29px; height: 29px; }
 .acoes button.b-nao   { color: var(--nao); }
 .acoes button.b-sim   { color: var(--sim); }
-.acoes button.b-ine   { color: var(--ine); width: 52px; height: 52px; }
-.acoes button.b-pular { color: var(--pular); width: 52px; height: 52px; }
+.acoes button.b-pular { color: var(--pular); }
+.acoes button.b-pular svg { width: 24px; height: 24px; }
+/* Os escudos usam a cor da resposta — a direção é o que a pessoa escolhe primeiro —
+   e a forma de escudo é o que diz que aquela resposta elimina em vez de descontar. */
+.acoes button.b-ine-nao { color: var(--nao);
+                          border-color: color-mix(in srgb, var(--nao) 35%, var(--linha)); }
+.acoes button.b-ine-sim { color: var(--sim);
+                          border-color: color-mix(in srgb, var(--sim) 35%, var(--linha)); }
+.acoes button.b-ine-nao svg, .acoes button.b-ine-sim svg { width: 26px; height: 26px; }
 .acoes button:hover { background: var(--realce); }
 
 
 /* Encerrar agora: apertar e segurar. A barra que enche é o tempo de desistir —
    soltar antes do fim cancela, e o zero volta sem transição para isso ficar óbvio. */
-.encerrar { position: relative; overflow: hidden; display: block; margin: .2rem auto 0;
+.encerrar { position: relative; overflow: hidden; display: block; margin: 1.6rem auto 0;
             padding: .5rem 1.2rem; border: 1px solid var(--linha); border-radius: 999px;
             background: var(--caixa); color: var(--fg3); font-size: .78rem;
             cursor: pointer; touch-action: none; user-select: none; -webkit-user-select: none; }
@@ -192,9 +219,27 @@ button:focus-visible { outline: 2px solid var(--acento); outline-offset: 3px; bo
 
 /* A única ação cuja consequência não se adivinha pelo rótulo. A legenda some assim
    que a pessoa usa o escudo uma vez — quem nunca usou é quem precisa dela. */
-.legenda-ine { max-width: 30rem; margin: .1rem auto .2rem; text-align: center;
+.legenda-ine { max-width: 30rem; margin: .6rem auto 0; text-align: center;
                font-size: .72rem; line-height: 1.45; color: var(--fg3); }
 .legenda-ine b { color: var(--ine); font-weight: 650; }
+
+/* Os dois inegociáveis pedem apertar-e-segurar: eles eliminam candidaturas de vez, e
+   ficavam a um toque acidental de distância dos botões de resposta simples. A barra
+   sobe por dentro do próprio círculo — o `overflow: hidden` no botão redondo recorta
+   o preenchimento no formato dele. */
+.acoes button.b-ine-nao, .acoes button.b-ine-sim { position: relative; overflow: hidden;
+                                                   touch-action: none; }
+.acoes button .carga { position: absolute; left: 0; right: 0; bottom: 0; height: 0; }
+.acoes button.b-ine-nao .carga { background: color-mix(in srgb, var(--nao) 28%, transparent); }
+.acoes button.b-ine-sim .carga { background: color-mix(in srgb, var(--sim) 28%, transparent); }
+@keyframes encher { from { height: 0; } to { height: 100%; } }
+.acoes button.carregando .carga { animation: encher .8s linear forwards; }
+.acoes button.b-ine-nao.carregando { border-color: var(--nao); }
+.acoes button.b-ine-sim.carregando { border-color: var(--sim); }
+.acoes button svg { position: relative; z-index: 1; }
+@media (prefers-reduced-motion: reduce) {
+  .acoes button.carregando .carga { animation: encher .8s steps(6) forwards; }
+}
 
 /* ── overlay do inegociável ───────────────────────────────────────────────── */
 .overlay { position: absolute; inset: 0; background: var(--ine-bg); border-radius: 18px;

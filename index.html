@@ -178,28 +178,55 @@ button:focus-visible { outline: 2px solid var(--acento); outline-offset: 3px; bo
 .carimbo.c-pular { left: 50%; margin-left: -4rem; top: auto; bottom: 22%; color: var(--pular); }
 
 /* ── botões ───────────────────────────────────────────────────────────────── */
-.acoes { display: flex; gap: .9rem; justify-content: center; align-items: flex-start;
-         padding: 1.2rem 0 .4rem; width: 100%; }
-.acao { display: flex; flex-direction: column; align-items: center; gap: .4rem; flex: 0 0 auto; }
-.acao span { font-size: .64rem; color: var(--fg3); text-transform: uppercase; letter-spacing: .05em;
-             text-align: center; line-height: 1.25; max-width: 72px; }
+/* Os cinco ocupam a mesma largura do cartão: `space-between` distribui a folga em vez
+   de fixá-la, então a linha se ajusta sozinha de 375px ao desktop.
+   A curva vertical é o que separa as três respostas do meio das duas das pontas — as
+   duas mais usadas ficam mais baixas e maiores, com o dedo mais perto delas. */
+/* Folga igual entre os cinco círculos. Para o `gap` valer entre BOTÕES e não entre
+   colunas, cada coluna tem a largura exata do seu botão (`--d`) e o rótulo transborda
+   dela, centrado — senão a palavra "INEGOCIÁVEL" ditaria a largura e as folgas sairiam
+   desiguais. O diâmetro cede um pouco abaixo de ~400px: em tamanho cheio os cinco
+   somam 312px numa faixa de 343 e não sobraria folga nenhuma. */
+.acoes { display: flex; justify-content: center; align-items: flex-start;
+         gap: clamp(7px, 2.6vw, 26px);
+         padding: 1.2rem 0 .4rem; width: 100%; box-sizing: border-box; }
+
+.acao { --d: clamp(64px, 17.5vw, 70px); width: var(--d); min-width: 0;
+        display: grid; grid-template-columns: 100%; grid-template-rows: var(--d) auto;
+        justify-items: center;
+        align-items: center; gap: .3rem; flex: 0 0 auto; }
+.acao:nth-child(2), .acao:nth-child(4) { --d: clamp(54px, 15vw, 60px); }
+.acao:nth-child(3) { --d: clamp(48px, 13.5vw, 52px); }
+.acao:first-child, .acao:last-child { margin-top: 14px; }
+.acao:nth-child(2), .acao:nth-child(3), .acao:nth-child(4) { margin-top: -4px; }
+.acao span { font-size: clamp(.55rem, 1.7vw, .64rem); color: var(--fg3); text-transform: uppercase;
+             letter-spacing: .04em; text-align: center; line-height: 1.25;
+             width: clamp(58px, 17vw, 80px); }
 .acoes button {
-  width: 62px; height: 62px; border-radius: 50%; display: grid; place-items: center;
+  width: var(--d); height: var(--d);
+  border-radius: 50%; display: grid; place-items: center;
   background: var(--caixa); border: 1px solid var(--linha); box-shadow: 0 3px 10px rgba(0,0,0,.06);
   transition: transform .12s ease, background .12s ease;
 }
 .acoes button:active { transform: scale(.9); }
-.acoes button svg { width: 26px; height: 26px; }
+.acoes button svg { width: 29px; height: 29px; }
 .acoes button.b-nao   { color: var(--nao); }
 .acoes button.b-sim   { color: var(--sim); }
-.acoes button.b-ine   { color: var(--ine); width: 52px; height: 52px; }
-.acoes button.b-pular { color: var(--pular); width: 52px; height: 52px; }
+.acoes button.b-pular { color: var(--pular); }
+.acoes button.b-pular svg { width: 24px; height: 24px; }
+/* Os escudos usam a cor da resposta — a direção é o que a pessoa escolhe primeiro —
+   e a forma de escudo é o que diz que aquela resposta elimina em vez de descontar. */
+.acoes button.b-ine-nao { color: var(--nao);
+                          border-color: color-mix(in srgb, var(--nao) 35%, var(--linha)); }
+.acoes button.b-ine-sim { color: var(--sim);
+                          border-color: color-mix(in srgb, var(--sim) 35%, var(--linha)); }
+.acoes button.b-ine-nao svg, .acoes button.b-ine-sim svg { width: 26px; height: 26px; }
 .acoes button:hover { background: var(--realce); }
 
 
 /* Encerrar agora: apertar e segurar. A barra que enche é o tempo de desistir —
    soltar antes do fim cancela, e o zero volta sem transição para isso ficar óbvio. */
-.encerrar { position: relative; overflow: hidden; display: block; margin: .2rem auto 0;
+.encerrar { position: relative; overflow: hidden; display: block; margin: 1.6rem auto 0;
             padding: .5rem 1.2rem; border: 1px solid var(--linha); border-radius: 999px;
             background: var(--caixa); color: var(--fg3); font-size: .78rem;
             cursor: pointer; touch-action: none; user-select: none; -webkit-user-select: none; }
@@ -215,9 +242,27 @@ button:focus-visible { outline: 2px solid var(--acento); outline-offset: 3px; bo
 
 /* A única ação cuja consequência não se adivinha pelo rótulo. A legenda some assim
    que a pessoa usa o escudo uma vez — quem nunca usou é quem precisa dela. */
-.legenda-ine { max-width: 30rem; margin: .1rem auto .2rem; text-align: center;
+.legenda-ine { max-width: 30rem; margin: .6rem auto 0; text-align: center;
                font-size: .72rem; line-height: 1.45; color: var(--fg3); }
 .legenda-ine b { color: var(--ine); font-weight: 650; }
+
+/* Os dois inegociáveis pedem apertar-e-segurar: eles eliminam candidaturas de vez, e
+   ficavam a um toque acidental de distância dos botões de resposta simples. A barra
+   sobe por dentro do próprio círculo — o `overflow: hidden` no botão redondo recorta
+   o preenchimento no formato dele. */
+.acoes button.b-ine-nao, .acoes button.b-ine-sim { position: relative; overflow: hidden;
+                                                   touch-action: none; }
+.acoes button .carga { position: absolute; left: 0; right: 0; bottom: 0; height: 0; }
+.acoes button.b-ine-nao .carga { background: color-mix(in srgb, var(--nao) 28%, transparent); }
+.acoes button.b-ine-sim .carga { background: color-mix(in srgb, var(--sim) 28%, transparent); }
+@keyframes encher { from { height: 0; } to { height: 100%; } }
+.acoes button.carregando .carga { animation: encher .8s linear forwards; }
+.acoes button.b-ine-nao.carregando { border-color: var(--nao); }
+.acoes button.b-ine-sim.carregando { border-color: var(--sim); }
+.acoes button svg { position: relative; z-index: 1; }
+@media (prefers-reduced-motion: reduce) {
+  .acoes button.carregando .carga { animation: encher .8s steps(6) forwards; }
+}
 
 /* ── overlay do inegociável ───────────────────────────────────────────────── */
 .overlay { position: absolute; inset: 0; background: var(--ine-bg); border-radius: 18px;
@@ -1509,8 +1554,12 @@ const ICONE = {
   nao: SVG('<path d="M18 6 6 18M6 6l12 12"/>'),
   // ✓ — concordo
   sim: SVG('<path d="M20 6 9 17l-5-5"/>'),
-  // escudo com "!" — inegociável
+  // escudo com "!" — inegociável sem lado (só o arraste para cima usa)
   ine: SVG('<path d="M12 3 4 6v6c0 4.5 3.2 8.3 8 9 4.8-.7 8-4.5 8-9V6l-8-3Z"/><path d="M12 8.5v4"/><circle cx="12" cy="15.6" r=".9" fill="currentColor" stroke="none"/>'),
+  // escudo com ✕ — discordo e é inegociável
+  ineNao: SVG('<path d="M12 3 4 6v6c0 4.5 3.2 8.3 8 9 4.8-.7 8-4.5 8-9V6l-8-3Z"/><path d="M14.4 9.6 9.6 14.4M9.6 9.6l4.8 4.8"/>'),
+  // escudo com ✓ — concordo e é inegociável
+  ineSim: SVG('<path d="M12 3 4 6v6c0 4.5 3.2 8.3 8 9 4.8-.7 8-4.5 8-9V6l-8-3Z"/><path d="M15.3 10.1 11 14.4l-2.3-2.3"/>'),
   // seta para baixo — não opinar
   pular: SVG('<path d="M12 5v13M6 13l6 6 6-6"/>'),
   // setas em círculo — virar o cartão
@@ -1578,6 +1627,8 @@ function telaCartoes() {
         ? { concordo: 0, discordo: q.campo.nFalam }
         : { concordo: q.campo.nFalam, discordo: 0 })
     : { concordo: q.separa.contra, discordo: q.separa.favor };
+  const derruba = (n) => n === 0 ? "não elimina ninguém"
+    : `elimina ${n} candidatura${n > 1 ? "s" : ""}`;
   const custo = (n, lado) => n === 0
     ? `Não elimina ninguém: nenhum plano se posiciona ${lado}`
     : `Elimina ${n} candidatura${n > 1 ? "s" : ""} que ${n > 1 ? "estão" : "está"} ${lado}`;
@@ -1638,15 +1689,22 @@ function telaCartoes() {
   <div class="acoes">
     <div class="acao"><button class="b-nao" data-resp="discordo" aria-label="Discordo">${ICONE.nao}</button>
       <span>Discordo</span></div>
+    <div class="acao"><button class="b-ine-nao" data-segurar="discordo"
+      aria-label="Segure para marcar: discordo, e é inegociável — elimina quem for a favor"
+      ><i class="carga" aria-hidden="true"></i>${ICONE.ineNao}</button>
+      <span>Não, inegociável</span></div>
     <div class="acao"><button class="b-pular" data-resp="indiferente" aria-label="Não opinar">${ICONE.pular}</button>
       <span>Não opinar</span></div>
-    <div class="acao"><button class="b-ine" data-ir="pedir-lado" aria-label="Inegociável">${ICONE.ine}</button>
-      <span>Inegociável</span></div>
+    <div class="acao"><button class="b-ine-sim" data-segurar="concordo"
+      aria-label="Segure para marcar: concordo, e é inegociável — elimina quem for contra"
+      ><i class="carga" aria-hidden="true"></i>${ICONE.ineSim}</button>
+      <span>Sim, inegociável</span></div>
     <div class="acao"><button class="b-sim" data-resp="concordo" aria-label="Concordo">${ICONE.sim}</button>
       <span>Concordo</span></div>
   </div>
-  ${Z.linhasVermelhas.length ? "" : `<p class="legenda-ine">O escudo é diferente dos outros três:
-    ele <b>elimina</b> quem pensa diferente, em vez de descontar pontos.</p>`}
+  ${Z.linhasVermelhas.length ? "" : `<p class="legenda-ine"><b>Inegociável descarta quem pensa
+    diferente.</b><br>Neste tema, “não” ${derruba(elimina.discordo)}; “sim” ${
+    derruba(elimina.concordo)}.</p>`}
 
   <button class="encerrar" id="encerrar" type="button">
     <i class="carga" aria-hidden="true"></i>
@@ -1826,7 +1884,7 @@ function desenhar() {
                   : Z.tela === "resultado" ? telaResultado()
                   : telaCartoes();
   appEl.classList.toggle("abertura", Z.tela === "abertura");
-  if (Z.tela === "cartoes") { ligarArraste(); ligarEncerrar(); }
+  if (Z.tela === "cartoes") { ligarArraste(); ligarSeguradores(); }
   window.scrollTo({ top: 0 });
 }
 
@@ -1901,7 +1959,31 @@ function ligarArraste() {
 // questionário, e desfazer isso custa caro; segurar pede confirmação sem meter uma
 // caixa de diálogo no meio do fluxo. O tempo é a própria confirmação, e a barra que
 // enche dá ao gesto um ponto de desistência visível.
-const SEGURAR = 900;
+const SEGURAR = 900;        // encerrar o questionário
+const SEGURAR_INE = 800;    // marcar um tema como inegociável
+
+/**
+ * Apertar e segurar. Soltar antes do fim cancela, e a barra volta a zero sem
+ * transição — o corte seco é o que faz o cancelamento parecer cancelamento.
+ * Serve às três ações caras da tela: encerrar, e os dois inegociáveis.
+ */
+function ligarSegurar(el, ms, aoCompletar) {
+  let t = null;
+  const parar = () => { clearTimeout(t); t = null; el.classList.remove("carregando"); };
+  const comecar = () => {
+    if (t) return;
+    el.classList.add("carregando");
+    t = setTimeout(() => { parar(); aoCompletar(); }, ms);
+  };
+  el.addEventListener("pointerdown", (ev) => { ev.preventDefault(); comecar(); });
+  for (const nome of ["pointerup", "pointerleave", "pointercancel"]) el.addEventListener(nome, parar);
+  // Teclado: segurar Espaço/Enter dispara keydown repetido; `comecar` ignora repetição.
+  el.addEventListener("keydown", (ev) => {
+    if (ev.key === " " || ev.key === "Enter") { ev.preventDefault(); comecar(); }
+  });
+  el.addEventListener("keyup", parar);
+  el.addEventListener("blur", parar);
+}
 
 function encerrarAgora() {
   Z.encerrado = true;
@@ -1912,24 +1994,13 @@ function encerrarAgora() {
   desenhar();
 }
 
-function ligarEncerrar() {
-  const b = document.getElementById("encerrar");
-  if (!b) return;
-  let t = null;
-  const parar = () => { clearTimeout(t); t = null; b.classList.remove("carregando"); };
-  const comecar = () => {
-    if (t) return;
-    b.classList.add("carregando");
-    t = setTimeout(() => { parar(); encerrarAgora(); }, SEGURAR);
-  };
-  b.addEventListener("pointerdown", (ev) => { ev.preventDefault(); comecar(); });
-  for (const nome of ["pointerup", "pointerleave", "pointercancel"]) b.addEventListener(nome, parar);
-  // Teclado: segurar Espaço/Enter dispara keydown repetido; `comecar` ignora repetição.
-  b.addEventListener("keydown", (ev) => {
-    if (ev.key === " " || ev.key === "Enter") { ev.preventDefault(); comecar(); }
-  });
-  b.addEventListener("keyup", parar);
-  b.addEventListener("blur", parar);
+function ligarSeguradores() {
+  const fim = document.getElementById("encerrar");
+  if (fim) ligarSegurar(fim, SEGURAR, encerrarAgora);
+  for (const el of document.querySelectorAll("[data-segurar]")) {
+    const lado = el.dataset.segurar;
+    ligarSegurar(el, SEGURAR_INE, () => responderCartao(lado, true));
+  }
 }
 
 // ── painel de uma candidatura ────────────────────────────────────────────────
@@ -2075,7 +2146,7 @@ document.addEventListener("keydown", (ev) => {
   if (ev.key === "Escape" && !painelEl.hidden) { ev.preventDefault(); return fecharPainel(); }
   if (!painelEl.hidden) return;
   if (Z.tela !== "cartoes" || Z.pedindoLado) return;
-  if (ev.target?.closest?.("#encerrar")) return;
+  if (ev.target?.closest?.("#encerrar, [data-segurar]")) return;
   const m = { ArrowRight: "concordo", ArrowLeft: "discordo", ArrowDown: "indiferente" };
   if (ev.key === "ArrowUp") { ev.preventDefault(); Z.pedindoLado = true; desenhar(); return; }
   if (ev.key === " " || ev.key === "Enter") { ev.preventDefault(); virarCartao(); return; }
