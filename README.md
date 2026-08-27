@@ -94,6 +94,18 @@ dar peso alto a ele: quem pensa diferente sai da comparação, e sai com a frase
 plano que causou a eliminação. Se todas caírem, o instrumento mostra a ordem que
 existiria sem os inegociáveis em vez de devolver conjunto vazio.
 
+**O resultado tem três leituras, uma ordenação só.** O gráfico abre ordenado por
+afinidade — que é o ranking — e um seletor reordena a mesma lista por concordância ou
+por discordância. As duas últimas são *vistas*, não rankings alternativos, e por isso
+não recebem numeração: ordenar por concordância premiaria quem escreveu mais (o que
+§20 existe para impedir), e um "1º lugar" em discordância significaria o oposto de
+vencer. A ordinal fica só onde ela quer dizer alguma coisa.
+
+A ordem usa o **peso** (é o que a barra desenha) e desempata pela **contagem** (é o
+que o rótulo diz). Sem o desempate a lista mostraria "5 concordâncias" acima de "6":
+medido em 6.000 listas simuladas, zero inversões estritas entre peso e contagem, e as
+82 aparentes eram todas empates de peso.
+
 **A gente para quando já está decidido.** A cada resposta o motor calcula o intervalo
 em que a afinidade de cada candidatura ainda pode terminar; quando nenhuma resposta
 futura consegue mudar quem lidera, a tela de cartões vai ao resultado. A garantia

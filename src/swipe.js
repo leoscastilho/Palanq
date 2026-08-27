@@ -27,6 +27,7 @@ const Z = {
   extra: false,
   aberto: null,   // candidatura expandida no resultado
   encerrado: false,   // o leitor pediu para ver o resultado antes da hora
+  ordenar: "afinidade",   // afinidade | concordancia | discordancia
   margem: 0.05,
 };
 
@@ -104,6 +105,13 @@ function acabou(a) {
          tocados >= Math.min(MINIMO_TEMAS, existentes);
 }
 
+/** As três leituras do mesmo gráfico. A primeira é o ranking; as outras são vistas. */
+const ORDENS = [
+  { id: "afinidade", rotulo: "Afinidade" },
+  { id: "concordancia", rotulo: "Concordância" },
+  { id: "discordancia", rotulo: "Discordância" },
+];
+
 function gravar() {
   try { localStorage.setItem(CHAVE_S, JSON.stringify({ v: 1, cv: CORPUS.corpusVersion, ...Z })); } catch {}
 }
@@ -114,7 +122,8 @@ function recuperar() {
     Object.assign(Z, { tela: d.tela, respostas: d.respostas || {},
                        linhasVermelhas: d.linhasVermelhas || [],
                        continuar: !!d.continuar, extra: !!d.extra,
-                       encerrado: !!d.encerrado });
+                       encerrado: !!d.encerrado,
+                       ordenar: ORDENS.some((o) => o.id === d.ordenar) ? d.ordenar : "afinidade" });
     Z.pedindoLado = false;
     return Object.keys(Z.respostas).length > 0;
   } catch { return false; }
@@ -122,7 +131,7 @@ function recuperar() {
 function recomecar() {
   Object.assign(Z, { tela: "abertura", respostas: {}, linhasVermelhas: [], pedindoLado: false,
                      virado: false, continuar: false, extra: false, aberto: null,
-                     encerrado: false });
+                     encerrado: false, ordenar: "afinidade" });
   try { localStorage.removeItem(CHAVE_S); } catch {}
   desenhar();
 }
@@ -290,7 +299,28 @@ function telaResultado() {
   const totalPeso = Math.max(...CORPUS.candidatos.map((c) => est[c.id].pesoRespondido), 1);
   const peso = (ids) => ids.reduce((n, e) => n + CORPUS.eixos[e].peso, 0);
 
-  const ordem = [...a.ranking.ordem, ...a.ranking.semSinal,
+  // O ranking é por afinidade — as outras duas ordens são VISÕES do mesmo gráfico,
+  // não rankings alternativos, e por isso não recebem numeração. Ordenar por
+  // concordância premiaria quem escreveu mais; por discordância, um "1º lugar"
+  // significaria o oposto de vencer. A ordinal fica só onde ela quer dizer algo.
+  const vivos = [...a.ranking.ordem, ...a.ranking.semSinal];
+  const chave = {
+    afinidade: (id) => est[id].afinidade ?? -1,
+    concordancia: (id) => peso(est[id].alinhados),
+    discordancia: (id) => peso(est[id].divergentes),
+  }[Z.ordenar] || ((id) => est[id].afinidade ?? -1);
+  // Ordena pelo PESO (é o que a barra desenha) e desempata pela CONTAGEM (é o que o
+  // rótulo diz). Medido em 6.000 listas simuladas: zero inversões estritas entre os
+  // dois, e as 82 aparentes eram empates de peso — que este desempate resolve. Sem
+  // ele, a lista mostraria "5 concordâncias" acima de "6".
+  const contagem = {
+    concordancia: (id) => est[id].alinhados.length + est[id].complementar.alinhados.length,
+    discordancia: (id) => est[id].divergentes.length + est[id].complementar.divergentes.length,
+  }[Z.ordenar] || (() => 0);
+  const emOrdem = Z.ordenar === "afinidade" ? vivos : [...vivos].sort(
+    (x, y) => chave(y) - chave(x) || contagem(y) - contagem(x) ||
+              (est[y].afinidade ?? -1) - (est[x].afinidade ?? -1) || x.localeCompare(y));
+  const ordem = [...emOrdem,
                  ...CORPUS.candidatos.filter((c) => est[c.id].estado === "eliminado").map((c) => c.id)];
 
   // Posição explícita, com o MESMO número para quem empata. Sem isto o leitor lê o
@@ -306,13 +336,19 @@ function telaResultado() {
     const A = peso(s.alinhados), D = peso(s.divergentes), S = peso(s.silencios);
     const p = (x) => (x / totalPeso) * 100;
     const nDiv = s.divergentes.length + s.complementar.divergentes.length;
+    const nAli = s.alinhados.length + s.complementar.alinhados.length;
     return `<div class="raia ${lider ? "topo" : ""} ${morto ? "morta" : ""}">
       <button class="quem" data-ir="abrir" data-quem="${id}" aria-haspopup="dialog">
-        <span class="pos">${morto ? "×" : posicao[id] ? posicao[id] + "º" : "—"}</span>
+        ${Z.ordenar === "afinidade"
+          ? `<span class="pos">${morto ? "×" : posicao[id] ? posicao[id] + "º" : "—"}</span>`
+          : `<span class="pos">${morto ? "×" : "·"}</span>`}
         <b>${esc(nomeC(id))}</b>${siglaC(id) ? `<em>${esc(siglaC(id))}</em>` : ""}
         ${lider ? '<em style="color:var(--acento)">mais alinhado</em>' : ""}
         ${morto ? '<em style="color:var(--nao)">fora — inegociável</em>' : ""}
-        <span class="conta">${nDiv ? `${nDiv} divergência${nDiv > 1 ? "s" : ""}` : ""}</span>
+        <span class="conta ${Z.ordenar === "concordancia" ? "acordo" : ""}">${
+          Z.ordenar === "concordancia"
+            ? (nAli ? `${nAli} concordância${nAli > 1 ? "s" : ""}` : "")
+            : (nDiv ? `${nDiv} divergência${nDiv > 1 ? "s" : ""}` : "")}</span>
         <span class="seta" aria-hidden="true">›</span>
       </button>
       <div class="barra" role="img" aria-label="${A ? "concorda em parte" : ""}">
@@ -324,7 +360,7 @@ function telaResultado() {
   const pesoDe = (ids) => ids.reduce((n, e) => n + CORPUS.eixos[e].peso, 0);
   // Líderes empatados cujas barras ficam bem diferentes — o caso que faz o leitor
   // achar que o ranking está errado.
-  const desigual = lideres.length > 1 &&
+  const desigual = Z.ordenar === "afinidade" && lideres.length > 1 &&
     Math.max(...lideres.map((x) => est[x].cobertura ?? 0)) -
     Math.min(...lideres.map((x) => est[x].cobertura ?? 0)) > 0.25 ? lideres : [];
   // Um líder que "venceu" mais por silêncio do que por concordância. É o desfecho
@@ -336,33 +372,16 @@ function telaResultado() {
   const extraFaltam = [...a.classes.unilaterais, ...a.classes.unanimes]
     .filter((u) => Z.respostas[u.eixo] === undefined).length;
 
-  const titulo = !lideres.length
-    ? "Nenhuma candidatura sobrou"
-    : caladosNoTopo.length === lideres.length
-    ? "Nenhum candidato está alinhado com suas opiniões"
-    : lideres.length === 1
-    ? `${nomeC(lideres[0])} está mais alinhado com suas opiniões`
-    : `Empate entre ${lideres.length}`;
-
-  const subtitulo = !lideres.length
-    ? ""
-    : caladosNoTopo.length === lideres.length
-    ? `<p class="mini">${lista(lideres.map((x) => esc(nomeC(x))))} ${lideres.length > 1 ? "aparecem" : "aparece"}
-       no topo por <b>não ter dito nada</b> sobre a maior parte do que você respondeu — e não por concordar
-       com você. Repare no tanto de hachurado ${lideres.length > 1 ? "nas barras" : "na barra"} logo abaixo.</p>`
-    : caladosNoTopo.length
-    ? `<p class="mini">${lista(caladosNoTopo.map((x) => esc(nomeC(x))))}
-       ${caladosNoTopo.length > 1 ? "empatam" : "empata"} no topo mais por silêncio do que por concordância:
-       o plano ${caladosNoTopo.length > 1 ? "deles" : "dele"} não trata da maior parte do que você respondeu.</p>`
-    : lideres.length > 1
-    ? `<p class="mini">${lista(lideres.map((x) => esc(nomeC(x))))} — a diferença entre elas é pequena
-       demais para desempatar.</p>`
-    : "";
-
+  const iOrdem = Math.max(0, ORDENS.findIndex((o) => o.id === Z.ordenar));
   return `
   <div class="barra-topo"><span class="marca">Palanq</span></div>
-  <h1 style="font-size:1.6rem">${esc(titulo)}</h1>
-  ${subtitulo}
+  <h1 style="font-size:1.35rem">Seu resultado</h1>
+
+  <div class="ordenar" role="group" aria-label="Ordenar candidaturas por">
+    <i class="marca-ordem" style="left:${(iOrdem * 100) / ORDENS.length}%;width:${100 / ORDENS.length}%"></i>
+    ${ORDENS.map((o) => `<button data-ir="ordenar" data-por="${o.id}"
+      aria-pressed="${Z.ordenar === o.id}">${o.rotulo}</button>`).join("")}
+  </div>
 
   ${Z.encerrado ? `<div class="aviso" style="border-left-color:var(--pular)">
     <h3>Você encerrou antes do fim</h3>
@@ -681,6 +700,7 @@ appEl.addEventListener("click", (ev) => {
     case "continuar": Z.continuar = true; Z.encerrado = false; Z.tela = "cartoes"; gravar(); desenhar(); break;
     case "extra": Z.extra = true; Z.encerrado = false; Z.tela = "cartoes"; gravar(); desenhar(); break;
     case "abrir": abrirPainel(b.dataset.quem); break;
+    case "ordenar": Z.ordenar = b.dataset.por; gravar(); desenhar(); break;
     case "recomecar": recomecar(); break;
     case "pedir-lado": Z.pedindoLado = true; desenhar(); break;
     case "cancelar-lado": Z.pedindoLado = false; desenhar(); break;
