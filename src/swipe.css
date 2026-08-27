@@ -190,6 +190,12 @@ button:focus-visible { outline: 2px solid var(--acento); outline-offset: 3px; bo
   .encerrar.carregando .carga { transition: width .9s steps(6); }
 }
 
+/* A única ação cuja consequência não se adivinha pelo rótulo. A legenda some assim
+   que a pessoa usa o escudo uma vez — quem nunca usou é quem precisa dela. */
+.legenda-ine { max-width: 30rem; margin: .1rem auto .2rem; text-align: center;
+               font-size: .72rem; line-height: 1.45; color: var(--fg3); }
+.legenda-ine b { color: var(--ine); font-weight: 650; }
+
 /* ── overlay do inegociável ───────────────────────────────────────────────── */
 .overlay { position: absolute; inset: 0; background: var(--ine-bg); border-radius: 18px;
            border: 2px solid var(--ine); padding: 1.6rem 1.4rem; display: flex;
@@ -197,8 +203,17 @@ button:focus-visible { outline: 2px solid var(--acento); outline-offset: 3px; bo
 .overlay h3 { color: var(--ine); }
 .overlay .escolhas { display: grid; gap: .6rem; }
 .overlay .escolhas button { border: 1px solid var(--linha); background: var(--caixa);
-                            border-radius: 12px; padding: .85rem 1rem; text-align: left; font-weight: 600; }
-.overlay .escolhas button small { display: block; font-weight: 400; color: var(--fg2); font-size: .8rem; }
+                            border-radius: 12px; padding: .6rem .85rem; text-align: left; }
+.overlay .escolhas .rot { display: flex; align-items: center; gap: .45rem;
+                          font-size: .92rem; font-weight: 650; }
+.overlay .escolhas .rot svg { width: 17px; height: 17px; flex: 0 0 auto; }
+/* mesma leitura de cor dos botões grandes do cartão: verde concorda, vermelho discorda */
+.overlay .escolhas .b-sim { color: var(--sim); border-color: color-mix(in srgb, var(--sim) 45%, var(--linha)); }
+.overlay .escolhas .b-nao { color: var(--nao); border-color: color-mix(in srgb, var(--nao) 45%, var(--linha)); }
+.overlay .escolhas .b-sim:hover { background: color-mix(in srgb, var(--sim) 7%, var(--caixa)); }
+.overlay .escolhas .b-nao:hover { background: color-mix(in srgb, var(--nao) 7%, var(--caixa)); }
+.overlay .escolhas button small { display: block; font-weight: 400; color: var(--fg2);
+                                  font-size: .76rem; margin-top: .2rem; }
 .overlay .voltar { align-self: center; color: var(--fg2); font-size: .85rem; text-decoration: underline; }
 
 /* ── resultado ────────────────────────────────────────────────────────────── */

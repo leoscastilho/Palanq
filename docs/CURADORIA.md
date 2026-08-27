@@ -164,6 +164,24 @@ e no relatório sempre que respondidos:
 - **`e_liberdade_irrestrita_redes`** — "censura" e "moderação" descrevem o mesmo ato
   com sinais opostos, e cada lado usa uma das duas palavras.
 
+### Por que as perguntas deixaram de começar com "Você concorda que..."
+
+As 48 perguntas nasceram assim e foram reescritas como proposição direta ("A
+maioridade penal deve ser reduzida?") depois de um leitor apontar o óbvio: os botões
+já dizem *Discordo* e *Concordo*, então o prefixo repete o que a interface faz.
+
+O custo era maior que a repetição. Em toda pergunta cuja proposição já é negativa —
+*fim* da reeleição, *sem* contrapartida, plataformas *proibidas* de moderar — discordar
+exigia montar uma dupla negação de cabeça. "Você concorda com o fim do financiamento
+público?" respondido com "Discordo" tem duas negações encadeadas para o leitor
+desembaraçar; "O financiamento público de partidos e campanhas deve acabar?" tem uma.
+
+Nenhuma direção foi invertida na reescrita: concordar continua significando alinhar-se
+com quem o corpus marca como `favor`. Um teste no validador recusa qualquer pergunta
+de eixo que volte a começar por "Você" ou que não termine em "?". Os dois portões
+seguem em segunda pessoa por serem legítimos: perguntam sobre quem responde ("Você
+está apto a votar?"), não sobre uma política.
+
 ## 5-A. O silêncio que é meu, não do plano
 
 A cobertura exibida ao lado da afinidade mistura duas coisas que o usuário não
@@ -330,6 +348,31 @@ trava que se mede com o mesmo instrumento que deveria vigiar não vigia nada.
 Restam dois artefatos conhecidos, de outra natureza: títulos correntes do PDF que
 entram no meio da frase ("...criar seus filhos em SEGURANÇA PÚBLICA E DESMILITARIZAÇÃO
 DAS POLÍCIAS paz..."). O texto está fiel; o que falta é separar o título do corpo.
+
+### O inegociável não se explica sozinho
+
+Um leitor relatou não entender o que o escudo faz. A palavra "inegociável" é clara em
+português; o que não é claro é o que ela aciona aqui — e o rótulo do botão não tinha
+como dizer, porque a consequência depende do lado que a pessoa ainda não escolheu.
+
+Três mudanças, nenhuma no motor:
+
+1. **O número no lugar da palavra.** Cada opção do overlay mostra quantas candidaturas
+   sairiam: *"Elimina 7 candidaturas que estão a favor"*. É a diferença entre uma
+   definição e uma consequência. Na fase complementar um dos lados não derruba
+   ninguém, e a frase diz isso em vez de mostrar um zero.
+2. **Uma legenda enquanto ninguém usou.** Some assim que a pessoa marca o primeiro
+   inegociável — quem nunca usou é exatamente quem precisa dela.
+3. **O título passou a nomear o mecanismo**, não a pedir um lado: "Inegociável elimina
+   — não desconta". A pergunta "de que lado?" virou a última frase, depois da
+   explicação, e não a primeira.
+
+Testar isso revelou uma contradição minha na fase complementar: o convite diz que
+aqueles temas "não mudam o resultado acima", mas o escudo elimina em qualquer fase.
+Eliminação e pontuação são mecanismos separados — um veto continua sendo um veto num
+tema que não discrimina — então o texto é que estava errado, e passou a abrir a
+exceção. A alternativa seria esconder o escudo ali, mas isso tiraria da pessoa um veto
+legítimo para poupar uma frase de explicação.
 
 ## 6. Desequilíbrio de curadoria
 

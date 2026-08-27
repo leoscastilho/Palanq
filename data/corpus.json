@@ -26,7 +26,7 @@
   "eixos": {
     "e_privatizacao_estatais": {
       "label": "Privatização de empresas estatais",
-      "pergunta": "Você concorda que o Estado venda as empresas estatais que controla hoje?",
+      "pergunta": "O Estado deve vender as empresas estatais que controla hoje?",
       "dominio": "economia",
       "peso": 3,
       "formulacaoNeutra": true,
@@ -35,7 +35,7 @@
     },
     "e_ppp_servicos_publicos": {
       "label": "PPPs e concessões em serviços públicos",
-      "pergunta": "Você concorda que serviços públicos como saúde, educação e infraestrutura sejam prestados por concessões e parcerias público-privadas?",
+      "pergunta": "Serviços públicos como saúde, educação e infraestrutura devem ser prestados por concessões e parcerias público-privadas?",
       "dominio": "economia",
       "peso": 3,
       "formulacaoNeutra": true,
@@ -44,7 +44,7 @@
     },
     "e_gestao_privada_saude": {
       "label": "Organizações sociais e setor privado no SUS",
-      "pergunta": "Você concorda que o poder público entregue a gestão de serviços de saúde a organizações sociais e compre atendimento da rede privada?",
+      "pergunta": "O poder público deve entregar a gestão de serviços de saúde a organizações sociais e comprar atendimento da rede privada?",
       "dominio": "saude",
       "peso": 3,
       "formulacaoNeutra": true,
@@ -53,7 +53,7 @@
     },
     "e_ans_planos_flexiveis": {
       "label": "Desregulação dos planos de saúde",
-      "pergunta": "Você concorda em flexibilizar a regulação dos planos de saúde, permitindo produtos com cobertura reduzida e preço menor?",
+      "pergunta": "A regulação dos planos de saúde deve ser flexibilizada, permitindo produtos com cobertura reduzida e preço menor?",
       "dominio": "saude",
       "peso": 2,
       "formulacaoNeutra": true,
@@ -62,7 +62,7 @@
     },
     "e_ensino_civico_militar": {
       "label": "Escolas cívico-militares",
-      "pergunta": "Você concorda com a ampliação das escolas cívico-militares na educação básica?",
+      "pergunta": "As escolas cívico-militares devem ser ampliadas na educação básica?",
       "dominio": "educacao",
       "peso": 3,
       "formulacaoNeutra": true,
@@ -71,7 +71,7 @@
     },
     "e_negociado_sobre_legislado": {
       "label": "Negociado sobre o legislado",
-      "pergunta": "Você concorda que empregado e empregador possam negociar condições de trabalho que prevaleçam sobre o que a lei estabelece?",
+      "pergunta": "O que empregado e empregador negociarem deve prevalecer sobre o que a lei estabelece?",
       "dominio": "trabalho",
       "peso": 3,
       "formulacaoNeutra": true,
@@ -80,7 +80,7 @@
     },
     "e_estabilidade_emprego": {
       "label": "Estabilidade no emprego",
-      "pergunta": "Você concorda com a garantia legal de estabilidade no emprego após um período de vínculo?",
+      "pergunta": "A lei deve garantir estabilidade no emprego depois de um período de vínculo?",
       "dominio": "trabalho",
       "peso": 2,
       "formulacaoNeutra": true,
@@ -89,7 +89,7 @@
     },
     "e_renda_sem_contrapartida": {
       "label": "Transferência de renda sem contrapartida",
-      "pergunta": "Você concorda com programas de transferência de renda pagos sem exigência de contrapartida em trabalho ou serviço comunitário?",
+      "pergunta": "Programas de transferência de renda devem ser pagos sem exigir contrapartida em trabalho ou serviço comunitário?",
       "dominio": "social",
       "peso": 3,
       "formulacaoNeutra": true,
@@ -98,7 +98,7 @@
     },
     "e_encarceramento_excecao": {
       "label": "Suspensão de garantias como política penal",
-      "pergunta": "Você concorda com a adoção de um regime prisional de exceção, com encarceramento em larga escala e restrição de garantias individuais, como política de segurança?",
+      "pergunta": "A segurança pública deve adotar um regime prisional de exceção, com encarceramento em larga escala e restrição de garantias individuais?",
       "dominio": "seguranca",
       "peso": 3,
       "formulacaoNeutra": false,
@@ -107,7 +107,7 @@
     },
     "e_autonomia_banco_central": {
       "label": "Autonomia do Banco Central",
-      "pergunta": "Você concorda que o Banco Central mantenha autonomia em relação ao governo para definir a política monetária?",
+      "pergunta": "O Banco Central deve manter autonomia em relação ao governo para definir a política monetária?",
       "dominio": "economia",
       "peso": 3,
       "formulacaoNeutra": true,
@@ -116,7 +116,7 @@
     },
     "e_margem_equatorial": {
       "label": "Exploração de novas fronteiras de petróleo",
-      "pergunta": "Você concorda com a abertura de novas fronteiras de exploração de petróleo, como a Margem Equatorial?",
+      "pergunta": "Novas fronteiras de exploração de petróleo, como a Margem Equatorial, devem ser abertas?",
       "dominio": "energia",
       "peso": 3,
       "formulacaoNeutra": true,
@@ -125,7 +125,7 @@
     },
     "e_reforma_agraria": {
       "label": "Reforma agrária e desapropriação",
-      "pergunta": "Você concorda com a continuidade da reforma agrária, com desapropriação de terras e criação de novos assentamentos?",
+      "pergunta": "A reforma agrária deve continuar, com desapropriação de terras e criação de novos assentamentos?",
       "dominio": "agrario",
       "peso": 3,
       "formulacaoNeutra": true,
@@ -134,7 +134,7 @@
     },
     "e_tributar_altas_rendas": {
       "label": "Tributar grandes fortunas, lucros e heranças",
-      "pergunta": "Você concorda com a criação de impostos sobre grandes fortunas, heranças e lucros e dividendos, ainda que isso eleve a carga tributária total?",
+      "pergunta": "Grandes fortunas, heranças e lucros e dividendos devem ser tributados, ainda que isso eleve a carga tributária total?",
       "dominio": "tributacao",
       "peso": 3,
       "formulacaoNeutra": true,
@@ -143,7 +143,7 @@
     },
     "e_reforma_previdencia": {
       "label": "Nova reforma da previdência",
-      "pergunta": "Você concorda com uma nova reforma da previdência que eleve automaticamente a idade mínima de aposentadoria conforme a expectativa de vida?",
+      "pergunta": "Uma nova reforma da previdência deve elevar a idade mínima de aposentadoria automaticamente, conforme a expectativa de vida?",
       "dominio": "previdencia",
       "peso": 3,
       "formulacaoNeutra": true,
@@ -152,7 +152,7 @@
     },
     "e_alinhamento_brics": {
       "label": "Permanência no BRICS",
-      "pergunta": "Você concorda que o Brasil permaneça no BRICS e mantenha uma política externa não alinhada às grandes potências ocidentais?",
+      "pergunta": "O Brasil deve permanecer no BRICS e manter uma política externa independente das grandes potências ocidentais?",
       "dominio": "externa",
       "peso": 3,
       "formulacaoNeutra": true,
@@ -161,7 +161,7 @@
     },
     "e_licenciamento_simplificado": {
       "label": "Licenciamento ambiental simplificado",
-      "pergunta": "Você concorda com a simplificação do licenciamento ambiental, com prazos fixos e ritos abreviados para acelerar obras e investimentos?",
+      "pergunta": "O licenciamento ambiental deve ser simplificado, com prazos fixos e ritos abreviados para acelerar obras e investimentos?",
       "dominio": "ambiental",
       "peso": 3,
       "formulacaoNeutra": true,
@@ -170,7 +170,7 @@
     },
     "e_liberdade_irrestrita_redes": {
       "label": "Liberdade de expressão irrestrita nas redes",
-      "pergunta": "Você concorda que as plataformas digitais sejam proibidas de remover conteúdo e suspender perfis, deixando o debate correr sem moderação?",
+      "pergunta": "O debate nas redes deve correr sem moderação, com as plataformas proibidas de remover conteúdo e suspender perfis?",
       "dominio": "comunicacao",
       "peso": 3,
       "formulacaoNeutra": false,
@@ -179,7 +179,7 @@
     },
     "e_mineracao_terras_indigenas": {
       "label": "Mineração em terras indígenas",
-      "pergunta": "Você concorda com a regulamentação da exploração mineral dentro de terras indígenas?",
+      "pergunta": "A exploração mineral dentro de terras indígenas deve ser regulamentada?",
       "dominio": "agrario",
       "peso": 3,
       "formulacaoNeutra": true,
@@ -188,7 +188,7 @@
     },
     "e_reducao_jornada": {
       "label": "Redução legal da jornada de trabalho",
-      "pergunta": "Você concorda com a redução da jornada semanal de trabalho por lei, sem redução de salário?",
+      "pergunta": "A jornada semanal de trabalho deve ser reduzida por lei, sem redução de salário?",
       "dominio": "trabalho",
       "peso": 3,
       "formulacaoNeutra": true,
@@ -197,7 +197,7 @@
     },
     "e_vigilancia_massa": {
       "label": "Reconhecimento facial e vigilância eletrônica",
-      "pergunta": "Você concorda com o uso de reconhecimento facial e vigilância eletrônica em larga escala na segurança pública?",
+      "pergunta": "Reconhecimento facial e vigilância eletrônica devem ser usados em larga escala na segurança pública?",
       "dominio": "seguranca",
       "peso": 3,
       "formulacaoNeutra": true,
@@ -206,7 +206,7 @@
     },
     "e_ministerio_seguranca": {
       "label": "Ministério da Segurança Pública",
-      "pergunta": "Você concorda com a criação de um ministério federal dedicado à segurança pública?",
+      "pergunta": "Deve ser criado um ministério federal dedicado à segurança pública?",
       "dominio": "seguranca",
       "peso": 1,
       "formulacaoNeutra": true,
@@ -215,7 +215,7 @@
     },
     "e_ensino_integral": {
       "label": "Escola em tempo integral",
-      "pergunta": "Você concorda com a ampliação da escola pública em tempo integral?",
+      "pergunta": "A escola pública em tempo integral deve ser ampliada?",
       "dominio": "educacao",
       "peso": 2,
       "formulacaoNeutra": true,
@@ -224,7 +224,7 @@
     },
     "e_interoperabilidade_saude": {
       "label": "Prontuário eletrônico integrado",
-      "pergunta": "Você concorda com a centralização de prontuários e exames em uma base nacional integrada?",
+      "pergunta": "Prontuários e exames devem ser centralizados numa base nacional integrada?",
       "dominio": "saude",
       "peso": 2,
       "formulacaoNeutra": true,
@@ -233,7 +233,7 @@
     },
     "e_desmilitarizacao": {
       "label": "Desmilitarização das polícias",
-      "pergunta": "Você concorda com a transformação das polícias militares em forças civis de policiamento de proximidade?",
+      "pergunta": "As polícias militares devem se tornar forças civis de policiamento de proximidade?",
       "dominio": "seguranca",
       "peso": 3,
       "formulacaoNeutra": true,
@@ -242,7 +242,7 @@
     },
     "e_isolamento_liderancas": {
       "label": "Isolamento de lideranças de facções",
-      "pergunta": "Você concorda com presídios federais de segurança máxima para isolar lideranças de facções e bloquear sua comunicação?",
+      "pergunta": "Lideranças de facções devem ser isoladas em presídios federais de segurança máxima, com a comunicação bloqueada?",
       "dominio": "seguranca",
       "peso": 2,
       "formulacaoNeutra": true,
@@ -251,7 +251,7 @@
     },
     "e_reforma_administrativa": {
       "label": "Reforma administrativa e corte de ministérios",
-      "pergunta": "Você concorda com uma reforma administrativa que corte ministérios, cargos comissionados e supersalários?",
+      "pergunta": "Uma reforma administrativa deve cortar ministérios, cargos comissionados e supersalários?",
       "dominio": "estado",
       "peso": 2,
       "formulacaoNeutra": true,
@@ -260,7 +260,7 @@
     },
     "e_simplificacao_fiscal": {
       "label": "Simplificação tributária",
-      "pergunta": "Você concorda com a simplificação e a digitalização das obrigações tributárias para reduzir o custo de conformidade?",
+      "pergunta": "As obrigações tributárias devem ser simplificadas e digitalizadas para reduzir o custo de conformidade?",
       "dominio": "tributacao",
       "peso": 2,
       "formulacaoNeutra": true,
@@ -269,7 +269,7 @@
     },
     "e_ia_soberania_digital": {
       "label": "Inteligência artificial e soberania digital",
-      "pergunta": "Você concorda que o Estado invista pesadamente em inteligência artificial e infraestrutura digital própria como política nacional?",
+      "pergunta": "O Estado deve investir pesadamente em inteligência artificial e infraestrutura digital própria como política nacional?",
       "dominio": "tecnologia",
       "peso": 2,
       "formulacaoNeutra": true,
@@ -278,7 +278,7 @@
     },
     "e_estatizacao_setores": {
       "label": "Monopólio estatal em setores estratégicos",
-      "pergunta": "Você concorda com o monopólio estatal em setores estratégicos como energia, mineração e telecomunicações?",
+      "pergunta": "Setores estratégicos como energia, mineração e telecomunicações devem ser monopólio estatal?",
       "dominio": "economia",
       "peso": 3,
       "formulacaoNeutra": true,
@@ -287,7 +287,7 @@
     },
     "e_auditoria_divida": {
       "label": "Suspensão e auditoria da dívida pública",
-      "pergunta": "Você concorda com a suspensão do pagamento da dívida pública e uma auditoria dos seus contratos?",
+      "pergunta": "O pagamento da dívida pública deve ser suspenso e seus contratos auditados?",
       "dominio": "fiscal",
       "peso": 3,
       "formulacaoNeutra": true,
@@ -296,7 +296,7 @@
     },
     "e_arcabouco_fiscal": {
       "label": "Regras de teto de gastos",
-      "pergunta": "Você concorda com a manutenção de regras que limitam o crescimento do gasto público, como o arcabouço fiscal?",
+      "pergunta": "Devem ser mantidas regras que limitam o crescimento do gasto público, como o arcabouço fiscal?",
       "dominio": "fiscal",
       "peso": 3,
       "formulacaoNeutra": true,
@@ -305,7 +305,7 @@
     },
     "e_controle_externo_stf": {
       "label": "Limitação e controle do Supremo",
-      "pergunta": "Você concorda com medidas que limitem o poder do Supremo Tribunal Federal, como mandato para ministros ou controle externo?",
+      "pergunta": "O poder do Supremo Tribunal Federal deve ser limitado, com mandato para ministros ou controle externo?",
       "dominio": "justica",
       "peso": 2,
       "formulacaoNeutra": true,
@@ -314,7 +314,7 @@
     },
     "e_reeleicao": {
       "label": "Fim da reeleição no Executivo",
-      "pergunta": "Você concorda com o fim da reeleição consecutiva para presidente, governadores e prefeitos?",
+      "pergunta": "A reeleição consecutiva para presidente, governadores e prefeitos deve acabar?",
       "dominio": "politica",
       "peso": 2,
       "formulacaoNeutra": true,
@@ -323,7 +323,7 @@
     },
     "e_emendas_parlamentares": {
       "label": "Controle das emendas parlamentares",
-      "pergunta": "Você concorda com a restrição e a rastreabilidade obrigatória das emendas parlamentares?",
+      "pergunta": "As emendas parlamentares devem ser restringidas e ter rastreabilidade obrigatória?",
       "dominio": "orcamento",
       "peso": 2,
       "formulacaoNeutra": true,
@@ -332,7 +332,7 @@
     },
     "e_fim_fundo_eleitoral": {
       "label": "Fim do fundo eleitoral e partidário",
-      "pergunta": "Você concorda com o fim do financiamento público de partidos e campanhas?",
+      "pergunta": "O financiamento público de partidos e campanhas deve acabar?",
       "dominio": "politica",
       "peso": 2,
       "formulacaoNeutra": true,
@@ -341,7 +341,7 @@
     },
     "e_maioridade_penal": {
       "label": "Redução da maioridade penal",
-      "pergunta": "Você concorda com a redução da maioridade penal?",
+      "pergunta": "A maioridade penal deve ser reduzida?",
       "dominio": "seguranca",
       "peso": 3,
       "formulacaoNeutra": true,
@@ -350,7 +350,7 @@
     },
     "e_porte_arma_rural": {
       "label": "Porte de arma no meio rural",
-      "pergunta": "Você concorda em ampliar o direito do produtor rural de portar arma em toda a extensão de sua propriedade?",
+      "pergunta": "O produtor rural deve poder portar arma em toda a extensão de sua propriedade?",
       "dominio": "seguranca",
       "peso": 2,
       "formulacaoNeutra": true,
@@ -359,7 +359,7 @@
     },
     "e_homeschooling": {
       "label": "Educação domiciliar",
-      "pergunta": "Você concorda com a regulamentação do ensino domiciliar (homeschooling)?",
+      "pergunta": "O ensino domiciliar (homeschooling) deve ser regulamentado?",
       "dominio": "educacao",
       "peso": 2,
       "formulacaoNeutra": true,
@@ -368,7 +368,7 @@
     },
     "e_descriminalizacao_drogas": {
       "label": "Descriminalização das drogas",
-      "pergunta": "Você concorda com a descriminalização das drogas e o fim da política de guerra às drogas?",
+      "pergunta": "As drogas devem ser descriminalizadas, encerrando a política de guerra às drogas?",
       "dominio": "seguranca",
       "peso": 3,
       "formulacaoNeutra": true,
@@ -377,7 +377,7 @@
     },
     "e_aborto": {
       "label": "Descriminalização do aborto",
-      "pergunta": "Você concorda com a descriminalização e a legalização do aborto?",
+      "pergunta": "O aborto deve ser descriminalizado e legalizado?",
       "dominio": "saude",
       "peso": 3,
       "formulacaoNeutra": false,
@@ -386,7 +386,7 @@
     },
     "e_cotas_trans": {
       "label": "Cotas e políticas para pessoas trans",
-      "pergunta": "Você concorda com cotas para pessoas trans em universidades e concursos públicos?",
+      "pergunta": "Deve haver cotas para pessoas trans em universidades e concursos públicos?",
       "dominio": "social",
       "peso": 2,
       "formulacaoNeutra": true,
@@ -395,7 +395,7 @@
     },
     "e_passe_livre": {
       "label": "Tarifa zero no transporte público",
-      "pergunta": "Você concorda com a tarifa zero no transporte público, custeada integralmente pelo Estado?",
+      "pergunta": "O transporte público deve ter tarifa zero, custeada integralmente pelo Estado?",
       "dominio": "transporte",
       "peso": 2,
       "formulacaoNeutra": true,
@@ -404,7 +404,7 @@
     },
     "e_plebiscito_penitenciario": {
       "label": "Plebiscito sobre o modelo penitenciário",
-      "pergunta": "Você concorda que o modelo penitenciário do país seja decidido por plebiscito popular?",
+      "pergunta": "O modelo penitenciário do país deve ser decidido por plebiscito popular?",
       "dominio": "seguranca",
       "peso": 2,
       "formulacaoNeutra": true,
@@ -413,7 +413,7 @@
     },
     "e_fusao_municipios": {
       "label": "Fusão compulsória de municípios",
-      "pergunta": "Você concorda com a fusão compulsória de pequenos municípios economicamente inviáveis?",
+      "pergunta": "Pequenos municípios economicamente inviáveis devem ser fundidos compulsoriamente?",
       "dominio": "federativo",
       "peso": 2,
       "formulacaoNeutra": true,
@@ -422,7 +422,7 @@
     },
     "e_unicameralismo": {
       "label": "Parlamento unicameral e conselhos populares",
-      "pergunta": "Você concorda com a substituição do Congresso por um parlamento unicameral com conselhos populares deliberativos?",
+      "pergunta": "O Congresso deve ser substituído por um parlamento unicameral com conselhos populares deliberativos?",
       "dominio": "politica",
       "peso": 3,
       "formulacaoNeutra": true,
@@ -431,7 +431,7 @@
     },
     "e_estatizacao_midia": {
       "label": "Estatização de grupos de comunicação",
-      "pergunta": "Você concorda com o cancelamento das concessões dos grandes grupos de mídia e a transferência de seus ativos ao controle de trabalhadores?",
+      "pergunta": "As concessões dos grandes grupos de mídia devem ser canceladas e seus ativos transferidos ao controle dos trabalhadores?",
       "dominio": "comunicacao",
       "peso": 3,
       "formulacaoNeutra": true,
@@ -440,7 +440,7 @@
     },
     "e_saude_animal_unica": {
       "label": "Saúde única (humana, animal e ambiental)",
-      "pergunta": "Você concorda que a política sanitária integre saúde humana, animal e ambiental num único sistema de vigilância?",
+      "pergunta": "A política sanitária deve integrar saúde humana, animal e ambiental num único sistema de vigilância?",
       "dominio": "saude",
       "peso": 2,
       "formulacaoNeutra": true,
@@ -449,7 +449,7 @@
     },
     "e_gestao_emocional_educacao": {
       "label": "Educação socioemocional",
-      "pergunta": "Você concorda que o ensino básico incorpore formalmente o desenvolvimento socioemocional ao currículo?",
+      "pergunta": "O ensino básico deve incorporar formalmente o desenvolvimento socioemocional ao currículo?",
       "dominio": "educacao",
       "peso": 2,
       "formulacaoNeutra": true,

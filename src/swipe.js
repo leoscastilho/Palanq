@@ -197,6 +197,18 @@ function telaCartoes() {
     .slice(0, 2)
     .map((d) => CORPUS.eixos[d.eixo]);
 
+  // A palavra "inegociável" não diz o que o botão faz; o número de candidaturas que
+  // sairiam diz. Fase 1 separa os dois lados; na fase 4 só um lado tem plano escrito,
+  // então um dos lados não derruba ninguém.
+  const elimina = q.fase === 4
+    ? (q.campo.postura === "favor"
+        ? { concordo: 0, discordo: q.campo.nFalam }
+        : { concordo: q.campo.nFalam, discordo: 0 })
+    : { concordo: q.separa.contra, discordo: q.separa.favor };
+  const custo = (n, lado) => n === 0
+    ? `Não elimina ninguém: nenhum plano se posiciona ${lado}`
+    : `Elimina ${n} candidatura${n > 1 ? "s" : ""} que ${n > 1 ? "estão" : "está"} ${lado}`;
+
   const frente = (e, comBotao) => `
     <div class="face frente">
       <div class="dominio"><i></i>${esc(e.dominio || "")}</div>
@@ -233,14 +245,17 @@ function telaCartoes() {
       <span class="carimbo c-pular">Não opinar</span>
       ${corpo(q, true)}
       ${Z.pedindoLado ? `<div class="overlay">
-        <h3>Inegociável de que lado?</h3>
-        <p class="mini" style="margin:0">Quem pensar diferente sai da comparação, por mais que combine
-        com você no resto.</p>
+        <h3>Inegociável elimina candidatos</h3>
+        <p class="mini" style="margin:0">Nos outros temas sua resposta soma ou tira pontos. Aqui não:
+        quem estiver do lado oposto <b>sai da comparação inteira</b>, por mais que combine com você
+        em todo o resto. De que lado?</p>
         <div class="escolhas">
-          <button data-resp="concordo" data-ine="1">Concordo — e é inegociável
-            <small>Some quem for contra</small></button>
-          <button data-resp="discordo" data-ine="1">Discordo — e é inegociável
-            <small>Some quem for a favor</small></button>
+          <button class="b-sim" data-resp="concordo" data-ine="1">
+            <span class="rot">${ICONE.sim}Concordo!</span>
+            <small>${custo(elimina.concordo, "contra")}</small></button>
+          <button class="b-nao" data-resp="discordo" data-ine="1">
+            <span class="rot">${ICONE.nao}Discordo!</span>
+            <small>${custo(elimina.discordo, "a favor")}</small></button>
         </div>
         <button class="voltar" data-ir="cancelar-lado">voltar</button>
       </div>` : ""}
@@ -257,6 +272,8 @@ function telaCartoes() {
     <div class="acao"><button class="b-sim" data-resp="concordo" aria-label="Concordo">${ICONE.sim}</button>
       <span>Concordo</span></div>
   </div>
+  ${Z.linhasVermelhas.length ? "" : `<p class="legenda-ine">O escudo é diferente dos outros três:
+    ele <b>elimina</b> quem pensa diferente, em vez de descontar pontos.</p>`}
 
   <button class="encerrar" id="encerrar" type="button">
     <i class="carga" aria-hidden="true"></i>
@@ -387,9 +404,10 @@ function telaResultado() {
   ${extraFaltam && !faltam ? `<div class="aviso" style="border-left-color:var(--pular);background:var(--realce)">
     <h3 style="color:var(--fg)">Conhecer melhor cada candidatura</h3>
     <p class="mini" style="margin:0 0 .7rem">Há ${extraFaltam} tema(s) em que as candidaturas não
-    divergem entre si — por isso não entram no ranking e não mudam o resultado acima. Mas é onde você
-    pode descobrir que discorda de quem pretende apoiar: responder todos multiplica por
-    ${(214 / 130).toFixed(1)} o que dá para saber sobre cada plano.</p>
+    divergem entre si — por isso não entram no ranking: responder não mexe nas barras acima. Mas é onde
+    você pode descobrir que discorda de quem pretende apoiar: responder todos multiplica por
+    ${(214 / 130).toFixed(1)} o que dá para saber sobre cada plano. A exceção é o escudo: marcar um tema
+    como inegociável elimina quem pensa diferente em qualquer fase, e isso muda, sim, o resultado.</p>
     <button data-ir="extra" style="border:1px solid var(--linha);border-radius:999px;padding:.5rem 1.1rem;background:var(--caixa)">Responder esses ${extraFaltam} temas</button>
   </div>` : ""}
 

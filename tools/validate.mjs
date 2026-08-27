@@ -15,6 +15,18 @@ console.log(`superfície de responsabilidade autoral: ${metricas.interpretacoes}
 console.log(`${metricas.semCitacaoLiteral} posturas com fonte de resumo curatorial (sem citação literal auditável)`);
 console.log(`explicação leiga em todos os eixos · ${metricas.explicacaoMedia} caracteres em média (texto autoral, sem âncora em citação — é o que mais precisa de revisão externa)`);
 
+// Redação das perguntas. Começar por "Você concorda que..." duplica o que os botões
+// já dizem e produz dupla negação — discordar de uma frase que já contém "proibidas",
+// "sem" ou "fim de" vira ginástica. A pergunta é uma proposição direta; quem responde
+// concorda ou discorda dela. Os portões são exceção legítima: perguntam sobre a
+// pessoa ("Você está apto a votar?"), não sobre uma política.
+for (const [id, e] of Object.entries(corpus.eixos)) {
+  if (/^você\s/i.test(e.pergunta))   // `\b` é ASCII e não casa depois de "ê"
+    erros.push(`${id}: pergunta começa por "Você" — use a proposição direta ("A maioridade penal deve ser reduzida?")`);
+  if (!e.pergunta.trimEnd().endsWith("?"))
+    erros.push(`${id}: pergunta não termina em "?"`);
+}
+
 // Palavra que a extração do PDF partiu ao meio ("públ ica", "segur ança"). Escapa
 // de qualquer revisão a olho: só aparece quando alguém lê aquela citação na tela.
 // O sinal é estatístico e forte — as duas metades praticamente não existem soltas
