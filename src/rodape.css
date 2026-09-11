@@ -41,9 +41,6 @@
   .rodape-check:focus-visible ~ .rodape-in .rodape-abrir { outline: 2px solid currentColor;
                                                            outline-offset: 2px; }
 }
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) .rodape-abrir { border-color: rgba(255, 255, 255, .18); }
-}
 :root[data-theme="dark"] .rodape-abrir { border-color: rgba(255, 255, 255, .18); }
 .rodape-ano-sel { position: relative; display: inline-flex; align-items: center; }
 .rodape-ano-sel select {
@@ -55,14 +52,6 @@
 .rodape-ano-seta {
   position: absolute; right: 6px; width: 12px; height: 12px;
   pointer-events: none; opacity: .6;
-}
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) .rodape { border-top-color: rgba(255, 255, 255, .1);
-            background: rgba(255, 255, 255, .03); color: #8e97a3; }
-  :root:not([data-theme="light"]) .rodape a,
-  :root:not([data-theme="light"]) .rodape-lema { color: #b6bdc6; }
-  :root:not([data-theme="light"]) .rodape-ano-sel select { background: rgba(255, 255, 255, .06);
-                           border-color: rgba(255, 255, 255, .15); }
 }
 :root[data-theme="dark"] .rodape { border-top-color: rgba(255, 255, 255, .1);
           background: rgba(255, 255, 255, .03); color: #8e97a3; }

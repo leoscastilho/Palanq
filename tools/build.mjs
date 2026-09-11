@@ -22,6 +22,9 @@ const rodapeHtml = ler("src/rodape.html").replace(/\$\{AUTOR\}/g, AUTOR);
 const rodapeCss = ler("src/rodape.css");
 // A fonte vai embutida em base64 nas duas páginas: continua sem requisição de rede.
 const fonteCss = ler("src/fonte.css");
+// Ícone da aba embutido em base64 (nada a buscar); o de tela inicial e o manifesto
+// são arquivos do próprio site — iOS e Android não aceitam data: para eles.
+const favicon = readFileSync(new URL("icones/favicon-64.png", raiz)).toString("base64");
 
 const corpus = JSON.parse(ler("data/corpus.json"));
 const { erros, avisos, metricas } = validarCorpus(corpus);
@@ -63,7 +66,7 @@ const dados = `const CORPUS = Object.freeze(${JSON.stringify(corpus)});`;
 const escapar = (s) => s.replace(/<\/script/gi, "<\\/script");
 
 /** Monta uma página autocontida a partir de um css + um shell + um script de tela. */
-function pagina({ titulo, descricao, css, html, tela }) {
+function pagina({ titulo, descricao, css, html, tela, base = "", fixa = false }) {
   // O rodapé é injetado em todas as páginas; se a folha da tela definir uma das
   // classes dele, o estilo compartilhado é sobrescrito em silêncio — foi o que
   // aconteceu com ".rodape", que já existia na tela de cartões.
@@ -86,10 +89,18 @@ function pagina({ titulo, descricao, css, html, tela }) {
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="color-scheme" content="light dark">
-<meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
-<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#111418">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover${
+  // A tela de cartões é um gesto: pinça e toque duplo brigam com o arraste, então o
+  // zoom fica travado nela (só nela — o motor é leitura e continua ampliável).
+  fixa ? ", maximum-scale=1, user-scalable=no" : ""}">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#ffffff">
+<link rel="icon" type="image/png" sizes="64x64" href="data:image/png;base64,${favicon}">
+<link rel="apple-touch-icon" href="${base}icones/apple-touch-icon.png">
+<link rel="manifest" href="${base}manifest.webmanifest">
+<meta name="apple-mobile-web-app-title" content="Palanq">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="referrer" content="no-referrer">
 <meta name="description" content="${descricao}">
 <meta name="author" content="${AUTOR}">
@@ -104,11 +115,11 @@ function pagina({ titulo, descricao, css, html, tela }) {
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="${titulo}">
 <meta name="twitter:description" content="${descricao}">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; form-action 'none'; base-uri 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src 'self' data:; font-src data:; manifest-src 'self'; connect-src 'none'; form-action 'none'; base-uri 'none'">
 <title>${titulo}</title>
 <!-- Tema escolhido à mão (o botão da barra) tem de valer antes da primeira pintura;
      sem isto a página pisca clara antes de escurecer. Sem escolha, manda o sistema. -->
-<script>try{var t=localStorage.getItem("palanq/tema");if(t==="dark"||t==="light")document.documentElement.dataset.theme=t}catch(e){}</script>
+<script>try{if(localStorage.getItem("palanq/tema")==="dark"){document.documentElement.dataset.theme="dark";document.querySelector('meta[name="theme-color"]').content="#111418"}}catch(e){}</script>
 <style>
 ${fonteCss}
 
@@ -136,11 +147,11 @@ const paginas = [
   { destino: "index.html",
     titulo: `Palanq — ${SLOGAN}`,
     descricao: `Deslize os cartões e descubra quais candidaturas mais combinam com você, comparando suas posições com os planos de governo registrados da ${corpus.escopo.eleicao.toLowerCase()}. Não recomenda voto.`,
-    css: ler("src/swipe.css"), html: ler("src/swipe.html"), tela: ler("src/swipe.js") },
+    css: ler("src/swipe.css"), html: ler("src/swipe.html"), tela: ler("src/swipe.js"), fixa: true },
   { destino: "motor/index.html",
     titulo: `Palanq · motor — ${SLOGAN}`,
     descricao: `Versão completa do Palanq: compara suas posições com as posições declaradas nos planos de governo registrados da ${corpus.escopo.eleicao.toLowerCase()}, com a citação e a página de cada uma. Não recomenda voto.`,
-    css: ler("src/estilo.css"), html: ler("src/app.html"), tela: ler("src/ui.js") },
+    css: ler("src/estilo.css"), html: ler("src/app.html"), tela: ler("src/ui.js"), base: "../" },
 ];
 
 let total = 0;

@@ -9,17 +9,8 @@
   --sans: "Figtree", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 }
-/* Tema escuro: vale quando o sistema pede (e ninguém escolheu "claro" à mão na tela
-   de cartões) ou quando a escolha manual foi "escuro" — as duas páginas compartilham
-   a escolha em localStorage. */
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --bg: #16171a; --fg: #e8e6e1; --fg2: #a8a49c; --fg3: #7b776f;
-    --linha: #33343a; --caixa: #1e1f24; --realce: #24262c;
-    --acento: #6aa6dc; --acento-fg: #10131a;
-    --ok: #6ec69a; --alerta: #d99a4e; --perigo: #e88; --perigo-bg: #2a1c1d;
-  }
-}
+/* Tema escuro: só por escolha manual (botão na tela de cartões; a escolha fica em
+   localStorage e vale nas duas páginas). Por padrão, claro. */
 :root[data-theme="dark"] {
   --bg: #16171a; --fg: #e8e6e1; --fg2: #a8a49c; --fg3: #7b776f;
   --linha: #33343a; --caixa: #1e1f24; --realce: #24262c;

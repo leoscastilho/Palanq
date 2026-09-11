@@ -75,14 +75,17 @@ function pergunta(a) {
 }
 /**
  * Os cartões de trás são as perguntas que vêm DE FATO a seguir — o motor escolhe
- * por ganho, não pela ordem do corpus, então isto simula a resposta (sem
- * inegociável, que muda a ordem) e pergunta ao motor o que viria. Sem isto o
- * cartão que subia era substituído por outro no redesenho: o "pisca" relatado.
+ * por ganho, não pela ordem do corpus, então isto simula a resposta e pergunta ao
+ * motor o que viria. Sem isto o cartão que subia era substituído por outro no
+ * redesenho: o "pisca" relatado. Na hora de desenhar a resposta ainda não existe
+ * e vale "não opinar"; um inegociável elimina candidaturas e muda a ordem, então
+ * `voarCartao` refaz a pilha com a resposta real antes de o cartão sair.
  */
-function seguintesDe(q, n = 2) {
+function seguintesDe(q, n = 2, valor = "indiferente", inegociavel = false) {
   const fila = [];
-  const respostas = { ...Z.respostas, [q.id]: "indiferente" };
+  const respostas = { ...Z.respostas, [q.id]: valor };
   const lv = new Set(Z.linhasVermelhas);
+  if (inegociavel) lv.add(q.id);
   while (fila.length < n) {
     const a = analisar(CORPUS, respostas, lv, { margem: Z.margem });
     const p = proximaPergunta(CORPUS, respostas, a.estados,
@@ -196,28 +199,20 @@ const MARCA = `<svg viewBox="0 0 24 24" aria-hidden="true">
 </svg>`;
 
 // ── tema claro / escuro ──────────────────────────────────────────────────────
-// Sem escolha, manda o sistema. O botão alterna; escolher o que o sistema já
-// mostra apaga a escolha — assim o app volta a seguir o aparelho sem um terceiro
-// estado "automático" que ninguém entende.
+// Claro por padrão. O botão liga o escuro e a escolha fica no aparelho; o script
+// no <head> (build) aplica-a antes da primeira pintura para a página não piscar.
 const CHAVE_T = "palanq/tema";
-const temaSistema = () => matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
-const temaAtual = () => document.documentElement.dataset.theme || temaSistema();
+const temaAtual = () => document.documentElement.dataset.theme === "dark" ? "dark" : "light";
 function alternarTema() {
-  const novo = temaAtual() === "dark" ? "light" : "dark";
-  if (novo === temaSistema()) {
-    delete document.documentElement.dataset.theme;
-    try { localStorage.removeItem(CHAVE_T); } catch {}
-  } else {
-    document.documentElement.dataset.theme = novo;
-    try { localStorage.setItem(CHAVE_T, novo); } catch {}
-  }
+  const escuro = temaAtual() !== "dark";
+  if (escuro) document.documentElement.dataset.theme = "dark";
+  else delete document.documentElement.dataset.theme;
+  try { escuro ? localStorage.setItem(CHAVE_T, "dark") : localStorage.removeItem(CHAVE_T); } catch {}
+  const meta = document.querySelector('meta[name="theme-color"]');
+  if (meta) meta.content = escuro ? "#111418" : "#ffffff";
   const b = document.querySelector(".tema");
-  if (b) { b.innerHTML = temaAtual() === "dark" ? ICONE.sol : ICONE.lua; b.setAttribute("aria-label", rotuloTema()); }
+  if (b) { b.innerHTML = escuro ? ICONE.sol : ICONE.lua; b.setAttribute("aria-label", rotuloTema()); }
 }
-matchMedia("(prefers-color-scheme: dark)").addEventListener?.("change", () => {
-  const b = document.querySelector(".tema");
-  if (b) { b.innerHTML = temaAtual() === "dark" ? ICONE.sol : ICONE.lua; b.setAttribute("aria-label", rotuloTema()); }
-});
 const rotuloTema = () => temaAtual() === "dark" ? "Mudar para o tema claro" : "Mudar para o tema escuro";
 const botaoTema = () => `<button class="tema" data-ir="tema" type="button" aria-label="${rotuloTema()}">${
   temaAtual() === "dark" ? ICONE.sol : ICONE.lua}</button>`;
@@ -233,10 +228,24 @@ const LADO = { sim: [900, 0, 30], nao: [-900, 0, -30], ine: [0, -900, 0], pular:
  * `dx`/`dy` carregam o deslocamento do gesto quando a origem é o arraste — é o que
  * dá ao cartão a inclinação de quem foi empurrado, e não a de quem foi teleportado.
  */
-function voarCartao(dir, aoFim, dx = 0, dy = 0) {
+function voarCartao(dir, aoFim, dx = 0, dy = 0, resposta = null) {
   const el = document.getElementById("topo");
   if (!el || el.dataset.voando) { aoFim(); return; }
   el.dataset.voando = "1";   // dois toques rápidos não podem responder duas vezes
+  // Um inegociável elimina candidaturas e muda quem vem a seguir: a pilha de trás
+  // foi desenhada supondo "não opinar", então refaz-se aqui com a resposta real.
+  if (resposta?.inegociavel) {
+    const q = pergunta(olhar());
+    if (q) {
+      const atual = document.querySelector(".cartao.fundo");
+      const novos = seguintesDe(q, 2, resposta.valor, true);
+      if ((atual?.querySelector("h2")?.textContent ?? "") !== (novos[0]?.label ?? "")) {
+        for (const f of document.querySelectorAll(".cartao.fundo, .cartao.fundo2")) f.remove();
+        el.insertAdjacentHTML("beforebegin", fundoHTML(novos));
+        void el.offsetWidth;   // o novo de trás tem de ser registrado em escala .95 para subir animado
+      }
+    }
+  }
   const carimbo = el.querySelector(".c-" + dir);
   if (carimbo) carimbo.style.opacity = "1";
   const [x, y, giro] = LADO[dir];
@@ -276,6 +285,32 @@ function responderCartao(valor, inegociavel = false) {
   gravar();
   desenhar();
 }
+
+// ── cartão ───────────────────────────────────────────────────────────────────
+const frenteCartao = (e) => `
+    <div class="face frente" data-dominio="${esc(e.dominio || "")}">
+      <div class="dominio"><i></i>${esc(e.dominio || "")}</div>
+      <h2>${esc(e.label)}</h2>
+      <div class="pergunta">${esc(e.pergunta)}</div>
+      ${e.formulacaoNeutra === false
+        ? '<div class="nota">Não foi possível escrever esta pergunta sem carga. Leia com isso em mente.</div>'
+        : ""}
+      <button class="virar" data-ir="virar">${ICONE.virar} Me explique melhor</button>
+    </div>`;
+const versoCartao = (e) => `
+    <div class="face verso">
+      <h2 class="rotulo">O que isso quer dizer</h2>
+      <div class="explicacao">${esc(e.explicacao || "")}</div>
+      <button class="virar" data-ir="virar">${ICONE.virar} Voltar à pergunta</button>
+    </div>`;
+// Os de trás mostram a frente inteira, botão incluído: se faltasse algo, o texto
+// subiria para ocupar o espaço quando o cartão chegasse à frente — um pisca.
+const corpo = (e, principal) => `<div class="giro${principal && Z.virado ? " virado" : ""}">${frenteCartao(e)}${principal ? versoCartao(e) : ""}</div>`;
+const tema = (e) => `style="--h:${matizDe(e.dominio)}"`;
+/** Os cartões de trás, do mais fundo para o mais próximo (ordem de pintura). */
+const fundoHTML = (seguintes) => seguintes
+  .map((e, i) => `<article class="cartao fundo${i ? "2" : ""}" ${tema(e)} aria-hidden="true">${corpo(e, false)}</article>`)
+  .reverse().join("");
 
 // ── telas ────────────────────────────────────────────────────────────────────
 function telaAbertura() {
@@ -320,27 +355,6 @@ function telaCartoes() {
     ? `Não elimina ninguém: nenhum plano se posiciona ${lado}`
     : `Elimina ${n} candidatura${n > 1 ? "s" : ""} que ${n > 1 ? "estão" : "está"} ${lado}`;
 
-  const frente = (e, comBotao) => `
-    <div class="face frente" data-dominio="${esc(e.dominio || "")}">
-      <div class="dominio"><i></i>${esc(e.dominio || "")}</div>
-      <h2>${esc(e.label)}</h2>
-      <div class="pergunta">${esc(e.pergunta)}</div>
-      ${e.formulacaoNeutra === false
-        ? '<div class="nota">Não foi possível escrever esta pergunta sem carga. Leia com isso em mente.</div>'
-        : ""}
-      ${comBotao ? `<button class="virar" data-ir="virar">${ICONE.virar} Me explique melhor</button>` : ""}
-    </div>`;
-  const verso = (e) => `
-    <div class="face verso">
-      <h2 class="rotulo">O que isso quer dizer</h2>
-      <div class="explicacao">${esc(e.explicacao || "")}</div>
-      <button class="virar" data-ir="virar">${ICONE.virar} Voltar à pergunta</button>
-    </div>`;
-  // Os de trás mostram a frente inteira, botão incluído: se faltasse algo, o texto
-  // subiria para ocupar o espaço quando o cartão chegasse à frente — um pisca.
-  const corpo = (e, principal) => `<div class="giro${principal && Z.virado ? " virado" : ""}">${frente(e, true)}${principal ? verso(e) : ""}</div>`;
-  const tema = (e) => `style="--h:${matizDe(e.dominio)}"`;
-
   return `
   <div class="barra-topo">
     ${marca()}
@@ -350,7 +364,7 @@ function telaCartoes() {
   </div>
 
   <div class="pilha">
-    ${seguintes.map((e, i) => `<article class="cartao fundo${i ? "2" : ""}" ${tema(e)} aria-hidden="true">${corpo(e, false)}</article>`).reverse().join("")}
+    ${fundoHTML(seguintes)}
     <article class="cartao" id="topo" tabindex="0" aria-live="polite" ${tema(q)}
              aria-label="${esc(e_label(q))}">
       <span class="carimbo c-sim">Concordo</span>
@@ -731,7 +745,8 @@ function ligarSeguradores() {
   for (const el of document.querySelectorAll("[data-segurar]")) {
     const lado = el.dataset.segurar;
     const marca = lado === "concordo" ? "carregando-sim" : "carregando-nao";
-    ligarSegurar(el, SEGURAR_INE, () => voarCartao("ine", () => responderCartao(lado, true)), {
+    ligarSegurar(el, SEGURAR_INE, () => voarCartao("ine", () => responderCartao(lado, true), 0, 0,
+                                                   { valor: lado, inegociavel: true }), {
       aoComecar: () => cartao?.classList.add(marca),
       aoParar: () => cartao?.classList.remove(marca),
       aoToque: () => dizer("Segure para marcar como inegociável"),
@@ -868,7 +883,8 @@ appEl.addEventListener("click", (ev) => {
   if (b.dataset.resp) {
     const ine = b.dataset.ine === "1";
     return voarCartao(direcaoDe(b.dataset.resp, ine),
-                      () => responderCartao(b.dataset.resp, ine));
+                      () => responderCartao(b.dataset.resp, ine), 0, 0,
+                      { valor: b.dataset.resp, inegociavel: ine });
   }
   switch (b.dataset.ir) {
     case "cartoes": Z.encerrado = false; Z.tela = "cartoes"; gravar(); desenhar(); break;
@@ -898,6 +914,20 @@ document.addEventListener("keydown", (ev) => {
     voarCartao(direcaoDe(m[ev.key], false), () => responderCartao(m[ev.key]));
   }
 });
+
+// Safari ignora `user-scalable=no` e só em parte o `touch-action`: a pinça e o
+// zoom por toque duplo são barrados aqui também. Sem isto o segundo dedo no meio
+// de um arraste ampliava a página em vez de mover o cartão.
+document.addEventListener("gesturestart", (ev) => ev.preventDefault());
+document.addEventListener("touchmove", (ev) => {
+  if (ev.touches.length > 1 || (ev.scale !== undefined && ev.scale !== 1)) ev.preventDefault();
+}, { passive: false });
+let ultimoToque = 0;
+document.addEventListener("touchend", (ev) => {
+  const agora = Date.now();
+  if (agora - ultimoToque < 300 && !ev.target.closest("button, a, input, select")) ev.preventDefault();
+  ultimoToque = agora;
+}, { passive: false });
 
 if (recuperar() && Z.tela !== "abertura") { /* retoma onde parou */ }
 desenhar();

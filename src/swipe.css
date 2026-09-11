@@ -1,6 +1,6 @@
 /* Palanq — versão de cartões. Sem requisição de rede: a fonte vem embutida (fonte.css).
-   Tema: os tokens claros vivem em :root; os escuros valem quando o sistema pede
-   (e ninguém escolheu "claro" à mão) ou quando o botão da barra escolheu "escuro". */
+   Tema: claro por padrão; os tokens escuros valem só quando o botão da barra escolheu
+   "escuro" (data-theme, lembrado em localStorage e aplicado antes da primeira pintura). */
 :root {
   color-scheme: light;
   --bg: #ffffff; --caixa: #ffffff; --realce: #f2f4f6; --linha: #e4e7eb;
@@ -24,22 +24,6 @@
   --sans: "Figtree", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 }
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    color-scheme: dark;
-    --bg: #111418; --caixa: #1a1f27; --realce: #1f252e; --linha: #2a313b;
-    --fg: #f3f5f7; --fg2: #a9b1bc; --fg3: #8e97a3;
-    --sim: #3ee6a0; --sim-vivo: #3ee6a0;
-    --nao: #ff5c74; --nao-vivo: #ff5c74;
-    --ine: #4d9eff; --ine-vivo: #4d9eff;
-    --pular: #8e97a3; --pular-vivo: #8e97a3;
-    --sobre: #111418;
-    --acento: #fd267a;
-    --cartao-l1: .50; --cartao-l2: .34; --cartao-c: .12;
-    --sombra: 0 16px 40px rgb(0 0 0 / .5), 0 2px 6px rgb(0 0 0 / .3);
-    --sombra-botao: 0 4px 14px rgb(0 0 0 / .45), 0 1px 2px rgb(0 0 0 / .3);
-  }
-}
 :root[data-theme="dark"] {
   color-scheme: dark;
   --bg: #111418; --caixa: #1a1f27; --realce: #1f252e; --linha: #2a313b;
@@ -56,13 +40,15 @@
 }
 
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-html { height: 100%; }
+/* Puxar para atualizar e pinça brigam com o arraste do cartão: a página não
+   estica nas bordas e só aceita rolagem (nada de zoom por gesto nem toque duplo). */
+html { height: 100%; overscroll-behavior: none; touch-action: pan-x pan-y; }
 /* coluna flexível: a tela cresce, o rodapé fica embaixo dela — e não fora da
    página, como acontecia com body { height: 100% }. */
 body {
   margin: 0; min-height: 100%; display: flex; flex-direction: column;
   background: var(--bg); color: var(--fg); font-family: var(--sans);
-  font-size: 16px; line-height: 1.5; overscroll-behavior: none;
+  font-size: 16px; line-height: 1.5; overscroll-behavior: none; touch-action: pan-x pan-y;
   -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
   font-variant-numeric: tabular-nums;
 }

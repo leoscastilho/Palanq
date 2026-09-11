@@ -185,7 +185,7 @@ Responder é deslizar. O cartão é o objeto inteiro — a cor do tema ocupa o c
 
 Por fora é rápido e lúdico; por dentro a conta é rigorosa, e a interface mostra o custo antes de qualquer ação irreversível. Isso aparece como duas famílias de cor para cada resposta (uma para texto miúdo, outra para ícone e carimbo), como o apertar-e-segurar nos inegociáveis, e como o silêncio hachurado na barra do resultado. Nada é caixa de alerta; o título faz o trabalho do aviso. O mundo rejeita explicitamente o questionário editorial de papel creme, filetes finos e caixas de aviso que o `/motor` ainda usa.
 
-Claro e escuro são igualmente de primeira classe: a mesma cena, os mesmos pesos, com luminosidades recalibradas — nunca uma inversão automática.
+Claro é o padrão; o escuro é escolha da pessoa (botão na barra, lembrado no aparelho) e tem a mesma cena e os mesmos pesos, com luminosidades recalibradas — nunca uma inversão automática.
 
 **Key Characteristics:**
 - Fundo branco puro ou quase preto; a única cor fora do cartão é o degradê da marca (logotipo, progresso, botão principal, anel do líder).
@@ -378,4 +378,4 @@ Tela inteira no degradê de marca (`160deg`), véu preto a 22% no pé, coluna `m
 
 ### Superfície secundária: `/motor` (`src/estilo.css`)
 
-Ainda não trazida para este mundo. Compartilha apenas Figtree embutida, o mecanismo de tema (`prefers-color-scheme` guardado por `:root:not([data-theme="light"])` + `:root[data-theme="dark"]`, chave `palanq/tema`) e o rodapé. Seus tokens são de outro mundo — ground creme `#fbfaf8`, texto quente `#1a1a19`, acento azul `#1f4f7a`, `--ok/--alerta/--perigo` com `--perigo-bg`, títulos em 650 — e não devem migrar para a tela de cartões nem servir de referência para superfícies novas. Quando o `/motor` for redesenhado, este arquivo é a régua.
+Ainda não trazida para este mundo. Compartilha apenas Figtree embutida, o mecanismo de tema (`:root[data-theme="dark"]` por escolha manual (claro é o padrão), chave `palanq/tema`) e o rodapé. Seus tokens são de outro mundo — ground creme `#fbfaf8`, texto quente `#1a1a19`, acento azul `#1f4f7a`, `--ok/--alerta/--perigo` com `--perigo-bg`, títulos em 650 — e não devem migrar para a tela de cartões nem servir de referência para superfícies novas. Quando o `/motor` for redesenhado, este arquivo é a régua.
