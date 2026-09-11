@@ -1,0 +1,220 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-11T00:00:00-03:00",
+  "title": "Design System: Palanq",
+  "extensions": {
+    "colorMeta": {
+      "marca-coral": { "role": "primary", "displayName": "Coral de marca", "canonical": "#fd267a", "tonalRamp": ["oklch(.22 .12 356)", "oklch(.34 .17 356)", "oklch(.46 .21 356)", "oklch(.58 .23 356)", "oklch(.66 .22 356)", "oklch(.76 .15 356)", "oklch(.86 .08 356)", "oklch(.95 .03 356)"] },
+      "marca-laranja": { "role": "primary", "displayName": "Laranja de marca", "canonical": "#ff6036", "tonalRamp": ["oklch(.22 .10 32)", "oklch(.34 .15 32)", "oklch(.46 .19 32)", "oklch(.58 .21 32)", "oklch(.69 .20 32)", "oklch(.78 .13 32)", "oklch(.87 .07 32)", "oklch(.95 .03 32)"] },
+      "botao-coral": { "role": "primary", "displayName": "Coral de botão (fundo, texto branco ≥4.5:1)", "canonical": "#e5125a", "tonalRamp": ["oklch(.22 .12 6)", "oklch(.34 .17 6)", "oklch(.46 .21 6)", "oklch(.56 .23 6)", "oklch(.66 .21 6)", "oklch(.76 .14 6)", "oklch(.86 .08 6)", "oklch(.95 .03 6)"] },
+      "botao-laranja": { "role": "primary", "displayName": "Laranja de botão", "canonical": "#d93a17", "tonalRamp": ["oklch(.22 .10 32)", "oklch(.34 .15 32)", "oklch(.46 .19 32)", "oklch(.58 .21 32)", "oklch(.66 .20 32)", "oklch(.76 .13 32)", "oklch(.86 .07 32)", "oklch(.95 .03 32)"] },
+      "acento": { "role": "primary", "displayName": "Acento (links, líder)", "canonical": "#e5125a" },
+      "acento-escuro": { "role": "primary", "displayName": "Acento no escuro", "canonical": "#fd267a" },
+      "sim": { "role": "secondary", "displayName": "Concordo — texto", "canonical": "#0a7f4e", "tonalRamp": ["oklch(.20 .06 158)", "oklch(.30 .09 158)", "oklch(.40 .11 158)", "oklch(.52 .13 158)", "oklch(.64 .15 158)", "oklch(.76 .13 158)", "oklch(.87 .08 158)", "oklch(.95 .03 158)"] },
+      "sim-vivo": { "role": "secondary", "displayName": "Concordo — vivo", "canonical": "#0ea765" },
+      "sim-escuro": { "role": "secondary", "displayName": "Concordo no escuro", "canonical": "#3ee6a0" },
+      "nao": { "role": "secondary", "displayName": "Discordo — texto", "canonical": "#e8163f", "tonalRamp": ["oklch(.22 .11 18)", "oklch(.34 .16 18)", "oklch(.46 .20 18)", "oklch(.57 .22 18)", "oklch(.66 .21 18)", "oklch(.76 .14 18)", "oklch(.86 .08 18)", "oklch(.95 .03 18)"] },
+      "nao-vivo": { "role": "secondary", "displayName": "Discordo — vivo", "canonical": "#f0284f" },
+      "nao-escuro": { "role": "secondary", "displayName": "Discordo no escuro", "canonical": "#ff5c74" },
+      "ine": { "role": "secondary", "displayName": "Inegociável — texto", "canonical": "#0b62c8", "tonalRamp": ["oklch(.22 .09 258)", "oklch(.33 .14 258)", "oklch(.44 .18 258)", "oklch(.53 .20 258)", "oklch(.63 .18 258)", "oklch(.74 .13 258)", "oklch(.86 .07 258)", "oklch(.95 .03 258)"] },
+      "ine-vivo": { "role": "secondary", "displayName": "Inegociável — vivo (anel de foco)", "canonical": "#1786ff" },
+      "ine-escuro": { "role": "secondary", "displayName": "Inegociável no escuro", "canonical": "#4d9eff" },
+      "pular": { "role": "secondary", "displayName": "Não opinar — texto", "canonical": "#626c79" },
+      "pular-vivo": { "role": "secondary", "displayName": "Não opinar — vivo", "canonical": "#7c8794" },
+      "pular-escuro": { "role": "secondary", "displayName": "Não opinar no escuro", "canonical": "#8e97a3" },
+      "sobre": { "role": "secondary", "displayName": "Sobre preenchimento vivo (claro)", "canonical": "#ffffff" },
+      "sobre-escuro": { "role": "secondary", "displayName": "Sobre preenchimento vivo (escuro)", "canonical": "#111418" },
+      "cartao-topo": { "role": "tertiary", "displayName": "Cartão — topo (claro)", "canonical": "oklch(.55 .13 var(--h))", "tonalRamp": ["oklch(.15 .13 250)", "oklch(.25 .13 250)", "oklch(.34 .12 250)", "oklch(.40 .13 250)", "oklch(.50 .12 250)", "oklch(.55 .13 250)", "oklch(.75 .10 250)", "oklch(.95 .03 250)"] },
+      "cartao-pe": { "role": "tertiary", "displayName": "Cartão — pé (claro)", "canonical": "oklch(.40 .13 var(--h))" },
+      "cartao-topo-escuro": { "role": "tertiary", "displayName": "Cartão — topo (escuro)", "canonical": "oklch(.50 .12 var(--h))" },
+      "cartao-pe-escuro": { "role": "tertiary", "displayName": "Cartão — pé (escuro)", "canonical": "oklch(.34 .12 var(--h))" },
+      "fundo": { "role": "neutral", "displayName": "Fundo", "canonical": "#ffffff", "tonalRamp": ["#111418", "#1a1f27", "#1f252e", "#2a313b", "#626c79", "#e4e7eb", "#f2f4f6", "#ffffff"] },
+      "caixa": { "role": "neutral", "displayName": "Caixa (superfície de botão/overlay)", "canonical": "#ffffff" },
+      "realce": { "role": "neutral", "displayName": "Realce (trilhos, círculos, hover)", "canonical": "#f2f4f6" },
+      "linha": { "role": "neutral", "displayName": "Linha (divisores, bordas, hachura)", "canonical": "#e4e7eb" },
+      "texto": { "role": "neutral", "displayName": "Texto", "canonical": "#111418" },
+      "texto-2": { "role": "neutral", "displayName": "Texto secundário (7.80:1 sobre branco)", "canonical": "#4a535f" },
+      "texto-3": { "role": "neutral", "displayName": "Texto terciário (5.33:1 sobre branco)", "canonical": "#626c79" },
+      "fundo-escuro": { "role": "neutral", "displayName": "Fundo escuro", "canonical": "#111418", "tonalRamp": ["#111418", "#1a1f27", "#1f252e", "#2a313b", "#8e97a3", "#a9b1bc", "#f3f5f7", "#ffffff"] },
+      "caixa-escuro": { "role": "neutral", "displayName": "Caixa escura", "canonical": "#1a1f27" },
+      "realce-escuro": { "role": "neutral", "displayName": "Realce escuro", "canonical": "#1f252e" },
+      "linha-escuro": { "role": "neutral", "displayName": "Linha escura", "canonical": "#2a313b" },
+      "texto-escuro": { "role": "neutral", "displayName": "Texto no escuro", "canonical": "#f3f5f7" },
+      "texto-2-escuro": { "role": "neutral", "displayName": "Texto secundário no escuro (8.53:1)", "canonical": "#a9b1bc" },
+      "texto-3-escuro": { "role": "neutral", "displayName": "Texto terciário no escuro (6.25:1)", "canonical": "#8e97a3" }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "O nome Palanq na tela de abertura, branco sobre o degradê." },
+      "headline": { "displayName": "Headline", "purpose": "Nome do tema no pé do cartão (h2 da face)." },
+      "title": { "displayName": "Title", "purpose": "Título do resultado; h3 de nota/aviso em 1.05–1.1rem." },
+      "question": { "displayName": "Pergunta", "purpose": "A pergunta do cartão (a 'bio'); explicação do verso em 1.08–1.2rem." },
+      "body": { "displayName": "Body", "purpose": "Corpo da página; citações do painel em .92rem/1.6." },
+      "mini": { "displayName": "Mini", "purpose": "Notas, legendas e contadores; 600 na barra do topo." },
+      "label": { "displayName": "Label", "purpose": "Pílula do tema no cartão e títulos pegajosos dos grupos do painel; caixa alta com tracking largo." },
+      "stamp": { "displayName": "Carimbo", "purpose": "CONCORDO/DISCORDO/INEGOCIÁVEL/NÃO OPINAR ao arrastar; borda 4px currentColor, rotacionado." }
+    },
+    "shadows": [
+      { "name": "sombra", "value": "0 14px 36px rgb(17 20 24 / .14), 0 2px 6px rgb(17 20 24 / .06)", "purpose": "Cartão da frente e overlay do inegociável (claro)." },
+      { "name": "sombra-escuro", "value": "0 16px 40px rgb(0 0 0 / .5), 0 2px 6px rgb(0 0 0 / .3)", "purpose": "Cartão da frente e overlay (escuro)." },
+      { "name": "sombra-botao", "value": "0 4px 12px rgb(17 20 24 / .10), 0 1px 2px rgb(17 20 24 / .06)", "purpose": "Os cinco botões redondos e a marca do seletor de ordenação (claro)." },
+      { "name": "sombra-botao-escuro", "value": "0 4px 14px rgb(0 0 0 / .45), 0 1px 2px rgb(0 0 0 / .3)", "purpose": "Botões redondos (escuro)." },
+      { "name": "sombra-fundo", "value": "0 6px 18px rgb(0 0 0 / .10)", "purpose": "Segundo cartão da pilha; o terceiro não tem sombra." },
+      { "name": "sombra-btn", "value": "0 6px 16px color-mix(in srgb, var(--botao1) 30%, transparent)", "purpose": "Botão principal .btn, tingido da própria cor; hover 38% e 0 8px 20px." },
+      { "name": "sombra-comecar", "value": "0 8px 24px rgb(0 0 0 / .22), 0 1px 3px rgb(0 0 0 / .18)", "purpose": "Botão branco Começar na abertura; hover 0 12px 30px … .26." },
+      { "name": "sombra-toast", "value": "0 10px 30px rgb(0 0 0 / .25)", "purpose": "Toast .dica." },
+      { "name": "sombra-folha", "value": "0 -10px 40px rgb(0 0 0 / .25)", "purpose": "Folha da candidatura colada ao pé; centrada em ≥720px: 0 20px 60px rgb(0 0 0 / .3)." },
+      { "name": "sombra-carimbo", "value": "drop-shadow(0 2px 8px rgb(0 0 0 / .4))", "purpose": "Carimbo legível quando a cor coincide com a do cartão." }
+    ],
+    "motion": [
+      { "name": "ease-saida", "value": "cubic-bezier(.2, .8, .2, 1)", "purpose": "Ease-out exponencial padrão: progresso .4s, cartão de trás subindo .28s, folha .28s, seletor .26s, raias .45s, botões .14–.15s." },
+      { "name": "ease-voo", "value": "cubic-bezier(.2, .7, .3, 1)", "purpose": "Cartão saindo (.voando): transform .32s; opacity .32s ease-out. Empurrado e desacelerando longe." },
+      { "name": "ease-giro", "value": "cubic-bezier(.3, .7, .2, 1)", "purpose": "Virar o cartão: rotateY(180deg) em .6s." },
+      { "name": "voltar", "value": "transform .2s ease", "purpose": "Cartão solto antes do limiar de 95px volta ao lugar." },
+      { "name": "voo-destino", "value": "sim (900px, 0, 30deg) · nao (-900px, 0, -30deg) · ine (0, -900px) · pular (0, 900px); do arraste rotate(dx/12deg)", "purpose": "Destino do voo por resposta; troca de pergunta 300ms depois." },
+      { "name": "arraste", "value": "translate(dx, dy) rotate(dx/18deg); limiar 95px", "purpose": "Cartão segue o dedo; carimbo com opacidade = progresso; o de trás escala .95→1 sem transição." },
+      { "name": "carimbo", "value": "opacity .1s", "purpose": "Carimbo aparece e some com o arraste." },
+      { "name": "segurar-inegociavel", "value": "800ms · animation encher .8s linear (steps(6) com movimento reduzido)", "purpose": "O cartão se enche de baixo para cima da cor da direção." },
+      { "name": "segurar-encerrar", "value": "900ms · transform .9s linear (steps(6) com movimento reduzido)", "purpose": "Carga do 'segure para encerrar'; soltar zera sem transição." },
+      { "name": "raias", "value": "subir .45s, atraso --i × 45ms", "purpose": "Entrada do ranking, uma vez só; none com movimento reduzido." },
+      { "name": "toast", "value": "opacity .16s ease, transform .16s ease-saida (scale .96→1)", "purpose": "Toast entra e sai." },
+      { "name": "reduced-motion", "value": ".painel-fundo, .painel, .giro, .cartao.fundo, .cartao.voando, .progresso i, .marca-ordem → transition: none; .raia → animation: none", "purpose": "prefers-reduced-motion: reduce desliga toda transição de posição." }
+    ],
+    "breakpoints": [
+      { "name": "coluna-cartoes", "value": "480px (max-width da tela de cartões)" },
+      { "name": "coluna-resultado", "value": "600px" },
+      { "name": "folha-centrada", "value": "min-width: 720px" },
+      { "name": "rodape-recolhido", "value": "max-width: 640px" }
+    ],
+    "constraints": [
+      "Zero requisição de rede: CSP default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'.",
+      "Figtree 300–900 embutida em data:font/woff2;base64 (fonte.css, OFL 1.1).",
+      "Tema: prefers-color-scheme: dark guardado por :root:not([data-theme=\"light\"]) + override :root[data-theme=\"dark\"]; chave localStorage palanq/tema aplicada no <head> antes da primeira pintura (build.mjs).",
+      "Copy em pt-BR.",
+      "Pisos de contraste medidos: corpo ≥4.5:1; ícones e texto grande ≥3:1; cartão L .55/.40 (claro) e .50/.34 (escuro) com texto branco."
+    ],
+    "secondarySurface": {
+      "path": "src/estilo.css",
+      "status": "Não trazida para este mundo. Compartilha só Figtree, o mecanismo de tema e o rodapé; tokens próprios (ground #fbfaf8, acento #1f4f7a, ok/alerta/perigo) não migram para a tela de cartões."
+    }
+  },
+  "components": [
+    {
+      "name": "Cartão",
+      "kind": "card",
+      "refersTo": "card-face",
+      "description": "O objeto do produto: degradê OKLCH pelo matiz do tema, luz no canto, véu no pé, nome em capa tom sobre tom, pílula do tema, pergunta e botão de vidro.",
+      "html": "<div class=\"ds-cartao\" style=\"--h:175\"><div class=\"ds-face\" data-dominio=\"saude\"><div class=\"ds-dominio\"><i></i>saude</div><h2 class=\"ds-h2\">SUS e saúde pública</h2><div class=\"ds-pergunta\">O governo federal deve ampliar o financiamento do SUS acima da inflação?</div><button class=\"ds-virar\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M3 11a9 9 0 0 1 15-6.7L21 7\"/><path d=\"M21 3v4h-4\"/><path d=\"M21 13a9 9 0 0 1-15 6.7L3 17\"/><path d=\"M3 21v-4h4\"/></svg> Me explique melhor</button></div></div>",
+      "css": ".ds-cartao { --h: 250; --l1: .55; --l2: .40; --c: .13; position: relative; width: 320px; height: 460px; border-radius: 24px; isolation: isolate; font-family: Figtree, system-ui, sans-serif; } .ds-face { position: absolute; inset: 0; border-radius: 24px; padding: 1.5rem 1.5rem 3.4rem; display: flex; flex-direction: column; color: #fff; isolation: isolate; overflow: hidden; background: radial-gradient(120% 55% at 12% 0%, rgb(255 255 255 / .17), transparent 62%), linear-gradient(172deg, oklch(var(--l1) var(--c) var(--h)) 0%, oklch(var(--l2) var(--c) var(--h)) 100%); box-shadow: 0 14px 36px rgb(17 20 24 / .14), 0 2px 6px rgb(17 20 24 / .06); } .ds-face::before { content: attr(data-dominio); position: absolute; right: -.06em; top: .55em; z-index: -1; font-size: 6rem; font-weight: 900; line-height: .85; letter-spacing: -.05em; text-transform: uppercase; color: rgb(255 255 255 / .10); white-space: nowrap; pointer-events: none; } .ds-face::after { content: \"\"; position: absolute; inset: 38% 0 0; z-index: -1; pointer-events: none; background: linear-gradient(to bottom, transparent, rgb(0 0 0 / .22)); } .ds-dominio { align-self: flex-start; display: inline-flex; align-items: center; gap: .4rem; font-size: .72rem; font-weight: 800; text-transform: uppercase; letter-spacing: .12em; padding: .32rem .7rem .32rem .55rem; border-radius: 999px; background: rgb(0 0 0 / .26); margin-bottom: auto; } .ds-dominio i { width: 7px; height: 7px; border-radius: 50%; background: #fff; opacity: .9; } .ds-h2 { font-size: 2.1rem; line-height: 1.02; margin: 1rem 0 .7rem; font-weight: 800; letter-spacing: -.03em; text-wrap: balance; } .ds-pergunta { font-size: 1.3rem; font-weight: 500; line-height: 1.32; padding: 0 0 1.1rem; color: rgb(255 255 255 / .96); text-wrap: pretty; } .ds-virar { align-self: center; display: inline-flex; align-items: center; gap: .45rem; font: inherit; font-size: .86rem; font-weight: 700; color: #fff; background: rgb(255 255 255 / .18); border: 1px solid rgb(255 255 255 / .38); border-radius: 999px; padding: .5rem 1.05rem; cursor: pointer; transition: background .15s ease, transform .15s ease; } .ds-virar svg { width: 15px; height: 15px; } .ds-virar:hover { background: rgb(255 255 255 / .28); } .ds-virar:active { transform: scale(.96); } .ds-virar:focus-visible { outline: 2px solid #1786ff; outline-offset: 3px; }"
+    },
+    {
+      "name": "Botões de ação",
+      "kind": "button",
+      "refersTo": "action-button",
+      "description": "Os cinco círculos brancos com ícone colorido que se enchem da cor ao apertar; escudos na cor da direção, o do meio menor.",
+      "html": "<div class=\"ds-acoes\"><div class=\"ds-acao\"><button class=\"ds-ab ds-nao\" aria-label=\"Discordo\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M18 6 6 18M6 6l12 12\"/></svg></button><span>Discordo</span></div><div class=\"ds-acao ds-escudo\"><button class=\"ds-ab ds-nao\" aria-label=\"Discordo e é inegociável\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M12 3 4 6v6c0 4.5 3.2 8.3 8 9 4.8-.7 8-4.5 8-9V6l-8-3Z\"/><path d=\"M14.4 9.6 9.6 14.4M9.6 9.6l4.8 4.8\"/></svg></button><span>Inegociável</span></div><div class=\"ds-acao ds-meio\"><button class=\"ds-ab ds-pular\" aria-label=\"Não opinar\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M12 5v13M6 13l6 6 6-6\"/></svg></button><span>Não opinar</span></div><div class=\"ds-acao ds-escudo\"><button class=\"ds-ab ds-sim\" aria-label=\"Concordo e é inegociável\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M12 3 4 6v6c0 4.5 3.2 8.3 8 9 4.8-.7 8-4.5 8-9V6l-8-3Z\"/><path d=\"M15.3 10.1 11 14.4l-2.3-2.3\"/></svg></button><span>Inegociável</span></div><div class=\"ds-acao\"><button class=\"ds-ab ds-sim\" aria-label=\"Concordo\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M20 6 9 17l-5-5\"/></svg></button><span>Concordo</span></div></div>",
+      "css": ".ds-acoes { display: flex; justify-content: center; align-items: flex-start; gap: 14px; font-family: Figtree, system-ui, sans-serif; } .ds-acao { --d: 66px; display: grid; grid-template-rows: var(--d) auto; justify-items: center; gap: .35rem; width: var(--d); } .ds-acao.ds-escudo { --d: 54px; margin-top: 6px; } .ds-acao.ds-meio { --d: 46px; margin-top: 10px; } .ds-acao span { font-size: .64rem; font-weight: 700; color: #626c79; text-transform: uppercase; letter-spacing: .05em; text-align: center; line-height: 1.2; width: 76px; } .ds-ab { --cor: #4a535f; width: var(--d); height: var(--d); border-radius: 50%; display: grid; place-items: center; color: var(--cor); background: #fff; border: 1.5px solid color-mix(in srgb, var(--cor) 26%, #e4e7eb); box-shadow: 0 4px 12px rgb(17 20 24 / .10), 0 1px 2px rgb(17 20 24 / .06); cursor: pointer; transition: transform .14s cubic-bezier(.2,.8,.2,1), background .14s ease, color .14s ease, border-color .14s ease; } .ds-ab svg { width: 46%; height: 46%; } .ds-escudo .ds-ab svg { width: 50%; height: 50%; } .ds-ab.ds-nao { --cor: #f0284f; } .ds-ab.ds-sim { --cor: #0ea765; } .ds-ab.ds-pular { --cor: #7c8794; } .ds-ab:hover { background: var(--cor); color: #fff; border-color: var(--cor); transform: scale(1.06); } .ds-ab:active { background: var(--cor); color: #fff; border-color: var(--cor); transform: scale(.9); } .ds-ab:focus-visible { outline: 2px solid #1786ff; outline-offset: 3px; }"
+    },
+    {
+      "name": "Carimbo",
+      "kind": "custom",
+      "refersTo": "stamp",
+      "description": "CONCORDO / DISCORDO ao estilo LIKE/NOPE: caixa alta 900, borda 4px currentColor, rotacionado ±14°, sombra para não sumir na cor do cartão.",
+      "html": "<div class=\"ds-carimbos\"><span class=\"ds-carimbo ds-c-sim\">Concordo</span><span class=\"ds-carimbo ds-c-nao\">Discordo</span></div>",
+      "css": ".ds-carimbos { display: flex; gap: 2rem; padding: 1.5rem; background: oklch(.55 .13 250); border-radius: 24px; font-family: Figtree, system-ui, sans-serif; } .ds-carimbo { padding: .15rem .6rem; border-radius: 8px; border: 4px solid currentColor; font-weight: 900; font-size: 2.2rem; line-height: 1.05; letter-spacing: .06em; text-transform: uppercase; filter: drop-shadow(0 2px 8px rgb(0 0 0 / .4)); } .ds-c-sim { color: #0ea765; transform: rotate(-14deg); } .ds-c-nao { color: #f0284f; transform: rotate(14deg); }"
+    },
+    {
+      "name": "Botão principal",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Pílula 800 em degradê fundo da marca com sombra tingida; usado dentro de avisos (continuar, responder os restantes).",
+      "html": "<button class=\"ds-btn\">Continuar respondendo</button>",
+      "css": ".ds-btn { display: inline-flex; align-items: center; justify-content: center; gap: .4rem; border: 0; border-radius: 999px; padding: .65rem 1.3rem; font-family: Figtree, system-ui, sans-serif; font-weight: 800; font-size: .92rem; color: #fff; background: linear-gradient(135deg, #e5125a, #d93a17); box-shadow: 0 6px 16px color-mix(in srgb, #e5125a 30%, transparent); cursor: pointer; transition: transform .15s cubic-bezier(.2,.8,.2,1), box-shadow .15s ease; } .ds-btn:hover { transform: translateY(-1px); box-shadow: 0 8px 20px color-mix(in srgb, #e5125a 38%, transparent); } .ds-btn:active { transform: scale(.97); } .ds-btn:focus-visible { outline: 2px solid #1786ff; outline-offset: 3px; }"
+    },
+    {
+      "name": "Botão de contorno",
+      "kind": "button",
+      "refersTo": "button-outline",
+      "description": "Pílula neutra com borda 1.5px; ações secundárias do resultado, voltar ao resultado.",
+      "html": "<button class=\"ds-btn-contorno\">Recomeçar</button>",
+      "css": ".ds-btn-contorno { display: inline-flex; align-items: center; justify-content: center; border-radius: 999px; padding: .6rem 1.2rem; font-family: Figtree, system-ui, sans-serif; font-weight: 700; font-size: .9rem; color: #111418; background: #fff; border: 1.5px solid #e4e7eb; cursor: pointer; transition: background .15s ease; } .ds-btn-contorno:hover { background: #f2f4f6; } .ds-btn-contorno:focus-visible { outline: 2px solid #1786ff; outline-offset: 3px; }"
+    },
+    {
+      "name": "Seletor de ordenação",
+      "kind": "nav",
+      "refersTo": "segmented-control",
+      "description": "Trilho pílula com a marca deslizando entre Afinidade / Concordância / Discordância; a marca se move para dizer que é a mesma lista.",
+      "html": "<div class=\"ds-ordenar\"><span class=\"ds-marca-ordem\"></span><button aria-pressed=\"true\">Afinidade</button><button>Concordância</button><button>Discordância</button></div>",
+      "css": ".ds-ordenar { position: relative; display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; width: 320px; padding: 4px; border-radius: 999px; background: #f2f4f6; font-family: Figtree, system-ui, sans-serif; } .ds-marca-ordem { position: absolute; top: 4px; bottom: 4px; left: 4px; width: calc((100% - 8px) / 3); border-radius: 999px; background: #fff; box-shadow: 0 4px 12px rgb(17 20 24 / .10), 0 1px 2px rgb(17 20 24 / .06); transition: left .26s cubic-bezier(.2,.8,.2,1); } .ds-ordenar button { position: relative; z-index: 1; padding: .5rem .3rem; border: 0; background: none; border-radius: 999px; font: inherit; font-size: .82rem; font-weight: 600; color: #626c79; white-space: nowrap; cursor: pointer; transition: color .15s ease; } .ds-ordenar button[aria-pressed=\"true\"] { color: #111418; font-weight: 800; } .ds-ordenar button:hover { color: #111418; } .ds-ordenar button:focus-visible { outline: 2px solid #1786ff; outline-offset: 3px; }"
+    },
+    {
+      "name": "Raia do ranking",
+      "kind": "card",
+      "refersTo": "ranking-row",
+      "description": "Uma candidatura: posição num círculo (líder em degradê de marca), nome e sigla, contagem, barra acordo/divergência/silêncio hachurado, seta.",
+      "html": "<div class=\"ds-raia\"><button class=\"ds-quem\"><span class=\"ds-pos ds-topo\">1</span><span class=\"ds-nome\"><b>Nome da Candidatura</b><em>SIGLA · líder</em></span><span class=\"ds-conta ds-acordo\">7 de 9</span><span class=\"ds-seta\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"m9 6 6 6-6 6\"/></svg></span><span class=\"ds-barra\"><i class=\"ds-a\" style=\"width:58%\"></i><i class=\"ds-d\" style=\"width:14%\"></i><i class=\"ds-s\" style=\"width:28%\"></i></span></button></div>",
+      "css": ".ds-raia { width: 360px; padding: .35rem 0; border-bottom: 1px solid #e4e7eb; font-family: Figtree, system-ui, sans-serif; color: #111418; } .ds-quem { display: grid; grid-template-columns: auto 1fr auto auto; align-items: center; column-gap: .7rem; row-gap: .15rem; width: 100%; text-align: left; padding: .55rem .5rem; border: 0; background: none; border-radius: 16px; cursor: pointer; font: inherit; color: inherit; transition: background .15s ease; } .ds-quem:hover { background: #f2f4f6; } .ds-pos { grid-row: 1 / span 2; width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center; font-weight: 800; color: #4a535f; background: #f2f4f6; } .ds-pos.ds-topo { color: #fff; background: linear-gradient(150deg, #fd267a, #ff6036); } .ds-nome { display: flex; align-items: baseline; gap: .4rem; flex-wrap: wrap; } .ds-nome b { font-weight: 800; letter-spacing: -.01em; } .ds-nome em { font-style: normal; font-size: .78rem; font-weight: 600; color: #e5125a; } .ds-conta { grid-column: 3; grid-row: 1 / span 2; font-size: .78rem; font-weight: 700; color: #e8163f; } .ds-conta.ds-acordo { color: #0a7f4e; } .ds-seta { grid-column: 4; grid-row: 1 / span 2; color: #626c79; display: grid; transition: transform .15s ease, color .15s ease; } .ds-seta svg { width: 18px; height: 18px; } .ds-quem:hover .ds-seta { color: #111418; transform: translateX(2px); } .ds-barra { grid-column: 2 / span 3; display: flex; height: 10px; border-radius: 999px; overflow: hidden; background: #f2f4f6; } .ds-barra i { display: block; height: 100%; } .ds-barra .ds-a { background: #0ea765; } .ds-barra .ds-d { background: #f0284f; } .ds-barra .ds-s { background: repeating-linear-gradient(-45deg, #e4e7eb 0 3px, transparent 3px 7px); } .ds-quem:focus-visible { outline: 2px solid #1786ff; outline-offset: 3px; }"
+    },
+    {
+      "name": "Escolhas do inegociável",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "As duas pílulas cheias do overlay, na cor 'texto' da resposta, com rótulo 800 + ícone e a consequência em small.",
+      "html": "<div class=\"ds-escolhas\"><button class=\"ds-escolha ds-e-sim\"><span class=\"ds-rot\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M20 6 9 17l-5-5\"/></svg>Concordo!</span><small>Elimina 3 candidaturas que estão contra</small></button><button class=\"ds-escolha ds-e-nao\"><span class=\"ds-rot\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M18 6 6 18M6 6l12 12\"/></svg>Discordo!</span><small>Elimina 5 candidaturas que estão a favor</small></button></div>",
+      "css": ".ds-escolhas { display: grid; gap: .6rem; width: 320px; font-family: Figtree, system-ui, sans-serif; } .ds-escolha { --cor: #4a535f; background: var(--cor); color: #fff; border: 0; border-radius: 18px; padding: .8rem 1rem; text-align: left; font: inherit; cursor: pointer; transition: transform .15s cubic-bezier(.2,.8,.2,1), filter .15s ease; } .ds-escolha.ds-e-sim { --cor: #0a7f4e; } .ds-escolha.ds-e-nao { --cor: #e8163f; } .ds-rot { display: flex; align-items: center; gap: .45rem; font-size: 1.05rem; font-weight: 800; } .ds-rot svg { width: 19px; height: 19px; } .ds-escolha small { display: block; font-weight: 600; opacity: .9; font-size: .8rem; margin-top: .2rem; line-height: 1.35; } .ds-escolha:hover { filter: brightness(1.06); } .ds-escolha:active { transform: scale(.98); } .ds-escolha:focus-visible { outline: 2px solid #1786ff; outline-offset: 3px; }"
+    },
+    {
+      "name": "Toast",
+      "kind": "custom",
+      "refersTo": "toast",
+      "description": "Recado passageiro invertido (texto sobre fundo), no meio da tela, longe do polegar.",
+      "html": "<div class=\"ds-dica\">Arraste o cartão ou toque num botão</div>",
+      "css": ".ds-dica { max-width: 18rem; text-align: center; padding: .75rem 1.15rem; border-radius: 14px; background: #111418; color: #fff; font-family: Figtree, system-ui, sans-serif; font-size: .88rem; font-weight: 600; line-height: 1.35; box-shadow: 0 10px 30px rgb(0 0 0 / .25); }"
+    },
+    {
+      "name": "Logotipo",
+      "kind": "custom",
+      "refersTo": "marca",
+      "description": "Dois cartões (o de trás a 38% e rodado 14°) com um check, e o nome em degradê de marca recortado no texto.",
+      "html": "<a class=\"ds-marca\" href=\"#\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><rect x=\"7.5\" y=\"2.6\" width=\"12\" height=\"16\" rx=\"3\" fill=\"currentColor\" opacity=\".38\" transform=\"rotate(14 13.5 10.6)\"/><rect x=\"4\" y=\"5\" width=\"12\" height=\"16\" rx=\"3\" fill=\"currentColor\"/><path d=\"m7.4 13.2 1.9 1.9 3.6-3.8\" fill=\"none\" stroke=\"#fff\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg><span>Palanq</span></a>",
+      "css": ".ds-marca { display: inline-flex; align-items: center; gap: .4rem; font-family: Figtree, system-ui, sans-serif; font-weight: 800; letter-spacing: -.03em; font-size: 1.2rem; color: #fd267a; text-decoration: none; } .ds-marca svg { width: 22px; height: 22px; } .ds-marca span { background: linear-gradient(90deg, #fd267a, #ff6036); -webkit-background-clip: text; background-clip: text; color: transparent; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "O Cânone Tinder, executado a sério",
+    "overview": "Responder é deslizar. O cartão é o objeto inteiro — a cor do tema ocupa o cartão como uma foto ocuparia, o nome do tema é o \"nome\" e a pergunta é a \"bio\" — e os cinco botões redondos flutuam sobre a borda de baixo, invadindo o cartão pela metade do maior. Tudo o que não é o cartão (barra do topo, legenda, \"segure para encerrar\", resultado) é discreto e neutro para que a cor do tema seja a única coisa colorida em cena. A direção foi fixada pelo autor: Tinder como referência principal, Bumble como segunda, sem ironia e sem \"inspirado em\"; o padrão de acabamento daqueles produtos é a régua.\n\nPor fora é rápido e lúdico; por dentro a conta é rigorosa, e a interface mostra o custo antes de qualquer ação irreversível. Isso aparece como duas famílias de cor para cada resposta (uma para texto miúdo, outra para ícone e carimbo), como o apertar-e-segurar nos inegociáveis, e como o silêncio hachurado na barra do resultado. Nada é caixa de alerta; o título faz o trabalho do aviso. O mundo rejeita explicitamente o questionário editorial de papel creme, filetes finos e caixas de aviso que o /motor ainda usa.\n\nClaro e escuro são igualmente de primeira classe: a mesma cena, os mesmos pesos, com luminosidades recalibradas — nunca uma inversão automática.",
+    "keyCharacteristics": [
+      "Fundo branco puro ou quase preto; a única cor fora do cartão é o degradê da marca (logotipo, progresso, botão principal, anel do líder).",
+      "Cartão = degradê vertical OKLCH por matiz do tema, texto branco, raio de 24px, sombra macia deslocada.",
+      "Cinco botões redondos brancos com ícone colorido que se enche da cor ao apertar; os dois escudos (inegociáveis) exigem segurar.",
+      "Carimbos rotacionados em caixa alta que aparecem ao arrastar (CONCORDO/DISCORDO ao estilo LIKE/NOPE).",
+      "Figtree variável (300–900) embutida em base64; zero requisição de rede.",
+      "Movimento com ease-out exponencial em 280–360ms; prefers-reduced-motion honrado em toda transição de posição."
+    ],
+    "rules": [
+      { "name": "A Regra do Matiz Só", "body": "Entre cartões varia apenas o matiz OKLCH; luminosidade e croma são fixos por tema claro/escuro. Assim os 21 temas pesam o mesmo na tela e o texto branco passa em todos — em HSL, amarelo saía claro demais e azul escuro demais com os mesmos números. Temas vizinhos no assunto ficam vizinhos no círculo.", "section": "colors" },
+      { "name": "A Regra Texto vs Vivo", "body": "Toda cor de resposta tem um par: a \"texto\" para letra miúda sobre o fundo (≥4.5:1) e a \"viva\" para ícone, carimbo e barra (≥3:1). Nunca use a viva em texto corrido no tema claro; nunca use a texto num ícone que precisa gritar.", "section": "colors" },
+      { "name": "A Regra da Marca Funda", "body": "O degradê vivo (marca-*) é decoração e identidade; onde houver texto branco em cima, use a dupla funda (botao-*). Pisos medidos: corpo ≥4.5:1, ícones e texto grande ≥3:1.", "section": "colors" },
+      { "name": "A Regra do Peso, Não da Fonte", "body": "Hierarquia vem de peso (500 / 600 / 700 / 800 / 900) e tracking, nunca de uma segunda família. Títulos apertam (−.02 a −.045em); rótulos em caixa alta abrem (.05 a .12em).", "section": "typography" },
+      { "name": "A Regra dos Títulos Equilibrados", "body": "h1–h3 levam text-wrap: balance; a pergunta leva text-wrap: pretty. Viúvas no cartão são defeito.", "section": "typography" },
+      { "name": "A Regra de Quem Flutua", "body": "Só recebe sombra o que a pessoa poderia levantar da mesa: cartão, botões redondos, botão de começar, toast, folha. Superfícies de página (aviso, seletor, raias, grupos do painel) separam-se por tom, nunca por sombra.", "section": "elevation" },
+      { "name": "A Regra do Véu", "body": "Texto pequeno sobre cor (pé do cartão, pé da abertura) ganha contraste com um véu preto a 22% por baixo, não trocando a cor do texto.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do deixar a cor do tema ocupar o cartão inteiro e manter tudo ao redor neutro; a única outra cor na tela é o degradê da marca.",
+      "Do variar apenas --h entre cartões; L e C vêm dos tokens (.55/.40/.13 claro, .50/.34/.12 escuro).",
+      "Do usar a cor \"texto\" para letra miúda e a \"viva\" para ícone, carimbo e barra; sobre preenchimento vivo, texto e ícone em sobre.",
+      "Do repetir o mesmo voo (.32s cubic-bezier(.2,.7,.3,1), ±900px, ±30°) para botão e arraste; a troca de pergunta é consequência visível do gesto.",
+      "Do honrar prefers-reduced-motion: transições de posição desligadas, cargas em steps(6), raias sem animação.",
+      "Do manter alvos de toque ≥44px (menor botão redondo 44px, botão de tema 36px na barra de 44px), foco 2px solid var(--ine-vivo) com outline-offset, e o tema escuro como recalibração de luminosidade, não inversão.",
+      "Do manter zero requisição de rede: CSP default-src 'none'; img-src data:; font-src data:, fonte em base64, ícones inline."
+    ],
+    "donts": [
+      "Don't trocar Figtree por outra família nem carregar nada externo; hierarquia é por peso e tracking.",
+      "Don't pintar os escudos de azul: o azul (ine) é para o título do overlay, a legenda e o carimbo; os botões seguem a cor da direção.",
+      "Don't pôr sombra em superfície de página (aviso, seletor, raia, grupo) nem usar sombra dura/deslocada sólida; profundidade em superfície é por tom.",
+      "Don't usar o degradê vivo (marca-*) como fundo de texto branco; use botao-*.",
+      "Don't reintroduzir o questionário de papel do /motor (fundo creme, filetes, caixas de aviso, cor de link azul) na tela de cartões.",
+      "Don't transformar a barra de silêncio em cinza chapado: o silêncio é hachura, e é o argumento do produto."
+    ]
+  }
+}

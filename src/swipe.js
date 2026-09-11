@@ -32,19 +32,22 @@ const Z = {
 };
 
 /**
- * Um matiz por tema. Saturação e luminosidade ficam por conta do CSS, iguais para
- * todos, para que as 21 cores pareçam uma família e não um arco-íris. Temas
- * vizinhos no assunto ficam vizinhos no círculo cromático.
+ * Um matiz por tema, no círculo OKLCH (0 rosa · 30 vermelho · 60 laranja · 90 ouro ·
+ * 145 verde · 200 ciano · 250 azul · 300 roxo · 330 magenta). Luminosidade e croma
+ * ficam por conta do CSS, iguais para todos: em OKLCH isso quer dizer que as 21
+ * cores pesam o mesmo na tela e o texto branco passa em todas — em HSL o amarelo
+ * saía claro demais e o azul escuro demais com os mesmos números. Temas vizinhos no
+ * assunto ficam vizinhos no círculo.
  */
 const MATIZ = {
-  economia: 208, tributacao: 196, fiscal: 188, orcamento: 182,
-  trabalho: 28, previdencia: 40, social: 344, federativo: 222,
-  saude: 166, ambiental: 132, agrario: 104, energia: 52,
-  educacao: 272, tecnologia: 254, comunicacao: 292,
-  seguranca: 12, justica: 238, politica: 246, estado: 216,
-  externa: 228, transporte: 176,
+  economia: 245, tributacao: 235, fiscal: 225, orcamento: 215,
+  trabalho: 55, previdencia: 70, social: 5, federativo: 258,
+  saude: 175, ambiental: 150, agrario: 130, energia: 90,
+  educacao: 300, tecnologia: 285, comunicacao: 320,
+  seguranca: 30, justica: 268, politica: 275, estado: 252,
+  externa: 262, transporte: 200,
 };
-const matizDe = (d) => MATIZ[d] ?? 215;
+const matizDe = (d) => MATIZ[d] ?? 250;
 
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) =>
   ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
@@ -69,6 +72,26 @@ function pergunta(a) {
   const q = proxima(a);
   if (!q || q.tipo !== "eixo") return null;
   return q.fase === 1 || (Z.extra && q.fase === 4) ? q : null;
+}
+/**
+ * Os cartões de trás são as perguntas que vêm DE FATO a seguir — o motor escolhe
+ * por ganho, não pela ordem do corpus, então isto simula a resposta (sem
+ * inegociável, que muda a ordem) e pergunta ao motor o que viria. Sem isto o
+ * cartão que subia era substituído por outro no redesenho: o "pisca" relatado.
+ */
+function seguintesDe(q, n = 2) {
+  const fila = [];
+  const respostas = { ...Z.respostas, [q.id]: "indiferente" };
+  const lv = new Set(Z.linhasVermelhas);
+  while (fila.length < n) {
+    const a = analisar(CORPUS, respostas, lv, { margem: Z.margem });
+    const p = proximaPergunta(CORPUS, respostas, a.estados,
+      { linhasVermelhas: lv, margem: Z.margem, complementar: Z.extra, pularPortoes: true });
+    if (!p || p.tipo !== "eixo" || !(p.fase === 1 || (Z.extra && p.fase === 4))) break;
+    fila.push(CORPUS.eixos[p.id]);
+    respostas[p.id] = "indiferente";
+  }
+  return fila;
 }
 /**
  * Pisos de produto para aceitar a parada antecipada. A garantia do motor é sobre
@@ -157,9 +180,88 @@ const ICONE = {
   // ✕ — fechar o painel de uma candidatura
   fechar: SVG('<path d="M18 6 6 18M6 6l12 12"/>'),
   virar: SVG('<path d="M3 11a9 9 0 0 1 15-6.7L21 7"/><path d="M21 3v4h-4"/><path d="M21 13a9 9 0 0 1-15 6.7L3 17"/><path d="M3 21v-4h4"/>'),
+  // › — abrir a folha de uma candidatura
+  abrir: SVG('<path d="m9 6 6 6-6 6"/>'),
+  // sol e lua — o botão de tema mostra o tema para o qual ele leva
+  sol: SVG('<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>'),
+  lua: SVG('<path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/>'),
 };
+/** A marca: dois cartões, o de trás inclinado — a pilha que a pessoa vai deslizar. */
+const MARCA = `<svg viewBox="0 0 24 24" aria-hidden="true">
+  <rect x="7.5" y="2.6" width="12" height="16" rx="3" fill="currentColor" opacity=".38"
+        transform="rotate(14 13.5 10.6)"/>
+  <rect x="4" y="5" width="12" height="16" rx="3" fill="currentColor"/>
+  <path d="m7.4 13.2 1.9 1.9 3.6-3.8" fill="none" stroke="var(--marca-check, #fff)" stroke-width="1.8"
+        stroke-linecap="round" stroke-linejoin="round"/>
+</svg>`;
+
+// ── tema claro / escuro ──────────────────────────────────────────────────────
+// Sem escolha, manda o sistema. O botão alterna; escolher o que o sistema já
+// mostra apaga a escolha — assim o app volta a seguir o aparelho sem um terceiro
+// estado "automático" que ninguém entende.
+const CHAVE_T = "palanq/tema";
+const temaSistema = () => matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+const temaAtual = () => document.documentElement.dataset.theme || temaSistema();
+function alternarTema() {
+  const novo = temaAtual() === "dark" ? "light" : "dark";
+  if (novo === temaSistema()) {
+    delete document.documentElement.dataset.theme;
+    try { localStorage.removeItem(CHAVE_T); } catch {}
+  } else {
+    document.documentElement.dataset.theme = novo;
+    try { localStorage.setItem(CHAVE_T, novo); } catch {}
+  }
+  const b = document.querySelector(".tema");
+  if (b) { b.innerHTML = temaAtual() === "dark" ? ICONE.sol : ICONE.lua; b.setAttribute("aria-label", rotuloTema()); }
+}
+matchMedia("(prefers-color-scheme: dark)").addEventListener?.("change", () => {
+  const b = document.querySelector(".tema");
+  if (b) { b.innerHTML = temaAtual() === "dark" ? ICONE.sol : ICONE.lua; b.setAttribute("aria-label", rotuloTema()); }
+});
+const rotuloTema = () => temaAtual() === "dark" ? "Mudar para o tema claro" : "Mudar para o tema escuro";
+const botaoTema = () => `<button class="tema" data-ir="tema" type="button" aria-label="${rotuloTema()}">${
+  temaAtual() === "dark" ? ICONE.sol : ICONE.lua}</button>`;
+const marca = () => `<span class="marca">${MARCA}<span>Palanq</span></span>`;
 
 // ── responder ────────────────────────────────────────────────────────────────
+const LADO = { sim: [900, 0, 30], nao: [-900, 0, -30], ine: [0, -900, 0], pular: [0, 900, 0] };
+
+/**
+ * Manda o cartão embora na direção da resposta e só então troca de pergunta.
+ * Os botões precisam disto tanto quanto o arraste: sem a saída, o cartão apenas
+ * sumia e a troca não se lia como consequência do que a pessoa acabou de tocar.
+ * `dx`/`dy` carregam o deslocamento do gesto quando a origem é o arraste — é o que
+ * dá ao cartão a inclinação de quem foi empurrado, e não a de quem foi teleportado.
+ */
+function voarCartao(dir, aoFim, dx = 0, dy = 0) {
+  const el = document.getElementById("topo");
+  if (!el || el.dataset.voando) { aoFim(); return; }
+  el.dataset.voando = "1";   // dois toques rápidos não podem responder duas vezes
+  const carimbo = el.querySelector(".c-" + dir);
+  if (carimbo) carimbo.style.opacity = "1";
+  const [x, y, giro] = LADO[dir];
+  const toque = !dx && !dy;   // botão ou teclado: o cartão parte do zero, sem o impulso do gesto
+  el.classList.add("voando", toque ? "toque" : "gesto");
+  // Uma transição só anima se o navegador tiver registrado o valor inicial num
+  // recálculo anterior. Vindo do arraste ele existe (o `pointermove` já escreveu
+  // transform); vindo de um clique, não — e o cartão saltava direto para fora da
+  // tela, que era exatamente o "ele só some" relatado.
+  void el.offsetWidth;
+  el.style.transform = `translate(${x || dx}px, ${y || dy}px) rotate(${dx ? dx / 12 : giro}deg)`;
+  el.style.opacity = "0";
+  // O de trás sobe para o lugar enquanto o da frente sai: quando a tela redesenha,
+  // ele já está onde o novo cartão da frente vai ficar, e a troca não dá salto.
+  const fundo = document.querySelector(".cartao.fundo");
+  if (fundo) { fundo.classList.add("sobe"); if (toque) fundo.classList.add("lento"); }
+  setTimeout(aoFim, toque ? 600 : 440);
+}
+
+/** Direção da saída a partir da resposta. Inegociável sai por cima, como o gesto. */
+const direcaoDe = (valor, inegociavel) =>
+  inegociavel ? "ine"
+  : valor === "concordo" ? "sim"
+  : valor === "discordo" ? "nao" : "pular";
+
 function responderCartao(valor, inegociavel = false) {
   const a = olhar();
   const q = pergunta(a);
@@ -178,18 +280,18 @@ function responderCartao(valor, inegociavel = false) {
 // ── telas ────────────────────────────────────────────────────────────────────
 function telaAbertura() {
   const retomar = Object.keys(Z.respostas).length > 0;
-  return `<div class="abertura tela" style="padding:0">
-    <h1>Palanq</h1>
+  return `<div class="abertura-in">
+    <h1 class="marca">${MARCA}<span>Palanq</span></h1>
     <p class="slogan">No papel, qual candidato combina com você?</p>
-    <p class="mini">${CORPUS.escopo.eleicao} · ${CORPUS.escopo.cargo}</p>
-    <div class="aviso" style="text-align:left;margin-top:1.4rem">
-      <h3>Isto não recomenda voto</h3>
+    <p class="meta">${CORPUS.escopo.eleicao} · ${CORPUS.escopo.cargo}</p>
+    <div class="nota">
+      <h3>Essa não é uma recomendação de voto</h3>
       <p class="mini" style="margin:0">Comparamos o que você responde com o que está escrito nos planos
       de governo registrados. Não entra aqui nada sobre histórico, capacidade de executar, coalizão ou
       financiamento de campanha.</p>
     </div>
     <button class="comecar" data-ir="cartoes">${retomar ? "Continuar" : "Começar"}</button>
-    ${retomar ? '<button class="mini" data-ir="recomecar" style="margin-top:.8rem;text-decoration:underline">Recomeçar do zero</button>' : ""}
+    ${retomar ? '<button class="recomecar" data-ir="recomecar">Recomeçar do zero</button>' : ""}
   </div>`;
 }
 
@@ -204,11 +306,7 @@ function telaCartoes() {
   // Eliminar candidaturas encurta o questionário (§20), então o total muda no meio
   // do caminho. Mostrar quantas faltam em vez de "x de y" evita que isso pareça bug.
   const pct = Math.round((feitas / Math.max(feitas + faltam, 1)) * 100);
-  // dois cartões atrás, só para dar volume à pilha
-  const seguintes = divisivos
-    .filter((d) => Z.respostas[d.eixo] === undefined && d.eixo !== q.id)
-    .slice(0, 2)
-    .map((d) => CORPUS.eixos[d.eixo]);
+  const seguintes = seguintesDe(q);   // os dois que vêm a seguir, na ordem do motor
 
   // A palavra "inegociável" não diz o que o botão faz; o número de candidaturas que
   // sairiam diz. Fase 1 separa os dois lados; na fase 4 só um lado tem plano escrito,
@@ -218,14 +316,12 @@ function telaCartoes() {
         ? { concordo: 0, discordo: q.campo.nFalam }
         : { concordo: q.campo.nFalam, discordo: 0 })
     : { concordo: q.separa.contra, discordo: q.separa.favor };
-  const derruba = (n) => n === 0 ? "não elimina ninguém"
-    : `elimina ${n} candidatura${n > 1 ? "s" : ""}`;
   const custo = (n, lado) => n === 0
     ? `Não elimina ninguém: nenhum plano se posiciona ${lado}`
     : `Elimina ${n} candidatura${n > 1 ? "s" : ""} que ${n > 1 ? "estão" : "está"} ${lado}`;
 
   const frente = (e, comBotao) => `
-    <div class="face frente">
+    <div class="face frente" data-dominio="${esc(e.dominio || "")}">
       <div class="dominio"><i></i>${esc(e.dominio || "")}</div>
       <h2>${esc(e.label)}</h2>
       <div class="pergunta">${esc(e.pergunta)}</div>
@@ -236,18 +332,21 @@ function telaCartoes() {
     </div>`;
   const verso = (e) => `
     <div class="face verso">
-      <div class="rotulo">o que isso quer dizer</div>
+      <h2 class="rotulo">O que isso quer dizer</h2>
       <div class="explicacao">${esc(e.explicacao || "")}</div>
       <button class="virar" data-ir="virar">${ICONE.virar} Voltar à pergunta</button>
     </div>`;
-  const corpo = (e, comBotao) => `<div class="giro${comBotao && Z.virado ? " virado" : ""}">${frente(e, comBotao)}${comBotao ? verso(e) : ""}</div>`;
+  // Os de trás mostram a frente inteira, botão incluído: se faltasse algo, o texto
+  // subiria para ocupar o espaço quando o cartão chegasse à frente — um pisca.
+  const corpo = (e, principal) => `<div class="giro${principal && Z.virado ? " virado" : ""}">${frente(e, true)}${principal ? verso(e) : ""}</div>`;
   const tema = (e) => `style="--h:${matizDe(e.dominio)}"`;
 
   return `
   <div class="barra-topo">
-    <span class="marca">Palanq</span>
-    <div class="progresso" aria-hidden="true"><i style="width:${pct}%"></i></div>
+    ${marca()}
+    <div class="progresso" aria-hidden="true"><i style="--p:${pct / 100}"></i></div>
     <span class="mini">${faltam ? `faltam ${faltam}` : "última"}</span>
+    ${botaoTema()}
   </div>
 
   <div class="pilha">
@@ -261,10 +360,10 @@ function telaCartoes() {
       <i class="carga-cartao" aria-hidden="true"><b></b></i>
       ${corpo(q, true)}
       ${Z.pedindoLado ? `<div class="overlay">
-        <h3>Inegociável elimina candidatos</h3>
-        <p class="mini" style="margin:0">Nos outros temas sua resposta soma ou tira pontos. Aqui não:
-        quem estiver do lado oposto <b>sai da comparação inteira</b>, por mais que combine com você
-        em todo o resto. De que lado?</p>
+        <div class="dominio"><i></i>${esc(q.dominio || "")}</div>
+        <h2>${esc(q.label)}</h2>
+        <div class="pergunta">${esc(q.pergunta)}</div>
+        <h3>Inegociável: de que lado?</h3>
         <div class="escolhas">
           <button class="b-sim" data-resp="concordo" data-ine="1">
             <span class="rot">${ICONE.sim}Concordo!</span>
@@ -295,8 +394,7 @@ function telaCartoes() {
       <span>Concordo</span></div>
   </div>
   ${Z.linhasVermelhas.length ? "" : `<p class="legenda-ine"><b>Inegociável descarta quem pensa
-    diferente.</b><br>Neste tema, “não” ${derruba(elimina.discordo)}; “sim” ${
-    derruba(elimina.concordo)}.</p>`}
+    diferente.</b></p>`}
 
   <button class="encerrar" id="encerrar" type="button">
     <i class="carga" aria-hidden="true"></i>
@@ -343,7 +441,7 @@ function telaResultado() {
   // Duas candidaturas podem ter a mesma afinidade com barras bem diferentes.
   const posicao = posicoes(a);
 
-  const raia = (id) => {
+  const raia = (id, i) => {
     const s = est[id];
     const morto = s.estado === "eliminado";
     const lider = a.ranking.lideres.includes(id);
@@ -351,23 +449,23 @@ function telaResultado() {
     const p = (x) => (x / totalPeso) * 100;
     const nDiv = s.divergentes.length + s.complementar.divergentes.length;
     const nAli = s.alinhados.length + s.complementar.alinhados.length;
-    return `<div class="raia ${lider ? "topo" : ""} ${morto ? "morta" : ""}">
+    return `<div class="raia ${lider ? "topo" : ""} ${morto ? "morta" : ""}" style="--i:${i}">
       <button class="quem" data-ir="abrir" data-quem="${id}" aria-haspopup="dialog">
         ${Z.ordenar === "afinidade"
           ? `<span class="pos">${morto ? "×" : posicao[id] ? posicao[id] + "º" : "—"}</span>`
           : `<span class="pos">${morto ? "×" : "·"}</span>`}
-        <b>${esc(nomeC(id))}</b>${siglaC(id) ? `<em>${esc(siglaC(id))}</em>` : ""}
-        ${lider ? '<em style="color:var(--acento)">mais alinhado</em>' : ""}
-        ${morto ? '<em style="color:var(--nao)">fora — inegociável</em>' : ""}
+        <span class="nome"><b>${esc(nomeC(id))}</b>${siglaC(id) ? `<em>${esc(siglaC(id))}</em>` : ""}
+        ${lider ? '<em class="lider">mais alinhado</em>' : ""}
+        ${morto ? '<em class="fora">fora — inegociável</em>' : ""}</span>
         <span class="conta ${Z.ordenar === "concordancia" ? "acordo" : ""}">${
           Z.ordenar === "concordancia"
             ? (nAli ? `${nAli} concordância${nAli > 1 ? "s" : ""}` : "")
             : (nDiv ? `${nDiv} divergência${nDiv > 1 ? "s" : ""}` : "")}</span>
-        <span class="seta" aria-hidden="true">›</span>
-      </button>
-      <div class="barra" role="img" aria-label="${A ? "concorda em parte" : ""}">
-        <i class="a" style="width:${p(A)}%"></i><i class="d" style="width:${p(D)}%"></i><i class="s" style="width:${p(S)}%"></i>
-      </div></div>`;
+        <span class="seta" aria-hidden="true">${ICONE.abrir}</span>
+        <span class="barra" role="img" aria-label="${A ? "concorda em parte" : ""}">
+          <i class="a" style="width:${p(A)}%"></i><i class="d" style="width:${p(D)}%"></i><i class="s" style="width:${p(S)}%"></i>
+        </span>
+      </button></div>`;
   };
 
   const lideres = a.ranking.lideres;
@@ -388,8 +486,8 @@ function telaResultado() {
 
   const iOrdem = Math.max(0, ORDENS.findIndex((o) => o.id === Z.ordenar));
   return `
-  <div class="barra-topo"><span class="marca">Palanq</span></div>
-  <h1 style="font-size:1.35rem">Seu resultado</h1>
+  <div class="barra-topo">${marca()}<span style="flex:1"></span>${botaoTema()}</div>
+  <h1>Seu resultado</h1>
 
   <div class="ordenar" role="group" aria-label="Ordenar candidaturas por">
     <i class="marca-ordem" style="left:${(iOrdem * 100) / ORDENS.length}%;width:${100 / ORDENS.length}%"></i>
@@ -397,7 +495,7 @@ function telaResultado() {
       aria-pressed="${Z.ordenar === o.id}">${o.rotulo}</button>`).join("")}
   </div>
 
-  ${Z.encerrado ? `<div class="aviso" style="border-left-color:var(--pular)">
+  ${Z.encerrado ? `<div class="nota">
     <h3>Você encerrou antes do fim</h3>
     <p class="mini" style="margin:0">${a.decisao.estavel
       ? `Com as ${respondidas} respostas que você deu, ninguém de fora chega ao topo. ${lideres.length > 1
@@ -412,7 +510,7 @@ function telaResultado() {
   <div class="chave">
     <span><i style="background:var(--sim)"></i>vocês concordam</span>
     <span><i style="background:var(--nao)"></i>vocês divergem</span>
-    <span><i class="s" style="background:var(--linha)"></i>o plano não fala disso</span>
+    <span><i class="s"></i>o plano não fala disso</span>
   </div>
   <div class="grafico">${ordem.map(raia).join("")}</div>
 
@@ -423,34 +521,34 @@ function telaResultado() {
   empatam, se as barras são tão diferentes?</b> A posição compara o verde com o vermelho e ignora o
   hachurado: ${desigual.length > 2 ? "nenhum deles diverge" : "nenhum dos dois diverge"} de você naquilo que
   declarou. O que muda é o tamanho do plano — quem escreveu sobre mais temas tem menos hachurado.</p>` : ""}
-  ${faltam ? `<div class="aviso" style="border-left-color:var(--acento);background:var(--realce)">
-    <h3 style="color:var(--acento)">Ainda dá para afinar</h3>
+  ${faltam ? `<div class="aviso afinar">
+    <h3>Ainda dá para afinar</h3>
     <p class="mini" style="margin:0 0 .7rem">${Z.encerrado
       ? "Você pediu para ver o resultado agora."
       : "Paramos porque quem está no topo já não muda."} ${
       faltam === 1 ? "Um tema continua" : `${faltam} temas continuam`} sem resposta, e a ordem de quem vem
     depois ainda vai mudar${caladosNoTopo.length ? " — inclusive o tanto de hachurado no topo" : ""}.</p>
-    <button data-ir="continuar" style="border:1px solid var(--acento);border-radius:999px;padding:.5rem 1.1rem;background:var(--caixa)">${
+    <button class="btn" data-ir="continuar">${
       faltam === 1 ? "Responder o último" : `Responder os ${faltam} restantes`}</button>
   </div>` : ""}
 
-  ${extraFaltam && !faltam ? `<div class="aviso" style="border-left-color:var(--pular);background:var(--realce)">
-    <h3 style="color:var(--fg)">Conhecer melhor cada candidatura</h3>
+  ${extraFaltam && !faltam ? `<div class="aviso">
+    <h3>Conhecer melhor cada candidatura</h3>
     <p class="mini" style="margin:0 0 .7rem">Há ${extraFaltam} tema(s) em que as candidaturas não
     divergem entre si — por isso não entram no ranking: responder não mexe nas barras acima. Mas é onde
     você pode descobrir que discorda de quem pretende apoiar: responder todos multiplica por
     ${(214 / 130).toFixed(1)} o que dá para saber sobre cada plano. A exceção é o escudo: marcar um tema
     como inegociável elimina quem pensa diferente em qualquer fase, e isso muda, sim, o resultado.</p>
-    <button data-ir="extra" style="border:1px solid var(--linha);border-radius:999px;padding:.5rem 1.1rem;background:var(--caixa)">Responder esses ${extraFaltam} temas</button>
+    <button class="btn contorno" data-ir="extra">Responder esses ${extraFaltam} temas</button>
   </div>` : ""}
 
-  <div class="aviso" style="margin-top:1.2rem">
+  <div class="nota perigo" style="margin-top:1.2rem">
     <h3>Isto não é uma recomendação de voto</h3>
     <p class="mini" style="margin:0">É a comparação entre o que você respondeu e o que está escrito nos
     planos. Leia os documentos antes de decidir.</p>
   </div>
 
-  <h3 style="width:100%">Planos de governo</h3>
+  <h3 class="secao">Planos de governo</h3>
   <div class="planos">${CORPUS.candidatos.map((c) => `<a href="${esc(c.planoUrl)}" target="_blank"
      rel="noopener noreferrer"><span>${esc(c.nome)}${c.partido ? ` (${esc(c.partido)})` : ""}</span>
      <span>ler →</span></a>`).join("")}</div>
@@ -476,6 +574,7 @@ function desenhar() {
                   : Z.tela === "resultado" ? telaResultado()
                   : telaCartoes();
   appEl.classList.toggle("abertura", Z.tela === "abertura");
+  appEl.dataset.tela = Z.tela;
   if (Z.tela === "cartoes") { ligarArraste(); ligarSeguradores(); }
   window.scrollTo({ top: 0 });
 }
@@ -489,16 +588,21 @@ function ligarArraste() {
     sim: el.querySelector(".c-sim"), nao: el.querySelector(".c-nao"),
     ine: el.querySelector(".c-ine"), pular: el.querySelector(".c-pular"),
   };
+  const fundo = document.querySelector(".cartao.fundo");
   let x0 = 0, y0 = 0, arrastando = false, pid = null;
 
   const pinta = (dx, dy) => {
     const horizontal = Math.abs(dx) > Math.abs(dy);
     const v = { sim: 0, nao: 0, ine: 0, pular: 0 };
-    if (horizontal) v[dx > 0 ? "sim" : "nao"] = Math.min(1, Math.abs(dx) / LIMIAR);
-    else v[dy < 0 ? "ine" : "pular"] = Math.min(1, Math.abs(dy) / LIMIAR);
+    const p = Math.min(1, (horizontal ? Math.abs(dx) : Math.abs(dy)) / LIMIAR);
+    if (horizontal) v[dx > 0 ? "sim" : "nao"] = p;
+    else v[dy < 0 ? "ine" : "pular"] = p;
     for (const k in carimbos) if (carimbos[k]) carimbos[k].style.opacity = v[k];
+    // o de trás cresce junto com o gesto — o que vem depois já se anuncia
+    if (fundo) fundo.style.transform = p ? `scale(${.95 + .05 * p}) translateY(${12 * (1 - p)}px)` : "";
   };
   const solta = (dx, dy) => {
+    if (fundo) fundo.style.transition = "";   // soltou: o de trás volta a subir com curva
     const horizontal = Math.abs(dx) > Math.abs(dy);
     const d = horizontal ? Math.abs(dx) : Math.abs(dy);
     if (d < LIMIAR) {                       // volta para o lugar
@@ -510,12 +614,8 @@ function ligarArraste() {
     }
     const dir = horizontal ? (dx > 0 ? "sim" : "nao") : dy < 0 ? "ine" : "pular";
     if (dir === "ine") { Z.pedindoLado = true; el.style.transform = ""; pinta(0, 0); desenhar(); return; }
-    // sai voando na direção do gesto
-    el.style.transition = "transform .28s ease-out, opacity .28s ease-out";
-    el.style.transform = `translate(${horizontal ? Math.sign(dx) * 900 : dx}px, ${horizontal ? dy : Math.sign(dy) * 900}px) rotate(${dx / 12}deg)`;
-    el.style.opacity = "0";
     const valor = dir === "sim" ? "concordo" : dir === "nao" ? "discordo" : "indiferente";
-    setTimeout(() => responderCartao(valor), 180);
+    voarCartao(dir, () => responderCartao(valor), horizontal ? dx : 0, dy);
   };
 
   el.addEventListener("pointerdown", (ev) => {
@@ -526,11 +626,12 @@ function ligarArraste() {
     if (ev.target.closest("button")) return;
     arrastando = true; pid = ev.pointerId; x0 = ev.clientX; y0 = ev.clientY;
     el.setPointerCapture(pid); el.style.transition = "";
+    if (fundo) fundo.style.transition = "none";   // durante o gesto, o de trás segue o dedo sem atraso
   });
   el.addEventListener("pointermove", (ev) => {
     if (!arrastando || ev.pointerId !== pid) return;
     const dx = ev.clientX - x0, dy = ev.clientY - y0;
-    el.style.transform = `translate(${dx}px, ${dy}px) rotate(${dx / 20}deg)`;
+    el.style.transform = `translate(${dx}px, ${dy}px) rotate(${dx / 18}deg)`;
     pinta(dx, dy);
   });
   const fim = (ev) => {
@@ -540,7 +641,9 @@ function ligarArraste() {
   };
   el.addEventListener("pointerup", fim);
   el.addEventListener("pointercancel", () => {
-    arrastando = false; el.style.transition = "transform .2s ease"; el.style.transform = ""; pinta(0, 0);
+    arrastando = false; el.style.transition = "transform .2s ease"; el.style.transform = "";
+    if (fundo) fundo.style.transition = "";
+    pinta(0, 0);
   });
   el.focus({ preventScroll: true });
 }
@@ -628,7 +731,7 @@ function ligarSeguradores() {
   for (const el of document.querySelectorAll("[data-segurar]")) {
     const lado = el.dataset.segurar;
     const marca = lado === "concordo" ? "carregando-sim" : "carregando-nao";
-    ligarSegurar(el, SEGURAR_INE, () => responderCartao(lado, true), {
+    ligarSegurar(el, SEGURAR_INE, () => voarCartao("ine", () => responderCartao(lado, true)), {
       aoComecar: () => cartao?.classList.add(marca),
       aoParar: () => cartao?.classList.remove(marca),
       aoToque: () => dizer("Segure para marcar como inegociável"),
@@ -697,7 +800,7 @@ function conteudoPainel(id) {
   return `<div class="painel" role="dialog" aria-modal="true" aria-labelledby="painel-nome">
     <header>
       <div class="cab">
-        <span class="pos">${morto ? "×" : pos[id] ? pos[id] + "º" : "—"}</span>
+        <span class="pos${a.ranking.lideres.includes(id) ? " topo" : ""}">${morto ? "×" : pos[id] ? pos[id] + "º" : "—"}</span>
         <div class="nome"><b id="painel-nome">${esc(nomeC(id))}</b>${
           siglaC(id) ? `<em>${esc(siglaC(id))}</em>` : ""}${
           morto ? '<em class="morto">fora — inegociável</em>' : ""}</div>
@@ -762,7 +865,11 @@ painelEl.addEventListener("click", (ev) => {
 appEl.addEventListener("click", (ev) => {
   const b = ev.target.closest("[data-resp], [data-ir]");
   if (!b) return;
-  if (b.dataset.resp) return responderCartao(b.dataset.resp, b.dataset.ine === "1");
+  if (b.dataset.resp) {
+    const ine = b.dataset.ine === "1";
+    return voarCartao(direcaoDe(b.dataset.resp, ine),
+                      () => responderCartao(b.dataset.resp, ine));
+  }
   switch (b.dataset.ir) {
     case "cartoes": Z.encerrado = false; Z.tela = "cartoes"; gravar(); desenhar(); break;
     case "continuar": Z.continuar = true; Z.encerrado = false; Z.tela = "cartoes"; gravar(); desenhar(); break;
@@ -773,6 +880,7 @@ appEl.addEventListener("click", (ev) => {
     case "pedir-lado": Z.pedindoLado = true; desenhar(); break;
     case "cancelar-lado": Z.pedindoLado = false; desenhar(); break;
     case "virar": virarCartao(); break;
+    case "tema": alternarTema(); break;
   }
 });
 document.addEventListener("keydown", (ev) => {
@@ -780,10 +888,15 @@ document.addEventListener("keydown", (ev) => {
   if (!painelEl.hidden) return;
   if (Z.tela !== "cartoes" || Z.pedindoLado) return;
   if (ev.target?.closest?.("#encerrar, [data-segurar]")) return;
+  // Enter/Espaço num botão com foco é o clique daquele botão — não a virada do cartão.
+  if ((ev.key === " " || ev.key === "Enter") && ev.target?.closest?.("button")) return;
   const m = { ArrowRight: "concordo", ArrowLeft: "discordo", ArrowDown: "indiferente" };
   if (ev.key === "ArrowUp") { ev.preventDefault(); Z.pedindoLado = true; desenhar(); return; }
   if (ev.key === " " || ev.key === "Enter") { ev.preventDefault(); virarCartao(); return; }
-  if (m[ev.key]) { ev.preventDefault(); responderCartao(m[ev.key]); }
+  if (m[ev.key]) {
+    ev.preventDefault();
+    voarCartao(direcaoDe(m[ev.key], false), () => responderCartao(m[ev.key]));
+  }
 });
 
 if (recuperar() && Z.tela !== "abertura") { /* retoma onde parou */ }
