@@ -35,8 +35,8 @@ frase mostrada é um trecho literal de um documento público, com link para o PD
 
 ## Operating Context
 
-Sessão curta, de pé ou no sofá, uma mão, luz ambiente qualquer — daí o tema claro e
-escuro seguindo o aparelho. Duas telas sobre o mesmo motor: `/` (cartões, o produto)
+Sessão curta, de pé ou no sofá, uma mão, luz ambiente qualquer — daí o tema escuro
+opcional, à escolha da pessoa. Duas telas sobre o mesmo motor: `/` (cartões, o produto)
 e `/motor` (instrumento completo). Corpus em `data/corpus.json`, gerado das fontes em
 `source/`; build em `tools/build.mjs` gera as duas páginas autocontidas.
 
@@ -64,7 +64,8 @@ e `/motor` (instrumento completo). Corpus em `data/corpus.json`, gerado das font
   marca (#fd267a → #ff6036), fundo branco / quase preto. Verde e vermelho seguem
   reservados a concordo/discordo.
 - Tipografia: Figtree (OFL), embutida — nada externo.
-- Tema claro e escuro automáticos, com alternância manual lembrada no aparelho.
+- Ícone: `icones/logo.png` (dois cartões e um ✓ sobre coral `#ea4d66`); derivados em `icones/`, manifesto em `manifest.webmanifest`.
+- Tema claro por padrão; escuro por alternância manual, lembrada no aparelho.
 - Politicamente neutro na aparência: a cor de marca não é a de nenhum partido.
 
 ## Evidence on Hand
