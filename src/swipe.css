@@ -1,26 +1,60 @@
-/* Palanq — versão de cartões. Sem fontes externas, sem requisição de rede. */
+/* Palanq — versão de cartões. Sem requisição de rede: a fonte vem embutida (fonte.css).
+   Tema: os tokens claros vivem em :root; os escuros valem quando o sistema pede
+   (e ninguém escolheu "claro" à mão) ou quando o botão da barra escolheu "escuro". */
 :root {
-  --bg: #f6f4f0; --fg: #17181c; --fg2: #5b5952; --fg3: #8c8880;
-  --linha: #e0dbd2; --caixa: #fff; --realce: #efeae1;
-  --acento: #1f4f7a;
-  --sim: #1c6b45; --sim-bg: #e6f4ec;
-  --nao: #9b2226; --nao-bg: #fdecec;
-  --ine: #8a4b12; --ine-bg: #fbf0e4;
-  --pular: #5b5952; --pular-bg: #eeece8;
-  --sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  color-scheme: light;
+  --bg: #ffffff; --caixa: #ffffff; --realce: #f2f4f6; --linha: #e4e7eb;
+  --fg: #111418; --fg2: #4a535f; --fg3: #626c79;
+  /* marca: coral → rosa. --botao é a mesma dupla, mais funda, para o texto branco
+     em cima dela passar de 4.5:1 — a versão viva fica para o que é decoração. */
+  --marca1: #fd267a; --marca2: #ff6036;
+  --botao1: #e5125a; --botao2: #d93a17;
+  --acento: #e5125a;
+  /* respostas: a cor "texto" aguenta letra miúda em cima do fundo; a "viva" é para
+     ícone, carimbo e barra, que são grandes. */
+  --sim: #0a7f4e; --sim-vivo: #0ea765;
+  --nao: #e8163f; --nao-vivo: #f0284f;
+  --ine: #0b62c8; --ine-vivo: #1786ff;
+  --pular: #626c79; --pular-vivo: #7c8794;
+  --sobre: #ffffff;   /* texto e ícone em cima de um preenchimento vivo */
+  /* cartão: luminosidade e croma OKLCH do degradê por tema; o matiz vem do JS */
+  --cartao-l1: .55; --cartao-l2: .40; --cartao-c: .13;
+  --sombra: 0 14px 36px rgb(17 20 24 / .14), 0 2px 6px rgb(17 20 24 / .06);
+  --sombra-botao: 0 4px 12px rgb(17 20 24 / .10), 0 1px 2px rgb(17 20 24 / .06);
+  --sans: "Figtree", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 }
 @media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #131418; --fg: #ecebe7; --fg2: #a5a29a; --fg3: #77746d;
-    --linha: #2e3037; --caixa: #1c1e23; --realce: #23252b;
-    --acento: #6aa6dc;
-    --sim: #6ec69a; --sim-bg: #172b21;
-    --nao: #e88a8a; --nao-bg: #2c1a1b;
-    --ine: #d99a4e; --ine-bg: #2c2317;
-    --pular: #a5a29a; --pular-bg: #24262c;
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg: #111418; --caixa: #1a1f27; --realce: #1f252e; --linha: #2a313b;
+    --fg: #f3f5f7; --fg2: #a9b1bc; --fg3: #8e97a3;
+    --sim: #3ee6a0; --sim-vivo: #3ee6a0;
+    --nao: #ff5c74; --nao-vivo: #ff5c74;
+    --ine: #4d9eff; --ine-vivo: #4d9eff;
+    --pular: #8e97a3; --pular-vivo: #8e97a3;
+    --sobre: #111418;
+    --acento: #fd267a;
+    --cartao-l1: .50; --cartao-l2: .34; --cartao-c: .12;
+    --sombra: 0 16px 40px rgb(0 0 0 / .5), 0 2px 6px rgb(0 0 0 / .3);
+    --sombra-botao: 0 4px 14px rgb(0 0 0 / .45), 0 1px 2px rgb(0 0 0 / .3);
   }
 }
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #111418; --caixa: #1a1f27; --realce: #1f252e; --linha: #2a313b;
+  --fg: #f3f5f7; --fg2: #a9b1bc; --fg3: #8e97a3;
+  --sim: #3ee6a0; --sim-vivo: #3ee6a0;
+  --nao: #ff5c74; --nao-vivo: #ff5c74;
+  --ine: #4d9eff; --ine-vivo: #4d9eff;
+  --pular: #8e97a3; --pular-vivo: #8e97a3;
+  --sobre: #111418;
+  --acento: #fd267a;
+  --cartao-l1: .50; --cartao-l2: .34; --cartao-c: .12;
+  --sombra: 0 16px 40px rgb(0 0 0 / .5), 0 2px 6px rgb(0 0 0 / .3);
+  --sombra-botao: 0 4px 14px rgb(0 0 0 / .45), 0 1px 2px rgb(0 0 0 / .3);
+}
+
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 html { height: 100%; }
 /* coluna flexível: a tela cresce, o rodapé fica embaixo dela — e não fora da
@@ -29,324 +63,429 @@ body {
   margin: 0; min-height: 100%; display: flex; flex-direction: column;
   background: var(--bg); color: var(--fg); font-family: var(--sans);
   font-size: 16px; line-height: 1.5; overscroll-behavior: none;
+  -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
+  font-variant-numeric: tabular-nums;
 }
-h1, h2, h3 { margin: 0 0 .5rem; line-height: 1.2; font-weight: 650; letter-spacing: -.01em; }
+::selection { background: color-mix(in srgb, var(--marca1) 28%, transparent); }
+h1, h2, h3 { margin: 0 0 .5rem; line-height: 1.15; font-weight: 800; letter-spacing: -.02em; text-wrap: balance; }
 p { margin: 0 0 .8rem; }
 button { font: inherit; cursor: pointer; border: 0; background: none; color: inherit; }
-button:focus-visible { outline: 2px solid var(--acento); outline-offset: 3px; border-radius: 8px; }
-.mini { font-size: .82rem; color: var(--fg2); }
+:focus-visible { outline: 2px solid var(--ine-vivo); outline-offset: 3px; }
+.mini { font-size: .84rem; color: var(--fg2); line-height: 1.45; }
 .oculto { display: none !important; }
 
 .tela { flex: 1 0 auto; display: flex; flex-direction: column; align-items: center;
-        padding: 1rem; max-width: 560px; margin: 0 auto; width: 100%; }
-.marca { font-weight: 700; letter-spacing: -.02em; font-size: 1.05rem; }
-.barra-topo { width: 100%; display: flex; align-items: center; gap: .75rem; padding: .2rem 0 1rem; }
-.progresso { flex: 1; height: 4px; background: var(--linha); border-radius: 99px; overflow: hidden; }
-.progresso i { display: block; height: 100%; background: var(--acento); transition: width .3s ease; }
+        padding: .75rem 1rem 1rem; max-width: 600px; margin: 0 auto; width: 100%; }
+/* A coluna dos cartões é a largura de um telefone mesmo no desktop: o cartão é um
+   objeto que se segura com a mão, não uma página. */
+.tela[data-tela="cartoes"] { max-width: 480px; min-height: 100dvh; padding-bottom: .6rem; }
+
+/* ── barra do topo ────────────────────────────────────────────────────────── */
+.barra-topo { width: 100%; display: flex; align-items: center; gap: .75rem;
+              padding: .15rem 0 .9rem; min-height: 44px; }
+.marca { display: inline-flex; align-items: center; gap: .4rem; font-weight: 800;
+         letter-spacing: -.03em; font-size: 1.2rem; color: var(--marca1); text-decoration: none; }
+.marca svg { width: 22px; height: 22px; flex: 0 0 auto; }
+/* o nome leva o degradê da marca — é o logotipo, não ênfase */
+.marca span { background: linear-gradient(90deg, var(--marca1), var(--marca2));
+              -webkit-background-clip: text; background-clip: text; color: transparent; }
+.progresso { flex: 1; height: 5px; background: var(--realce); border-radius: 99px; overflow: hidden; }
+.progresso i { display: block; height: 100%; width: 100%; border-radius: 99px;
+               background: linear-gradient(90deg, var(--marca1), var(--marca2));
+               transform: scaleX(var(--p, 0)); transform-origin: left;
+               transition: transform .4s cubic-bezier(.2, .8, .2, 1); }
+.barra-topo .mini { white-space: nowrap; font-weight: 600; color: var(--fg3); }
+.tema { flex: 0 0 auto; width: 36px; height: 36px; border-radius: 50%; display: grid;
+        place-items: center; color: var(--fg2); background: var(--realce);
+        transition: background .15s ease, color .15s ease, transform .15s ease; }
+.tema svg { width: 18px; height: 18px; }
+.tema:hover { background: var(--linha); color: var(--fg); }
+.tema:active { transform: scale(.92); }
 
 /* ── pilha de cartões ─────────────────────────────────────────────────────── */
-.pilha { position: relative; width: 100%; flex: 1 1 auto; min-height: 300px; max-height: 440px;
-         margin-bottom: 34px; }
+.pilha { position: relative; width: 100%; flex: 1 1 auto; min-height: 380px; max-height: 600px; }
 .cartao {
-  position: absolute; inset: 0; border-radius: 18px;
+  position: absolute; inset: 0; border-radius: 24px;
   user-select: none; touch-action: none; will-change: transform;
   perspective: 1400px;   /* o arraste transforma ESTA camada… */
 }
 /* …e a virada transforma a de dentro, para os dois transform não brigarem. */
 .giro { position: absolute; inset: 0; transform-style: preserve-3d;
-        transition: transform .55s cubic-bezier(.3,.7,.3,1); }
+        transition: transform .75s cubic-bezier(.3, .7, .2, 1); }
 .giro.virado { transform: rotateY(180deg); }
+/* Cor do tema. Só o matiz varia entre os cartões (--h vem do JS); luminosidade e
+   croma são fixas e perceptuais (OKLCH), para que os 21 temas pareçam uma família,
+   tenham o mesmo peso na tela e o texto branco passe em todos. A cor ocupa o
+   cartão inteiro — é o lugar da foto. O hsl é a rede para navegador sem oklch. */
+.cartao { --h: 250; isolation: isolate; }
 .face {
-  position: absolute; inset: 0; background: var(--caixa); border: 1px solid var(--linha);
-  border-radius: 18px; padding: 1.6rem 1.4rem; display: flex; flex-direction: column;
-  box-shadow: 0 10px 30px rgba(0,0,0,.07);
+  position: absolute; inset: 0; border-radius: 24px; padding: 1.5rem 1.5rem 3.4rem;
+  display: flex; flex-direction: column; color: #fff; isolation: isolate;
+  background: hsl(var(--h) 55% 42%);
+  /* uma luz vinda de cima à esquerda, como numa foto: a cor deixa de ser chapada */
+  background: radial-gradient(120% 55% at 12% 0%, rgb(255 255 255 / .17), transparent 62%),
+              linear-gradient(172deg, oklch(var(--cartao-l1) var(--cartao-c) var(--h)) 0%,
+                                       oklch(var(--cartao-l2) var(--cartao-c) var(--h)) 100%);
+  box-shadow: var(--sombra); overflow: hidden;
   backface-visibility: hidden; -webkit-backface-visibility: hidden;
+}
+/* O campo de cima é o lugar da foto: o nome do tema ocupa-o em tom sobre tom,
+   grande e cortado pela borda, como a tipografia de uma capa. */
+.face.frente::before {
+  content: attr(data-dominio); position: absolute; right: -.06em; top: .55em; z-index: -1;
+  font-size: clamp(5.4rem, 24vw, 7.2rem); font-weight: 900; line-height: .85; letter-spacing: -.05em;
+  text-transform: uppercase; color: rgb(255 255 255 / .10); pointer-events: none; white-space: nowrap;
+  user-select: none;
+}
+/* véu escuro no pé do cartão, como o de baixo de uma foto: o texto que fica ali
+   ganha contraste sem mudar de cor, e os botões que invadem a borda assentam. */
+.face::after {
+  content: ""; position: absolute; inset: 38% 0 0; border-radius: 0 0 24px 24px; z-index: -1;
+  pointer-events: none;
+  background: linear-gradient(to bottom, transparent, rgb(0 0 0 / .22));
 }
 .face.verso { transform: rotateY(180deg); }
 /* O cartão recebe foco por código, para as setas do teclado funcionarem. O anel
    padrão do navegador aparece nesse caso e fica feio; o anel próprio só aparece
    para quem está de fato navegando por teclado. */
 .cartao:focus { outline: none; }
-.cartao:focus-visible { outline: 2px solid var(--acento); outline-offset: 3px; }
-.cartao.fundo { transform: scale(.94) translateY(14px); opacity: .55; pointer-events: none; }
-.cartao.fundo2 { transform: scale(.88) translateY(28px); opacity: .28; pointer-events: none; }
-.cartao.fundo .face, .cartao.fundo2 .face { box-shadow: none; }
+.cartao:focus-visible { outline: 2px solid var(--ine-vivo); outline-offset: 4px; }
+/* os de trás: menores e mais baixos; sobem para o lugar quando o da frente sai */
+.cartao.fundo  { transform: scale(.95) translateY(12px); pointer-events: none;
+                 transition: transform .42s cubic-bezier(.2, .8, .2, 1); }
+.cartao.fundo2 { transform: scale(.90) translateY(24px); pointer-events: none; }
+.cartao.fundo .face  { box-shadow: 0 6px 18px rgb(0 0 0 / .10); filter: brightness(.94); }
+.cartao.fundo2 .face { box-shadow: none; filter: brightness(.86); }
+.cartao.fundo.sobe { transform: none; }
+.cartao.fundo.sobe .face { filter: none; }
+/* cartão saindo: a curva é a de algo que foi empurrado e desacelera longe */
+.cartao.voando { transition: transform .46s cubic-bezier(.2, .7, .3, 1), opacity .46s ease-out; }
+/* vindo de um toque no botão o cartão não tem impulso: sai mais devagar, com uma
+   curva que acelera antes de desacelerar, como se tivesse sido empurrado */
+.cartao.voando.toque { transition: transform .62s cubic-bezier(.4, 0, .2, 1), opacity .62s cubic-bezier(.4, 0, .2, 1); }
+.cartao.fundo.sobe.lento { transition-duration: .58s; }
 
-/* botão de virar, no pé do cartão */
+/* tema (o "nome" do cartão) e pergunta (a "bio") */
+.face .dominio, .overlay .dominio {
+  align-self: flex-start; display: inline-flex; align-items: center; gap: .4rem;
+  font-size: .72rem; font-weight: 800; text-transform: uppercase; letter-spacing: .12em;
+  padding: .32rem .7rem .32rem .55rem; border-radius: 999px;
+  background: rgb(0 0 0 / .26); color: #fff; margin-bottom: auto;
+}
+.face .dominio i, .overlay .dominio i { width: 7px; height: 7px; border-radius: 50%; background: #fff; opacity: .9; }
+/* título e pergunta assentam no pé do cartão, sobre o véu — o nome e a bio de uma
+   foto; o olho desce da pergunta direto para os botões. */
+.face h2 { font-size: clamp(1.9rem, 8vw, 2.4rem); line-height: 1.02; margin: 1rem 0 .7rem; text-align: left;
+           letter-spacing: -.03em; }
+.face .pergunta {
+  font-size: clamp(1.22rem, 5vw, 1.45rem); font-weight: 500; line-height: 1.32;
+  text-wrap: pretty; padding: 0 0 1.1rem; color: rgb(255 255 255 / .96);
+}
+.face .nota { font-size: .76rem; line-height: 1.35; color: rgb(255 255 255 / .82); padding-bottom: .8rem; }
+/* botão de virar, no pé do cartão — vidro branco sobre a cor */
 .virar {
-  margin-top: auto; align-self: center; display: inline-flex; align-items: center; gap: .45rem;
-  font-size: .84rem; color: hsl(var(--h) 42% 34%); border: 1px solid hsl(var(--h) 40% 46% / .35);
-  background: hsl(var(--h) 60% 50% / .07); border-radius: 999px; padding: .45rem 1rem;
-  transition: background .15s ease;
+  align-self: center; display: inline-flex; align-items: center; gap: .45rem;
+  font-size: .86rem; font-weight: 700; color: #fff;
+  background: rgb(255 255 255 / .18); border: 1px solid rgb(255 255 255 / .38);
+  border-radius: 999px; padding: .5rem 1.05rem;
+  transition: background .15s ease, transform .15s ease;
 }
-.virar:hover { background: hsl(var(--h) 60% 50% / .14); }
+.virar:hover { background: rgb(255 255 255 / .28); }
+.virar:active { transform: scale(.96); }
 .virar svg { width: 15px; height: 15px; }
-@media (prefers-color-scheme: dark) {
-  .virar { color: hsl(var(--h) 48% 74%); border-color: hsl(var(--h) 40% 60% / .35);
-           background: hsl(var(--h) 55% 60% / .10); }
-  .virar:hover { background: hsl(var(--h) 55% 60% / .18); }
-}
 /* verso */
-.face.verso .rotulo { font-size: .7rem; text-transform: uppercase; letter-spacing: .11em;
-                      text-align: center; color: hsl(var(--h) 46% 34%); margin-bottom: .3rem; }
-@media (prefers-color-scheme: dark) { .face.verso .rotulo { color: hsl(var(--h) 52% 72%); } }
+/* o verso tem título próprio — em caixa normal, como um título, não como etiqueta */
+.face.verso .rotulo { font-size: clamp(1.25rem, 5vw, 1.45rem); font-weight: 800; letter-spacing: -.02em;
+                      line-height: 1.15; margin-bottom: .6rem; }
+.face.verso .explicacao { margin-bottom: 1rem; }
 .face.verso .explicacao {
   flex: 1 1 auto; min-height: 0; overflow-y: auto; display: flex; align-items: center;
-  font-size: 1rem; line-height: 1.55; text-align: left; padding: .9rem .2rem;
-  -webkit-overflow-scrolling: touch;
+  font-size: clamp(1.08rem, 4.4vw, 1.2rem); font-weight: 500; line-height: 1.45; padding: .2rem 0 .8rem;
+  -webkit-overflow-scrolling: touch; scrollbar-width: thin;
+  scrollbar-color: rgb(255 255 255 / .4) transparent;
 }
-/* Cor do tema. Só o matiz varia entre os cartões (--h vem do JS); saturação e
-   luminosidade são fixas, para que os 21 temas pareçam uma família e não um
-   arco-íris. O indicativo é uma tarja no topo do cartão. */
-.cartao { --h: 215; isolation: isolate; }
-/* inset + border-radius herdado faz a tarja acompanhar os cantos arredondados;
-   z-index negativo a põe acima do fundo do cartão e abaixo do conteúdo. */
-.face { isolation: isolate; }
-.face::before {
-  content: ""; position: absolute; inset: 0; border-radius: inherit; z-index: -1;
-  pointer-events: none;
-  background: linear-gradient(hsl(var(--h) 58% 46%) 0 6px, transparent 6px);
-}
-@media (prefers-color-scheme: dark) {
-  .face::before { background: linear-gradient(hsl(var(--h) 52% 56%) 0 6px, transparent 6px); }
-}
-.face .dominio {
-  font-size: .7rem; text-transform: uppercase; letter-spacing: .11em; text-align: center;
-  color: hsl(var(--h) 46% 34%); margin-bottom: .8rem;
-  display: flex; align-items: center; justify-content: center; gap: .45rem;
-}
-.face .dominio i { width: 7px; height: 7px; border-radius: 50%;
-                     background: hsl(var(--h) 62% 46%); flex: 0 0 auto; }
-@media (prefers-color-scheme: dark) {
-  .face .dominio { color: hsl(var(--h) 52% 72%); }
-  .face .dominio i { background: hsl(var(--h) 58% 62%); }
-}
-.face h2 { font-size: 1.35rem; text-align: center; text-wrap: balance; margin-bottom: 0; }
-/* separador fino sob o título, na cor do tema, esmaecendo nas duas pontas */
-.face h2::after {
-  content: ""; display: block; height: 1px; width: min(190px, 62%); margin: .95rem auto 0;
-  background: linear-gradient(90deg, transparent, hsl(var(--h) 52% 46% / .6), transparent);
-}
-@media (prefers-color-scheme: dark) {
-  .face h2::after { background: linear-gradient(90deg, transparent, hsl(var(--h) 48% 66% / .55), transparent); }
-}
-/* o corpo ocupa o que sobra e se centraliza nos dois eixos */
-.face .pergunta {
-  font-size: 1.08rem; color: var(--fg); flex: 1 1 auto; min-height: 0;
-  display: flex; align-items: center; justify-content: center; text-align: center;
-  text-wrap: pretty; padding: 1rem 0;
-}
-.face .nota { padding-top: .5rem; font-size: .76rem; color: var(--fg3); text-align: center; }
 
-/* carimbos que aparecem ao arrastar */
-/* z-index acima das faces: elas vêm depois no DOM e têm fundo opaco, então sem isto
-   o carimbo fica escondido atrás do cartão durante o arraste. */
+/* carimbos que aparecem ao arrastar — LIKE / NOPE, em cima de tudo no cartão */
 .carimbo {
-  /* na faixa vazia entre o separador e a pergunta: mais acima cobriria o tema e o
-     título pela metade, deixando os dois ilegíveis. */
-  position: absolute; top: 32%; z-index: 4; padding: .35rem .8rem; border-radius: 10px;
-  border: 3px solid currentColor; font-weight: 800; font-size: 1rem; letter-spacing: .06em;
-  text-transform: uppercase; opacity: 0; pointer-events: none; transition: opacity .1s;
-  background: var(--caixa);
+  position: absolute; top: 2.6rem; z-index: 4; padding: .15rem .6rem; border-radius: 8px;
+  border: 4px solid currentColor; font-weight: 900; font-size: clamp(2rem, 8vw, 2.5rem); line-height: 1.05;
+  letter-spacing: .06em; text-transform: uppercase; opacity: 0; pointer-events: none;
+  background: transparent; transition: opacity .1s;
+  /* sombra suave: o carimbo continua legível quando a cor dele é a do cartão */
+  filter: drop-shadow(0 2px 8px rgb(0 0 0 / .4));
 }
-.carimbo.c-sim   { left: 1.4rem;  color: var(--sim);   transform: rotate(-12deg); }
-.carimbo.c-nao   { right: 1.4rem; color: var(--nao);   transform: rotate(12deg); }
-.carimbo.c-ine   { left: 50%; margin-left: -5.2rem; color: var(--ine); }
-.carimbo.c-pular { left: 50%; margin-left: -4rem; top: auto; bottom: 22%; color: var(--pular); }
+.carimbo.c-sim   { left: 1.4rem;  color: var(--sim-vivo); transform: rotate(-14deg); transform-origin: left top; }
+.carimbo.c-nao   { right: 1.4rem; color: var(--nao-vivo); transform: rotate(14deg); transform-origin: right top; }
+.carimbo.c-ine   { left: 50%; top: 42%; transform: translate(-50%, -50%) rotate(-6deg); color: var(--ine-vivo);
+                   font-size: clamp(1.6rem, 6.5vw, 2rem); }
+.carimbo.c-pular { left: 50%; top: 42%; transform: translate(-50%, -50%) rotate(-6deg); color: #fff;
+                   font-size: clamp(1.6rem, 6.5vw, 2rem); }
 
 /* ── botões ───────────────────────────────────────────────────────────────── */
-/* Os cinco ocupam a mesma largura do cartão: `space-between` distribui a folga em vez
-   de fixá-la, então a linha se ajusta sozinha de 375px ao desktop.
-   A curva vertical é o que separa as três respostas do meio das duas das pontas — as
-   duas mais usadas ficam mais baixas e maiores, com o dedo mais perto delas. */
-/* Folga igual entre os cinco círculos. Para o `gap` valer entre BOTÕES e não entre
-   colunas, cada coluna tem a largura exata do seu botão (`--d`) e o rótulo transborda
-   dela, centrado — senão a palavra "INEGOCIÁVEL" ditaria a largura e as folgas sairiam
-   desiguais. O diâmetro cede um pouco abaixo de ~400px: em tamanho cheio os cinco
-   somam 312px numa faixa de 343 e não sobraria folga nenhuma. */
-.acoes { display: flex; justify-content: center; align-items: flex-start;
-         gap: clamp(7px, 2.6vw, 26px);
-         padding: 1.2rem 0 .4rem; width: 100%; box-sizing: border-box; }
-
-.acao { --d: clamp(64px, 17.5vw, 70px); width: var(--d); min-width: 0;
+/* Os cinco invadem a borda de baixo do cartão pela metade do maior — o cartão e
+   os botões são um objeto só. `--d` é o diâmetro de cada coluna; o rótulo
+   transborda dela, centrado, senão "INEGOCIÁVEL" ditaria a largura. */
+.acoes { position: relative; z-index: 7; display: flex; justify-content: center; align-items: flex-start;
+         gap: clamp(6px, 2.4vw, 22px); width: 100%;
+         margin-top: calc(var(--d-max) / -2); padding: 0 0 .2rem; --d-max: clamp(62px, 17vw, 68px); }
+.acao { --d: var(--d-max); width: var(--d); min-width: 0;
         display: grid; grid-template-columns: 100%; grid-template-rows: var(--d) auto;
-        justify-items: center;
-        align-items: center; gap: .3rem; flex: 0 0 auto; }
-.acao:nth-child(2), .acao:nth-child(4) { --d: clamp(54px, 15vw, 60px); }
-.acao:nth-child(3) { --d: clamp(48px, 13.5vw, 52px); }
-.acao:first-child, .acao:last-child { margin-top: 14px; }
-.acao:nth-child(2), .acao:nth-child(3), .acao:nth-child(4) { margin-top: -4px; }
-.acao span { font-size: clamp(.55rem, 1.7vw, .64rem); color: var(--fg3); text-transform: uppercase;
-             letter-spacing: .04em; text-align: center; line-height: 1.25;
-             width: clamp(58px, 17vw, 80px); }
+        justify-items: center; align-items: start; gap: .35rem; flex: 0 0 auto; }
+.acao:nth-child(2), .acao:nth-child(4) { --d: clamp(52px, 14.5vw, 56px); margin-top: 6px; }
+.acao:nth-child(3) { --d: clamp(44px, 12.5vw, 48px); margin-top: 10px; }
+.acao span { font-size: clamp(.58rem, 1.8vw, .66rem); font-weight: 700; color: var(--fg3);
+             text-transform: uppercase; letter-spacing: .05em; text-align: center; line-height: 1.2;
+             width: clamp(60px, 17vw, 84px); }
 .acoes button {
-  width: var(--d); height: var(--d);
-  border-radius: 50%; display: grid; place-items: center;
-  background: var(--caixa); border: 1px solid var(--linha); box-shadow: 0 3px 10px rgba(0,0,0,.06);
-  transition: transform .12s ease, background .12s ease;
+  --cor: var(--fg2);
+  width: var(--d); height: var(--d); border-radius: 50%; display: grid; place-items: center;
+  color: var(--cor); background: var(--caixa); border: 1.5px solid color-mix(in srgb, var(--cor) 26%, var(--linha));
+  box-shadow: var(--sombra-botao);
+  transition: transform .14s cubic-bezier(.2, .8, .2, 1), background .14s ease, color .14s ease, border-color .14s ease;
 }
-.acoes button:active { transform: scale(.9); }
-.acoes button svg { width: 29px; height: 29px; }
-.acoes button.b-nao   { color: var(--nao); }
-.acoes button.b-sim   { color: var(--sim); }
-.acoes button.b-pular { color: var(--pular); }
-.acoes button.b-pular svg { width: 24px; height: 24px; }
+.acoes button svg { width: 46%; height: 46%; }
+.acoes button.b-nao     { --cor: var(--nao-vivo); }
+.acoes button.b-sim     { --cor: var(--sim-vivo); }
+.acoes button.b-pular   { --cor: var(--pular-vivo); }
 /* Os escudos usam a cor da resposta — a direção é o que a pessoa escolhe primeiro —
    e a forma de escudo é o que diz que aquela resposta elimina em vez de descontar. */
-.acoes button.b-ine-nao { color: var(--nao);
-                          border-color: color-mix(in srgb, var(--nao) 35%, var(--linha)); }
-.acoes button.b-ine-sim { color: var(--sim);
-                          border-color: color-mix(in srgb, var(--sim) 35%, var(--linha)); }
-.acoes button.b-ine-nao svg, .acoes button.b-ine-sim svg { width: 26px; height: 26px; }
-.acoes button:hover { background: var(--realce); }
-
-
-/* Encerrar agora: apertar e segurar. A barra que enche é o tempo de desistir —
-   soltar antes do fim cancela, e o zero volta sem transição para isso ficar óbvio. */
-.encerrar { position: relative; overflow: hidden; display: block; margin: 1.6rem auto 0;
-            padding: .5rem 1.2rem; border: 1px solid var(--linha); border-radius: 999px;
-            background: var(--caixa); color: var(--fg3); font-size: .78rem;
-            cursor: pointer; touch-action: none; user-select: none; -webkit-user-select: none; }
-.encerrar:hover { color: var(--fg2); background: var(--realce); }
-.encerrar span { position: relative; z-index: 1; }
-.encerrar .carga { position: absolute; left: 0; top: 0; bottom: 0; width: 0;
-                   background: color-mix(in srgb, var(--nao) 22%, transparent); }
-.encerrar.carregando { color: var(--fg); border-color: color-mix(in srgb, var(--nao) 45%, var(--linha)); }
-.encerrar.carregando .carga { width: 100%; transition: width .9s linear; }
-@media (prefers-reduced-motion: reduce) {
-  .encerrar.carregando .carga { transition: width .9s steps(6); }
+.acoes button.b-ine-nao { --cor: var(--nao-vivo); }
+.acoes button.b-ine-sim { --cor: var(--sim-vivo); }
+.acoes button.b-ine-nao svg, .acoes button.b-ine-sim svg { width: 50%; height: 50%; }
+@media (hover: hover) {
+  .acoes button:hover { background: var(--cor); color: var(--sobre); border-color: var(--cor); transform: scale(1.06); }
 }
+.acoes button:active { background: var(--cor); color: var(--sobre); border-color: var(--cor); transform: scale(.9); }
+.acoes button.b-ine-nao, .acoes button.b-ine-sim { touch-action: none; }
+.acoes button.carregando { background: var(--cor); color: var(--sobre); border-color: var(--cor); }
 
 /* A única ação cuja consequência não se adivinha pelo rótulo. A legenda some assim
    que a pessoa usa o escudo uma vez — quem nunca usou é quem precisa dela. */
-.legenda-ine { max-width: 30rem; margin: .6rem auto 0; text-align: center;
-               font-size: .72rem; line-height: 1.45; color: var(--fg3); }
-.legenda-ine b { color: var(--ine); font-weight: 650; }
+.legenda-ine { max-width: 30rem; margin: .5rem auto 0; text-align: center;
+               font-size: .76rem; line-height: 1.4; color: var(--fg3); }
+.legenda-ine b { color: var(--ine); font-weight: 700; }
+
+/* Encerrar agora: apertar e segurar. A barra que enche é o tempo de desistir —
+   soltar antes do fim cancela, e o zero volta sem transição para isso ficar óbvio. */
+.encerrar { position: relative; overflow: hidden; display: block; margin: .9rem auto 0;
+            padding: .5rem 1.1rem; border-radius: 999px; background: transparent;
+            color: var(--fg3); font-size: .8rem; font-weight: 600;
+            cursor: pointer; touch-action: none; user-select: none; -webkit-user-select: none;
+            transition: color .15s ease, background .15s ease; }
+.encerrar:hover { color: var(--fg); background: var(--realce); }
+.encerrar span { position: relative; z-index: 1; }
+.encerrar .carga { position: absolute; inset: 0; transform: scaleX(0); transform-origin: left;
+                   background: color-mix(in srgb, var(--nao-vivo) 24%, transparent); }
+.encerrar.carregando { color: var(--fg); background: var(--realce); }
+.encerrar.carregando .carga { transform: scaleX(1); transition: transform .9s linear; }
+@media (prefers-reduced-motion: reduce) {
+  .encerrar.carregando .carga { transition: transform .9s steps(6); }
+}
 
 /* Os dois inegociáveis pedem apertar-e-segurar: eles eliminam candidaturas de vez, e
    ficavam a um toque acidental de distância dos botões de resposta simples. Quem se
-   enche é o CARTÃO, não o botão — o dedo cobre um círculo de 56px inteiro, e ali o
-   progresso ficava escondido justamente de quem precisa vê-lo. */
-.acoes button.b-ine-nao, .acoes button.b-ine-sim { touch-action: none; }
-.acoes button.b-ine-nao.carregando { border-color: var(--nao); }
-.acoes button.b-ine-sim.carregando { border-color: var(--sim); }
-
-/* A moldura recorta nos cantos arredondados; o filho é que cresce. Sem ela o
-   preenchimento a meia altura teria os cantos de cima redondos, no meio do cartão. */
-.cartao .carga-cartao { position: absolute; inset: 0; border-radius: 18px; overflow: hidden;
+   enche é o CARTÃO, não o botão — o dedo cobre o círculo inteiro, e ali o progresso
+   ficava escondido justamente de quem precisa vê-lo. A moldura recorta nos cantos
+   arredondados; o filho é que cresce. */
+.cartao .carga-cartao { position: absolute; inset: 0; border-radius: 24px; overflow: hidden;
                         z-index: 5; pointer-events: none; }
 .cartao .carga-cartao b { position: absolute; left: 0; right: 0; bottom: 0; height: 0; }
 @keyframes encher { from { height: 0; } to { height: 100%; } }
 .cartao.carregando-nao .carga-cartao b,
 .cartao.carregando-sim .carga-cartao b { animation: encher .8s linear forwards; }
 .cartao.carregando-nao .carga-cartao b {
-  background: linear-gradient(to top, color-mix(in srgb, var(--nao) 44%, transparent),
-                                      color-mix(in srgb, var(--nao) 6%, transparent)); }
+  background: linear-gradient(to top, color-mix(in srgb, var(--nao-vivo) 70%, transparent),
+                                      color-mix(in srgb, var(--nao-vivo) 15%, transparent)); }
 .cartao.carregando-sim .carga-cartao b {
-  background: linear-gradient(to top, color-mix(in srgb, var(--sim) 44%, transparent),
-                                      color-mix(in srgb, var(--sim) 6%, transparent)); }
+  background: linear-gradient(to top, color-mix(in srgb, var(--sim-vivo) 70%, transparent),
+                                      color-mix(in srgb, var(--sim-vivo) 15%, transparent)); }
 @media (prefers-reduced-motion: reduce) {
   .cartao.carregando-nao .carga-cartao b,
   .cartao.carregando-sim .carga-cartao b { animation: encher .8s steps(6) forwards; }
 }
 
 /* Recado passageiro para quem só tocou. Fica no meio da tela, longe do polegar. */
-.dica { position: fixed; left: 50%; top: 48%; transform: translate(-50%, -50%) scale(.96);
-        z-index: 60; max-width: 17rem; text-align: center;
-        padding: .7rem 1.1rem; border-radius: 12px;
-        background: var(--fg); color: var(--bg); font-size: .86rem; line-height: 1.35;
-        box-shadow: 0 8px 28px rgb(0 0 0 / .22);
+.dica { position: fixed; left: 50%; top: 46%; transform: translate(-50%, -50%) scale(.96);
+        z-index: 60; max-width: 18rem; text-align: center;
+        padding: .75rem 1.15rem; border-radius: 14px;
+        background: var(--fg); color: var(--bg); font-size: .88rem; font-weight: 600; line-height: 1.35;
+        box-shadow: 0 10px 30px rgb(0 0 0 / .25);
         opacity: 0; pointer-events: none;
-        transition: opacity .16s ease, transform .16s ease; }
+        transition: opacity .16s ease, transform .16s cubic-bezier(.2, .8, .2, 1); }
 .dica.visivel { opacity: 1; transform: translate(-50%, -50%) scale(1); }
 @media (prefers-reduced-motion: reduce) { .dica { transition: opacity .16s ease; } }
 
 /* ── overlay do inegociável ───────────────────────────────────────────────── */
-.overlay { position: absolute; inset: 0; background: var(--ine-bg); border-radius: 18px;
-           border: 2px solid var(--ine); padding: 1.6rem 1.4rem; display: flex;
-           flex-direction: column; justify-content: center; gap: .8rem; z-index: 6; }
-.overlay h3 { color: var(--ine); }
-.overlay .escolhas { display: grid; gap: .6rem; }
-.overlay .escolhas button { border: 1px solid var(--linha); background: var(--caixa);
-                            border-radius: 12px; padding: .6rem .85rem; text-align: left; }
+/* Cobre o cartão com a superfície da página: aqui a cor do tema sai de cena e o
+   que fala é a consequência. Deixa espaço no pé para os botões que invadem a borda. */
+.overlay { position: absolute; inset: 0; border-radius: 24px;
+           padding: 1.5rem 1.4rem 3.2rem; display: flex; color: #fff;
+           flex-direction: column; justify-content: flex-end; gap: .8rem; z-index: 6;
+           background: hsl(var(--h) 55% 30%);
+           background: linear-gradient(172deg, oklch(calc(var(--cartao-l1) - .12) var(--cartao-c) var(--h)) 0%,
+                                               oklch(calc(var(--cartao-l2) - .10) var(--cartao-c) var(--h)) 100%);
+           box-shadow: var(--sombra); }
+/* O cartão continua legível por baixo da pergunta de lado: mesmo tema, mesmo título,
+   mesma pergunta, um degrau menores para caber com as duas escolhas. */
+.overlay { gap: 0; overflow-y: auto; scrollbar-width: none; }
+.overlay h2 { font-size: clamp(1.5rem, 6.2vw, 1.8rem); line-height: 1.05; margin: .8rem 0 .5rem;
+              letter-spacing: -.03em; }
+.overlay .pergunta { font-size: clamp(1.02rem, 4.2vw, 1.15rem); font-weight: 500; line-height: 1.35;
+                     padding: 0 0 1rem; color: rgb(255 255 255 / .94); text-wrap: pretty; }
+.overlay h3 { color: #fff; font-size: .78rem; font-weight: 800; text-transform: none; letter-spacing: .02em;
+              margin: 0 0 .55rem; opacity: .92; }
+.overlay .escolhas { display: grid; gap: .6rem; margin-bottom: .8rem; }
+/* as duas escolhas são pílulas cheias na cor da resposta — a mesma gramática dos
+   botões redondos, que também se enchem ao apertar */
+.overlay .escolhas button { --cor: var(--fg2); background: var(--cor); color: var(--sobre);
+                            border-radius: 18px; padding: .8rem 1rem; text-align: left;
+                            transition: transform .15s cubic-bezier(.2, .8, .2, 1), filter .15s ease; }
+.overlay .escolhas button:hover { filter: brightness(1.06); }
+.overlay .escolhas button:active { transform: scale(.98); }
 .overlay .escolhas .rot { display: flex; align-items: center; gap: .45rem;
-                          font-size: .92rem; font-weight: 650; }
-.overlay .escolhas .rot svg { width: 17px; height: 17px; flex: 0 0 auto; }
+                          font-size: 1.05rem; font-weight: 800; }
+.overlay .escolhas .rot svg { width: 19px; height: 19px; flex: 0 0 auto; }
 /* mesma leitura de cor dos botões grandes do cartão: verde concorda, vermelho discorda */
-.overlay .escolhas .b-sim { color: var(--sim); border-color: color-mix(in srgb, var(--sim) 45%, var(--linha)); }
-.overlay .escolhas .b-nao { color: var(--nao); border-color: color-mix(in srgb, var(--nao) 45%, var(--linha)); }
-.overlay .escolhas .b-sim:hover { background: color-mix(in srgb, var(--sim) 7%, var(--caixa)); }
-.overlay .escolhas .b-nao:hover { background: color-mix(in srgb, var(--nao) 7%, var(--caixa)); }
-.overlay .escolhas button small { display: block; font-weight: 400; color: var(--fg2);
-                                  font-size: .76rem; margin-top: .2rem; }
-.overlay .voltar { align-self: center; color: var(--fg2); font-size: .85rem; text-decoration: underline; }
+.overlay .escolhas .b-sim { --cor: var(--sim); }
+.overlay .escolhas .b-nao { --cor: var(--nao); }
+.overlay .escolhas button small { display: block; font-weight: 600; opacity: .9;
+                                  font-size: .8rem; margin-top: .2rem; line-height: 1.35; }
+.overlay .voltar { align-self: center; color: rgb(255 255 255 / .92); font-size: .88rem; font-weight: 700;
+                   text-decoration: underline; text-underline-offset: 3px; }
+
+/* ── abertura ─────────────────────────────────────────────────────────────── */
+/* A cor da marca ocupa a tela inteira; o produto se apresenta antes de pedir
+   qualquer coisa. Mesma cena no claro e no escuro. */
+.tela.abertura { max-width: none; min-height: 100dvh; padding: 0; color: #fff;
+                 justify-content: center; text-align: center;
+                 background: #fd267a;
+                 background: linear-gradient(160deg, var(--marca1) 0%, var(--marca2) 100%); }
+/* véu no pé, como no cartão: a letra miúda de baixo passa de 4.5:1 sem trocar de cor */
+.tela.abertura::before { content: ""; position: fixed; inset: 0; z-index: 0; pointer-events: none;
+                         background: linear-gradient(to bottom, transparent 40%, rgb(0 0 0 / .22)); }
+.abertura-in { position: relative; z-index: 1; width: 100%; max-width: 30rem; padding: 3rem 1.5rem 2.5rem;
+               display: flex; flex-direction: column; align-items: center; gap: .4rem; }
+.abertura-in .marca { color: #fff; --marca-check: var(--marca1); font-size: clamp(3rem, 12vw, 3.8rem);
+                      letter-spacing: -.045em; gap: .5rem; line-height: 1; margin-bottom: .2rem; }
+.abertura-in .marca svg { width: .82em; height: .82em; }
+.abertura-in .marca span { background-image: none; background-color: #fff; }   /* sobre o degradê, o nome é branco */
+.abertura .slogan { font-size: clamp(1.3rem, 5.4vw, 1.55rem); line-height: 1.25; font-weight: 700;
+                    text-wrap: balance; margin: .6rem 0 .5rem; max-width: 20ch; }
+.abertura .meta { font-size: .9rem; font-weight: 600; color: rgb(255 255 255 / .92); margin: 0 0 1.6rem; }
+.abertura .nota { max-width: 26rem; margin: 0 0 .4rem; }
+.abertura .nota h3 { color: #fff; font-size: 1.05rem; margin-bottom: .25rem; }
+.abertura .nota .mini { color: rgb(255 255 255 / .92); font-size: .9rem; }
+.abertura .comecar { background: #fff; color: var(--botao1); border-radius: 999px;
+                     padding: 1rem 2.6rem; font-weight: 800; font-size: 1.1rem; margin-top: 1.4rem;
+                     box-shadow: 0 8px 24px rgb(0 0 0 / .22), 0 1px 3px rgb(0 0 0 / .18);
+                     transition: transform .15s cubic-bezier(.2, .8, .2, 1), box-shadow .15s ease; }
+.abertura .comecar:hover { transform: translateY(-1px); box-shadow: 0 12px 30px rgb(0 0 0 / .26), 0 1px 3px rgb(0 0 0 / .18); }
+.abertura .comecar:active { transform: scale(.97); }
+.abertura .recomecar { margin-top: 1rem; color: rgb(255 255 255 / .9); font-weight: 600; font-size: .9rem;
+                       text-decoration: underline; text-underline-offset: 3px; }
+.abertura :focus-visible { outline-color: #fff; }
+
+/* ── resultado ────────────────────────────────────────────────────────────── */
+.tela[data-tela="resultado"] h1 { font-size: 1.85rem; margin: .2rem 0 1rem; align-self: flex-start; }
 
 /* Seletor de ordenação: um trilho com a marca deslizando entre as três leituras.
    A marca move-se em vez de piscar para deixar claro que é a MESMA lista sendo
    reordenada, e não três telas diferentes. */
 .ordenar { position: relative; display: grid; grid-auto-flow: column;
-           grid-auto-columns: 1fr; width: min(26rem, 100%); margin: .2rem auto 1.1rem;
-           padding: 3px; border: 1px solid var(--linha); border-radius: 999px;
-           background: var(--caixa); }
-.ordenar .marca-ordem { position: absolute; top: 3px; bottom: 3px; border-radius: 999px;
-                        background: var(--realce); border: 1px solid var(--linha);
-                        transition: left .22s cubic-bezier(.2,.8,.3,1); }
-.ordenar button { position: relative; z-index: 1; padding: .45rem .3rem; border-radius: 999px;
-                  font-size: .78rem; color: var(--fg3); white-space: nowrap; cursor: pointer; }
-.ordenar button[aria-pressed="true"] { color: var(--fg); font-weight: 650; }
-.ordenar button:hover { color: var(--fg2); }
+           grid-auto-columns: 1fr; width: min(26rem, 100%); margin: 0 auto 1rem;
+           padding: 4px; border-radius: 999px; background: var(--realce); }
+.ordenar .marca-ordem { position: absolute; top: 4px; bottom: 4px; border-radius: 999px;
+                        background: var(--caixa); box-shadow: var(--sombra-botao);
+                        transition: left .26s cubic-bezier(.2, .8, .2, 1); }
+.ordenar button { position: relative; z-index: 1; padding: .5rem .3rem; border-radius: 999px;
+                  font-size: .82rem; font-weight: 600; color: var(--fg3); white-space: nowrap; cursor: pointer;
+                  transition: color .15s ease; }
+.ordenar button[aria-pressed="true"] { color: var(--fg); font-weight: 800; }
+.ordenar button:hover { color: var(--fg); }
 @media (prefers-reduced-motion: reduce) { .ordenar .marca-ordem { transition: none; } }
 
-/* ── resultado ────────────────────────────────────────────────────────────── */
 .grafico { width: 100%; }
-.raia { display: grid; grid-template-columns: 1fr; gap: .2rem; padding: .55rem 0;
-        border-bottom: 1px solid var(--linha); }
+/* Uma raia por candidatura: a posição num círculo (como um retrato), nome e sigla,
+   a contagem, e a barra por baixo. Toca-se a raia inteira. */
+.raia { padding: .35rem 0; border-bottom: 1px solid var(--linha); }
 .raia:last-child { border-bottom: 0; }
-.raia .quem { display: flex; align-items: baseline; gap: .4rem; font-size: .92rem;
-              width: 100%; text-align: left; padding: .25rem .5rem; margin: 0 -.5rem .1rem;
-              width: calc(100% + 1rem); border-radius: 8px; cursor: pointer; }
-.raia .quem .conta { margin-left: auto; font-size: .74rem; color: var(--nao); white-space: nowrap; }
-.raia .quem .conta.acordo { color: var(--sim); }
-.raia .quem .seta { font-size: 1rem; color: var(--fg3); flex: 0 0 auto; }
+.raia .quem { display: grid; grid-template-columns: auto 1fr auto auto; align-items: center;
+              column-gap: .7rem; row-gap: .15rem; width: 100%; text-align: left;
+              padding: .55rem .5rem; margin: 0 -.5rem; width: calc(100% + 1rem);
+              border-radius: 16px; cursor: pointer; transition: background .15s ease; }
 .raia .quem:hover { background: var(--realce); }
-.raia .quem:hover .seta { color: var(--acento); transform: translateX(2px); }
-.raia .quem .seta { transition: transform .15s ease, color .15s ease; }
-
-.raia .pos { font-family: var(--mono); font-size: .78rem; color: var(--fg3);
-             min-width: 1.9em; text-align: right; flex: 0 0 auto; }
-.raia.topo .pos { color: var(--acento); font-weight: 700; }
-.raia .quem b { font-weight: 650; }
-.raia .quem em { font-style: normal; font-size: .74rem; color: var(--fg3); }
-.raia.topo .quem b { color: var(--acento); }
-.raia .barra { display: flex; height: 15px; border-radius: 4px; overflow: hidden; background: var(--linha); }
+.raia .pos { grid-row: 1 / span 2; width: 42px; height: 42px; border-radius: 50%;
+             display: grid; place-items: center; font-weight: 800; font-size: 1rem;
+             color: var(--fg2); background: var(--realce); }
+.raia.topo .pos { color: #fff; background: linear-gradient(150deg, var(--marca1), var(--marca2)); }
+.raia .nome { display: flex; align-items: baseline; gap: .4rem; flex-wrap: wrap; min-width: 0; font-size: 1rem; }
+.raia .nome b { font-weight: 800; letter-spacing: -.01em; }
+.raia .nome em { font-style: normal; font-size: .78rem; font-weight: 600; color: var(--fg3); }
+.raia .nome em.lider { color: var(--acento); }
+.raia .nome em.fora { color: var(--nao); }
+.raia .conta { grid-column: 3; grid-row: 1 / span 2; font-size: .78rem; font-weight: 700; color: var(--nao);
+               white-space: nowrap; }
+.raia .conta.acordo { color: var(--sim); }
+.raia .seta { grid-column: 4; grid-row: 1 / span 2; color: var(--fg3); flex: 0 0 auto; display: grid;
+              transition: transform .15s ease, color .15s ease; }
+.raia .seta svg { width: 18px; height: 18px; }
+.raia .quem:hover .seta { color: var(--fg); transform: translateX(2px); }
+.raia .barra { grid-column: 2 / span 3; display: flex; height: 10px; border-radius: 999px; overflow: hidden;
+               background: var(--realce); }
 .raia .barra i { display: block; height: 100%; }
-.raia .barra .a { background: var(--sim); }
-.raia .barra .d { background: var(--nao); }
-.raia .barra .s { background: repeating-linear-gradient(45deg, var(--linha), var(--linha) 3px, transparent 3px, transparent 6px); }
-.raia.morta { opacity: .5; }
-.raia.morta .quem b { text-decoration: line-through; }
-.chave { display: flex; gap: 1rem; flex-wrap: wrap; font-size: .76rem; color: var(--fg2); margin: .6rem 0 1.2rem; }
-.chave i { display: inline-block; width: 11px; height: 11px; border-radius: 3px; margin-right: .3rem;
+.raia .barra .a { background: var(--sim-vivo); }
+.raia .barra .d { background: var(--nao-vivo); }
+.raia .barra .s { background: repeating-linear-gradient(-45deg, var(--linha) 0 3px, transparent 3px 7px); }
+.raia.morta { opacity: .55; }
+.raia.morta .nome b { text-decoration: line-through; }
+/* entrada do resultado: as raias sobem uma atrás da outra, uma vez só */
+@keyframes subir { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+.raia { animation: subir .45s cubic-bezier(.2, .8, .2, 1) both; animation-delay: calc(var(--i, 0) * 45ms); }
+@media (prefers-reduced-motion: reduce) { .raia { animation: none; } }
+
+.chave { display: flex; gap: .4rem 1rem; flex-wrap: wrap; font-size: .78rem; font-weight: 600;
+         color: var(--fg2); margin: .4rem 0 1rem; }
+.chave i { display: inline-block; width: 12px; height: 12px; border-radius: 4px; margin-right: .35rem;
            vertical-align: -1px; }
-.aviso { border: 1px solid var(--linha); border-left: 4px solid var(--nao); background: var(--nao-bg);
-         padding: .8rem .9rem; border-radius: 4px; margin: 0 0 1.2rem; width: 100%; }
-.aviso h3 { color: var(--nao); font-size: .95rem; }
+.chave i.s { background: repeating-linear-gradient(-45deg, var(--linha) 0 2px, var(--realce) 2px 5px); }
+
+/* recados: texto solto, sem caixa — o título faz o trabalho */
+.nota { width: 100%; margin: 0 0 1.1rem; }
+.nota h3 { font-size: 1.05rem; margin-bottom: .25rem; }
+.nota.perigo h3 { color: var(--nao); }
+.nota .mini { color: var(--fg2); }
+/* cartões de ação: superfície tingida com um botão dentro (continuar, responder o resto) */
+.aviso { background: var(--realce); padding: 1.1rem 1.2rem; border-radius: 20px; margin: 0 0 1rem; width: 100%; }
+.aviso h3 { font-size: 1.1rem; margin-bottom: .3rem; }
+.aviso.afinar { background: color-mix(in srgb, var(--marca1) 9%, var(--bg)); }
+.aviso.afinar h3 { color: var(--acento); }
+.aviso .mini { color: var(--fg2); }
+/* botão principal dentro de uma caixa (continuar, responder os restantes) */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: .4rem;
+       border-radius: 999px; padding: .65rem 1.3rem; font-weight: 800; font-size: .92rem;
+       color: #fff; background: linear-gradient(135deg, var(--botao1), var(--botao2));
+       box-shadow: 0 6px 16px color-mix(in srgb, var(--botao1) 30%, transparent);
+       transition: transform .15s cubic-bezier(.2, .8, .2, 1), box-shadow .15s ease; }
+.btn:hover { transform: translateY(-1px); box-shadow: 0 8px 20px color-mix(in srgb, var(--botao1) 38%, transparent); }
+.btn:active { transform: scale(.97); }
+.btn.contorno { color: var(--fg); background: var(--caixa); box-shadow: none; border: 1.5px solid var(--linha); }
+.btn.contorno:hover { background: var(--realce); box-shadow: none; }
+
 /* fileira de ações do resultado — não confundir com o rodapé da página (.rodape) */
 .acoes-final { width: 100%; margin-top: 1.6rem; display: flex; gap: .6rem; flex-wrap: wrap; justify-content: center; }
 .acoes-final button, .acoes-final a {
-  border: 1px solid var(--linha); background: var(--caixa); border-radius: 999px;
-  padding: .55rem 1.1rem; font-size: .9rem; color: inherit; text-decoration: none;
+  border: 1.5px solid var(--linha); background: var(--caixa); border-radius: 999px;
+  padding: .6rem 1.2rem; font-size: .9rem; font-weight: 700; color: inherit; text-decoration: none;
+  transition: background .15s ease;
 }
-.planos { width: 100%; font-size: .88rem; margin-top: 1rem; }
-.planos a { display: flex; justify-content: space-between; gap: .6rem; padding: .5rem 0;
-            border-bottom: 1px solid var(--linha); color: inherit; text-decoration: none; }
-.planos a span:last-child { color: var(--acento); white-space: nowrap; }
-.abertura { justify-content: center; text-align: center; gap: .4rem; }
-.abertura h1 { font-size: 2.4rem; margin-bottom: .1rem; }
-.abertura .slogan { font-size: 1.3rem; line-height: 1.3; font-weight: 500; text-wrap: balance;
-                    margin: .8rem 0 1rem; max-width: 22ch; }
-.abertura .comecar { background: var(--acento); color: #fff; border-radius: 999px;
-                     padding: .85rem 2.2rem; font-weight: 650; margin-top: 1rem; }
+.acoes-final button:hover, .acoes-final a:hover { background: var(--realce); }
+.tela h3.secao { width: 100%; font-size: 1.1rem; margin-top: 1.4rem; }
+.planos { width: 100%; font-size: .9rem; }
+.planos a { display: flex; justify-content: space-between; align-items: center; gap: .6rem; padding: .6rem .2rem;
+            border-bottom: 1px solid var(--linha); color: inherit; text-decoration: none; font-weight: 600;
+            transition: background .15s ease; border-radius: 8px; }
+.planos a:hover { background: var(--realce); }
+.planos a span:last-child { color: var(--acento); white-space: nowrap; font-weight: 700; font-size: .84rem; }
 
 /* ── painel de uma candidatura ────────────────────────────────────────────────
    Folha sobreposta em vez de acordeão: a citação é literal, portanto longa, e
@@ -357,84 +496,88 @@ button:focus-visible { outline: 2px solid var(--acento); outline-offset: 3px; bo
 .painel-fundo[hidden] { display: none; }
 .painel-fundo { position: fixed; inset: 0; z-index: 50; display: flex;
                 justify-content: center; align-items: flex-end;
-                background: color-mix(in srgb, var(--fg) 45%, transparent);
-                opacity: 0; transition: opacity .18s ease; }
+                background: rgb(17 20 24 / .5);
+                opacity: 0; transition: opacity .2s ease; }
 .painel-fundo.visivel { opacity: 1; }
 body.travado { overflow: hidden; }
 
 .painel { display: flex; flex-direction: column; width: min(46rem, 100%);
-          max-height: min(92vh, 100%); background: var(--bg);
-          border: 1px solid var(--linha); border-bottom: 0;
-          border-radius: 16px 16px 0 0; box-shadow: 0 -8px 40px rgb(0 0 0 / .18);
-          transform: translateY(14px); transition: transform .22s cubic-bezier(.2,.8,.3,1); }
+          max-height: min(92dvh, 100%); background: var(--bg);
+          border-radius: 24px 24px 0 0; box-shadow: 0 -10px 40px rgb(0 0 0 / .25);
+          transform: translateY(24px); transition: transform .28s cubic-bezier(.2, .8, .2, 1); }
 .painel-fundo.visivel .painel { transform: none; }
 
-.painel > header { position: sticky; top: 0; z-index: 1; padding: 1rem 1.3rem .8rem;
+.painel > header { position: sticky; top: 0; z-index: 1; padding: .6rem 1.3rem .9rem;
                    background: var(--bg); border-bottom: 1px solid var(--linha);
-                   border-radius: 16px 16px 0 0; }
-.painel .cab { display: flex; align-items: center; gap: .6rem; }
-.painel .cab .pos { font-family: var(--mono); font-size: .82rem; color: var(--fg3); flex: 0 0 auto; }
-.painel .cab .nome { display: flex; align-items: baseline; gap: .45rem;
-                     flex-wrap: wrap; min-width: 0; }
-.painel .cab .nome b { font-size: 1.12rem; font-weight: 650; }
-.painel .cab .nome em { font-style: normal; font-size: .78rem; color: var(--fg3); }
+                   border-radius: 24px 24px 0 0; }
+/* puxador, como numa folha de celular */
+.painel > header::before { content: ""; display: block; width: 40px; height: 4px; border-radius: 99px;
+                           background: var(--linha); margin: 0 auto .8rem; }
+.painel .cab { display: flex; align-items: center; gap: .7rem; }
+.painel .cab .pos { width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center;
+                    font-weight: 800; color: var(--fg2); background: var(--realce); flex: 0 0 auto; }
+.painel .cab .pos.topo { color: #fff; background: linear-gradient(150deg, var(--marca1), var(--marca2)); }
+.painel .cab .nome { display: flex; align-items: baseline; gap: .45rem; flex-wrap: wrap; min-width: 0; }
+.painel .cab .nome b { font-size: 1.2rem; font-weight: 800; letter-spacing: -.01em; }
+.painel .cab .nome em { font-style: normal; font-size: .8rem; font-weight: 600; color: var(--fg3); }
 .painel .cab .nome em.morto { color: var(--nao); }
 .painel .fechar { margin-left: auto; flex: 0 0 auto; display: grid; place-items: center;
-                  width: 2.1rem; height: 2.1rem; border-radius: 999px;
-                  border: 1px solid var(--linha); background: var(--caixa); color: var(--fg2); }
-.painel .fechar svg { width: 1rem; height: 1rem; }
-.painel .fechar:hover { background: var(--realce); color: var(--fg); }
-.painel > header .barra { display: flex; height: 10px; margin-top: .7rem;
-                          border-radius: 4px; overflow: hidden; background: var(--linha); }
+                  width: 2.3rem; height: 2.3rem; border-radius: 999px;
+                  background: var(--realce); color: var(--fg2); transition: background .15s ease, color .15s ease; }
+.painel .fechar svg { width: 1.05rem; height: 1.05rem; }
+.painel .fechar:hover { background: var(--linha); color: var(--fg); }
+.painel > header .barra { display: flex; height: 10px; margin-top: .8rem;
+                          border-radius: 999px; overflow: hidden; background: var(--realce); }
 .painel > header .barra i { display: block; height: 100%; }
-.painel > header .barra .a { background: var(--sim); }
-.painel > header .barra .d { background: var(--nao); }
-.painel > header .barra .s { background: repeating-linear-gradient(45deg, var(--linha),
-                             var(--linha) 3px, transparent 3px, transparent 6px); }
-.painel .contagem { margin: .45rem 0 0; font-size: .76rem; color: var(--fg3); }
+.painel > header .barra .a { background: var(--sim-vivo); }
+.painel > header .barra .d { background: var(--nao-vivo); }
+.painel > header .barra .s { background: repeating-linear-gradient(-45deg, var(--linha) 0 3px, transparent 3px 7px); }
+.painel .contagem { margin: .5rem 0 0; font-size: .78rem; font-weight: 600; color: var(--fg3); }
 
 .painel .corpo { overflow-y: auto; overscroll-behavior: contain;
-                 padding: .4rem 1.3rem 1.6rem; -webkit-overflow-scrolling: touch; }
+                 padding: .4rem 1.3rem 1.6rem; -webkit-overflow-scrolling: touch;
+                 scrollbar-width: thin; scrollbar-color: var(--linha) transparent; }
 /* Cada bloco leva um fundo de sua cor e um título que gruda no topo da rolagem —
    sem isso, no meio da lista não dá para saber se o que está na tela é divergência
    ou concordância. O fundo do título é opaco de propósito: o texto passa por baixo. */
 .painel .grupo { margin: 0 -1.3rem; padding: 0 1.3rem .6rem; }
-.painel .grupo.d { background: color-mix(in srgb, var(--nao) 5%, transparent); }
-.painel .grupo.a { background: color-mix(in srgb, var(--sim) 5%, transparent); }
+.painel .grupo.d { background: color-mix(in srgb, var(--nao-vivo) 5%, transparent); }
+.painel .grupo.a { background: color-mix(in srgb, var(--sim-vivo) 5%, transparent); }
 .painel .grupo h3 { position: sticky; top: 0; z-index: 1;
-                    margin: 0 -1.3rem .2rem; padding: .5rem 1.3rem;
+                    margin: 0 -1.3rem .2rem; padding: .55rem 1.3rem;
                     font-size: .74rem; text-transform: uppercase;
-                    letter-spacing: .08em; font-weight: 700; }
-.painel .grupo.d h3 { color: var(--nao); border-bottom: 1px solid color-mix(in srgb, var(--nao) 22%, transparent);
-                      background: color-mix(in srgb, var(--nao) 11%, var(--bg)); }
-.painel .grupo.a h3 { color: var(--sim); border-bottom: 1px solid color-mix(in srgb, var(--sim) 22%, transparent);
-                      background: color-mix(in srgb, var(--sim) 11%, var(--bg)); }
-.painel .item { padding: .85rem 0; border-bottom: 1px solid var(--linha); }
+                    letter-spacing: .1em; font-weight: 800; }
+.painel .grupo.d h3 { color: var(--nao); background: color-mix(in srgb, var(--nao-vivo) 11%, var(--bg)); }
+.painel .grupo.a h3 { color: var(--sim); background: color-mix(in srgb, var(--sim-vivo) 11%, var(--bg)); }
+.painel .item { padding: .9rem 0; border-bottom: 1px solid var(--linha); }
 .painel .item:last-of-type { border-bottom: 0; }
-.painel .grupo.d .item { border-bottom-color: color-mix(in srgb, var(--nao) 15%, transparent); }
-.painel .grupo.a .item { border-bottom-color: color-mix(in srgb, var(--sim) 15%, transparent); }
-.painel .item b { font-size: .95rem; font-weight: 650; line-height: 1.35; }
-.painel .item em.fora { font-style: normal; font-size: .68rem; color: var(--fg3);
-                        border: 1px solid var(--linha); border-radius: 999px;
-                        padding: .05rem .4rem; margin-left: .4rem; white-space: nowrap; }
-.painel .cit { margin: .4rem 0 0; font-size: .88rem; line-height: 1.6; color: var(--fg2);
-               border-left: 2px solid var(--linha); padding: .1rem 0 .1rem .8rem; }
-.painel .cit .fonte { display: block; font-size: .72rem; color: var(--fg3); margin-top: .35rem; }
-.painel .plano { display: inline-block; margin-top: 1.2rem; font-size: .88rem; color: var(--acento); }
-.painel .voltar { display: block; width: 100%; margin-top: 1.2rem; padding: .7rem;
-                  border: 1px solid var(--linha); border-radius: 999px;
-                  background: var(--caixa); font-size: .88rem; color: var(--fg2); }
+.painel .grupo.d .item { border-bottom-color: color-mix(in srgb, var(--nao-vivo) 15%, transparent); }
+.painel .grupo.a .item { border-bottom-color: color-mix(in srgb, var(--sim-vivo) 15%, transparent); }
+.painel .item b { font-size: 1rem; font-weight: 800; line-height: 1.3; letter-spacing: -.01em; }
+.painel .item em.fora { font-style: normal; font-size: .68rem; font-weight: 700; color: var(--fg3);
+                        background: var(--realce); border-radius: 999px;
+                        padding: .1rem .5rem; margin-left: .4rem; white-space: nowrap; vertical-align: 2px; }
+.painel .cit { margin: .45rem 0 0; font-size: .92rem; line-height: 1.6; color: var(--fg2);
+               border-left: 1px solid var(--linha); padding: .1rem 0 .1rem .85rem; }
+.painel .cit .fonte { display: block; font-size: .74rem; font-weight: 600; color: var(--fg3); margin-top: .4rem; }
+.painel .plano { display: inline-block; margin-top: 1.2rem; font-size: .9rem; font-weight: 700; color: var(--acento);
+                 text-decoration: none; }
+.painel .plano:hover { text-decoration: underline; text-underline-offset: 3px; }
+.painel .voltar { display: block; width: 100%; margin-top: 1.2rem; padding: .75rem;
+                  border: 1.5px solid var(--linha); border-radius: 999px;
+                  background: var(--caixa); font-size: .9rem; font-weight: 700; color: var(--fg2);
+                  transition: background .15s ease; }
 .painel .voltar:hover { background: var(--realce); color: var(--fg); }
 
 /* Em telas largas a folha vira caixa centralizada — nada de 92vh de altura vazia. */
 @media (min-width: 720px) {
   .painel-fundo { align-items: center; padding: 2rem 1rem; }
-  .painel { border-bottom: 1px solid var(--linha); border-radius: 16px;
-            box-shadow: 0 10px 50px rgb(0 0 0 / .22); max-height: 100%; }
-  .painel > header { border-radius: 16px 16px 0 0; }
+  .painel { border-radius: 24px; box-shadow: 0 20px 60px rgb(0 0 0 / .3); max-height: 100%; }
+  .painel > header { border-radius: 24px 24px 0 0; }
+  .painel > header::before { display: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .painel-fundo, .painel { transition: none; }
+  .painel-fundo, .painel, .giro, .cartao.fundo, .cartao.voando, .progresso i { transition: none; }
   .painel { transform: none; }
 }

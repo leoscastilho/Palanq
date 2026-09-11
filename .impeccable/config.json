@@ -1,0 +1,17 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "gradient-text",
+        "value": "*",
+        "files": [
+          "src/swipe.css"
+        ],
+        "createdAt": "2026-09-11T18:06:39.020Z",
+        "reason": "Logotipo Palanq: o nome leva o degradê da marca (compromisso em PRODUCT.md), não é ênfase de texto"
+      }
+    ]
+  }
+}

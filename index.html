@@ -4,6 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="light dark">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#111418">
 <meta name="referrer" content="no-referrer">
 <meta name="description" content="Deslize os cartões e descubra quais candidaturas mais combinam com você, comparando suas posições com os planos de governo registrados da eleição geral de 2026. Não recomenda voto.">
 <meta name="author" content="Leo Castilho">
@@ -18,32 +20,83 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Palanq — No papel, qual candidato combina com você?">
 <meta name="twitter:description" content="Deslize os cartões e descubra quais candidaturas mais combinam com você, comparando suas posições com os planos de governo registrados da eleição geral de 2026. Não recomenda voto.">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data:; connect-src 'none'; form-action 'none'; base-uri 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; form-action 'none'; base-uri 'none'">
 <title>Palanq — No papel, qual candidato combina com você?</title>
+<!-- Tema escolhido à mão (o botão da barra) tem de valer antes da primeira pintura;
+     sem isto a página pisca clara antes de escurecer. Sem escolha, manda o sistema. -->
+<script>try{var t=localStorage.getItem("palanq/tema");if(t==="dark"||t==="light")document.documentElement.dataset.theme=t}catch(e){}</script>
 <style>
-/* Palanq — versão de cartões. Sem fontes externas, sem requisição de rede. */
+/* Figtree, embutida. Zero requisição de rede: a fonte viaja dentro da página, como
+   tudo o mais (§26). Subconjunto latino, peso variável 300–900 num arquivo só (20 KB).
+   Figtree © 2022 The Figtree Project Authors (github.com/erikdkennedy/figtree),
+   SIL Open Font License 1.1 — permite embutir e redistribuir. */
+@font-face {
+  font-family: "Figtree";
+  font-style: normal;
+  font-weight: 300 900;
+  font-display: swap;
+  src: url(data:font/woff2;base64,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) format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+
+/* Palanq — versão de cartões. Sem requisição de rede: a fonte vem embutida (fonte.css).
+   Tema: os tokens claros vivem em :root; os escuros valem quando o sistema pede
+   (e ninguém escolheu "claro" à mão) ou quando o botão da barra escolheu "escuro". */
 :root {
-  --bg: #f6f4f0; --fg: #17181c; --fg2: #5b5952; --fg3: #8c8880;
-  --linha: #e0dbd2; --caixa: #fff; --realce: #efeae1;
-  --acento: #1f4f7a;
-  --sim: #1c6b45; --sim-bg: #e6f4ec;
-  --nao: #9b2226; --nao-bg: #fdecec;
-  --ine: #8a4b12; --ine-bg: #fbf0e4;
-  --pular: #5b5952; --pular-bg: #eeece8;
-  --sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  color-scheme: light;
+  --bg: #ffffff; --caixa: #ffffff; --realce: #f2f4f6; --linha: #e4e7eb;
+  --fg: #111418; --fg2: #4a535f; --fg3: #626c79;
+  /* marca: coral → rosa. --botao é a mesma dupla, mais funda, para o texto branco
+     em cima dela passar de 4.5:1 — a versão viva fica para o que é decoração. */
+  --marca1: #fd267a; --marca2: #ff6036;
+  --botao1: #e5125a; --botao2: #d93a17;
+  --acento: #e5125a;
+  /* respostas: a cor "texto" aguenta letra miúda em cima do fundo; a "viva" é para
+     ícone, carimbo e barra, que são grandes. */
+  --sim: #0a7f4e; --sim-vivo: #0ea765;
+  --nao: #e8163f; --nao-vivo: #f0284f;
+  --ine: #0b62c8; --ine-vivo: #1786ff;
+  --pular: #626c79; --pular-vivo: #7c8794;
+  --sobre: #ffffff;   /* texto e ícone em cima de um preenchimento vivo */
+  /* cartão: luminosidade e croma OKLCH do degradê por tema; o matiz vem do JS */
+  --cartao-l1: .55; --cartao-l2: .40; --cartao-c: .13;
+  --sombra: 0 14px 36px rgb(17 20 24 / .14), 0 2px 6px rgb(17 20 24 / .06);
+  --sombra-botao: 0 4px 12px rgb(17 20 24 / .10), 0 1px 2px rgb(17 20 24 / .06);
+  --sans: "Figtree", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 }
 @media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #131418; --fg: #ecebe7; --fg2: #a5a29a; --fg3: #77746d;
-    --linha: #2e3037; --caixa: #1c1e23; --realce: #23252b;
-    --acento: #6aa6dc;
-    --sim: #6ec69a; --sim-bg: #172b21;
-    --nao: #e88a8a; --nao-bg: #2c1a1b;
-    --ine: #d99a4e; --ine-bg: #2c2317;
-    --pular: #a5a29a; --pular-bg: #24262c;
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg: #111418; --caixa: #1a1f27; --realce: #1f252e; --linha: #2a313b;
+    --fg: #f3f5f7; --fg2: #a9b1bc; --fg3: #8e97a3;
+    --sim: #3ee6a0; --sim-vivo: #3ee6a0;
+    --nao: #ff5c74; --nao-vivo: #ff5c74;
+    --ine: #4d9eff; --ine-vivo: #4d9eff;
+    --pular: #8e97a3; --pular-vivo: #8e97a3;
+    --sobre: #111418;
+    --acento: #fd267a;
+    --cartao-l1: .50; --cartao-l2: .34; --cartao-c: .12;
+    --sombra: 0 16px 40px rgb(0 0 0 / .5), 0 2px 6px rgb(0 0 0 / .3);
+    --sombra-botao: 0 4px 14px rgb(0 0 0 / .45), 0 1px 2px rgb(0 0 0 / .3);
   }
 }
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #111418; --caixa: #1a1f27; --realce: #1f252e; --linha: #2a313b;
+  --fg: #f3f5f7; --fg2: #a9b1bc; --fg3: #8e97a3;
+  --sim: #3ee6a0; --sim-vivo: #3ee6a0;
+  --nao: #ff5c74; --nao-vivo: #ff5c74;
+  --ine: #4d9eff; --ine-vivo: #4d9eff;
+  --pular: #8e97a3; --pular-vivo: #8e97a3;
+  --sobre: #111418;
+  --acento: #fd267a;
+  --cartao-l1: .50; --cartao-l2: .34; --cartao-c: .12;
+  --sombra: 0 16px 40px rgb(0 0 0 / .5), 0 2px 6px rgb(0 0 0 / .3);
+  --sombra-botao: 0 4px 14px rgb(0 0 0 / .45), 0 1px 2px rgb(0 0 0 / .3);
+}
+
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 html { height: 100%; }
 /* coluna flexível: a tela cresce, o rodapé fica embaixo dela — e não fora da
@@ -52,324 +105,429 @@ body {
   margin: 0; min-height: 100%; display: flex; flex-direction: column;
   background: var(--bg); color: var(--fg); font-family: var(--sans);
   font-size: 16px; line-height: 1.5; overscroll-behavior: none;
+  -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
+  font-variant-numeric: tabular-nums;
 }
-h1, h2, h3 { margin: 0 0 .5rem; line-height: 1.2; font-weight: 650; letter-spacing: -.01em; }
+::selection { background: color-mix(in srgb, var(--marca1) 28%, transparent); }
+h1, h2, h3 { margin: 0 0 .5rem; line-height: 1.15; font-weight: 800; letter-spacing: -.02em; text-wrap: balance; }
 p { margin: 0 0 .8rem; }
 button { font: inherit; cursor: pointer; border: 0; background: none; color: inherit; }
-button:focus-visible { outline: 2px solid var(--acento); outline-offset: 3px; border-radius: 8px; }
-.mini { font-size: .82rem; color: var(--fg2); }
+:focus-visible { outline: 2px solid var(--ine-vivo); outline-offset: 3px; }
+.mini { font-size: .84rem; color: var(--fg2); line-height: 1.45; }
 .oculto { display: none !important; }
 
 .tela { flex: 1 0 auto; display: flex; flex-direction: column; align-items: center;
-        padding: 1rem; max-width: 560px; margin: 0 auto; width: 100%; }
-.marca { font-weight: 700; letter-spacing: -.02em; font-size: 1.05rem; }
-.barra-topo { width: 100%; display: flex; align-items: center; gap: .75rem; padding: .2rem 0 1rem; }
-.progresso { flex: 1; height: 4px; background: var(--linha); border-radius: 99px; overflow: hidden; }
-.progresso i { display: block; height: 100%; background: var(--acento); transition: width .3s ease; }
+        padding: .75rem 1rem 1rem; max-width: 600px; margin: 0 auto; width: 100%; }
+/* A coluna dos cartões é a largura de um telefone mesmo no desktop: o cartão é um
+   objeto que se segura com a mão, não uma página. */
+.tela[data-tela="cartoes"] { max-width: 480px; min-height: 100dvh; padding-bottom: .6rem; }
+
+/* ── barra do topo ────────────────────────────────────────────────────────── */
+.barra-topo { width: 100%; display: flex; align-items: center; gap: .75rem;
+              padding: .15rem 0 .9rem; min-height: 44px; }
+.marca { display: inline-flex; align-items: center; gap: .4rem; font-weight: 800;
+         letter-spacing: -.03em; font-size: 1.2rem; color: var(--marca1); text-decoration: none; }
+.marca svg { width: 22px; height: 22px; flex: 0 0 auto; }
+/* o nome leva o degradê da marca — é o logotipo, não ênfase */
+.marca span { background: linear-gradient(90deg, var(--marca1), var(--marca2));
+              -webkit-background-clip: text; background-clip: text; color: transparent; }
+.progresso { flex: 1; height: 5px; background: var(--realce); border-radius: 99px; overflow: hidden; }
+.progresso i { display: block; height: 100%; width: 100%; border-radius: 99px;
+               background: linear-gradient(90deg, var(--marca1), var(--marca2));
+               transform: scaleX(var(--p, 0)); transform-origin: left;
+               transition: transform .4s cubic-bezier(.2, .8, .2, 1); }
+.barra-topo .mini { white-space: nowrap; font-weight: 600; color: var(--fg3); }
+.tema { flex: 0 0 auto; width: 36px; height: 36px; border-radius: 50%; display: grid;
+        place-items: center; color: var(--fg2); background: var(--realce);
+        transition: background .15s ease, color .15s ease, transform .15s ease; }
+.tema svg { width: 18px; height: 18px; }
+.tema:hover { background: var(--linha); color: var(--fg); }
+.tema:active { transform: scale(.92); }
 
 /* ── pilha de cartões ─────────────────────────────────────────────────────── */
-.pilha { position: relative; width: 100%; flex: 1 1 auto; min-height: 300px; max-height: 440px;
-         margin-bottom: 34px; }
+.pilha { position: relative; width: 100%; flex: 1 1 auto; min-height: 380px; max-height: 600px; }
 .cartao {
-  position: absolute; inset: 0; border-radius: 18px;
+  position: absolute; inset: 0; border-radius: 24px;
   user-select: none; touch-action: none; will-change: transform;
   perspective: 1400px;   /* o arraste transforma ESTA camada… */
 }
 /* …e a virada transforma a de dentro, para os dois transform não brigarem. */
 .giro { position: absolute; inset: 0; transform-style: preserve-3d;
-        transition: transform .55s cubic-bezier(.3,.7,.3,1); }
+        transition: transform .75s cubic-bezier(.3, .7, .2, 1); }
 .giro.virado { transform: rotateY(180deg); }
+/* Cor do tema. Só o matiz varia entre os cartões (--h vem do JS); luminosidade e
+   croma são fixas e perceptuais (OKLCH), para que os 21 temas pareçam uma família,
+   tenham o mesmo peso na tela e o texto branco passe em todos. A cor ocupa o
+   cartão inteiro — é o lugar da foto. O hsl é a rede para navegador sem oklch. */
+.cartao { --h: 250; isolation: isolate; }
 .face {
-  position: absolute; inset: 0; background: var(--caixa); border: 1px solid var(--linha);
-  border-radius: 18px; padding: 1.6rem 1.4rem; display: flex; flex-direction: column;
-  box-shadow: 0 10px 30px rgba(0,0,0,.07);
+  position: absolute; inset: 0; border-radius: 24px; padding: 1.5rem 1.5rem 3.4rem;
+  display: flex; flex-direction: column; color: #fff; isolation: isolate;
+  background: hsl(var(--h) 55% 42%);
+  /* uma luz vinda de cima à esquerda, como numa foto: a cor deixa de ser chapada */
+  background: radial-gradient(120% 55% at 12% 0%, rgb(255 255 255 / .17), transparent 62%),
+              linear-gradient(172deg, oklch(var(--cartao-l1) var(--cartao-c) var(--h)) 0%,
+                                       oklch(var(--cartao-l2) var(--cartao-c) var(--h)) 100%);
+  box-shadow: var(--sombra); overflow: hidden;
   backface-visibility: hidden; -webkit-backface-visibility: hidden;
+}
+/* O campo de cima é o lugar da foto: o nome do tema ocupa-o em tom sobre tom,
+   grande e cortado pela borda, como a tipografia de uma capa. */
+.face.frente::before {
+  content: attr(data-dominio); position: absolute; right: -.06em; top: .55em; z-index: -1;
+  font-size: clamp(5.4rem, 24vw, 7.2rem); font-weight: 900; line-height: .85; letter-spacing: -.05em;
+  text-transform: uppercase; color: rgb(255 255 255 / .10); pointer-events: none; white-space: nowrap;
+  user-select: none;
+}
+/* véu escuro no pé do cartão, como o de baixo de uma foto: o texto que fica ali
+   ganha contraste sem mudar de cor, e os botões que invadem a borda assentam. */
+.face::after {
+  content: ""; position: absolute; inset: 38% 0 0; border-radius: 0 0 24px 24px; z-index: -1;
+  pointer-events: none;
+  background: linear-gradient(to bottom, transparent, rgb(0 0 0 / .22));
 }
 .face.verso { transform: rotateY(180deg); }
 /* O cartão recebe foco por código, para as setas do teclado funcionarem. O anel
    padrão do navegador aparece nesse caso e fica feio; o anel próprio só aparece
    para quem está de fato navegando por teclado. */
 .cartao:focus { outline: none; }
-.cartao:focus-visible { outline: 2px solid var(--acento); outline-offset: 3px; }
-.cartao.fundo { transform: scale(.94) translateY(14px); opacity: .55; pointer-events: none; }
-.cartao.fundo2 { transform: scale(.88) translateY(28px); opacity: .28; pointer-events: none; }
-.cartao.fundo .face, .cartao.fundo2 .face { box-shadow: none; }
+.cartao:focus-visible { outline: 2px solid var(--ine-vivo); outline-offset: 4px; }
+/* os de trás: menores e mais baixos; sobem para o lugar quando o da frente sai */
+.cartao.fundo  { transform: scale(.95) translateY(12px); pointer-events: none;
+                 transition: transform .42s cubic-bezier(.2, .8, .2, 1); }
+.cartao.fundo2 { transform: scale(.90) translateY(24px); pointer-events: none; }
+.cartao.fundo .face  { box-shadow: 0 6px 18px rgb(0 0 0 / .10); filter: brightness(.94); }
+.cartao.fundo2 .face { box-shadow: none; filter: brightness(.86); }
+.cartao.fundo.sobe { transform: none; }
+.cartao.fundo.sobe .face { filter: none; }
+/* cartão saindo: a curva é a de algo que foi empurrado e desacelera longe */
+.cartao.voando { transition: transform .46s cubic-bezier(.2, .7, .3, 1), opacity .46s ease-out; }
+/* vindo de um toque no botão o cartão não tem impulso: sai mais devagar, com uma
+   curva que acelera antes de desacelerar, como se tivesse sido empurrado */
+.cartao.voando.toque { transition: transform .62s cubic-bezier(.4, 0, .2, 1), opacity .62s cubic-bezier(.4, 0, .2, 1); }
+.cartao.fundo.sobe.lento { transition-duration: .58s; }
 
-/* botão de virar, no pé do cartão */
+/* tema (o "nome" do cartão) e pergunta (a "bio") */
+.face .dominio, .overlay .dominio {
+  align-self: flex-start; display: inline-flex; align-items: center; gap: .4rem;
+  font-size: .72rem; font-weight: 800; text-transform: uppercase; letter-spacing: .12em;
+  padding: .32rem .7rem .32rem .55rem; border-radius: 999px;
+  background: rgb(0 0 0 / .26); color: #fff; margin-bottom: auto;
+}
+.face .dominio i, .overlay .dominio i { width: 7px; height: 7px; border-radius: 50%; background: #fff; opacity: .9; }
+/* título e pergunta assentam no pé do cartão, sobre o véu — o nome e a bio de uma
+   foto; o olho desce da pergunta direto para os botões. */
+.face h2 { font-size: clamp(1.9rem, 8vw, 2.4rem); line-height: 1.02; margin: 1rem 0 .7rem; text-align: left;
+           letter-spacing: -.03em; }
+.face .pergunta {
+  font-size: clamp(1.22rem, 5vw, 1.45rem); font-weight: 500; line-height: 1.32;
+  text-wrap: pretty; padding: 0 0 1.1rem; color: rgb(255 255 255 / .96);
+}
+.face .nota { font-size: .76rem; line-height: 1.35; color: rgb(255 255 255 / .82); padding-bottom: .8rem; }
+/* botão de virar, no pé do cartão — vidro branco sobre a cor */
 .virar {
-  margin-top: auto; align-self: center; display: inline-flex; align-items: center; gap: .45rem;
-  font-size: .84rem; color: hsl(var(--h) 42% 34%); border: 1px solid hsl(var(--h) 40% 46% / .35);
-  background: hsl(var(--h) 60% 50% / .07); border-radius: 999px; padding: .45rem 1rem;
-  transition: background .15s ease;
+  align-self: center; display: inline-flex; align-items: center; gap: .45rem;
+  font-size: .86rem; font-weight: 700; color: #fff;
+  background: rgb(255 255 255 / .18); border: 1px solid rgb(255 255 255 / .38);
+  border-radius: 999px; padding: .5rem 1.05rem;
+  transition: background .15s ease, transform .15s ease;
 }
-.virar:hover { background: hsl(var(--h) 60% 50% / .14); }
+.virar:hover { background: rgb(255 255 255 / .28); }
+.virar:active { transform: scale(.96); }
 .virar svg { width: 15px; height: 15px; }
-@media (prefers-color-scheme: dark) {
-  .virar { color: hsl(var(--h) 48% 74%); border-color: hsl(var(--h) 40% 60% / .35);
-           background: hsl(var(--h) 55% 60% / .10); }
-  .virar:hover { background: hsl(var(--h) 55% 60% / .18); }
-}
 /* verso */
-.face.verso .rotulo { font-size: .7rem; text-transform: uppercase; letter-spacing: .11em;
-                      text-align: center; color: hsl(var(--h) 46% 34%); margin-bottom: .3rem; }
-@media (prefers-color-scheme: dark) { .face.verso .rotulo { color: hsl(var(--h) 52% 72%); } }
+/* o verso tem título próprio — em caixa normal, como um título, não como etiqueta */
+.face.verso .rotulo { font-size: clamp(1.25rem, 5vw, 1.45rem); font-weight: 800; letter-spacing: -.02em;
+                      line-height: 1.15; margin-bottom: .6rem; }
+.face.verso .explicacao { margin-bottom: 1rem; }
 .face.verso .explicacao {
   flex: 1 1 auto; min-height: 0; overflow-y: auto; display: flex; align-items: center;
-  font-size: 1rem; line-height: 1.55; text-align: left; padding: .9rem .2rem;
-  -webkit-overflow-scrolling: touch;
+  font-size: clamp(1.08rem, 4.4vw, 1.2rem); font-weight: 500; line-height: 1.45; padding: .2rem 0 .8rem;
+  -webkit-overflow-scrolling: touch; scrollbar-width: thin;
+  scrollbar-color: rgb(255 255 255 / .4) transparent;
 }
-/* Cor do tema. Só o matiz varia entre os cartões (--h vem do JS); saturação e
-   luminosidade são fixas, para que os 21 temas pareçam uma família e não um
-   arco-íris. O indicativo é uma tarja no topo do cartão. */
-.cartao { --h: 215; isolation: isolate; }
-/* inset + border-radius herdado faz a tarja acompanhar os cantos arredondados;
-   z-index negativo a põe acima do fundo do cartão e abaixo do conteúdo. */
-.face { isolation: isolate; }
-.face::before {
-  content: ""; position: absolute; inset: 0; border-radius: inherit; z-index: -1;
-  pointer-events: none;
-  background: linear-gradient(hsl(var(--h) 58% 46%) 0 6px, transparent 6px);
-}
-@media (prefers-color-scheme: dark) {
-  .face::before { background: linear-gradient(hsl(var(--h) 52% 56%) 0 6px, transparent 6px); }
-}
-.face .dominio {
-  font-size: .7rem; text-transform: uppercase; letter-spacing: .11em; text-align: center;
-  color: hsl(var(--h) 46% 34%); margin-bottom: .8rem;
-  display: flex; align-items: center; justify-content: center; gap: .45rem;
-}
-.face .dominio i { width: 7px; height: 7px; border-radius: 50%;
-                     background: hsl(var(--h) 62% 46%); flex: 0 0 auto; }
-@media (prefers-color-scheme: dark) {
-  .face .dominio { color: hsl(var(--h) 52% 72%); }
-  .face .dominio i { background: hsl(var(--h) 58% 62%); }
-}
-.face h2 { font-size: 1.35rem; text-align: center; text-wrap: balance; margin-bottom: 0; }
-/* separador fino sob o título, na cor do tema, esmaecendo nas duas pontas */
-.face h2::after {
-  content: ""; display: block; height: 1px; width: min(190px, 62%); margin: .95rem auto 0;
-  background: linear-gradient(90deg, transparent, hsl(var(--h) 52% 46% / .6), transparent);
-}
-@media (prefers-color-scheme: dark) {
-  .face h2::after { background: linear-gradient(90deg, transparent, hsl(var(--h) 48% 66% / .55), transparent); }
-}
-/* o corpo ocupa o que sobra e se centraliza nos dois eixos */
-.face .pergunta {
-  font-size: 1.08rem; color: var(--fg); flex: 1 1 auto; min-height: 0;
-  display: flex; align-items: center; justify-content: center; text-align: center;
-  text-wrap: pretty; padding: 1rem 0;
-}
-.face .nota { padding-top: .5rem; font-size: .76rem; color: var(--fg3); text-align: center; }
 
-/* carimbos que aparecem ao arrastar */
-/* z-index acima das faces: elas vêm depois no DOM e têm fundo opaco, então sem isto
-   o carimbo fica escondido atrás do cartão durante o arraste. */
+/* carimbos que aparecem ao arrastar — LIKE / NOPE, em cima de tudo no cartão */
 .carimbo {
-  /* na faixa vazia entre o separador e a pergunta: mais acima cobriria o tema e o
-     título pela metade, deixando os dois ilegíveis. */
-  position: absolute; top: 32%; z-index: 4; padding: .35rem .8rem; border-radius: 10px;
-  border: 3px solid currentColor; font-weight: 800; font-size: 1rem; letter-spacing: .06em;
-  text-transform: uppercase; opacity: 0; pointer-events: none; transition: opacity .1s;
-  background: var(--caixa);
+  position: absolute; top: 2.6rem; z-index: 4; padding: .15rem .6rem; border-radius: 8px;
+  border: 4px solid currentColor; font-weight: 900; font-size: clamp(2rem, 8vw, 2.5rem); line-height: 1.05;
+  letter-spacing: .06em; text-transform: uppercase; opacity: 0; pointer-events: none;
+  background: transparent; transition: opacity .1s;
+  /* sombra suave: o carimbo continua legível quando a cor dele é a do cartão */
+  filter: drop-shadow(0 2px 8px rgb(0 0 0 / .4));
 }
-.carimbo.c-sim   { left: 1.4rem;  color: var(--sim);   transform: rotate(-12deg); }
-.carimbo.c-nao   { right: 1.4rem; color: var(--nao);   transform: rotate(12deg); }
-.carimbo.c-ine   { left: 50%; margin-left: -5.2rem; color: var(--ine); }
-.carimbo.c-pular { left: 50%; margin-left: -4rem; top: auto; bottom: 22%; color: var(--pular); }
+.carimbo.c-sim   { left: 1.4rem;  color: var(--sim-vivo); transform: rotate(-14deg); transform-origin: left top; }
+.carimbo.c-nao   { right: 1.4rem; color: var(--nao-vivo); transform: rotate(14deg); transform-origin: right top; }
+.carimbo.c-ine   { left: 50%; top: 42%; transform: translate(-50%, -50%) rotate(-6deg); color: var(--ine-vivo);
+                   font-size: clamp(1.6rem, 6.5vw, 2rem); }
+.carimbo.c-pular { left: 50%; top: 42%; transform: translate(-50%, -50%) rotate(-6deg); color: #fff;
+                   font-size: clamp(1.6rem, 6.5vw, 2rem); }
 
 /* ── botões ───────────────────────────────────────────────────────────────── */
-/* Os cinco ocupam a mesma largura do cartão: `space-between` distribui a folga em vez
-   de fixá-la, então a linha se ajusta sozinha de 375px ao desktop.
-   A curva vertical é o que separa as três respostas do meio das duas das pontas — as
-   duas mais usadas ficam mais baixas e maiores, com o dedo mais perto delas. */
-/* Folga igual entre os cinco círculos. Para o `gap` valer entre BOTÕES e não entre
-   colunas, cada coluna tem a largura exata do seu botão (`--d`) e o rótulo transborda
-   dela, centrado — senão a palavra "INEGOCIÁVEL" ditaria a largura e as folgas sairiam
-   desiguais. O diâmetro cede um pouco abaixo de ~400px: em tamanho cheio os cinco
-   somam 312px numa faixa de 343 e não sobraria folga nenhuma. */
-.acoes { display: flex; justify-content: center; align-items: flex-start;
-         gap: clamp(7px, 2.6vw, 26px);
-         padding: 1.2rem 0 .4rem; width: 100%; box-sizing: border-box; }
-
-.acao { --d: clamp(64px, 17.5vw, 70px); width: var(--d); min-width: 0;
+/* Os cinco invadem a borda de baixo do cartão pela metade do maior — o cartão e
+   os botões são um objeto só. `--d` é o diâmetro de cada coluna; o rótulo
+   transborda dela, centrado, senão "INEGOCIÁVEL" ditaria a largura. */
+.acoes { position: relative; z-index: 7; display: flex; justify-content: center; align-items: flex-start;
+         gap: clamp(6px, 2.4vw, 22px); width: 100%;
+         margin-top: calc(var(--d-max) / -2); padding: 0 0 .2rem; --d-max: clamp(62px, 17vw, 68px); }
+.acao { --d: var(--d-max); width: var(--d); min-width: 0;
         display: grid; grid-template-columns: 100%; grid-template-rows: var(--d) auto;
-        justify-items: center;
-        align-items: center; gap: .3rem; flex: 0 0 auto; }
-.acao:nth-child(2), .acao:nth-child(4) { --d: clamp(54px, 15vw, 60px); }
-.acao:nth-child(3) { --d: clamp(48px, 13.5vw, 52px); }
-.acao:first-child, .acao:last-child { margin-top: 14px; }
-.acao:nth-child(2), .acao:nth-child(3), .acao:nth-child(4) { margin-top: -4px; }
-.acao span { font-size: clamp(.55rem, 1.7vw, .64rem); color: var(--fg3); text-transform: uppercase;
-             letter-spacing: .04em; text-align: center; line-height: 1.25;
-             width: clamp(58px, 17vw, 80px); }
+        justify-items: center; align-items: start; gap: .35rem; flex: 0 0 auto; }
+.acao:nth-child(2), .acao:nth-child(4) { --d: clamp(52px, 14.5vw, 56px); margin-top: 6px; }
+.acao:nth-child(3) { --d: clamp(44px, 12.5vw, 48px); margin-top: 10px; }
+.acao span { font-size: clamp(.58rem, 1.8vw, .66rem); font-weight: 700; color: var(--fg3);
+             text-transform: uppercase; letter-spacing: .05em; text-align: center; line-height: 1.2;
+             width: clamp(60px, 17vw, 84px); }
 .acoes button {
-  width: var(--d); height: var(--d);
-  border-radius: 50%; display: grid; place-items: center;
-  background: var(--caixa); border: 1px solid var(--linha); box-shadow: 0 3px 10px rgba(0,0,0,.06);
-  transition: transform .12s ease, background .12s ease;
+  --cor: var(--fg2);
+  width: var(--d); height: var(--d); border-radius: 50%; display: grid; place-items: center;
+  color: var(--cor); background: var(--caixa); border: 1.5px solid color-mix(in srgb, var(--cor) 26%, var(--linha));
+  box-shadow: var(--sombra-botao);
+  transition: transform .14s cubic-bezier(.2, .8, .2, 1), background .14s ease, color .14s ease, border-color .14s ease;
 }
-.acoes button:active { transform: scale(.9); }
-.acoes button svg { width: 29px; height: 29px; }
-.acoes button.b-nao   { color: var(--nao); }
-.acoes button.b-sim   { color: var(--sim); }
-.acoes button.b-pular { color: var(--pular); }
-.acoes button.b-pular svg { width: 24px; height: 24px; }
+.acoes button svg { width: 46%; height: 46%; }
+.acoes button.b-nao     { --cor: var(--nao-vivo); }
+.acoes button.b-sim     { --cor: var(--sim-vivo); }
+.acoes button.b-pular   { --cor: var(--pular-vivo); }
 /* Os escudos usam a cor da resposta — a direção é o que a pessoa escolhe primeiro —
    e a forma de escudo é o que diz que aquela resposta elimina em vez de descontar. */
-.acoes button.b-ine-nao { color: var(--nao);
-                          border-color: color-mix(in srgb, var(--nao) 35%, var(--linha)); }
-.acoes button.b-ine-sim { color: var(--sim);
-                          border-color: color-mix(in srgb, var(--sim) 35%, var(--linha)); }
-.acoes button.b-ine-nao svg, .acoes button.b-ine-sim svg { width: 26px; height: 26px; }
-.acoes button:hover { background: var(--realce); }
-
-
-/* Encerrar agora: apertar e segurar. A barra que enche é o tempo de desistir —
-   soltar antes do fim cancela, e o zero volta sem transição para isso ficar óbvio. */
-.encerrar { position: relative; overflow: hidden; display: block; margin: 1.6rem auto 0;
-            padding: .5rem 1.2rem; border: 1px solid var(--linha); border-radius: 999px;
-            background: var(--caixa); color: var(--fg3); font-size: .78rem;
-            cursor: pointer; touch-action: none; user-select: none; -webkit-user-select: none; }
-.encerrar:hover { color: var(--fg2); background: var(--realce); }
-.encerrar span { position: relative; z-index: 1; }
-.encerrar .carga { position: absolute; left: 0; top: 0; bottom: 0; width: 0;
-                   background: color-mix(in srgb, var(--nao) 22%, transparent); }
-.encerrar.carregando { color: var(--fg); border-color: color-mix(in srgb, var(--nao) 45%, var(--linha)); }
-.encerrar.carregando .carga { width: 100%; transition: width .9s linear; }
-@media (prefers-reduced-motion: reduce) {
-  .encerrar.carregando .carga { transition: width .9s steps(6); }
+.acoes button.b-ine-nao { --cor: var(--nao-vivo); }
+.acoes button.b-ine-sim { --cor: var(--sim-vivo); }
+.acoes button.b-ine-nao svg, .acoes button.b-ine-sim svg { width: 50%; height: 50%; }
+@media (hover: hover) {
+  .acoes button:hover { background: var(--cor); color: var(--sobre); border-color: var(--cor); transform: scale(1.06); }
 }
+.acoes button:active { background: var(--cor); color: var(--sobre); border-color: var(--cor); transform: scale(.9); }
+.acoes button.b-ine-nao, .acoes button.b-ine-sim { touch-action: none; }
+.acoes button.carregando { background: var(--cor); color: var(--sobre); border-color: var(--cor); }
 
 /* A única ação cuja consequência não se adivinha pelo rótulo. A legenda some assim
    que a pessoa usa o escudo uma vez — quem nunca usou é quem precisa dela. */
-.legenda-ine { max-width: 30rem; margin: .6rem auto 0; text-align: center;
-               font-size: .72rem; line-height: 1.45; color: var(--fg3); }
-.legenda-ine b { color: var(--ine); font-weight: 650; }
+.legenda-ine { max-width: 30rem; margin: .5rem auto 0; text-align: center;
+               font-size: .76rem; line-height: 1.4; color: var(--fg3); }
+.legenda-ine b { color: var(--ine); font-weight: 700; }
+
+/* Encerrar agora: apertar e segurar. A barra que enche é o tempo de desistir —
+   soltar antes do fim cancela, e o zero volta sem transição para isso ficar óbvio. */
+.encerrar { position: relative; overflow: hidden; display: block; margin: .9rem auto 0;
+            padding: .5rem 1.1rem; border-radius: 999px; background: transparent;
+            color: var(--fg3); font-size: .8rem; font-weight: 600;
+            cursor: pointer; touch-action: none; user-select: none; -webkit-user-select: none;
+            transition: color .15s ease, background .15s ease; }
+.encerrar:hover { color: var(--fg); background: var(--realce); }
+.encerrar span { position: relative; z-index: 1; }
+.encerrar .carga { position: absolute; inset: 0; transform: scaleX(0); transform-origin: left;
+                   background: color-mix(in srgb, var(--nao-vivo) 24%, transparent); }
+.encerrar.carregando { color: var(--fg); background: var(--realce); }
+.encerrar.carregando .carga { transform: scaleX(1); transition: transform .9s linear; }
+@media (prefers-reduced-motion: reduce) {
+  .encerrar.carregando .carga { transition: transform .9s steps(6); }
+}
 
 /* Os dois inegociáveis pedem apertar-e-segurar: eles eliminam candidaturas de vez, e
    ficavam a um toque acidental de distância dos botões de resposta simples. Quem se
-   enche é o CARTÃO, não o botão — o dedo cobre um círculo de 56px inteiro, e ali o
-   progresso ficava escondido justamente de quem precisa vê-lo. */
-.acoes button.b-ine-nao, .acoes button.b-ine-sim { touch-action: none; }
-.acoes button.b-ine-nao.carregando { border-color: var(--nao); }
-.acoes button.b-ine-sim.carregando { border-color: var(--sim); }
-
-/* A moldura recorta nos cantos arredondados; o filho é que cresce. Sem ela o
-   preenchimento a meia altura teria os cantos de cima redondos, no meio do cartão. */
-.cartao .carga-cartao { position: absolute; inset: 0; border-radius: 18px; overflow: hidden;
+   enche é o CARTÃO, não o botão — o dedo cobre o círculo inteiro, e ali o progresso
+   ficava escondido justamente de quem precisa vê-lo. A moldura recorta nos cantos
+   arredondados; o filho é que cresce. */
+.cartao .carga-cartao { position: absolute; inset: 0; border-radius: 24px; overflow: hidden;
                         z-index: 5; pointer-events: none; }
 .cartao .carga-cartao b { position: absolute; left: 0; right: 0; bottom: 0; height: 0; }
 @keyframes encher { from { height: 0; } to { height: 100%; } }
 .cartao.carregando-nao .carga-cartao b,
 .cartao.carregando-sim .carga-cartao b { animation: encher .8s linear forwards; }
 .cartao.carregando-nao .carga-cartao b {
-  background: linear-gradient(to top, color-mix(in srgb, var(--nao) 44%, transparent),
-                                      color-mix(in srgb, var(--nao) 6%, transparent)); }
+  background: linear-gradient(to top, color-mix(in srgb, var(--nao-vivo) 70%, transparent),
+                                      color-mix(in srgb, var(--nao-vivo) 15%, transparent)); }
 .cartao.carregando-sim .carga-cartao b {
-  background: linear-gradient(to top, color-mix(in srgb, var(--sim) 44%, transparent),
-                                      color-mix(in srgb, var(--sim) 6%, transparent)); }
+  background: linear-gradient(to top, color-mix(in srgb, var(--sim-vivo) 70%, transparent),
+                                      color-mix(in srgb, var(--sim-vivo) 15%, transparent)); }
 @media (prefers-reduced-motion: reduce) {
   .cartao.carregando-nao .carga-cartao b,
   .cartao.carregando-sim .carga-cartao b { animation: encher .8s steps(6) forwards; }
 }
 
 /* Recado passageiro para quem só tocou. Fica no meio da tela, longe do polegar. */
-.dica { position: fixed; left: 50%; top: 48%; transform: translate(-50%, -50%) scale(.96);
-        z-index: 60; max-width: 17rem; text-align: center;
-        padding: .7rem 1.1rem; border-radius: 12px;
-        background: var(--fg); color: var(--bg); font-size: .86rem; line-height: 1.35;
-        box-shadow: 0 8px 28px rgb(0 0 0 / .22);
+.dica { position: fixed; left: 50%; top: 46%; transform: translate(-50%, -50%) scale(.96);
+        z-index: 60; max-width: 18rem; text-align: center;
+        padding: .75rem 1.15rem; border-radius: 14px;
+        background: var(--fg); color: var(--bg); font-size: .88rem; font-weight: 600; line-height: 1.35;
+        box-shadow: 0 10px 30px rgb(0 0 0 / .25);
         opacity: 0; pointer-events: none;
-        transition: opacity .16s ease, transform .16s ease; }
+        transition: opacity .16s ease, transform .16s cubic-bezier(.2, .8, .2, 1); }
 .dica.visivel { opacity: 1; transform: translate(-50%, -50%) scale(1); }
 @media (prefers-reduced-motion: reduce) { .dica { transition: opacity .16s ease; } }
 
 /* ── overlay do inegociável ───────────────────────────────────────────────── */
-.overlay { position: absolute; inset: 0; background: var(--ine-bg); border-radius: 18px;
-           border: 2px solid var(--ine); padding: 1.6rem 1.4rem; display: flex;
-           flex-direction: column; justify-content: center; gap: .8rem; z-index: 6; }
-.overlay h3 { color: var(--ine); }
-.overlay .escolhas { display: grid; gap: .6rem; }
-.overlay .escolhas button { border: 1px solid var(--linha); background: var(--caixa);
-                            border-radius: 12px; padding: .6rem .85rem; text-align: left; }
+/* Cobre o cartão com a superfície da página: aqui a cor do tema sai de cena e o
+   que fala é a consequência. Deixa espaço no pé para os botões que invadem a borda. */
+.overlay { position: absolute; inset: 0; border-radius: 24px;
+           padding: 1.5rem 1.4rem 3.2rem; display: flex; color: #fff;
+           flex-direction: column; justify-content: flex-end; gap: .8rem; z-index: 6;
+           background: hsl(var(--h) 55% 30%);
+           background: linear-gradient(172deg, oklch(calc(var(--cartao-l1) - .12) var(--cartao-c) var(--h)) 0%,
+                                               oklch(calc(var(--cartao-l2) - .10) var(--cartao-c) var(--h)) 100%);
+           box-shadow: var(--sombra); }
+/* O cartão continua legível por baixo da pergunta de lado: mesmo tema, mesmo título,
+   mesma pergunta, um degrau menores para caber com as duas escolhas. */
+.overlay { gap: 0; overflow-y: auto; scrollbar-width: none; }
+.overlay h2 { font-size: clamp(1.5rem, 6.2vw, 1.8rem); line-height: 1.05; margin: .8rem 0 .5rem;
+              letter-spacing: -.03em; }
+.overlay .pergunta { font-size: clamp(1.02rem, 4.2vw, 1.15rem); font-weight: 500; line-height: 1.35;
+                     padding: 0 0 1rem; color: rgb(255 255 255 / .94); text-wrap: pretty; }
+.overlay h3 { color: #fff; font-size: .78rem; font-weight: 800; text-transform: none; letter-spacing: .02em;
+              margin: 0 0 .55rem; opacity: .92; }
+.overlay .escolhas { display: grid; gap: .6rem; margin-bottom: .8rem; }
+/* as duas escolhas são pílulas cheias na cor da resposta — a mesma gramática dos
+   botões redondos, que também se enchem ao apertar */
+.overlay .escolhas button { --cor: var(--fg2); background: var(--cor); color: var(--sobre);
+                            border-radius: 18px; padding: .8rem 1rem; text-align: left;
+                            transition: transform .15s cubic-bezier(.2, .8, .2, 1), filter .15s ease; }
+.overlay .escolhas button:hover { filter: brightness(1.06); }
+.overlay .escolhas button:active { transform: scale(.98); }
 .overlay .escolhas .rot { display: flex; align-items: center; gap: .45rem;
-                          font-size: .92rem; font-weight: 650; }
-.overlay .escolhas .rot svg { width: 17px; height: 17px; flex: 0 0 auto; }
+                          font-size: 1.05rem; font-weight: 800; }
+.overlay .escolhas .rot svg { width: 19px; height: 19px; flex: 0 0 auto; }
 /* mesma leitura de cor dos botões grandes do cartão: verde concorda, vermelho discorda */
-.overlay .escolhas .b-sim { color: var(--sim); border-color: color-mix(in srgb, var(--sim) 45%, var(--linha)); }
-.overlay .escolhas .b-nao { color: var(--nao); border-color: color-mix(in srgb, var(--nao) 45%, var(--linha)); }
-.overlay .escolhas .b-sim:hover { background: color-mix(in srgb, var(--sim) 7%, var(--caixa)); }
-.overlay .escolhas .b-nao:hover { background: color-mix(in srgb, var(--nao) 7%, var(--caixa)); }
-.overlay .escolhas button small { display: block; font-weight: 400; color: var(--fg2);
-                                  font-size: .76rem; margin-top: .2rem; }
-.overlay .voltar { align-self: center; color: var(--fg2); font-size: .85rem; text-decoration: underline; }
+.overlay .escolhas .b-sim { --cor: var(--sim); }
+.overlay .escolhas .b-nao { --cor: var(--nao); }
+.overlay .escolhas button small { display: block; font-weight: 600; opacity: .9;
+                                  font-size: .8rem; margin-top: .2rem; line-height: 1.35; }
+.overlay .voltar { align-self: center; color: rgb(255 255 255 / .92); font-size: .88rem; font-weight: 700;
+                   text-decoration: underline; text-underline-offset: 3px; }
+
+/* ── abertura ─────────────────────────────────────────────────────────────── */
+/* A cor da marca ocupa a tela inteira; o produto se apresenta antes de pedir
+   qualquer coisa. Mesma cena no claro e no escuro. */
+.tela.abertura { max-width: none; min-height: 100dvh; padding: 0; color: #fff;
+                 justify-content: center; text-align: center;
+                 background: #fd267a;
+                 background: linear-gradient(160deg, var(--marca1) 0%, var(--marca2) 100%); }
+/* véu no pé, como no cartão: a letra miúda de baixo passa de 4.5:1 sem trocar de cor */
+.tela.abertura::before { content: ""; position: fixed; inset: 0; z-index: 0; pointer-events: none;
+                         background: linear-gradient(to bottom, transparent 40%, rgb(0 0 0 / .22)); }
+.abertura-in { position: relative; z-index: 1; width: 100%; max-width: 30rem; padding: 3rem 1.5rem 2.5rem;
+               display: flex; flex-direction: column; align-items: center; gap: .4rem; }
+.abertura-in .marca { color: #fff; --marca-check: var(--marca1); font-size: clamp(3rem, 12vw, 3.8rem);
+                      letter-spacing: -.045em; gap: .5rem; line-height: 1; margin-bottom: .2rem; }
+.abertura-in .marca svg { width: .82em; height: .82em; }
+.abertura-in .marca span { background-image: none; background-color: #fff; }   /* sobre o degradê, o nome é branco */
+.abertura .slogan { font-size: clamp(1.3rem, 5.4vw, 1.55rem); line-height: 1.25; font-weight: 700;
+                    text-wrap: balance; margin: .6rem 0 .5rem; max-width: 20ch; }
+.abertura .meta { font-size: .9rem; font-weight: 600; color: rgb(255 255 255 / .92); margin: 0 0 1.6rem; }
+.abertura .nota { max-width: 26rem; margin: 0 0 .4rem; }
+.abertura .nota h3 { color: #fff; font-size: 1.05rem; margin-bottom: .25rem; }
+.abertura .nota .mini { color: rgb(255 255 255 / .92); font-size: .9rem; }
+.abertura .comecar { background: #fff; color: var(--botao1); border-radius: 999px;
+                     padding: 1rem 2.6rem; font-weight: 800; font-size: 1.1rem; margin-top: 1.4rem;
+                     box-shadow: 0 8px 24px rgb(0 0 0 / .22), 0 1px 3px rgb(0 0 0 / .18);
+                     transition: transform .15s cubic-bezier(.2, .8, .2, 1), box-shadow .15s ease; }
+.abertura .comecar:hover { transform: translateY(-1px); box-shadow: 0 12px 30px rgb(0 0 0 / .26), 0 1px 3px rgb(0 0 0 / .18); }
+.abertura .comecar:active { transform: scale(.97); }
+.abertura .recomecar { margin-top: 1rem; color: rgb(255 255 255 / .9); font-weight: 600; font-size: .9rem;
+                       text-decoration: underline; text-underline-offset: 3px; }
+.abertura :focus-visible { outline-color: #fff; }
+
+/* ── resultado ────────────────────────────────────────────────────────────── */
+.tela[data-tela="resultado"] h1 { font-size: 1.85rem; margin: .2rem 0 1rem; align-self: flex-start; }
 
 /* Seletor de ordenação: um trilho com a marca deslizando entre as três leituras.
    A marca move-se em vez de piscar para deixar claro que é a MESMA lista sendo
    reordenada, e não três telas diferentes. */
 .ordenar { position: relative; display: grid; grid-auto-flow: column;
-           grid-auto-columns: 1fr; width: min(26rem, 100%); margin: .2rem auto 1.1rem;
-           padding: 3px; border: 1px solid var(--linha); border-radius: 999px;
-           background: var(--caixa); }
-.ordenar .marca-ordem { position: absolute; top: 3px; bottom: 3px; border-radius: 999px;
-                        background: var(--realce); border: 1px solid var(--linha);
-                        transition: left .22s cubic-bezier(.2,.8,.3,1); }
-.ordenar button { position: relative; z-index: 1; padding: .45rem .3rem; border-radius: 999px;
-                  font-size: .78rem; color: var(--fg3); white-space: nowrap; cursor: pointer; }
-.ordenar button[aria-pressed="true"] { color: var(--fg); font-weight: 650; }
-.ordenar button:hover { color: var(--fg2); }
+           grid-auto-columns: 1fr; width: min(26rem, 100%); margin: 0 auto 1rem;
+           padding: 4px; border-radius: 999px; background: var(--realce); }
+.ordenar .marca-ordem { position: absolute; top: 4px; bottom: 4px; border-radius: 999px;
+                        background: var(--caixa); box-shadow: var(--sombra-botao);
+                        transition: left .26s cubic-bezier(.2, .8, .2, 1); }
+.ordenar button { position: relative; z-index: 1; padding: .5rem .3rem; border-radius: 999px;
+                  font-size: .82rem; font-weight: 600; color: var(--fg3); white-space: nowrap; cursor: pointer;
+                  transition: color .15s ease; }
+.ordenar button[aria-pressed="true"] { color: var(--fg); font-weight: 800; }
+.ordenar button:hover { color: var(--fg); }
 @media (prefers-reduced-motion: reduce) { .ordenar .marca-ordem { transition: none; } }
 
-/* ── resultado ────────────────────────────────────────────────────────────── */
 .grafico { width: 100%; }
-.raia { display: grid; grid-template-columns: 1fr; gap: .2rem; padding: .55rem 0;
-        border-bottom: 1px solid var(--linha); }
+/* Uma raia por candidatura: a posição num círculo (como um retrato), nome e sigla,
+   a contagem, e a barra por baixo. Toca-se a raia inteira. */
+.raia { padding: .35rem 0; border-bottom: 1px solid var(--linha); }
 .raia:last-child { border-bottom: 0; }
-.raia .quem { display: flex; align-items: baseline; gap: .4rem; font-size: .92rem;
-              width: 100%; text-align: left; padding: .25rem .5rem; margin: 0 -.5rem .1rem;
-              width: calc(100% + 1rem); border-radius: 8px; cursor: pointer; }
-.raia .quem .conta { margin-left: auto; font-size: .74rem; color: var(--nao); white-space: nowrap; }
-.raia .quem .conta.acordo { color: var(--sim); }
-.raia .quem .seta { font-size: 1rem; color: var(--fg3); flex: 0 0 auto; }
+.raia .quem { display: grid; grid-template-columns: auto 1fr auto auto; align-items: center;
+              column-gap: .7rem; row-gap: .15rem; width: 100%; text-align: left;
+              padding: .55rem .5rem; margin: 0 -.5rem; width: calc(100% + 1rem);
+              border-radius: 16px; cursor: pointer; transition: background .15s ease; }
 .raia .quem:hover { background: var(--realce); }
-.raia .quem:hover .seta { color: var(--acento); transform: translateX(2px); }
-.raia .quem .seta { transition: transform .15s ease, color .15s ease; }
-
-.raia .pos { font-family: var(--mono); font-size: .78rem; color: var(--fg3);
-             min-width: 1.9em; text-align: right; flex: 0 0 auto; }
-.raia.topo .pos { color: var(--acento); font-weight: 700; }
-.raia .quem b { font-weight: 650; }
-.raia .quem em { font-style: normal; font-size: .74rem; color: var(--fg3); }
-.raia.topo .quem b { color: var(--acento); }
-.raia .barra { display: flex; height: 15px; border-radius: 4px; overflow: hidden; background: var(--linha); }
+.raia .pos { grid-row: 1 / span 2; width: 42px; height: 42px; border-radius: 50%;
+             display: grid; place-items: center; font-weight: 800; font-size: 1rem;
+             color: var(--fg2); background: var(--realce); }
+.raia.topo .pos { color: #fff; background: linear-gradient(150deg, var(--marca1), var(--marca2)); }
+.raia .nome { display: flex; align-items: baseline; gap: .4rem; flex-wrap: wrap; min-width: 0; font-size: 1rem; }
+.raia .nome b { font-weight: 800; letter-spacing: -.01em; }
+.raia .nome em { font-style: normal; font-size: .78rem; font-weight: 600; color: var(--fg3); }
+.raia .nome em.lider { color: var(--acento); }
+.raia .nome em.fora { color: var(--nao); }
+.raia .conta { grid-column: 3; grid-row: 1 / span 2; font-size: .78rem; font-weight: 700; color: var(--nao);
+               white-space: nowrap; }
+.raia .conta.acordo { color: var(--sim); }
+.raia .seta { grid-column: 4; grid-row: 1 / span 2; color: var(--fg3); flex: 0 0 auto; display: grid;
+              transition: transform .15s ease, color .15s ease; }
+.raia .seta svg { width: 18px; height: 18px; }
+.raia .quem:hover .seta { color: var(--fg); transform: translateX(2px); }
+.raia .barra { grid-column: 2 / span 3; display: flex; height: 10px; border-radius: 999px; overflow: hidden;
+               background: var(--realce); }
 .raia .barra i { display: block; height: 100%; }
-.raia .barra .a { background: var(--sim); }
-.raia .barra .d { background: var(--nao); }
-.raia .barra .s { background: repeating-linear-gradient(45deg, var(--linha), var(--linha) 3px, transparent 3px, transparent 6px); }
-.raia.morta { opacity: .5; }
-.raia.morta .quem b { text-decoration: line-through; }
-.chave { display: flex; gap: 1rem; flex-wrap: wrap; font-size: .76rem; color: var(--fg2); margin: .6rem 0 1.2rem; }
-.chave i { display: inline-block; width: 11px; height: 11px; border-radius: 3px; margin-right: .3rem;
+.raia .barra .a { background: var(--sim-vivo); }
+.raia .barra .d { background: var(--nao-vivo); }
+.raia .barra .s { background: repeating-linear-gradient(-45deg, var(--linha) 0 3px, transparent 3px 7px); }
+.raia.morta { opacity: .55; }
+.raia.morta .nome b { text-decoration: line-through; }
+/* entrada do resultado: as raias sobem uma atrás da outra, uma vez só */
+@keyframes subir { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+.raia { animation: subir .45s cubic-bezier(.2, .8, .2, 1) both; animation-delay: calc(var(--i, 0) * 45ms); }
+@media (prefers-reduced-motion: reduce) { .raia { animation: none; } }
+
+.chave { display: flex; gap: .4rem 1rem; flex-wrap: wrap; font-size: .78rem; font-weight: 600;
+         color: var(--fg2); margin: .4rem 0 1rem; }
+.chave i { display: inline-block; width: 12px; height: 12px; border-radius: 4px; margin-right: .35rem;
            vertical-align: -1px; }
-.aviso { border: 1px solid var(--linha); border-left: 4px solid var(--nao); background: var(--nao-bg);
-         padding: .8rem .9rem; border-radius: 4px; margin: 0 0 1.2rem; width: 100%; }
-.aviso h3 { color: var(--nao); font-size: .95rem; }
+.chave i.s { background: repeating-linear-gradient(-45deg, var(--linha) 0 2px, var(--realce) 2px 5px); }
+
+/* recados: texto solto, sem caixa — o título faz o trabalho */
+.nota { width: 100%; margin: 0 0 1.1rem; }
+.nota h3 { font-size: 1.05rem; margin-bottom: .25rem; }
+.nota.perigo h3 { color: var(--nao); }
+.nota .mini { color: var(--fg2); }
+/* cartões de ação: superfície tingida com um botão dentro (continuar, responder o resto) */
+.aviso { background: var(--realce); padding: 1.1rem 1.2rem; border-radius: 20px; margin: 0 0 1rem; width: 100%; }
+.aviso h3 { font-size: 1.1rem; margin-bottom: .3rem; }
+.aviso.afinar { background: color-mix(in srgb, var(--marca1) 9%, var(--bg)); }
+.aviso.afinar h3 { color: var(--acento); }
+.aviso .mini { color: var(--fg2); }
+/* botão principal dentro de uma caixa (continuar, responder os restantes) */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: .4rem;
+       border-radius: 999px; padding: .65rem 1.3rem; font-weight: 800; font-size: .92rem;
+       color: #fff; background: linear-gradient(135deg, var(--botao1), var(--botao2));
+       box-shadow: 0 6px 16px color-mix(in srgb, var(--botao1) 30%, transparent);
+       transition: transform .15s cubic-bezier(.2, .8, .2, 1), box-shadow .15s ease; }
+.btn:hover { transform: translateY(-1px); box-shadow: 0 8px 20px color-mix(in srgb, var(--botao1) 38%, transparent); }
+.btn:active { transform: scale(.97); }
+.btn.contorno { color: var(--fg); background: var(--caixa); box-shadow: none; border: 1.5px solid var(--linha); }
+.btn.contorno:hover { background: var(--realce); box-shadow: none; }
+
 /* fileira de ações do resultado — não confundir com o rodapé da página (.rodape) */
 .acoes-final { width: 100%; margin-top: 1.6rem; display: flex; gap: .6rem; flex-wrap: wrap; justify-content: center; }
 .acoes-final button, .acoes-final a {
-  border: 1px solid var(--linha); background: var(--caixa); border-radius: 999px;
-  padding: .55rem 1.1rem; font-size: .9rem; color: inherit; text-decoration: none;
+  border: 1.5px solid var(--linha); background: var(--caixa); border-radius: 999px;
+  padding: .6rem 1.2rem; font-size: .9rem; font-weight: 700; color: inherit; text-decoration: none;
+  transition: background .15s ease;
 }
-.planos { width: 100%; font-size: .88rem; margin-top: 1rem; }
-.planos a { display: flex; justify-content: space-between; gap: .6rem; padding: .5rem 0;
-            border-bottom: 1px solid var(--linha); color: inherit; text-decoration: none; }
-.planos a span:last-child { color: var(--acento); white-space: nowrap; }
-.abertura { justify-content: center; text-align: center; gap: .4rem; }
-.abertura h1 { font-size: 2.4rem; margin-bottom: .1rem; }
-.abertura .slogan { font-size: 1.3rem; line-height: 1.3; font-weight: 500; text-wrap: balance;
-                    margin: .8rem 0 1rem; max-width: 22ch; }
-.abertura .comecar { background: var(--acento); color: #fff; border-radius: 999px;
-                     padding: .85rem 2.2rem; font-weight: 650; margin-top: 1rem; }
+.acoes-final button:hover, .acoes-final a:hover { background: var(--realce); }
+.tela h3.secao { width: 100%; font-size: 1.1rem; margin-top: 1.4rem; }
+.planos { width: 100%; font-size: .9rem; }
+.planos a { display: flex; justify-content: space-between; align-items: center; gap: .6rem; padding: .6rem .2rem;
+            border-bottom: 1px solid var(--linha); color: inherit; text-decoration: none; font-weight: 600;
+            transition: background .15s ease; border-radius: 8px; }
+.planos a:hover { background: var(--realce); }
+.planos a span:last-child { color: var(--acento); white-space: nowrap; font-weight: 700; font-size: .84rem; }
 
 /* ── painel de uma candidatura ────────────────────────────────────────────────
    Folha sobreposta em vez de acordeão: a citação é literal, portanto longa, e
@@ -380,85 +538,89 @@ button:focus-visible { outline: 2px solid var(--acento); outline-offset: 3px; bo
 .painel-fundo[hidden] { display: none; }
 .painel-fundo { position: fixed; inset: 0; z-index: 50; display: flex;
                 justify-content: center; align-items: flex-end;
-                background: color-mix(in srgb, var(--fg) 45%, transparent);
-                opacity: 0; transition: opacity .18s ease; }
+                background: rgb(17 20 24 / .5);
+                opacity: 0; transition: opacity .2s ease; }
 .painel-fundo.visivel { opacity: 1; }
 body.travado { overflow: hidden; }
 
 .painel { display: flex; flex-direction: column; width: min(46rem, 100%);
-          max-height: min(92vh, 100%); background: var(--bg);
-          border: 1px solid var(--linha); border-bottom: 0;
-          border-radius: 16px 16px 0 0; box-shadow: 0 -8px 40px rgb(0 0 0 / .18);
-          transform: translateY(14px); transition: transform .22s cubic-bezier(.2,.8,.3,1); }
+          max-height: min(92dvh, 100%); background: var(--bg);
+          border-radius: 24px 24px 0 0; box-shadow: 0 -10px 40px rgb(0 0 0 / .25);
+          transform: translateY(24px); transition: transform .28s cubic-bezier(.2, .8, .2, 1); }
 .painel-fundo.visivel .painel { transform: none; }
 
-.painel > header { position: sticky; top: 0; z-index: 1; padding: 1rem 1.3rem .8rem;
+.painel > header { position: sticky; top: 0; z-index: 1; padding: .6rem 1.3rem .9rem;
                    background: var(--bg); border-bottom: 1px solid var(--linha);
-                   border-radius: 16px 16px 0 0; }
-.painel .cab { display: flex; align-items: center; gap: .6rem; }
-.painel .cab .pos { font-family: var(--mono); font-size: .82rem; color: var(--fg3); flex: 0 0 auto; }
-.painel .cab .nome { display: flex; align-items: baseline; gap: .45rem;
-                     flex-wrap: wrap; min-width: 0; }
-.painel .cab .nome b { font-size: 1.12rem; font-weight: 650; }
-.painel .cab .nome em { font-style: normal; font-size: .78rem; color: var(--fg3); }
+                   border-radius: 24px 24px 0 0; }
+/* puxador, como numa folha de celular */
+.painel > header::before { content: ""; display: block; width: 40px; height: 4px; border-radius: 99px;
+                           background: var(--linha); margin: 0 auto .8rem; }
+.painel .cab { display: flex; align-items: center; gap: .7rem; }
+.painel .cab .pos { width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center;
+                    font-weight: 800; color: var(--fg2); background: var(--realce); flex: 0 0 auto; }
+.painel .cab .pos.topo { color: #fff; background: linear-gradient(150deg, var(--marca1), var(--marca2)); }
+.painel .cab .nome { display: flex; align-items: baseline; gap: .45rem; flex-wrap: wrap; min-width: 0; }
+.painel .cab .nome b { font-size: 1.2rem; font-weight: 800; letter-spacing: -.01em; }
+.painel .cab .nome em { font-style: normal; font-size: .8rem; font-weight: 600; color: var(--fg3); }
 .painel .cab .nome em.morto { color: var(--nao); }
 .painel .fechar { margin-left: auto; flex: 0 0 auto; display: grid; place-items: center;
-                  width: 2.1rem; height: 2.1rem; border-radius: 999px;
-                  border: 1px solid var(--linha); background: var(--caixa); color: var(--fg2); }
-.painel .fechar svg { width: 1rem; height: 1rem; }
-.painel .fechar:hover { background: var(--realce); color: var(--fg); }
-.painel > header .barra { display: flex; height: 10px; margin-top: .7rem;
-                          border-radius: 4px; overflow: hidden; background: var(--linha); }
+                  width: 2.3rem; height: 2.3rem; border-radius: 999px;
+                  background: var(--realce); color: var(--fg2); transition: background .15s ease, color .15s ease; }
+.painel .fechar svg { width: 1.05rem; height: 1.05rem; }
+.painel .fechar:hover { background: var(--linha); color: var(--fg); }
+.painel > header .barra { display: flex; height: 10px; margin-top: .8rem;
+                          border-radius: 999px; overflow: hidden; background: var(--realce); }
 .painel > header .barra i { display: block; height: 100%; }
-.painel > header .barra .a { background: var(--sim); }
-.painel > header .barra .d { background: var(--nao); }
-.painel > header .barra .s { background: repeating-linear-gradient(45deg, var(--linha),
-                             var(--linha) 3px, transparent 3px, transparent 6px); }
-.painel .contagem { margin: .45rem 0 0; font-size: .76rem; color: var(--fg3); }
+.painel > header .barra .a { background: var(--sim-vivo); }
+.painel > header .barra .d { background: var(--nao-vivo); }
+.painel > header .barra .s { background: repeating-linear-gradient(-45deg, var(--linha) 0 3px, transparent 3px 7px); }
+.painel .contagem { margin: .5rem 0 0; font-size: .78rem; font-weight: 600; color: var(--fg3); }
 
 .painel .corpo { overflow-y: auto; overscroll-behavior: contain;
-                 padding: .4rem 1.3rem 1.6rem; -webkit-overflow-scrolling: touch; }
+                 padding: .4rem 1.3rem 1.6rem; -webkit-overflow-scrolling: touch;
+                 scrollbar-width: thin; scrollbar-color: var(--linha) transparent; }
 /* Cada bloco leva um fundo de sua cor e um título que gruda no topo da rolagem —
    sem isso, no meio da lista não dá para saber se o que está na tela é divergência
    ou concordância. O fundo do título é opaco de propósito: o texto passa por baixo. */
 .painel .grupo { margin: 0 -1.3rem; padding: 0 1.3rem .6rem; }
-.painel .grupo.d { background: color-mix(in srgb, var(--nao) 5%, transparent); }
-.painel .grupo.a { background: color-mix(in srgb, var(--sim) 5%, transparent); }
+.painel .grupo.d { background: color-mix(in srgb, var(--nao-vivo) 5%, transparent); }
+.painel .grupo.a { background: color-mix(in srgb, var(--sim-vivo) 5%, transparent); }
 .painel .grupo h3 { position: sticky; top: 0; z-index: 1;
-                    margin: 0 -1.3rem .2rem; padding: .5rem 1.3rem;
+                    margin: 0 -1.3rem .2rem; padding: .55rem 1.3rem;
                     font-size: .74rem; text-transform: uppercase;
-                    letter-spacing: .08em; font-weight: 700; }
-.painel .grupo.d h3 { color: var(--nao); border-bottom: 1px solid color-mix(in srgb, var(--nao) 22%, transparent);
-                      background: color-mix(in srgb, var(--nao) 11%, var(--bg)); }
-.painel .grupo.a h3 { color: var(--sim); border-bottom: 1px solid color-mix(in srgb, var(--sim) 22%, transparent);
-                      background: color-mix(in srgb, var(--sim) 11%, var(--bg)); }
-.painel .item { padding: .85rem 0; border-bottom: 1px solid var(--linha); }
+                    letter-spacing: .1em; font-weight: 800; }
+.painel .grupo.d h3 { color: var(--nao); background: color-mix(in srgb, var(--nao-vivo) 11%, var(--bg)); }
+.painel .grupo.a h3 { color: var(--sim); background: color-mix(in srgb, var(--sim-vivo) 11%, var(--bg)); }
+.painel .item { padding: .9rem 0; border-bottom: 1px solid var(--linha); }
 .painel .item:last-of-type { border-bottom: 0; }
-.painel .grupo.d .item { border-bottom-color: color-mix(in srgb, var(--nao) 15%, transparent); }
-.painel .grupo.a .item { border-bottom-color: color-mix(in srgb, var(--sim) 15%, transparent); }
-.painel .item b { font-size: .95rem; font-weight: 650; line-height: 1.35; }
-.painel .item em.fora { font-style: normal; font-size: .68rem; color: var(--fg3);
-                        border: 1px solid var(--linha); border-radius: 999px;
-                        padding: .05rem .4rem; margin-left: .4rem; white-space: nowrap; }
-.painel .cit { margin: .4rem 0 0; font-size: .88rem; line-height: 1.6; color: var(--fg2);
-               border-left: 2px solid var(--linha); padding: .1rem 0 .1rem .8rem; }
-.painel .cit .fonte { display: block; font-size: .72rem; color: var(--fg3); margin-top: .35rem; }
-.painel .plano { display: inline-block; margin-top: 1.2rem; font-size: .88rem; color: var(--acento); }
-.painel .voltar { display: block; width: 100%; margin-top: 1.2rem; padding: .7rem;
-                  border: 1px solid var(--linha); border-radius: 999px;
-                  background: var(--caixa); font-size: .88rem; color: var(--fg2); }
+.painel .grupo.d .item { border-bottom-color: color-mix(in srgb, var(--nao-vivo) 15%, transparent); }
+.painel .grupo.a .item { border-bottom-color: color-mix(in srgb, var(--sim-vivo) 15%, transparent); }
+.painel .item b { font-size: 1rem; font-weight: 800; line-height: 1.3; letter-spacing: -.01em; }
+.painel .item em.fora { font-style: normal; font-size: .68rem; font-weight: 700; color: var(--fg3);
+                        background: var(--realce); border-radius: 999px;
+                        padding: .1rem .5rem; margin-left: .4rem; white-space: nowrap; vertical-align: 2px; }
+.painel .cit { margin: .45rem 0 0; font-size: .92rem; line-height: 1.6; color: var(--fg2);
+               border-left: 1px solid var(--linha); padding: .1rem 0 .1rem .85rem; }
+.painel .cit .fonte { display: block; font-size: .74rem; font-weight: 600; color: var(--fg3); margin-top: .4rem; }
+.painel .plano { display: inline-block; margin-top: 1.2rem; font-size: .9rem; font-weight: 700; color: var(--acento);
+                 text-decoration: none; }
+.painel .plano:hover { text-decoration: underline; text-underline-offset: 3px; }
+.painel .voltar { display: block; width: 100%; margin-top: 1.2rem; padding: .75rem;
+                  border: 1.5px solid var(--linha); border-radius: 999px;
+                  background: var(--caixa); font-size: .9rem; font-weight: 700; color: var(--fg2);
+                  transition: background .15s ease; }
 .painel .voltar:hover { background: var(--realce); color: var(--fg); }
 
 /* Em telas largas a folha vira caixa centralizada — nada de 92vh de altura vazia. */
 @media (min-width: 720px) {
   .painel-fundo { align-items: center; padding: 2rem 1rem; }
-  .painel { border-bottom: 1px solid var(--linha); border-radius: 16px;
-            box-shadow: 0 10px 50px rgb(0 0 0 / .22); max-height: 100%; }
-  .painel > header { border-radius: 16px 16px 0 0; }
+  .painel { border-radius: 24px; box-shadow: 0 20px 60px rgb(0 0 0 / .3); max-height: 100%; }
+  .painel > header { border-radius: 24px 24px 0 0; }
+  .painel > header::before { display: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .painel-fundo, .painel { transition: none; }
+  .painel-fundo, .painel, .giro, .cartao.fundo, .cartao.voando, .progresso i { transition: none; }
   .painel { transform: none; }
 }
 
@@ -469,16 +631,16 @@ body.travado { overflow: hidden; }
   margin-top: 2.5rem; padding: 16px 20px; flex-shrink: 0;
   border-top: 1px solid rgba(0, 0, 0, .1);
   background: rgba(0, 0, 0, .02);
-  color: #6b6862; font-size: .75rem; line-height: 1.5;
+  color: #626c79; font-size: .76rem; line-height: 1.5;
 }
 .rodape-in {
   max-width: 1000px; margin: 0 auto;
   display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 6px 14px;
 }
-.rodape a { color: #4a4741; text-decoration: none; }
+.rodape a { color: #4a535f; text-decoration: none; text-underline-offset: 3px; }
 .rodape a:hover { text-decoration: underline; }
 .rodape-sep { opacity: .5; }
-.rodape-lema { font-weight: 600; color: #4a4741; }
+.rodape-lema { font-weight: 700; color: #4a535f; }
 .rodape-ano { display: inline-flex; align-items: center; gap: 5px; }
 
 /* ── recolher no celular ────────────────────────────────────────────────────
@@ -507,8 +669,9 @@ body.travado { overflow: hidden; }
                                                            outline-offset: 2px; }
 }
 @media (prefers-color-scheme: dark) {
-  .rodape-abrir { border-color: rgba(255, 255, 255, .18); }
+  :root:not([data-theme="light"]) .rodape-abrir { border-color: rgba(255, 255, 255, .18); }
 }
+:root[data-theme="dark"] .rodape-abrir { border-color: rgba(255, 255, 255, .18); }
 .rodape-ano-sel { position: relative; display: inline-flex; align-items: center; }
 .rodape-ano-sel select {
   appearance: none; -webkit-appearance: none;
@@ -521,12 +684,19 @@ body.travado { overflow: hidden; }
   pointer-events: none; opacity: .6;
 }
 @media (prefers-color-scheme: dark) {
-  .rodape { border-top-color: rgba(255, 255, 255, .1); background: rgba(255, 255, 255, .03);
-            color: #918d85; }
-  .rodape a, .rodape-lema { color: #b8b4ab; }
-  .rodape-ano-sel select { background: rgba(255, 255, 255, .06);
+  :root:not([data-theme="light"]) .rodape { border-top-color: rgba(255, 255, 255, .1);
+            background: rgba(255, 255, 255, .03); color: #8e97a3; }
+  :root:not([data-theme="light"]) .rodape a,
+  :root:not([data-theme="light"]) .rodape-lema { color: #b6bdc6; }
+  :root:not([data-theme="light"]) .rodape-ano-sel select { background: rgba(255, 255, 255, .06);
                            border-color: rgba(255, 255, 255, .15); }
 }
+:root[data-theme="dark"] .rodape { border-top-color: rgba(255, 255, 255, .1);
+          background: rgba(255, 255, 255, .03); color: #8e97a3; }
+:root[data-theme="dark"] .rodape a,
+:root[data-theme="dark"] .rodape-lema { color: #b6bdc6; }
+:root[data-theme="dark"] .rodape-ano-sel select { background: rgba(255, 255, 255, .06);
+                         border-color: rgba(255, 255, 255, .15); }
 
 </style>
 </head>
@@ -1461,19 +1631,22 @@ const Z = {
 };
 
 /**
- * Um matiz por tema. Saturação e luminosidade ficam por conta do CSS, iguais para
- * todos, para que as 21 cores pareçam uma família e não um arco-íris. Temas
- * vizinhos no assunto ficam vizinhos no círculo cromático.
+ * Um matiz por tema, no círculo OKLCH (0 rosa · 30 vermelho · 60 laranja · 90 ouro ·
+ * 145 verde · 200 ciano · 250 azul · 300 roxo · 330 magenta). Luminosidade e croma
+ * ficam por conta do CSS, iguais para todos: em OKLCH isso quer dizer que as 21
+ * cores pesam o mesmo na tela e o texto branco passa em todas — em HSL o amarelo
+ * saía claro demais e o azul escuro demais com os mesmos números. Temas vizinhos no
+ * assunto ficam vizinhos no círculo.
  */
 const MATIZ = {
-  economia: 208, tributacao: 196, fiscal: 188, orcamento: 182,
-  trabalho: 28, previdencia: 40, social: 344, federativo: 222,
-  saude: 166, ambiental: 132, agrario: 104, energia: 52,
-  educacao: 272, tecnologia: 254, comunicacao: 292,
-  seguranca: 12, justica: 238, politica: 246, estado: 216,
-  externa: 228, transporte: 176,
+  economia: 245, tributacao: 235, fiscal: 225, orcamento: 215,
+  trabalho: 55, previdencia: 70, social: 5, federativo: 258,
+  saude: 175, ambiental: 150, agrario: 130, energia: 90,
+  educacao: 300, tecnologia: 285, comunicacao: 320,
+  seguranca: 30, justica: 268, politica: 275, estado: 252,
+  externa: 262, transporte: 200,
 };
-const matizDe = (d) => MATIZ[d] ?? 215;
+const matizDe = (d) => MATIZ[d] ?? 250;
 
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) =>
   ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
@@ -1498,6 +1671,26 @@ function pergunta(a) {
   const q = proxima(a);
   if (!q || q.tipo !== "eixo") return null;
   return q.fase === 1 || (Z.extra && q.fase === 4) ? q : null;
+}
+/**
+ * Os cartões de trás são as perguntas que vêm DE FATO a seguir — o motor escolhe
+ * por ganho, não pela ordem do corpus, então isto simula a resposta (sem
+ * inegociável, que muda a ordem) e pergunta ao motor o que viria. Sem isto o
+ * cartão que subia era substituído por outro no redesenho: o "pisca" relatado.
+ */
+function seguintesDe(q, n = 2) {
+  const fila = [];
+  const respostas = { ...Z.respostas, [q.id]: "indiferente" };
+  const lv = new Set(Z.linhasVermelhas);
+  while (fila.length < n) {
+    const a = analisar(CORPUS, respostas, lv, { margem: Z.margem });
+    const p = proximaPergunta(CORPUS, respostas, a.estados,
+      { linhasVermelhas: lv, margem: Z.margem, complementar: Z.extra, pularPortoes: true });
+    if (!p || p.tipo !== "eixo" || !(p.fase === 1 || (Z.extra && p.fase === 4))) break;
+    fila.push(CORPUS.eixos[p.id]);
+    respostas[p.id] = "indiferente";
+  }
+  return fila;
 }
 /**
  * Pisos de produto para aceitar a parada antecipada. A garantia do motor é sobre
@@ -1586,9 +1779,88 @@ const ICONE = {
   // ✕ — fechar o painel de uma candidatura
   fechar: SVG('<path d="M18 6 6 18M6 6l12 12"/>'),
   virar: SVG('<path d="M3 11a9 9 0 0 1 15-6.7L21 7"/><path d="M21 3v4h-4"/><path d="M21 13a9 9 0 0 1-15 6.7L3 17"/><path d="M3 21v-4h4"/>'),
+  // › — abrir a folha de uma candidatura
+  abrir: SVG('<path d="m9 6 6 6-6 6"/>'),
+  // sol e lua — o botão de tema mostra o tema para o qual ele leva
+  sol: SVG('<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>'),
+  lua: SVG('<path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/>'),
 };
+/** A marca: dois cartões, o de trás inclinado — a pilha que a pessoa vai deslizar. */
+const MARCA = `<svg viewBox="0 0 24 24" aria-hidden="true">
+  <rect x="7.5" y="2.6" width="12" height="16" rx="3" fill="currentColor" opacity=".38"
+        transform="rotate(14 13.5 10.6)"/>
+  <rect x="4" y="5" width="12" height="16" rx="3" fill="currentColor"/>
+  <path d="m7.4 13.2 1.9 1.9 3.6-3.8" fill="none" stroke="var(--marca-check, #fff)" stroke-width="1.8"
+        stroke-linecap="round" stroke-linejoin="round"/>
+</svg>`;
+
+// ── tema claro / escuro ──────────────────────────────────────────────────────
+// Sem escolha, manda o sistema. O botão alterna; escolher o que o sistema já
+// mostra apaga a escolha — assim o app volta a seguir o aparelho sem um terceiro
+// estado "automático" que ninguém entende.
+const CHAVE_T = "palanq/tema";
+const temaSistema = () => matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+const temaAtual = () => document.documentElement.dataset.theme || temaSistema();
+function alternarTema() {
+  const novo = temaAtual() === "dark" ? "light" : "dark";
+  if (novo === temaSistema()) {
+    delete document.documentElement.dataset.theme;
+    try { localStorage.removeItem(CHAVE_T); } catch {}
+  } else {
+    document.documentElement.dataset.theme = novo;
+    try { localStorage.setItem(CHAVE_T, novo); } catch {}
+  }
+  const b = document.querySelector(".tema");
+  if (b) { b.innerHTML = temaAtual() === "dark" ? ICONE.sol : ICONE.lua; b.setAttribute("aria-label", rotuloTema()); }
+}
+matchMedia("(prefers-color-scheme: dark)").addEventListener?.("change", () => {
+  const b = document.querySelector(".tema");
+  if (b) { b.innerHTML = temaAtual() === "dark" ? ICONE.sol : ICONE.lua; b.setAttribute("aria-label", rotuloTema()); }
+});
+const rotuloTema = () => temaAtual() === "dark" ? "Mudar para o tema claro" : "Mudar para o tema escuro";
+const botaoTema = () => `<button class="tema" data-ir="tema" type="button" aria-label="${rotuloTema()}">${
+  temaAtual() === "dark" ? ICONE.sol : ICONE.lua}</button>`;
+const marca = () => `<span class="marca">${MARCA}<span>Palanq</span></span>`;
 
 // ── responder ────────────────────────────────────────────────────────────────
+const LADO = { sim: [900, 0, 30], nao: [-900, 0, -30], ine: [0, -900, 0], pular: [0, 900, 0] };
+
+/**
+ * Manda o cartão embora na direção da resposta e só então troca de pergunta.
+ * Os botões precisam disto tanto quanto o arraste: sem a saída, o cartão apenas
+ * sumia e a troca não se lia como consequência do que a pessoa acabou de tocar.
+ * `dx`/`dy` carregam o deslocamento do gesto quando a origem é o arraste — é o que
+ * dá ao cartão a inclinação de quem foi empurrado, e não a de quem foi teleportado.
+ */
+function voarCartao(dir, aoFim, dx = 0, dy = 0) {
+  const el = document.getElementById("topo");
+  if (!el || el.dataset.voando) { aoFim(); return; }
+  el.dataset.voando = "1";   // dois toques rápidos não podem responder duas vezes
+  const carimbo = el.querySelector(".c-" + dir);
+  if (carimbo) carimbo.style.opacity = "1";
+  const [x, y, giro] = LADO[dir];
+  const toque = !dx && !dy;   // botão ou teclado: o cartão parte do zero, sem o impulso do gesto
+  el.classList.add("voando", toque ? "toque" : "gesto");
+  // Uma transição só anima se o navegador tiver registrado o valor inicial num
+  // recálculo anterior. Vindo do arraste ele existe (o `pointermove` já escreveu
+  // transform); vindo de um clique, não — e o cartão saltava direto para fora da
+  // tela, que era exatamente o "ele só some" relatado.
+  void el.offsetWidth;
+  el.style.transform = `translate(${x || dx}px, ${y || dy}px) rotate(${dx ? dx / 12 : giro}deg)`;
+  el.style.opacity = "0";
+  // O de trás sobe para o lugar enquanto o da frente sai: quando a tela redesenha,
+  // ele já está onde o novo cartão da frente vai ficar, e a troca não dá salto.
+  const fundo = document.querySelector(".cartao.fundo");
+  if (fundo) { fundo.classList.add("sobe"); if (toque) fundo.classList.add("lento"); }
+  setTimeout(aoFim, toque ? 600 : 440);
+}
+
+/** Direção da saída a partir da resposta. Inegociável sai por cima, como o gesto. */
+const direcaoDe = (valor, inegociavel) =>
+  inegociavel ? "ine"
+  : valor === "concordo" ? "sim"
+  : valor === "discordo" ? "nao" : "pular";
+
 function responderCartao(valor, inegociavel = false) {
   const a = olhar();
   const q = pergunta(a);
@@ -1607,18 +1879,18 @@ function responderCartao(valor, inegociavel = false) {
 // ── telas ────────────────────────────────────────────────────────────────────
 function telaAbertura() {
   const retomar = Object.keys(Z.respostas).length > 0;
-  return `<div class="abertura tela" style="padding:0">
-    <h1>Palanq</h1>
+  return `<div class="abertura-in">
+    <h1 class="marca">${MARCA}<span>Palanq</span></h1>
     <p class="slogan">No papel, qual candidato combina com você?</p>
-    <p class="mini">${CORPUS.escopo.eleicao} · ${CORPUS.escopo.cargo}</p>
-    <div class="aviso" style="text-align:left;margin-top:1.4rem">
-      <h3>Isto não recomenda voto</h3>
+    <p class="meta">${CORPUS.escopo.eleicao} · ${CORPUS.escopo.cargo}</p>
+    <div class="nota">
+      <h3>Essa não é uma recomendação de voto</h3>
       <p class="mini" style="margin:0">Comparamos o que você responde com o que está escrito nos planos
       de governo registrados. Não entra aqui nada sobre histórico, capacidade de executar, coalizão ou
       financiamento de campanha.</p>
     </div>
     <button class="comecar" data-ir="cartoes">${retomar ? "Continuar" : "Começar"}</button>
-    ${retomar ? '<button class="mini" data-ir="recomecar" style="margin-top:.8rem;text-decoration:underline">Recomeçar do zero</button>' : ""}
+    ${retomar ? '<button class="recomecar" data-ir="recomecar">Recomeçar do zero</button>' : ""}
   </div>`;
 }
 
@@ -1633,11 +1905,7 @@ function telaCartoes() {
   // Eliminar candidaturas encurta o questionário (§20), então o total muda no meio
   // do caminho. Mostrar quantas faltam em vez de "x de y" evita que isso pareça bug.
   const pct = Math.round((feitas / Math.max(feitas + faltam, 1)) * 100);
-  // dois cartões atrás, só para dar volume à pilha
-  const seguintes = divisivos
-    .filter((d) => Z.respostas[d.eixo] === undefined && d.eixo !== q.id)
-    .slice(0, 2)
-    .map((d) => CORPUS.eixos[d.eixo]);
+  const seguintes = seguintesDe(q);   // os dois que vêm a seguir, na ordem do motor
 
   // A palavra "inegociável" não diz o que o botão faz; o número de candidaturas que
   // sairiam diz. Fase 1 separa os dois lados; na fase 4 só um lado tem plano escrito,
@@ -1647,14 +1915,12 @@ function telaCartoes() {
         ? { concordo: 0, discordo: q.campo.nFalam }
         : { concordo: q.campo.nFalam, discordo: 0 })
     : { concordo: q.separa.contra, discordo: q.separa.favor };
-  const derruba = (n) => n === 0 ? "não elimina ninguém"
-    : `elimina ${n} candidatura${n > 1 ? "s" : ""}`;
   const custo = (n, lado) => n === 0
     ? `Não elimina ninguém: nenhum plano se posiciona ${lado}`
     : `Elimina ${n} candidatura${n > 1 ? "s" : ""} que ${n > 1 ? "estão" : "está"} ${lado}`;
 
   const frente = (e, comBotao) => `
-    <div class="face frente">
+    <div class="face frente" data-dominio="${esc(e.dominio || "")}">
       <div class="dominio"><i></i>${esc(e.dominio || "")}</div>
       <h2>${esc(e.label)}</h2>
       <div class="pergunta">${esc(e.pergunta)}</div>
@@ -1665,18 +1931,21 @@ function telaCartoes() {
     </div>`;
   const verso = (e) => `
     <div class="face verso">
-      <div class="rotulo">o que isso quer dizer</div>
+      <h2 class="rotulo">O que isso quer dizer</h2>
       <div class="explicacao">${esc(e.explicacao || "")}</div>
       <button class="virar" data-ir="virar">${ICONE.virar} Voltar à pergunta</button>
     </div>`;
-  const corpo = (e, comBotao) => `<div class="giro${comBotao && Z.virado ? " virado" : ""}">${frente(e, comBotao)}${comBotao ? verso(e) : ""}</div>`;
+  // Os de trás mostram a frente inteira, botão incluído: se faltasse algo, o texto
+  // subiria para ocupar o espaço quando o cartão chegasse à frente — um pisca.
+  const corpo = (e, principal) => `<div class="giro${principal && Z.virado ? " virado" : ""}">${frente(e, true)}${principal ? verso(e) : ""}</div>`;
   const tema = (e) => `style="--h:${matizDe(e.dominio)}"`;
 
   return `
   <div class="barra-topo">
-    <span class="marca">Palanq</span>
-    <div class="progresso" aria-hidden="true"><i style="width:${pct}%"></i></div>
+    ${marca()}
+    <div class="progresso" aria-hidden="true"><i style="--p:${pct / 100}"></i></div>
     <span class="mini">${faltam ? `faltam ${faltam}` : "última"}</span>
+    ${botaoTema()}
   </div>
 
   <div class="pilha">
@@ -1690,10 +1959,10 @@ function telaCartoes() {
       <i class="carga-cartao" aria-hidden="true"><b></b></i>
       ${corpo(q, true)}
       ${Z.pedindoLado ? `<div class="overlay">
-        <h3>Inegociável elimina candidatos</h3>
-        <p class="mini" style="margin:0">Nos outros temas sua resposta soma ou tira pontos. Aqui não:
-        quem estiver do lado oposto <b>sai da comparação inteira</b>, por mais que combine com você
-        em todo o resto. De que lado?</p>
+        <div class="dominio"><i></i>${esc(q.dominio || "")}</div>
+        <h2>${esc(q.label)}</h2>
+        <div class="pergunta">${esc(q.pergunta)}</div>
+        <h3>Inegociável: de que lado?</h3>
         <div class="escolhas">
           <button class="b-sim" data-resp="concordo" data-ine="1">
             <span class="rot">${ICONE.sim}Concordo!</span>
@@ -1724,8 +1993,7 @@ function telaCartoes() {
       <span>Concordo</span></div>
   </div>
   ${Z.linhasVermelhas.length ? "" : `<p class="legenda-ine"><b>Inegociável descarta quem pensa
-    diferente.</b><br>Neste tema, “não” ${derruba(elimina.discordo)}; “sim” ${
-    derruba(elimina.concordo)}.</p>`}
+    diferente.</b></p>`}
 
   <button class="encerrar" id="encerrar" type="button">
     <i class="carga" aria-hidden="true"></i>
@@ -1772,7 +2040,7 @@ function telaResultado() {
   // Duas candidaturas podem ter a mesma afinidade com barras bem diferentes.
   const posicao = posicoes(a);
 
-  const raia = (id) => {
+  const raia = (id, i) => {
     const s = est[id];
     const morto = s.estado === "eliminado";
     const lider = a.ranking.lideres.includes(id);
@@ -1780,23 +2048,23 @@ function telaResultado() {
     const p = (x) => (x / totalPeso) * 100;
     const nDiv = s.divergentes.length + s.complementar.divergentes.length;
     const nAli = s.alinhados.length + s.complementar.alinhados.length;
-    return `<div class="raia ${lider ? "topo" : ""} ${morto ? "morta" : ""}">
+    return `<div class="raia ${lider ? "topo" : ""} ${morto ? "morta" : ""}" style="--i:${i}">
       <button class="quem" data-ir="abrir" data-quem="${id}" aria-haspopup="dialog">
         ${Z.ordenar === "afinidade"
           ? `<span class="pos">${morto ? "×" : posicao[id] ? posicao[id] + "º" : "—"}</span>`
           : `<span class="pos">${morto ? "×" : "·"}</span>`}
-        <b>${esc(nomeC(id))}</b>${siglaC(id) ? `<em>${esc(siglaC(id))}</em>` : ""}
-        ${lider ? '<em style="color:var(--acento)">mais alinhado</em>' : ""}
-        ${morto ? '<em style="color:var(--nao)">fora — inegociável</em>' : ""}
+        <span class="nome"><b>${esc(nomeC(id))}</b>${siglaC(id) ? `<em>${esc(siglaC(id))}</em>` : ""}
+        ${lider ? '<em class="lider">mais alinhado</em>' : ""}
+        ${morto ? '<em class="fora">fora — inegociável</em>' : ""}</span>
         <span class="conta ${Z.ordenar === "concordancia" ? "acordo" : ""}">${
           Z.ordenar === "concordancia"
             ? (nAli ? `${nAli} concordância${nAli > 1 ? "s" : ""}` : "")
             : (nDiv ? `${nDiv} divergência${nDiv > 1 ? "s" : ""}` : "")}</span>
-        <span class="seta" aria-hidden="true">›</span>
-      </button>
-      <div class="barra" role="img" aria-label="${A ? "concorda em parte" : ""}">
-        <i class="a" style="width:${p(A)}%"></i><i class="d" style="width:${p(D)}%"></i><i class="s" style="width:${p(S)}%"></i>
-      </div></div>`;
+        <span class="seta" aria-hidden="true">${ICONE.abrir}</span>
+        <span class="barra" role="img" aria-label="${A ? "concorda em parte" : ""}">
+          <i class="a" style="width:${p(A)}%"></i><i class="d" style="width:${p(D)}%"></i><i class="s" style="width:${p(S)}%"></i>
+        </span>
+      </button></div>`;
   };
 
   const lideres = a.ranking.lideres;
@@ -1817,8 +2085,8 @@ function telaResultado() {
 
   const iOrdem = Math.max(0, ORDENS.findIndex((o) => o.id === Z.ordenar));
   return `
-  <div class="barra-topo"><span class="marca">Palanq</span></div>
-  <h1 style="font-size:1.35rem">Seu resultado</h1>
+  <div class="barra-topo">${marca()}<span style="flex:1"></span>${botaoTema()}</div>
+  <h1>Seu resultado</h1>
 
   <div class="ordenar" role="group" aria-label="Ordenar candidaturas por">
     <i class="marca-ordem" style="left:${(iOrdem * 100) / ORDENS.length}%;width:${100 / ORDENS.length}%"></i>
@@ -1826,7 +2094,7 @@ function telaResultado() {
       aria-pressed="${Z.ordenar === o.id}">${o.rotulo}</button>`).join("")}
   </div>
 
-  ${Z.encerrado ? `<div class="aviso" style="border-left-color:var(--pular)">
+  ${Z.encerrado ? `<div class="nota">
     <h3>Você encerrou antes do fim</h3>
     <p class="mini" style="margin:0">${a.decisao.estavel
       ? `Com as ${respondidas} respostas que você deu, ninguém de fora chega ao topo. ${lideres.length > 1
@@ -1841,7 +2109,7 @@ function telaResultado() {
   <div class="chave">
     <span><i style="background:var(--sim)"></i>vocês concordam</span>
     <span><i style="background:var(--nao)"></i>vocês divergem</span>
-    <span><i class="s" style="background:var(--linha)"></i>o plano não fala disso</span>
+    <span><i class="s"></i>o plano não fala disso</span>
   </div>
   <div class="grafico">${ordem.map(raia).join("")}</div>
 
@@ -1852,34 +2120,34 @@ function telaResultado() {
   empatam, se as barras são tão diferentes?</b> A posição compara o verde com o vermelho e ignora o
   hachurado: ${desigual.length > 2 ? "nenhum deles diverge" : "nenhum dos dois diverge"} de você naquilo que
   declarou. O que muda é o tamanho do plano — quem escreveu sobre mais temas tem menos hachurado.</p>` : ""}
-  ${faltam ? `<div class="aviso" style="border-left-color:var(--acento);background:var(--realce)">
-    <h3 style="color:var(--acento)">Ainda dá para afinar</h3>
+  ${faltam ? `<div class="aviso afinar">
+    <h3>Ainda dá para afinar</h3>
     <p class="mini" style="margin:0 0 .7rem">${Z.encerrado
       ? "Você pediu para ver o resultado agora."
       : "Paramos porque quem está no topo já não muda."} ${
       faltam === 1 ? "Um tema continua" : `${faltam} temas continuam`} sem resposta, e a ordem de quem vem
     depois ainda vai mudar${caladosNoTopo.length ? " — inclusive o tanto de hachurado no topo" : ""}.</p>
-    <button data-ir="continuar" style="border:1px solid var(--acento);border-radius:999px;padding:.5rem 1.1rem;background:var(--caixa)">${
+    <button class="btn" data-ir="continuar">${
       faltam === 1 ? "Responder o último" : `Responder os ${faltam} restantes`}</button>
   </div>` : ""}
 
-  ${extraFaltam && !faltam ? `<div class="aviso" style="border-left-color:var(--pular);background:var(--realce)">
-    <h3 style="color:var(--fg)">Conhecer melhor cada candidatura</h3>
+  ${extraFaltam && !faltam ? `<div class="aviso">
+    <h3>Conhecer melhor cada candidatura</h3>
     <p class="mini" style="margin:0 0 .7rem">Há ${extraFaltam} tema(s) em que as candidaturas não
     divergem entre si — por isso não entram no ranking: responder não mexe nas barras acima. Mas é onde
     você pode descobrir que discorda de quem pretende apoiar: responder todos multiplica por
     ${(214 / 130).toFixed(1)} o que dá para saber sobre cada plano. A exceção é o escudo: marcar um tema
     como inegociável elimina quem pensa diferente em qualquer fase, e isso muda, sim, o resultado.</p>
-    <button data-ir="extra" style="border:1px solid var(--linha);border-radius:999px;padding:.5rem 1.1rem;background:var(--caixa)">Responder esses ${extraFaltam} temas</button>
+    <button class="btn contorno" data-ir="extra">Responder esses ${extraFaltam} temas</button>
   </div>` : ""}
 
-  <div class="aviso" style="margin-top:1.2rem">
+  <div class="nota perigo" style="margin-top:1.2rem">
     <h3>Isto não é uma recomendação de voto</h3>
     <p class="mini" style="margin:0">É a comparação entre o que você respondeu e o que está escrito nos
     planos. Leia os documentos antes de decidir.</p>
   </div>
 
-  <h3 style="width:100%">Planos de governo</h3>
+  <h3 class="secao">Planos de governo</h3>
   <div class="planos">${CORPUS.candidatos.map((c) => `<a href="${esc(c.planoUrl)}" target="_blank"
      rel="noopener noreferrer"><span>${esc(c.nome)}${c.partido ? ` (${esc(c.partido)})` : ""}</span>
      <span>ler →</span></a>`).join("")}</div>
@@ -1905,6 +2173,7 @@ function desenhar() {
                   : Z.tela === "resultado" ? telaResultado()
                   : telaCartoes();
   appEl.classList.toggle("abertura", Z.tela === "abertura");
+  appEl.dataset.tela = Z.tela;
   if (Z.tela === "cartoes") { ligarArraste(); ligarSeguradores(); }
   window.scrollTo({ top: 0 });
 }
@@ -1918,16 +2187,21 @@ function ligarArraste() {
     sim: el.querySelector(".c-sim"), nao: el.querySelector(".c-nao"),
     ine: el.querySelector(".c-ine"), pular: el.querySelector(".c-pular"),
   };
+  const fundo = document.querySelector(".cartao.fundo");
   let x0 = 0, y0 = 0, arrastando = false, pid = null;
 
   const pinta = (dx, dy) => {
     const horizontal = Math.abs(dx) > Math.abs(dy);
     const v = { sim: 0, nao: 0, ine: 0, pular: 0 };
-    if (horizontal) v[dx > 0 ? "sim" : "nao"] = Math.min(1, Math.abs(dx) / LIMIAR);
-    else v[dy < 0 ? "ine" : "pular"] = Math.min(1, Math.abs(dy) / LIMIAR);
+    const p = Math.min(1, (horizontal ? Math.abs(dx) : Math.abs(dy)) / LIMIAR);
+    if (horizontal) v[dx > 0 ? "sim" : "nao"] = p;
+    else v[dy < 0 ? "ine" : "pular"] = p;
     for (const k in carimbos) if (carimbos[k]) carimbos[k].style.opacity = v[k];
+    // o de trás cresce junto com o gesto — o que vem depois já se anuncia
+    if (fundo) fundo.style.transform = p ? `scale(${.95 + .05 * p}) translateY(${12 * (1 - p)}px)` : "";
   };
   const solta = (dx, dy) => {
+    if (fundo) fundo.style.transition = "";   // soltou: o de trás volta a subir com curva
     const horizontal = Math.abs(dx) > Math.abs(dy);
     const d = horizontal ? Math.abs(dx) : Math.abs(dy);
     if (d < LIMIAR) {                       // volta para o lugar
@@ -1939,12 +2213,8 @@ function ligarArraste() {
     }
     const dir = horizontal ? (dx > 0 ? "sim" : "nao") : dy < 0 ? "ine" : "pular";
     if (dir === "ine") { Z.pedindoLado = true; el.style.transform = ""; pinta(0, 0); desenhar(); return; }
-    // sai voando na direção do gesto
-    el.style.transition = "transform .28s ease-out, opacity .28s ease-out";
-    el.style.transform = `translate(${horizontal ? Math.sign(dx) * 900 : dx}px, ${horizontal ? dy : Math.sign(dy) * 900}px) rotate(${dx / 12}deg)`;
-    el.style.opacity = "0";
     const valor = dir === "sim" ? "concordo" : dir === "nao" ? "discordo" : "indiferente";
-    setTimeout(() => responderCartao(valor), 180);
+    voarCartao(dir, () => responderCartao(valor), horizontal ? dx : 0, dy);
   };
 
   el.addEventListener("pointerdown", (ev) => {
@@ -1955,11 +2225,12 @@ function ligarArraste() {
     if (ev.target.closest("button")) return;
     arrastando = true; pid = ev.pointerId; x0 = ev.clientX; y0 = ev.clientY;
     el.setPointerCapture(pid); el.style.transition = "";
+    if (fundo) fundo.style.transition = "none";   // durante o gesto, o de trás segue o dedo sem atraso
   });
   el.addEventListener("pointermove", (ev) => {
     if (!arrastando || ev.pointerId !== pid) return;
     const dx = ev.clientX - x0, dy = ev.clientY - y0;
-    el.style.transform = `translate(${dx}px, ${dy}px) rotate(${dx / 20}deg)`;
+    el.style.transform = `translate(${dx}px, ${dy}px) rotate(${dx / 18}deg)`;
     pinta(dx, dy);
   });
   const fim = (ev) => {
@@ -1969,7 +2240,9 @@ function ligarArraste() {
   };
   el.addEventListener("pointerup", fim);
   el.addEventListener("pointercancel", () => {
-    arrastando = false; el.style.transition = "transform .2s ease"; el.style.transform = ""; pinta(0, 0);
+    arrastando = false; el.style.transition = "transform .2s ease"; el.style.transform = "";
+    if (fundo) fundo.style.transition = "";
+    pinta(0, 0);
   });
   el.focus({ preventScroll: true });
 }
@@ -2057,7 +2330,7 @@ function ligarSeguradores() {
   for (const el of document.querySelectorAll("[data-segurar]")) {
     const lado = el.dataset.segurar;
     const marca = lado === "concordo" ? "carregando-sim" : "carregando-nao";
-    ligarSegurar(el, SEGURAR_INE, () => responderCartao(lado, true), {
+    ligarSegurar(el, SEGURAR_INE, () => voarCartao("ine", () => responderCartao(lado, true)), {
       aoComecar: () => cartao?.classList.add(marca),
       aoParar: () => cartao?.classList.remove(marca),
       aoToque: () => dizer("Segure para marcar como inegociável"),
@@ -2126,7 +2399,7 @@ function conteudoPainel(id) {
   return `<div class="painel" role="dialog" aria-modal="true" aria-labelledby="painel-nome">
     <header>
       <div class="cab">
-        <span class="pos">${morto ? "×" : pos[id] ? pos[id] + "º" : "—"}</span>
+        <span class="pos${a.ranking.lideres.includes(id) ? " topo" : ""}">${morto ? "×" : pos[id] ? pos[id] + "º" : "—"}</span>
         <div class="nome"><b id="painel-nome">${esc(nomeC(id))}</b>${
           siglaC(id) ? `<em>${esc(siglaC(id))}</em>` : ""}${
           morto ? '<em class="morto">fora — inegociável</em>' : ""}</div>
@@ -2191,7 +2464,11 @@ painelEl.addEventListener("click", (ev) => {
 appEl.addEventListener("click", (ev) => {
   const b = ev.target.closest("[data-resp], [data-ir]");
   if (!b) return;
-  if (b.dataset.resp) return responderCartao(b.dataset.resp, b.dataset.ine === "1");
+  if (b.dataset.resp) {
+    const ine = b.dataset.ine === "1";
+    return voarCartao(direcaoDe(b.dataset.resp, ine),
+                      () => responderCartao(b.dataset.resp, ine));
+  }
   switch (b.dataset.ir) {
     case "cartoes": Z.encerrado = false; Z.tela = "cartoes"; gravar(); desenhar(); break;
     case "continuar": Z.continuar = true; Z.encerrado = false; Z.tela = "cartoes"; gravar(); desenhar(); break;
@@ -2202,6 +2479,7 @@ appEl.addEventListener("click", (ev) => {
     case "pedir-lado": Z.pedindoLado = true; desenhar(); break;
     case "cancelar-lado": Z.pedindoLado = false; desenhar(); break;
     case "virar": virarCartao(); break;
+    case "tema": alternarTema(); break;
   }
 });
 document.addEventListener("keydown", (ev) => {
@@ -2209,10 +2487,15 @@ document.addEventListener("keydown", (ev) => {
   if (!painelEl.hidden) return;
   if (Z.tela !== "cartoes" || Z.pedindoLado) return;
   if (ev.target?.closest?.("#encerrar, [data-segurar]")) return;
+  // Enter/Espaço num botão com foco é o clique daquele botão — não a virada do cartão.
+  if ((ev.key === " " || ev.key === "Enter") && ev.target?.closest?.("button")) return;
   const m = { ArrowRight: "concordo", ArrowLeft: "discordo", ArrowDown: "indiferente" };
   if (ev.key === "ArrowUp") { ev.preventDefault(); Z.pedindoLado = true; desenhar(); return; }
   if (ev.key === " " || ev.key === "Enter") { ev.preventDefault(); virarCartao(); return; }
-  if (m[ev.key]) { ev.preventDefault(); responderCartao(m[ev.key]); }
+  if (m[ev.key]) {
+    ev.preventDefault();
+    voarCartao(direcaoDe(m[ev.key], false), () => responderCartao(m[ev.key]));
+  }
 });
 
 if (recuperar() && Z.tela !== "abertura") { /* retoma onde parou */ }

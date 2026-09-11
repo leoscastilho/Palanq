@@ -20,6 +20,8 @@ const AUTOR = "Leo Castilho";
 const SLOGAN = "No papel, qual candidato combina com você?";
 const rodapeHtml = ler("src/rodape.html").replace(/\$\{AUTOR\}/g, AUTOR);
 const rodapeCss = ler("src/rodape.css");
+// A fonte vai embutida em base64 nas duas páginas: continua sem requisição de rede.
+const fonteCss = ler("src/fonte.css");
 
 const corpus = JSON.parse(ler("data/corpus.json"));
 const { erros, avisos, metricas } = validarCorpus(corpus);
@@ -86,6 +88,8 @@ function pagina({ titulo, descricao, css, html, tela }) {
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="light dark">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#111418">
 <meta name="referrer" content="no-referrer">
 <meta name="description" content="${descricao}">
 <meta name="author" content="${AUTOR}">
@@ -100,9 +104,14 @@ function pagina({ titulo, descricao, css, html, tela }) {
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="${titulo}">
 <meta name="twitter:description" content="${descricao}">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data:; connect-src 'none'; form-action 'none'; base-uri 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; form-action 'none'; base-uri 'none'">
 <title>${titulo}</title>
+<!-- Tema escolhido à mão (o botão da barra) tem de valer antes da primeira pintura;
+     sem isto a página pisca clara antes de escurecer. Sem escolha, manda o sistema. -->
+<script>try{var t=localStorage.getItem("palanq/tema");if(t==="dark"||t==="light")document.documentElement.dataset.theme=t}catch(e){}</script>
 <style>
+${fonteCss}
+
 ${css}
 
 ${rodapeCss}

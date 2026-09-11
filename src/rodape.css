@@ -4,16 +4,16 @@
   margin-top: 2.5rem; padding: 16px 20px; flex-shrink: 0;
   border-top: 1px solid rgba(0, 0, 0, .1);
   background: rgba(0, 0, 0, .02);
-  color: #6b6862; font-size: .75rem; line-height: 1.5;
+  color: #626c79; font-size: .76rem; line-height: 1.5;
 }
 .rodape-in {
   max-width: 1000px; margin: 0 auto;
   display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 6px 14px;
 }
-.rodape a { color: #4a4741; text-decoration: none; }
+.rodape a { color: #4a535f; text-decoration: none; text-underline-offset: 3px; }
 .rodape a:hover { text-decoration: underline; }
 .rodape-sep { opacity: .5; }
-.rodape-lema { font-weight: 600; color: #4a4741; }
+.rodape-lema { font-weight: 700; color: #4a535f; }
 .rodape-ano { display: inline-flex; align-items: center; gap: 5px; }
 
 /* ── recolher no celular ────────────────────────────────────────────────────
@@ -42,8 +42,9 @@
                                                            outline-offset: 2px; }
 }
 @media (prefers-color-scheme: dark) {
-  .rodape-abrir { border-color: rgba(255, 255, 255, .18); }
+  :root:not([data-theme="light"]) .rodape-abrir { border-color: rgba(255, 255, 255, .18); }
 }
+:root[data-theme="dark"] .rodape-abrir { border-color: rgba(255, 255, 255, .18); }
 .rodape-ano-sel { position: relative; display: inline-flex; align-items: center; }
 .rodape-ano-sel select {
   appearance: none; -webkit-appearance: none;
@@ -56,9 +57,16 @@
   pointer-events: none; opacity: .6;
 }
 @media (prefers-color-scheme: dark) {
-  .rodape { border-top-color: rgba(255, 255, 255, .1); background: rgba(255, 255, 255, .03);
-            color: #918d85; }
-  .rodape a, .rodape-lema { color: #b8b4ab; }
-  .rodape-ano-sel select { background: rgba(255, 255, 255, .06);
+  :root:not([data-theme="light"]) .rodape { border-top-color: rgba(255, 255, 255, .1);
+            background: rgba(255, 255, 255, .03); color: #8e97a3; }
+  :root:not([data-theme="light"]) .rodape a,
+  :root:not([data-theme="light"]) .rodape-lema { color: #b6bdc6; }
+  :root:not([data-theme="light"]) .rodape-ano-sel select { background: rgba(255, 255, 255, .06);
                            border-color: rgba(255, 255, 255, .15); }
 }
+:root[data-theme="dark"] .rodape { border-top-color: rgba(255, 255, 255, .1);
+          background: rgba(255, 255, 255, .03); color: #8e97a3; }
+:root[data-theme="dark"] .rodape a,
+:root[data-theme="dark"] .rodape-lema { color: #b6bdc6; }
+:root[data-theme="dark"] .rodape-ano-sel select { background: rgba(255, 255, 255, .06);
+                         border-color: rgba(255, 255, 255, .15); }
